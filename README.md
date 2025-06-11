@@ -197,6 +197,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Tom Cranstoun**
 - Email: tom.cranstoun@gmail.com
 - GitHub: [@ddttom](https://github.com/ddttom)
+- Original blog [blog](https://allabout.network/blogs/ddt/integrations/using-web-components-in-adobe-edge-delivery-services-blocks)
 
 ## 🙏 Acknowledgments
 
