@@ -1,0 +1,91 @@
+{
+  "name": "webcomponents-with-eds",
+  "version": "1.0.0",
+  "description": "A collection of lightweight, high-performance web components built with vanilla JavaScript and modern ES modules for Adobe Edge Delivery Services (EDS)",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --fix",
+    "lint:check": "eslint .",
+    "lint:md": "markdownlint \"**/*.md\" --ignore node_modules --config .markdownlint.json",
+    "lint:md:fix": "markdownlint \"**/*.md\" --ignore node_modules --config .markdownlint.json --fix",
+    "hint": "hint .",
+    "audit": "npm audit --audit-level=moderate",
+    "security": "npm audit && npx audit-ci --moderate",
+    "validate": "npm run lint:check && npm run lint:md",
+    "dev": "echo 'This is a vanilla JavaScript project. Open your HTML files directly in a browser or use a simple HTTP server.'",
+    "serve": "npx http-server . -p 3000 -c-1",
+    "test": "echo 'Tests should be run in browsers. Use npm run serve to start a local server.'",
+    "prepare": "echo 'Setting up development environment...'",
+    "precommit": "npm run validate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ddttom/webcomponents-with-eds.git"
+  },
+  "keywords": [
+    "adobe-eds",
+    "edge-delivery-services",
+    "vanilla-javascript",
+    "web-components",
+    "blocks",
+    "performance",
+    "es-modules",
+    "progressive-enhancement",
+    "responsive-design",
+    "accessibility"
+  ],
+  "author": "Tom Cranstoun <tom.cranstoun@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ddttom/webcomponents-with-eds/issues"
+  },
+  "homepage": "https://github.com/ddttom/webcomponents-with-eds#readme",
+  "devDependencies": {
+    "eslint": "^9.2.0",
+    "markdownlint-cli": "^0.39.0",
+    "audit-ci": "^6.6.1",
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "not op_mini all"
+  ],
+  "files": [
+    "blocks/",
+    "README.md",
+    "LICENSE",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md"
+  ],
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "config": {
+    "eslint": {
+      "extends": [
+        "airbnb-base",
+        "plugin:security/recommended"
+      ],
+      "env": {
+        "browser": true,
+        "es2022": true
+      },
+      "parserOptions": {
+        "ecmaVersion": 2022,
+        "sourceType": "module"
+      }
+    }
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ddttom"
+  }
+}
