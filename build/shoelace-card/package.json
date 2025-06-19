@@ -1,0 +1,25 @@
+{
+  "name": "shoelace-card-build",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Shoelace Card component for Adobe Edge Delivery Services",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:component": "npm run build && node ../../scripts/build-component.js shoelace-card",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@shoelace-style/shoelace": "^2.20.1",
+    "vite": "^5.0.0"
+  },
+  "keywords": [
+    "shoelace",
+    "web-components",
+    "eds",
+    "adobe",
+    "card"
+  ],
+  "author": "EDS Team",
+  "license": "MIT"
+}

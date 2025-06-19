@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shoelace Card - EDS Test</title>
+  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="shoelace-card.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+      color: white;
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .test-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .test-section h2 {
+      color: white;
+      margin-top: 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .test-section p {
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
+    }
+    
+    .debug-info {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .shoelace-card {
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎴 Shoelace Card Component - EDS Integration Test</h1>
+    
+    <div class="test-section">
+      <h2>Default Configuration</h2>
+      <p>Testing with default query path: <code>/slides/query-index.json</code></p>
+      <div class="debug-info">
+        <strong>Expected behavior:</strong><br>
+        • Load Shoelace components from CDN<br>
+        • Fetch data from /slides/query-index.json<br>
+        • Display cards with numbered badges<br>
+        • Open immersive modals on button click
+      </div>
+      
+      <!-- Default Shoelace Card Block -->
+      <div class="shoelace-card">
+        <div>
+          <!-- Block content will be replaced by decorate function -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="test-section">
+      <h2>Custom Query Path</h2>
+      <p>Testing with custom query path</p>
+      <div class="debug-info">
+        <strong>Configuration:</strong><br>
+        Custom path: /custom/query-index.json<br>
+        This will fallback to default if custom path is not available
+      </div>
+      
+      <!-- Custom Path Shoelace Card Block -->
+      <div class="shoelace-card">
+        <div>/custom/query-index.json</div>
+      </div>
+    </div>
+    
+    <div class="test-section">
+      <h2>Error Handling Test</h2>
+      <p>Testing with invalid query path to verify error handling</p>
+      <div class="debug-info">
+        <strong>Expected behavior:</strong><br>
+        • Should show fallback content<br>
+        • Should log errors to console<br>
+        • Should not break the page
+      </div>
+      
+      <!-- Error Test Shoelace Card Block -->
+      <div class="shoelace-card">
+        <div>/invalid/path/query-index.json</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load EDS scripts -->
+  <script type="module" src="/scripts/scripts.js"></script>
+  
+  <!-- Load the component -->
+  <script type="module">
+    import decorate from './shoelace-card.js';
+
+    // Auto-decorate all shoelace-card blocks
+    document.addEventListener('DOMContentLoaded', () => {
+      const blocks = document.querySelectorAll('.shoelace-card > div');
+      
+      blocks.forEach(async (block, index) => {
+        try {
+          console.log(`Decorating shoelace-card block ${index + 1}`);
+          await decorate(block);
+          console.log(`✅ Block ${index + 1} decorated successfully`);
+        } catch (error) {
+          console.error(`❌ Block ${index + 1} failed:`, error);
+        }
+      });
+    });
+
+    // Debug helpers
+    window.debugShoelaceCard = {
+      testModal: () => {
+        // Test modal without data
+        const modal = document.createElement('div');
+        modal.className = 'shoelace-card-modal';
+        modal.style.backgroundImage = 'url(https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80)';
+        
+        const overlay = document.createElement('div');
+        overlay.className = 'shoelace-card-modal-overlay';
+        overlay.innerHTML = `
+          <sl-icon-button class="shoelace-card-modal-close" name="x-lg" label="Close"></sl-icon-button>
+          <div class="shoelace-card-modal-content">
+            <div class="shoelace-card-modal-text">
+              <h1>Test Modal</h1>
+              <p>This is a test modal to verify the glassmorphism effects and styling.</p>
+              <p>Click outside or press ESC to close.</p>
+            </div>
+          </div>
+        `;
+        
+        modal.appendChild(overlay);
+        document.body.appendChild(modal);
+        
+        // Add close functionality
+        overlay.querySelector('.shoelace-card-modal-close').addEventListener('click', () => {
+          modal.remove();
+        });
+        
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.remove();
+        });
+        
+        document.addEventListener('keydown', function closeOnEsc(e) {
+          if (e.key === 'Escape') {
+            modal.remove();
+            document.removeEventListener('keydown', closeOnEsc);
+          }
+        });
+      },
+      
+      checkShoelaceLoaded: () => {
+        console.log('Shoelace components loaded:', {
+          'sl-card': !!customElements.get('sl-card'),
+          'sl-button': !!customElements.get('sl-button'),
+          'sl-badge': !!customElements.get('sl-badge'),
+          'sl-icon-button': !!customElements.get('sl-icon-button'),
+          'sl-spinner': !!customElements.get('sl-spinner')
+        });
+      }
+    };
+
+    console.log('🔧 Debug helpers available:');
+    console.log('- debugShoelaceCard.testModal() - Test modal functionality');
+    console.log('- debugShoelaceCard.checkShoelaceLoaded() - Check component loading');
+  </script>
+</body>
+</html>
