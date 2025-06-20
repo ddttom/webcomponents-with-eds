@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development Server Documentation - AEM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid #3498db;
+            padding-left: 1rem;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        h4 {
+            color: #34495e;
+            margin-top: 1.5rem;
+            margin-bottom: 0.6rem;
+            font-size: 1.1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.3rem;
+        }
+
+        code {
+            background-color: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+            color: #e74c3c;
+        }
+
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            line-height: 1.4;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .warning {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #721c24;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #0c5460;
+        }
+
+        .flow-diagram {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: monospace;
+            text-align: center;
+            line-height: 2;
+        }
+
+        .toc {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 0.2rem 0;
+            display: block;
+        }
+
+        .toc a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            pre {
+                padding: 1rem;
+                font-size: 0.8rem;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Development Server Documentation</h1>
+
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#dependencies">Dependencies</a></li>
+            <li><a href="#quick-start">Quick Start</a></li>
+            <li><a href="#server-architecture">Server Architecture</a></li>
+            <li><a href="#configuration">Configuration</a></li>
+            <li><a href="#supported-file-types">Supported File Types</a></li>
+            <li><a href="#usage-examples">Usage Examples</a></li>
+            <li><a href="#server-behavior">Server Behavior</a></li>
+            <li><a href="#logging-debugging">Logging and Debugging</a></li>
+            <li><a href="#error-handling">Error Handling</a></li>
+            <li><a href="#performance">Performance Considerations</a></li>
+            <li><a href="#security">Security Notes</a></li>
+            <li><a href="#troubleshooting">Troubleshooting</a></li>
+            <li><a href="#eds-integration">Integration with EDS</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+        </ul>
+    </div>
+
+    <section id="overview">
+        <h2>Overview</h2>
+        <p>This document explains the minimal Node.js development server (<code>server.js</code>) designed for testing and developing EDS (Edge Delivery Services) components locally. The server provides local file serving with automatic fallback to a remote proxy, making it ideal for testing blocks and components in isolation.</p>
+    </section>
+
+    <section id="dependencies">
+        <h2>Dependencies</h2>
+        <p>The development server has <strong>zero external dependencies</strong> and uses only Node.js built-in modules:</p>
+        <ul>
+            <li><strong><code>http</code></strong> - Creates the HTTP server</li>
+            <li><strong><code>fs/promises</code></strong> - File system operations (readFile, access)</li>
+            <li><strong><code>path</code></strong> - Path manipulation utilities (join, extname, dirname)</li>
+            <li><strong><code>url</code></strong> - URL utilities (fileURLToPath)</li>
+            <li><strong><code>fetch</code></strong> - HTTP requests for proxy functionality (built-in Node.js 18+)</li>
+        </ul>
+
+        <h3>Requirements</h3>
+        <div class="info">
+            <ul>
+                <li><strong>Node.js 18+</strong> (for built-in fetch support)</li>
+                <li><strong>No npm packages required</strong> - completely self-contained</li>
+            </ul>
+            <p>This zero-dependency approach aligns with the project's philosophy of minimal tooling and maximum performance.</p>
+        </div>
+    </section>
+
+    <section id="quick-start">
+        <h2>Quick Start</h2>
+        <pre><code>npm run debug</code></pre>
+        <p>The server will start on <code>http://localhost:3000</code> and serve files from the project root directory.</p>
+    </section>
+
+    <section id="server-architecture">
+        <h2>Server Architecture</h2>
+        
+        <h3>Core Functionality</h3>
+        <p>The server implements a <strong>local-first, proxy-fallback</strong> architecture:</p>
+        <ol>
+            <li><strong>Local File Priority</strong>: Always attempts to serve files from the local filesystem first</li>
+            <li><strong>Proxy Fallback</strong>: If a file doesn't exist locally, proxies the request to <code>https://allabout.network</code></li>
+            <li><strong>MIME Type Detection</strong>: Automatically detects and serves appropriate content types</li>
+            <li><strong>CORS Support</strong>: Includes proper CORS headers for cross-origin requests</li>
+        </ol>
+
+        <h3>File Structure</h3>
+        <pre><code>project-root/
+├── server.js              # Main server file
+├── package.json           # Contains "debug" script
+└── blocks/                # Your EDS blocks
+    └── block-name/
+        ├── test.html       # Test files for blocks
+        ├── block-name.js   # Block JavaScript
+        └── block-name.css  # Block styles</code></pre>
+    </section>
+
+    <section id="configuration">
+        <h2>Configuration</h2>
+        
+        <h3>Environment Variables</h3>
+        <ul>
+            <li><code>PORT</code>: Server port (default: 3000)</li>
+        </ul>
+
+        <h3>Proxy Configuration</h3>
+        <p>The server is configured to proxy missing files to:</p>
+        <pre><code>const PROXY_HOST = 'https://allabout.network';</code></pre>
+        <p>This allows you to test local components while still accessing remote assets and content.</p>
+    </section>
+
+    <section id="supported-file-types">
+        <h2>Supported File Types</h2>
+        <p>The server includes comprehensive MIME type support:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Extension</th>
+                    <th>MIME Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>.html</code></td><td><code>text/html</code></td></tr>
+                <tr><td><code>.js</code></td><td><code>application/javascript</code></td></tr>
+                <tr><td><code>.css</code></td><td><code>text/css</code></td></tr>
+                <tr><td><code>.json</code></td><td><code>application/json</code></td></tr>
+                <tr><td><code>.png</code>, <code>.jpg</code>, <code>.jpeg</code></td><td>Image types</td></tr>
+                <tr><td><code>.svg</code></td><td><code>image/svg+xml</code></td></tr>
+                <tr><td><code>.woff</code>, <code>.woff2</code>, <code>.ttf</code></td><td>Font types</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="usage-examples">
+        <h2>Usage Examples</h2>
+        
+        <h3>Testing Block Components</h3>
+        <ol>
+            <li><strong>Create a test file</strong> in your block directory:
+                <pre><code>blocks/my-block/test.html</code></pre>
+            </li>
+            <li><strong>Start the server</strong>:
+                <pre><code>npm run debug</code></pre>
+            </li>
+            <li><strong>Access your test</strong>:
+                <pre><code>http://localhost:3000/blocks/my-block/test.html</code></pre>
+            </li>
+        </ol>
+
+        <h3>Example Test File Structure</h3>
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My Block Test&lt;/title&gt;
+    &lt;link rel="stylesheet" href="my-block.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="my-block-block"&gt;
+        &lt;div&gt;
+            &lt;div&gt;Test content for my block&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script type="module"&gt;
+        import decorate from './my-block.js';
+        
+        document.addEventListener('DOMContentLoaded', () =&gt; {
+            const block = document.querySelector('.my-block-block');
+            if (block) {
+                decorate(block);
+            }
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </section>
+
+    <section id="server-behavior">
+        <h2>Server Behavior</h2>
+        
+        <h3>Local File Serving</h3>
+        <p>When a request comes in:</p>
+        <ol>
+            <li><strong>Path Resolution</strong>: Converts URL to local file path</li>
+            <li><strong>File Existence Check</strong>: Uses <code>fs.access()</code> to check if file exists</li>
+            <li><strong>Content Serving</strong>: Reads and serves file with appropriate headers</li>
+            <li><strong>Error Handling</strong>: Gracefully handles file read errors</li>
+        </ol>
+
+        <h3>Proxy Behavior</h3>
+        <p>When local file doesn't exist:</p>
+        <ol>
+            <li><strong>Proxy Request</strong>: Makes HTTP request to <code>https://allabout.network</code></li>
+            <li><strong>Content Type Detection</strong>: Preserves original content type</li>
+            <li><strong>Binary/Text Handling</strong>: Appropriately handles different content types</li>
+            <li><strong>Error Handling</strong>: Returns 404 if both local and proxy fail</li>
+        </ol>
+
+        <h3>Request Flow</h3>
+        <div class="flow-diagram">
+            Request → Local File Check → Serve Local File<br>
+            ↓ (if not found)<br>
+            Proxy Request → Remote Server → Serve Proxied Content<br>
+            ↓ (if proxy fails)<br>
+            Return 404 Error Page
+        </div>
+    </section>
+
+    <section id="logging-debugging">
+        <h2>Logging and Debugging</h2>
+        <p>The server provides comprehensive logging:</p>
+        <pre><code>🚀 Server running at http://localhost:3000
+📁 Serving files from: /path/to/project
+🔗 Proxying missing files to: https://allabout.network
+📄 Main page: http://localhost:3000/server.html
+
+Request: GET /blocks/my-block/test.html
+Serving local file: /path/to/project/blocks/my-block/test.html
+
+Request: GET /missing-file.json
+Local file not found, attempting proxy for: /missing-file.json
+Proxying request to: https://allabout.network/missing-file.json
+✅ Successfully proxied: /missing-file.json</code></pre>
+    </section>
+
+    <section id="error-handling">
+        <h2>Error Handling</h2>
+        
+        <h3>Local File Errors</h3>
+        <ul>
+            <li><strong>File Not Found</strong>: Automatically falls back to proxy</li>
+            <li><strong>Read Errors</strong>: Logs error and attempts proxy fallback</li>
+            <li><strong>Permission Errors</strong>: Gracefully handled with error logging</li>
+        </ul>
+
+        <h3>Proxy Errors</h3>
+        <ul>
+            <li><strong>Network Errors</strong>: Returns 404 with helpful error page</li>
+            <li><strong>DNS Resolution</strong>: Handles domain resolution failures</li>
+            <li><strong>HTTP Errors</strong>: Logs detailed error information</li>
+        </ul>
+
+        <h3>404 Error Page</h3>
+        <p>When both local and proxy fail, returns a helpful error page:</p>
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;404 Not Found&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;404 Not Found&lt;/h1&gt;
+    &lt;p&gt;The requested resource &lt;code&gt;/path&lt;/code&gt; was not found locally 
+    or on the proxy server.&lt;/p&gt;
+    &lt;p&gt;Attempted proxy URL: &lt;code&gt;https://allabout.network/path&lt;/code&gt;&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </section>
+
+    <section id="performance">
+        <h2>Performance Considerations</h2>
+        
+        <h3>Caching Headers</h3>
+        <p>All responses include:</p>
+        <pre><code>'Cache-Control': 'no-cache'</code></pre>
+        <p>This ensures you always see the latest changes during development.</p>
+
+        <h3>CORS Headers</h3>
+        <p>Proxy responses include comprehensive CORS headers:</p>
+        <pre><code>'Access-Control-Allow-Origin': '*'
+'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+'Access-Control-Allow-Headers': 'Content-Type, Authorization'</code></pre>
+    </section>
+
+    <section id="security">
+        <h2>Security Notes</h2>
+        
+        <h3>Development Only</h3>
+        <div class="warning">
+            <p>This server is designed for <strong>development use only</strong>:</p>
+            <ul>
+                <li>No authentication or authorization</li>
+                <li>Permissive CORS headers</li>
+                <li>No rate limiting</li>
+                <li>Detailed error logging</li>
+            </ul>
+            <p><strong>Do not use in production environments.</strong></p>
+        </div>
+
+        <h3>Safe Defaults</h3>
+        <ul>
+            <li>Only serves files from project directory</li>
+            <li>No directory traversal vulnerabilities</li>
+            <li>Proper MIME type detection</li>
+            <li>Graceful error handling</li>
+        </ul>
+    </section>
+
+    <section id="troubleshooting">
+        <h2>Troubleshooting</h2>
+        
+        <h3>Common Issues</h3>
+        <h4>Server won't start:</h4>
+        <pre><code># Check if port is in use
+lsof -i :3000
+
+# Kill existing process
+pkill -f "node server.js"
+
+# Restart server
+npm run debug</code></pre>
+
+        <h4>Files not loading:</h4>
+        <ul>
+            <li>Check file paths are relative to project root</li>
+            <li>Verify file permissions</li>
+            <li>Check server logs for detailed error messages</li>
+        </ul>
+
+        <h4>Proxy not working:</h4>
+        <ul>
+            <li>Verify internet connection</li>
+            <li>Check proxy URL configuration</li>
+            <li>Review network logs in browser dev tools</li>
+        </ul>
+
+        <h3>Debug Mode</h3>
+        <p>The server runs with comprehensive logging enabled. Monitor the terminal output to understand request flow and identify issues.</p>
+    </section>
+
+    <section id="eds-integration">
+        <h2>Integration with EDS</h2>
+        
+        <h3>Block Testing Workflow</h3>
+        <ol>
+            <li><strong>Create Block Structure</strong>:
+                <pre><code>blocks/my-block/
+├── my-block.js
+├── my-block.css
+├── README.md
+└── test.html</code></pre>
+            </li>
+            <li><strong>Start Development Server</strong>:
+                <pre><code>npm run debug</code></pre>
+            </li>
+            <li><strong>Test Block</strong>:
+                <ul>
+                    <li>Navigate to <code>http://localhost:3000/blocks/my-block/test.html</code></li>
+                    <li>Make changes to JS/CSS files</li>
+                    <li>Refresh browser to see changes</li>
+                </ul>
+            </li>
+            <li><strong>Proxy Integration</strong>:
+                <ul>
+                    <li>Missing assets automatically load from remote server</li>
+                    <li>Test with real content and dependencies</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h3>EDS-Specific Features</h3>
+        <ul>
+            <li><strong>Automatic Block Loading</strong>: Test files can import block JavaScript modules</li>
+            <li><strong>CSS Loading</strong>: Block stylesheets load automatically</li>
+            <li><strong>Asset Proxying</strong>: Missing icons, fonts, and images load from remote server</li>
+            <li><strong>Query Index Access</strong>: Can test with real query-index.json data</li>
+        </ul>
+    </section>
+
+    <section id="best-practices">
+        <h2>Best Practices</h2>
+        
+        <h3>Test File Organization</h3>
+        <pre><code>&lt;!-- Include block-specific styles --&gt;
+&lt;link rel="stylesheet" href="block-name.css"&gt;
+
+&lt;!-- Create proper block structure --&gt;
+&lt;div class="block-name-block"&gt;
+  &lt;!-- Block content here --&gt;
+&lt;/div&gt;
+
+&lt;!-- Import and initialize block --&gt;
+&lt;script type="module"&gt;
+  import decorate from './block-name.js';
+  document.addEventListener('DOMContentLoaded', () =&gt; {
+    const block = document.querySelector('.block-name-block');
+    if (block) {
+      decorate(block);
+    }
+  });
+&lt;/script&gt;</code></pre>
+
+        <h3>Development Workflow</h3>
+        <ol>
+            <li><strong>Start with test.html</strong>: Create isolated test environment</li>
+            <li><strong>Develop incrementally</strong>: Make small changes and test frequently</li>
+            <li><strong>Use browser dev tools</strong>: Monitor network requests and console output</li>
+            <li><strong>Test responsive design</strong>: Use browser responsive mode</li>
+            <li><strong>Validate accessibility</strong>: Test with screen readers and keyboard navigation</li>
+        </ol>
+    </section>
+
+    <section id="conclusion">
+        <h2>Conclusion</h2>
+        <div class="highlight">
+            <p>This development server provides a lightweight, efficient environment for testing EDS blocks and components. Its local-first approach with proxy fallback ensures you can develop in isolation while still accessing remote dependencies when needed.</p>
+            <p>The server's simplicity aligns with EDS principles of minimal tooling and maximum performance, making it an ideal development companion for building high-quality, performant web components.</p>
+        </div>
+    </section>
+</body>
+</html>

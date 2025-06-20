@@ -1,5 +1,25 @@
-// Import EDS utilities
-import { loadCSS, loadScript } from '../../scripts/aem.js';
+// Local utility functions for development environment
+async function loadCSS(href) {
+  return new Promise((resolve, reject) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.onload = resolve;
+    link.onerror = reject;
+    document.head.appendChild(link);
+  });
+}
+
+async function loadScript(src, options = {}) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    Object.assign(script, options);
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
 
 // Configuration
 const SHOELACE_CARD_CONFIG = {

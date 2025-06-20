@@ -78,9 +78,11 @@
       </div>
       
       <!-- Default Shoelace Card Block -->
-      <div class="shoelace-card">
+      <div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">
         <div>
-          <!-- Block content will be replaced by decorate function -->
+          <div>
+            <!-- Default query path - will be processed by decorate function -->
+          </div>
         </div>
       </div>
     </div>
@@ -95,8 +97,12 @@
       </div>
       
       <!-- Custom Path Shoelace Card Block -->
-      <div class="shoelace-card">
-        <div>/custom/query-index.json</div>
+      <div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">
+        <div>
+          <div>
+            <p>/custom/query-index.json</p>
+          </div>
+        </div>
       </div>
     </div>
     
@@ -111,8 +117,12 @@
       </div>
       
       <!-- Error Test Shoelace Card Block -->
-      <div class="shoelace-card">
-        <div>/invalid/path/query-index.json</div>
+      <div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">
+        <div>
+          <div>
+            <p>/invalid/path/query-index.json</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -126,7 +136,7 @@
 
     // Auto-decorate all shoelace-card blocks
     document.addEventListener('DOMContentLoaded', () => {
-      const blocks = document.querySelectorAll('.shoelace-card > div');
+      const blocks = document.querySelectorAll('.shoelace-card.block');
       
       blocks.forEach(async (block, index) => {
         try {

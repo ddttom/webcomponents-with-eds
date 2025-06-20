@@ -100,6 +100,99 @@ The block supports various Shoelace components:
 - Badges (`sl-badge`)
 - And many more from the Shoelace library
 
+## Standalone Implementations
+
+### Shoelace Card Component
+
+A standalone version of the Shoelace Card component has been created in [`build/shoelace-card/`](../build/shoelace-card/) that exports a `decorate` function for direct use. This implementation:
+
+- **Self-contained**: Uses local utility functions instead of EDS dependencies
+- **Development optimized**: Clean Vite integration without warnings
+- **Production ready**: Maintains full compatibility with Adobe Edge Delivery Services
+- **Standalone usage**: Can be imported and used independently
+
+```javascript
+import decorate from './build/shoelace-card/shoelace-card.js';
+
+// Use directly on any DOM element
+const cardBlock = document.querySelector('.my-card-container');
+await decorate(cardBlock);
+```
+
+The standalone version demonstrates how to create reusable Shoelace components that work both within EDS projects and as independent modules.
+
+## Build Process and EDS Testing
+
+### Development Workflows
+
+#### Standalone Development
+```bash
+# Vite development server for component development
+cd build/shoelace-card
+npm run dev  # http://localhost:5174
+```
+Perfect for rapid component development with hot reload and modern tooling.
+
+#### EDS Integration Testing
+```bash
+# Node.js server for EDS compatibility testing
+npm run debug  # http://localhost:3000 (from project root)
+```
+Tests component with proper EDS block structure using the development server that mimics EDS environment.
+
+#### Build and Deployment
+```bash
+# Automated build and deploy to EDS
+npx node scripts/build-component.js shoelace-card
+
+# Alternative using npm scripts
+cd build/shoelace-card && npm run build:component
+```
+
+### EDS Testing Requirements
+
+**Critical: Test files must use exact EDS block structure**
+
+```html
+<!-- Required EDS Structure -->
+<div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">
+    <div>
+        <div>
+            <p>Test content</p>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript must target .block-name.block -->
+<script>
+const blocks = document.querySelectorAll('.shoelace-card.block');
+blocks.forEach(block => decorate(block));
+</script>
+```
+
+### Testing Workflow
+
+1. **Start EDS Server**: `npm run debug`
+2. **Access Test**: `http://localhost:3000/blocks/shoelace-card/test.html`
+3. **Verify Structure**: Component works with EDS block structure
+4. **Deploy**: `npx node scripts/build-component.js shoelace-card`
+
+### NPX Commands Reference
+
+```bash
+# Development server for EDS testing
+npm run debug
+
+# Build and deploy component
+npx node scripts/build-component.js shoelace-card
+
+# Standalone development
+cd build/shoelace-card && npm run dev
+
+# Alternative HTTP server (basic file serving)
+npm run serve
+```
+
 ## Configuration
 
 The block can be configured through:

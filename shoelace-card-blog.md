@@ -4,6 +4,40 @@
 
 In this comprehensive tutorial, we'll explore the development of a sophisticated card component using Shoelace Design System, featuring advanced glassmorphism effects, immersive modal overlays, and modern web development practices. This implementation demonstrates how to create visually stunning, accessible, and performant UI components that rival premium design systems.
 
+## The AI-Assisted Development Challenge
+
+### Why Traditional EDS Development Limits AI Assistance
+
+Adobe Edge Delivery Services delivers exceptional performance and rapid development cycles. The platform itself is brilliant. However, the traditional development workflow creates significant barriers for AI assistance, limiting the potential for accelerated development and intelligent code suggestions.
+
+The challenge stems from EDS's multi-system approach: creating branches, writing content in Google Docs or SharePoint, then coordinating between code repositories, documents, and deployment systems. While this workflow excels for human developers who can mentally juggle these interconnected pieces, it creates an impossible situation for AI assistants.
+
+**The AI Assistance Problem:**
+- AI can't access your Google Docs or SharePoint content
+- It can't correlate branch changes with document updates  
+- It can't test code against real data from multiple sources
+- It lacks complete context about the development environment
+
+Ask an AI to help debug your EDS block, and it drowns in confusion. The result? Developers work alone, missing out on AI's ability to accelerate development, catch bugs early, and suggest architectural improvements.
+
+### A Local-First Solution Changes Everything
+
+This Shoelace Card implementation demonstrates a better approach: **local-first development that enables meaningful AI assistance**. Instead of fragmenting workflows across multiple systems, we've created a unified environment where AI assistants can participate effectively.
+
+**The Architecture:**
+Our development server implements a **local-first, proxy-fallback approach**. It checks if a requested file exists locally first. If it does, it serves that file. If not, it fetches the file from your production server and passes it through. This simple but powerful pattern means you can develop individual blocks without juggling multiple systems while still accessing real EDS resources.
+
+**AI-Friendly Benefits:**
+- **Unified Environment**: AI sees code, content, and data in one place
+- **Immediate Feedback**: Save a file and refresh - changes appear instantly
+- **Complete Context**: Work on code and content together without system switching
+- **Real-time Debugging**: Both you and AI see exactly what's happening with each request
+- **Intelligent Assistance**: AI can analyze, test, and suggest improvements with full visibility
+
+You still use branches for version control. You still create documents when needed. But now AI can participate meaningfully in your development process - suggesting code improvements, catching accessibility issues, and debugging problems as they happen.
+
+This Shoelace Card component showcases what becomes possible when AI can see everything in one place: sophisticated glassmorphism effects, comprehensive error handling, and performance optimizations that would be difficult to achieve without intelligent assistance throughout the development process.
+
 ## Project Overview
 
 The Shoelace Card component represents a significant advancement in web component design, combining:
@@ -46,35 +80,67 @@ import '@shoelace-style/shoelace/dist/themes/light.css';
 
 ### JavaScript Architecture
 
-The component uses modern ES Module patterns with comprehensive error handling:
+The component uses modern ES Module patterns with comprehensive error handling and optimized development environment setup:
 
 ```javascript
+// Local utility functions for development environment
+async function loadCSS(href) {
+  return new Promise((resolve, reject) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.onload = resolve;
+    link.onerror = reject;
+    document.head.appendChild(link);
+  });
+}
+
+async function loadScript(src, options = {}) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    Object.assign(script, options);
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
 // Configuration object for maintainable settings
 const SHOELACE_CARD_CONFIG = {
-  DEFAULT_TITLE: 'Untitled Slide',
-  DEFAULT_DESCRIPTION: 'No description available',
-  DEFAULT_BUTTON_TEXT: 'Learn More',
-  MODAL_ANIMATION_DURATION: 300,
-  BACKDROP_BLUR_INTENSITY: 20,
-  CONTENT_FADE_OPACITY: 0.7
+  QUERY_INDEX_PATH: '/slides/query-index.json',
+  CARD_MAX_WIDTH: '400px',
+  MODAL_ANIMATION_DURATION: '300ms',
+  BADGE_COLOR: 'primary',
+  DEFAULT_TITLE: 'Card Title',
+  DEFAULT_DESCRIPTION: 'Card description',
+  DEFAULT_BUTTON_TEXT: 'Learn More'
 };
 
 // Main decoration function with error handling
 export default async function decorate(block) {
   try {
-    console.log('[shoelace-card] Initializing component...');
+    console.debug('[shoelace-card] Starting decoration');
     
-    // Extract configuration
-    const config = extractConfig(block);
+    // Load Shoelace resources progressively
+    await loadShoelaceResources();
     
-    // Fetch and render data
-    const data = await fetchCardData(config.queryPath);
-    renderCards(block, data);
+    // Get query path and fetch data
+    const queryPath = getQueryPath(block);
+    const cardData = await fetchCardData(queryPath);
     
-    console.log(`[shoelace-card] Successfully rendered ${data.length} cards`);
+    // Clear block and add container class
+    block.innerHTML = '';
+    block.classList.add('shoelace-card-block');
+    
+    // Generate cards
+    await generateCards(block, cardData);
+    
+    console.debug('[shoelace-card] Decoration completed successfully');
+    
   } catch (error) {
-    console.error('[shoelace-card] Initialization failed:', error);
-    renderErrorState(block, error);
+    console.warn('[shoelace-card] Enhancement failed, showing fallback:', error);
+    showFallbackContent(block);
   }
 }
 ```
@@ -286,7 +352,125 @@ Sophisticated animation system for smooth user interactions:
 
 ## Development Environment Setup
 
-### Vite Configuration
+### Development Environment Optimization
+
+A key challenge in modern web component development is managing dependencies between development and production environments. Our implementation addresses this with a clean separation approach:
+
+```javascript
+// Self-contained utility functions for standalone operation
+async function loadCSS(href) {
+  return new Promise((resolve, reject) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.onload = resolve;
+    link.onerror = reject;
+    document.head.appendChild(link);
+  });
+}
+
+async function loadScript(src, options = {}) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    Object.assign(script, options);
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+```
+
+This approach creates a completely self-contained component that can operate independently while maintaining full compatibility with Adobe Edge Delivery Services when deployed in production environments.
+
+**Benefits:**
+- ✅ Self-contained standalone component
+- ✅ Clean development environment
+- ✅ Compatible with any deployment environment
+- ✅ Maintains all component functionality
+- ✅ Aligns with project simplicity principles
+- ✅ Exportable decorate function for reuse
+
+## Development and EDS Testing Workflows
+
+### Dual Development Environment
+
+The Shoelace Card component supports multiple development and testing scenarios through a sophisticated build system:
+
+#### Standalone Development with Vite
+```bash
+cd build/shoelace-card
+npm run dev  # http://localhost:5174
+```
+Perfect for rapid component development with hot reload, modern ES modules, and immediate feedback.
+
+#### EDS Integration Testing
+```bash
+npm run debug  # http://localhost:3000
+```
+Tests component with proper EDS block structure using the Node.js development server that replicates the EDS environment locally.
+
+#### Automated Build and Deployment
+```bash
+npx node scripts/build-component.js shoelace-card
+```
+Builds and deploys component to `blocks/` directory for EDS integration with dependency bundling.
+
+### EDS Compatibility Through Exported Decorate Function
+
+The component exports a `decorate` function that enables seamless EDS integration:
+
+```javascript
+import decorate from './build/shoelace-card/shoelace-card.js';
+
+// Works directly with EDS block structure
+const block = document.querySelector('.shoelace-card.block');
+await decorate(block);
+```
+
+This approach ensures the component works both as a standalone module and within EDS environments without modification.
+
+### NPX Command Workflows
+
+#### Development Commands
+```bash
+# Standalone development
+cd build/shoelace-card && npm run dev
+
+# EDS testing environment
+npm run debug
+
+# Build for production
+npx node scripts/build-component.js shoelace-card
+```
+
+#### Testing URLs
+```bash
+# Standalone development
+http://localhost:5174/
+
+# EDS integration testing
+http://localhost:3000/blocks/shoelace-card/test.html
+```
+
+### EDS Block Structure Requirements
+
+For proper EDS compatibility, test files must use the exact block structure:
+
+```html
+<div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">
+    <div>
+        <div>
+            <p>Content goes here</p>
+        </div>
+    </div>
+</div>
+```
+
+This structure ensures the component behaves identically in development and production EDS environments.
+
+### Vite Configuration</search>
+</search_and_replace>
 
 Modern build setup with Vite for optimal development experience:
 
@@ -613,6 +797,8 @@ The Shoelace Card component represents a significant advancement in modern web c
 - **Error Handling**: Robust error boundaries with graceful fallbacks
 - **Documentation**: Detailed implementation guides and API documentation
 - **Maintainability**: Clean code architecture with configuration-driven design
+- **Standalone Architecture**: Self-contained component with exported decorate function
+- **Clean Dependencies**: No external framework dependencies beyond Shoelace
 
 ### User Experience
 

@@ -14,6 +14,7 @@
     "security": "npm audit && npx audit-ci --moderate",
     "validate": "npm run lint:check && npm run lint:md",
     "dev": "echo 'This is a vanilla JavaScript project. Open your HTML files directly in a browser or use a simple HTTP server.'",
+    "debug": "node server.js",
     "serve": "npx http-server . -p 3000 -c-1",
     "test": "echo 'Tests should be run in browsers. Use npm run serve to start a local server.'",
     "prepare": "echo 'Setting up development environment...'",
