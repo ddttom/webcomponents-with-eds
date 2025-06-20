@@ -69,11 +69,16 @@ build/shoelace-card/
 The component leverages Shoelace's powerful design system while extending it with custom glassmorphism effects:
 
 ```javascript
-// Shoelace component imports
+// Import Shoelace components for bundling
 import '@shoelace-style/shoelace/dist/components/card/card.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
-import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import '@shoelace-style/shoelace/dist/themes/light.css';
+import '@shoelace-style/shoelace/dist/components/badge/badge.js';
+import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
+
+// Import styles for bundling
+import shoelaceStyles from '@shoelace-style/shoelace/dist/themes/light.css?inline';
+import componentStyles from './shoelace-card.css?inline';
 ```
 
 ### Multi-Component Assembly Architecture
@@ -659,24 +664,38 @@ async function loadScript(src, options = {}) {
   });
 }
 
-// Configuration object for maintainable settings
+// Configuration
 const SHOELACE_CARD_CONFIG = {
   QUERY_INDEX_PATH: '/slides/query-index.json',
-  CARD_MAX_WIDTH: '400px',
-  MODAL_ANIMATION_DURATION: '300ms',
   BADGE_COLOR: 'primary',
-  DEFAULT_TITLE: 'Card Title',
-  DEFAULT_DESCRIPTION: 'Card description',
   DEFAULT_BUTTON_TEXT: 'Learn More'
 };
+
+// Debug mode detection and logging
+const DEBUG_MODE = window.location.hostname === 'localhost' && 
+                   window.location.port === '3000';
+
+function debugLog(message, data = null) {
+  if (DEBUG_MODE) {
+    console.log(`[MODAL-DEBUG] ${message}`, data || '');
+  }
+}
+
+// Auto-inject styles when component loads
+function injectStyles() {
+  if (!document.querySelector('#shoelace-card-styles')) {
+    const style = document.createElement('style');
+    style.id = 'shoelace-card-styles';
+    style.textContent = shoelaceStyles + '\n' + componentStyles;
+    document.head.appendChild(style);
+  }
+}
 
 // Main decoration function with error handling
 export default async function decorate(block) {
   try {
-    console.debug('[shoelace-card] Starting decoration');
-    
-    // Load Shoelace resources progressively
-    await loadShoelaceResources();
+    // Inject styles first
+    injectStyles();
     
     // Get query path and fetch data
     const queryPath = getQueryPath(block);
@@ -686,13 +705,11 @@ export default async function decorate(block) {
     block.innerHTML = '';
     block.classList.add('shoelace-card-block');
     
-    // Generate cards
+    // Generate cards with preloading
     await generateCards(block, cardData);
     
-    console.debug('[shoelace-card] Decoration completed successfully');
-    
   } catch (error) {
-    console.warn('[shoelace-card] Enhancement failed, showing fallback:', error);
+    console.error('[shoelace-card] Enhancement failed:', error);
     showFallbackContent(block);
   }
 }
@@ -910,39 +927,42 @@ Sophisticated animation system for smooth user interactions:
 A key challenge in modern web component development is managing dependencies between development and production environments. Our implementation addresses this with a clean separation approach:
 
 ```javascript
-// Self-contained utility functions for standalone operation
-async function loadCSS(href) {
-  return new Promise((resolve, reject) => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    link.onload = resolve;
-    link.onerror = reject;
-    document.head.appendChild(link);
-  });
+// Get query path from block content or use default
+function getQueryPath(block) {
+  const customPath = block.textContent.trim();
+  return customPath || SHOELACE_CARD_CONFIG.QUERY_INDEX_PATH;
 }
 
-async function loadScript(src, options = {}) {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = src;
-    Object.assign(script, options);
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
+// Fetch card data from query-index.json
+async function fetchCardData(queryPath) {
+  try {
+    const response = await fetch(queryPath, {
+      mode: 'cors',
+      headers: { 'Accept': 'application/json' }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch card data: ${response.status}`);
+    }
+    
+    const json = await response.json();
+    return json.data || [];
+  } catch (error) {
+    console.error('[shoelace-card] Fetch error:', error);
+    return [];
+  }
 }
 ```
 
-This approach creates a completely self-contained component that can operate independently while maintaining full compatibility with Adobe Edge Delivery Services when deployed in production environments.
+This approach creates a bundled component that includes all dependencies while maintaining compatibility with Adobe Edge Delivery Services through the exported decorate function.
 
 **Benefits:**
-- ✅ Self-contained standalone component
-- ✅ Clean development environment
-- ✅ Compatible with any deployment environment
-- ✅ Maintains all component functionality
-- ✅ Aligns with project simplicity principles
-- ✅ Exportable decorate function for reuse
+- ✅ Bundled component with all Shoelace dependencies included
+- ✅ Vite-based development environment with hot reload
+- ✅ Automatic style injection for seamless integration
+- ✅ Debug mode detection for development logging
+- ✅ Compatible with EDS block structure requirements
+- ✅ Exportable decorate function for EDS integration
 
 ## Development and EDS Testing Workflows
 
@@ -965,6 +985,7 @@ Tests component with proper EDS block structure using the Node.js development se
 
 #### Automated Build and Deployment
 ```bash
+# Note: The build script currently references spectrum-card and needs updating
 npx node scripts/build-component.js shoelace-card
 ```
 Builds and deploys component to `blocks/` directory for EDS integration with dependency bundling.
@@ -993,7 +1014,10 @@ cd build/shoelace-card && npm run dev
 # EDS testing environment
 npm run debug
 
-# Build for production
+# Build and deploy using package script
+cd build/shoelace-card && npm run deploy
+
+# Alternative: Build for production (script needs updating for shoelace-card)
 npx node scripts/build-component.js shoelace-card
 ```
 
@@ -1034,27 +1058,40 @@ export default defineConfig({
   root: '.',
   server: {
     port: 5174,
+    strictPort: true,
     open: true,
+    host: true,
     proxy: {
       '/slides': {
-        target: 'http://localhost:3000',
+        target: 'https://allabout.network',
         changeOrigin: true,
-        secure: false
+        secure: true
       },
       '/media': {
-        target: 'http://localhost:3000',
+        target: 'https://allabout.network',
         changeOrigin: true,
-        secure: false
+        secure: true
       }
     }
   },
   build: {
+    lib: {
+      entry: 'shoelace-card.js',
+      name: 'ShoelaceCard',
+      fileName: () => 'shoelace-card.js',
+      formats: ['es']
+    },
     outDir: 'dist',
     rollupOptions: {
-      input: {
-        main: 'index.html'
+      external: [], // Bundle everything, no externals
+      output: {
+        inlineDynamicImports: true,
+        manualChunks: undefined // Single file output
       }
-    }
+    },
+    minify: 'esbuild',
+    target: 'es2020',
+    emptyOutDir: true
   }
 });
 ```
@@ -1065,20 +1102,31 @@ Minimal dependencies focusing on performance:
 
 ```json
 {
-  "name": "shoelace-card",
+  "name": "shoelace-card-build",
   "version": "1.0.0",
   "type": "module",
+  "description": "Self-contained Shoelace Card component for Adobe Edge Delivery Services",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy": "npm run build && cp dist/shoelace-card.js ../../blocks/shoelace-card/ && cp shoelace-card.css ../../blocks/shoelace-card/",
+    "test": "npm run deploy && echo 'Component deployed. Open blocks/shoelace-card/test.html to test.'",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "@shoelace-style/shoelace": "^2.12.0"
-  },
   "devDependencies": {
+    "@shoelace-style/shoelace": "^2.20.1",
     "vite": "^5.0.0"
-  }
+  },
+  "keywords": [
+    "shoelace",
+    "web-components",
+    "eds",
+    "adobe",
+    "card",
+    "self-contained"
+  ],
+  "author": "EDS Team",
+  "license": "MIT"
 }
 ```
 
@@ -1257,39 +1305,60 @@ const setupModalAccessibility = (modal, overlay) => {
 Seamless integration with EDS content management:
 
 ```javascript
-// Content fetching with error handling
-const fetchCardData = async (queryPath) => {
+// Fetch card data from query-index.json
+async function fetchCardData(queryPath) {
   try {
-    const { baseUrl } = getConfig();
-    const url = `${baseUrl}${queryPath}`;
+    const response = await fetch(queryPath, {
+      mode: 'cors',
+      headers: { 'Accept': 'application/json' }
+    });
     
-    console.log(`[shoelace-card] Fetching data from: ${url}`);
-    
-    const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      throw new Error(`Failed to fetch card data: ${response.status}`);
     }
     
-    const data = await response.json();
-    
-    // Validate data structure
-    if (!data.data || !Array.isArray(data.data)) {
-      throw new Error('Invalid data format: expected array in data property');
-    }
-    
-    return data.data;
+    const json = await response.json();
+    return json.data || [];
   } catch (error) {
-    console.error('[shoelace-card] Data fetch failed:', error);
-    return getDefaultCardData();
+    console.error('[shoelace-card] Fetch error:', error);
+    return [];
   }
-};
+}
+
+// Fetch plain HTML content for modal display
+async function fetchPlainHtml(path) {
+  try {
+    const url = `${path}.plain.html`;
+    
+    const response = await fetch(url, {
+      mode: 'cors',
+      headers: { 'Accept': 'text/html' }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch plain HTML: ${response.status}`);
+    }
+    
+    let html = await response.text();
+    
+    // Fix relative image paths
+    html = html.replace(/src="\.\/media\//g, 'src="/media/');
+    html = html.replace(/src="media\//g, 'src="/media/');
+    html = html.replace(/src="\.\.\/media\//g, 'src="/media/');
+    
+    return html;
+  } catch (error) {
+    console.error('[shoelace-card] Plain HTML fetch error:', error);
+    return null;
+  }
+}
 
 // Content rendering with fallbacks
 const renderCardContent = (cardData) => {
   return {
-    title: cardData.title || SHOELACE_CARD_CONFIG.DEFAULT_TITLE,
-    description: cardData.description || SHOELACE_CARD_CONFIG.DEFAULT_DESCRIPTION,
-    image: cardData.image || getDefaultImage(),
+    title: cardData.title || 'Card Title',
+    description: cardData.description || 'Card description',
+    image: cardData.image || null,
     buttonText: cardData.buttonText || SHOELACE_CARD_CONFIG.DEFAULT_BUTTON_TEXT,
     path: cardData.path || '#'
   };
@@ -1363,3 +1432,9 @@ The Shoelace Card component represents a significant advancement in modern web c
 This implementation serves as a blueprint for creating advanced web components that combine visual sophistication with technical excellence, demonstrating the potential of modern web technologies when applied with careful attention to performance, accessibility, and user experience.
 
 The component successfully bridges the gap between design system consistency and creative visual expression, providing developers with a powerful tool for creating engaging, accessible, and performant web experiences.
+
+## Current Implementation Status
+
+The Shoelace Card component is actively maintained and continuously improved. For the most up-to-date implementation details, complete source code, and latest features, visit the GitHub repository at https://github.com/ddttom/webcomponents-with-eds.
+
+**Note**: Some build automation scripts are currently being updated to fully support the shoelace-card component. The core functionality is complete and working, with ongoing improvements to the development workflow and deployment processes.
