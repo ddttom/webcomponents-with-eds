@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shoelace Card - EDS Test</title>
-  <link rel="stylesheet" href="/styles/styles.css">
-  <link rel="stylesheet" href="shoelace-card.css">
+  <title>Shoelace Card - Self-Contained Component Test</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -64,17 +62,18 @@
 </head>
 <body>
   <div class="container">
-    <h1>🎴 Shoelace Card Component - EDS Integration Test</h1>
+    <h1>🎴 Shoelace Card - Self-Contained Component Test</h1>
     
     <div class="test-section">
       <h2>Default Configuration</h2>
       <p>Testing with default query path: <code>/slides/query-index.json</code></p>
       <div class="debug-info">
         <strong>Expected behavior:</strong><br>
-        • Load Shoelace components from CDN<br>
+        • Self-contained component loads all dependencies<br>
         • Fetch data from /slides/query-index.json<br>
         • Display cards with numbered badges<br>
-        • Open immersive modals on button click
+        • Open immersive modals on button click<br>
+        • No external CSS or JS loading required
       </div>
       
       <!-- Default Shoelace Card Block -->
@@ -93,7 +92,7 @@
       <div class="debug-info">
         <strong>Configuration:</strong><br>
         Custom path: /custom/query-index.json<br>
-        This will fallback to default if custom path is not available
+        This will fallback gracefully if custom path is not available
       </div>
       
       <!-- Custom Path Shoelace Card Block -->
@@ -113,7 +112,8 @@
         <strong>Expected behavior:</strong><br>
         • Should show fallback content<br>
         • Should log errors to console<br>
-        • Should not break the page
+        • Should not break the page<br>
+        • Component remains self-contained
       </div>
       
       <!-- Error Test Shoelace Card Block -->
@@ -127,10 +127,7 @@
     </div>
   </div>
 
-  <!-- Load EDS scripts -->
-  <script type="module" src="/scripts/scripts.js"></script>
-  
-  <!-- Load the component -->
+  <!-- Load the self-contained component -->
   <script type="module">
     import decorate from './shoelace-card.js';
 
@@ -152,6 +149,7 @@
     // Debug helpers
     window.debugShoelaceCard = {
       testModal: () => {
+        console.log('Testing modal functionality...');
         // Test modal without data
         const modal = document.createElement('div');
         modal.className = 'shoelace-card-modal';
@@ -204,6 +202,7 @@
     console.log('🔧 Debug helpers available:');
     console.log('- debugShoelaceCard.testModal() - Test modal functionality');
     console.log('- debugShoelaceCard.checkShoelaceLoaded() - Check component loading');
+    console.log('🎯 Self-contained component loaded - no external dependencies required!');
   </script>
 </body>
 </html>

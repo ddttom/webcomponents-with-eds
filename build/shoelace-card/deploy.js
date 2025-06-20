@@ -12,7 +12,7 @@ const CONFIG = {
   rootDir: path.resolve(__dirname, '../..'),
   targetBlocksDir: path.resolve(__dirname, '../../blocks/shoelace-card'),
   filesToDeploy: [
-    { source: 'dist/shoelace-card.js', target: 'shoelace-card.js' },
+    { source: 'shoelace-card.js', target: 'shoelace-card.js' },
     { source: 'shoelace-card.css', target: 'shoelace-card.css' },
     { source: 'README.md', target: 'README.md' }
   ],
@@ -108,23 +108,15 @@ async function deployFile(sourceFile, targetFile, fileConfig) {
   return await copyFile(sourcePath, targetPath);
 }
 
-// Validate build output
-async function validateBuildOutput() {
-  log.info('Validating build output...');
+// Validate source files
+async function validateSourceFiles() {
+  log.info('Validating source files...');
   
-  const distDir = path.join(CONFIG.buildDir, 'dist');
-  const distExists = await fileExists(distDir);
-  
-  if (!distExists) {
-    log.error('Build output not found. Please run "npm run build" first.');
-    return false;
-  }
-  
-  const jsFile = path.join(distDir, 'shoelace-card.js');
+  const jsFile = path.join(CONFIG.buildDir, 'shoelace-card.js');
   const jsExists = await fileExists(jsFile);
   
   if (!jsExists) {
-    log.error('Built JavaScript file not found in dist/');
+    log.error('Source JavaScript file not found: shoelace-card.js');
     return false;
   }
   
@@ -136,7 +128,7 @@ async function validateBuildOutput() {
     return false;
   }
   
-  log.success('Build output validation passed');
+  log.success('Source file validation passed');
   return true;
 }
 
@@ -147,12 +139,12 @@ async function updateRelativePaths(filePath) {
     
     // Update any build-specific paths to be EDS-compatible
     let updatedContent = content
-      // Fix any remaining build-specific imports
-      .replace(/from ['"]\.\.\/\.\.\/scripts\/aem\.js['"]/g, "from '../../scripts/aem.js'")
-      // Ensure proper EDS utility imports
+      // Remove local utility functions and replace with EDS imports
       .replace(/\/\/ Local utility functions for development environment[\s\S]*?^}/gm, '')
-      // Add proper EDS imports if not present
-      .replace(/^(export default async function decorate)/m, 
+      .replace(/^async function loadCSS[\s\S]*?^}/gm, '')
+      .replace(/^async function loadScript[\s\S]*?^}/gm, '')
+      // Add proper EDS imports at the top
+      .replace(/^(\/\/ Configuration|const SHOELACE_CARD_CONFIG)/m, 
         `// Import EDS utilities\nimport { loadCSS, loadScript } from '../../scripts/aem.js';\n\n$1`);
     
     if (updatedContent !== content) {
@@ -201,8 +193,8 @@ async function deploy() {
     log.info(`Build directory: ${CONFIG.buildDir}`);
     log.info(`Target directory: ${CONFIG.targetBlocksDir}`);
     
-    // Validate build output
-    if (!(await validateBuildOutput())) {
+    // Validate source files
+    if (!(await validateSourceFiles())) {
       process.exit(1);
     }
     

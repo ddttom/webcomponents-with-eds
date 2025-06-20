@@ -1,6 +1,6 @@
 # Shoelace Card Block
 
-A modern, interactive card component for Adobe Edge Delivery Services that displays dynamic content with numbered badges and immersive modal overlays.
+A modern, self-contained card component for Adobe Edge Delivery Services that displays dynamic content with numbered badges and immersive modal overlays. This component requires no external dependencies and works immediately when the decorate function is called.
 
 ## What It Does
 
@@ -10,6 +10,7 @@ The Shoelace Card block creates beautiful, interactive cards that:
 - Open full-screen modals with detailed content
 - Adapt to any screen size automatically
 - Load content dynamically from your published pages
+- Work completely self-contained with zero external dependencies
 
 ## How to Use
 
@@ -195,18 +196,28 @@ Create `query-index.xlsx` with these columns:
 4. **Keep Content Fresh**: Regular updates keep your cards engaging
 5. **Monitor Performance**: Check loading times and user engagement
 
-## Features
+## Technical Features
 
+- **Self-Contained**: No external dependencies or network requests required
 - **Numbered Badges**: Visual hierarchy with automatic numbering
 - **Immersive Modals**: Full-screen content display with background imagery
 - **Responsive Design**: Works perfectly on all devices
 - **Dynamic Loading**: Content loads from your published EDS pages
 - **Accessibility**: Screen reader compatible with keyboard navigation
 - **Modern Styling**: Beautiful glassmorphism effects and animations
+- **Universal Compatibility**: Works in EDS, standalone, and development environments
+
+## Component Architecture
+
+This component is built using modern web standards:
+- **Web Components**: Uses Shoelace design system components
+- **ES Modules**: Modern JavaScript module system
+- **Self-Contained**: All dependencies bundled into single file
+- **Zero Configuration**: Works immediately when imported
 
 ## Support
 
 For technical questions about implementation:
 - [Developer Documentation](../../build/shoelace-card/README.md)
+- [Component Testing](test.html)
 - [EDS Documentation](https://www.aem.live/docs/)
-- [Implementation Examples](example.md)

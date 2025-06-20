@@ -56,9 +56,12 @@ webcomponents-with-eds/
 
 - **Advanced Glassmorphism Effects**: Multi-layer backdrop blur with sophisticated shadow systems
 - **Immersive Modal System**: Full-screen content display with background imagery integration
-- **Standalone Build System**: Vite-based development with hot reload
+- **Self-Contained Architecture**: 114KB bundle with all Shoelace dependencies included
+- **Standalone Build System**: Vite-based development with hot reload and proxy support
 - **EDS Compatibility**: Exported decorate function for seamless integration
 - **Performance Optimized**: Minimal runtime overhead with efficient DOM manipulation
+- **✅ Live Tested**: Successfully tested with real data, modal functionality, and proxy integration</search>
+</search_and_replace>
 
 ```bash
 # Standalone development

@@ -2,13 +2,13 @@
   "name": "shoelace-card-build",
   "version": "1.0.0",
   "type": "module",
-  "description": "Shoelace Card component for Adobe Edge Delivery Services",
+  "description": "Self-contained Shoelace Card component for Adobe Edge Delivery Services",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:component": "npm run build && node ../../scripts/build-component.js shoelace-card",
-    "preview": "vite preview",
-    "deploy": "npm run build && node deploy.js"
+    "deploy": "npm run build && cp dist/shoelace-card.js ../../blocks/shoelace-card/ && cp shoelace-card.css ../../blocks/shoelace-card/",
+    "test": "npm run deploy && echo 'Component deployed. Open blocks/shoelace-card/test.html to test.'",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@shoelace-style/shoelace": "^2.20.1",
@@ -19,7 +19,8 @@
     "web-components",
     "eds",
     "adobe",
-    "card"
+    "card",
+    "self-contained"
   ],
   "author": "EDS Team",
   "license": "MIT"

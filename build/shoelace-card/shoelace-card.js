@@ -1,52 +1,28 @@
-// Local utility functions for development environment
-async function loadCSS(href) {
-  return new Promise((resolve, reject) => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    link.onload = resolve;
-    link.onerror = reject;
-    document.head.appendChild(link);
-  });
-}
+// Import Shoelace components for bundling
+import '@shoelace-style/shoelace/dist/components/card/card.js';
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/badge/badge.js';
+import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
 
-async function loadScript(src, options = {}) {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = src;
-    Object.assign(script, options);
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-}
+// Import styles for bundling
+import shoelaceStyles from '@shoelace-style/shoelace/dist/themes/light.css?inline';
+import componentStyles from './shoelace-card.css?inline';
 
 // Configuration
 const SHOELACE_CARD_CONFIG = {
   QUERY_INDEX_PATH: '/slides/query-index.json',
-  CARD_MAX_WIDTH: '400px',
-  MODAL_ANIMATION_DURATION: '300ms',
   BADGE_COLOR: 'primary',
-  DEFAULT_TITLE: 'Card Title',
-  DEFAULT_DESCRIPTION: 'Card description',
   DEFAULT_BUTTON_TEXT: 'Learn More'
 };
 
-// Load Shoelace resources progressively
-async function loadShoelaceResources() {
-  try {
-    await loadCSS('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css');
-    await loadScript('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js', {
-      type: 'module'
-    });
-    
-    // Wait a moment for components to register
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    console.debug('[shoelace-card] Shoelace resources loaded successfully');
-  } catch (error) {
-    console.error('[shoelace-card] Failed to load Shoelace resources:', error);
-    throw error;
+// Auto-inject styles when component loads
+function injectStyles() {
+  if (!document.querySelector('#shoelace-card-styles')) {
+    const style = document.createElement('style');
+    style.id = 'shoelace-card-styles';
+    style.textContent = shoelaceStyles + '\n' + componentStyles;
+    document.head.appendChild(style);
   }
 }
 
@@ -59,7 +35,7 @@ function getQueryPath(block) {
 // Fetch card data from query-index.json
 async function fetchCardData(queryPath) {
   try {
-    console.debug('[shoelace-card] Fetching data from:', queryPath);
+    
     
     const response = await fetch(queryPath, {
       mode: 'cors',
@@ -71,7 +47,7 @@ async function fetchCardData(queryPath) {
     }
     
     const json = await response.json();
-    console.debug('[shoelace-card] Fetched data:', json);
+    
     
     return json.data || [];
   } catch (error) {
@@ -84,7 +60,7 @@ async function fetchCardData(queryPath) {
 async function fetchPlainHtml(path) {
   try {
     const url = `${path}.plain.html`;
-    console.debug('[shoelace-card] Fetching plain HTML from:', url);
+    
     
     const response = await fetch(url, {
       mode: 'cors',
@@ -236,7 +212,10 @@ function attachModalCloseListeners(modal) {
   
   // Close button click
   if (closeButton) {
-    closeButton.addEventListener('click', () => closeModal(modal));
+    closeButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      closeModal(modal);
+    });
   }
   
   // Click outside content
@@ -249,28 +228,95 @@ function attachModalCloseListeners(modal) {
 
 // Open immersive modal with content
 async function openImmersiveModal(contentPath, backgroundImage) {
+  
+  
+  // Ensure styles are injected before creating modal
+  injectStyles();
+  
   // Create modal structure
   const modal = document.createElement('div');
   modal.className = 'shoelace-card-modal';
   modal.setAttribute('role', 'dialog');
   modal.setAttribute('aria-modal', 'true');
   
-  // Set background image
+  // Critical inline styles for visibility
+  modal.style.cssText = `
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 1000 !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    animation: modalFadeIn 0.3s ease-out !important;
+  `;
+  
+  // Set background image with fallback
   if (backgroundImage) {
     modal.style.backgroundImage = `url(${backgroundImage})`;
   }
   
   const modalOverlay = document.createElement('div');
   modalOverlay.className = 'shoelace-card-modal-overlay';
+  modalOverlay.style.cssText = `
+    position: relative !important;
+    width: 90% !important;
+    max-width: 800px !important;
+    max-height: 90vh !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 1rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 2rem !important;
+    overflow-y: auto !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    animation: modalSlideIn 0.3s ease-out !important;
+  `;
   
   const modalContent = document.createElement('div');
   modalContent.className = 'shoelace-card-modal-content';
+  modalContent.style.cssText = `
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    min-height: 200px !important;
+  `;
   
-  // Create close button
-  const closeButton = document.createElement('sl-icon-button');
+  // Create close button with fallback text
+  const closeButton = document.createElement('button');
   closeButton.className = 'shoelace-card-modal-close';
-  closeButton.setAttribute('name', 'x-lg');
-  closeButton.setAttribute('label', 'Close modal');
+  closeButton.innerHTML = '×';
+  closeButton.setAttribute('aria-label', 'Close modal');
+  closeButton.setAttribute('type', 'button');
+  
+  // Critical inline styles for close button
+  closeButton.style.cssText = `
+    position: absolute !important;
+    top: 1rem !important;
+    right: 1rem !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    font-size: 2rem !important;
+    z-index: 1003 !important;
+    width: 3rem !important;
+    height: 3rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+  `;
   
   // Create loading state
   const loadingSpinner = document.createElement('sl-spinner');
@@ -285,24 +331,137 @@ async function openImmersiveModal(contentPath, backgroundImage) {
   // Add to DOM
   document.body.appendChild(modal);
   
-  // Focus management
-  closeButton.focus();
   
-  // Fetch and display content
+  // Focus management - wait for DOM to be ready
+  setTimeout(() => {
+    try {
+      closeButton.focus();
+    } catch (error) {
+      // Focus error is non-critical, ignore silently
+    }
+  }, 100);
+  
+  // Enhanced Modal Content Container
+  modalContent.style.cssText = `
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    min-height: 200px !important;
+    position: relative !important;
+    z-index: 1003 !important;
+    display: block !important;
+    overflow: visible !important;
+  `;
+
+  // Fetch and display content with enhanced visibility fixes
   try {
     const htmlContent = await fetchPlainHtml(contentPath);
+    
     if (htmlContent) {
-      modalContent.innerHTML = '';
       const contentDiv = document.createElement('div');
       contentDiv.className = 'shoelace-card-modal-text';
+      
+      // Enhanced Content Container Positioning and Visibility
+      contentDiv.style.cssText = `
+        position: relative !important;
+        z-index: 1002 !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        font-size: 1.1rem !important;
+        line-height: 1.6 !important;
+        background: rgba(0, 0, 0, 0.85) !important;
+        padding: 2rem !important;
+        border-radius: 0.5rem !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+        box-shadow: 
+          0 4px 20px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+        margin-top: 0 !important;
+        max-height: 60vh !important;
+        overflow-y: auto !important;
+        backdrop-filter: blur(5px) !important;
+        -webkit-backdrop-filter: blur(5px) !important;
+      `;
+      
       contentDiv.innerHTML = htmlContent;
+      
+      // Enhanced Text Element Styling for Visibility
+      const allElements = contentDiv.querySelectorAll('*');
+      
+      allElements.forEach((el) => {
+        // Force visibility for all elements
+        el.style.cssText += `
+          color: white !important;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+          background-color: transparent !important;
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          z-index: inherit !important;
+        `;
+        
+        // Special handling for different element types
+        if (el.tagName.match(/^H[1-6]$/)) {
+          el.style.cssText += `
+            font-weight: bold !important;
+            margin-bottom: 1rem !important;
+            font-size: ${2.5 - (parseInt(el.tagName[1]) * 0.2)}rem !important;
+          `;
+        }
+        
+        if (el.tagName === 'P') {
+          el.style.cssText += `
+            margin-bottom: 1rem !important;
+            line-height: 1.6 !important;
+          `;
+        }
+        
+        if (el.tagName === 'IMG') {
+          el.style.cssText += `
+            max-width: 100% !important;
+            height: auto !important;
+            border-radius: 0.5rem !important;
+            margin-bottom: 1rem !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+          `;
+        }
+      });
+      
       modalContent.appendChild(contentDiv);
     } else {
       throw new Error('Content not found');
     }
   } catch (error) {
-    modalContent.innerHTML = '<p>Content could not be loaded.</p>';
+    // Enhanced Error Handling with Visible Fallback
     console.error('[shoelace-card] Modal content error:', error);
+    
+    modalContent.innerHTML = `
+      <div style="
+        position: relative !important;
+        z-index: 1003 !important;
+        color: white !important;
+        text-align: center !important;
+        padding: 2rem !important;
+        background: rgba(255, 0, 0, 0.8) !important;
+        border-radius: 0.5rem !important;
+        margin-top: 0 !important;
+        border: 2px solid white !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      ">
+        <h2 style="color: white !important; margin-bottom: 1rem !important; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;">
+          ⚠️ Content Loading Error
+        </h2>
+        <p style="color: rgba(255, 255, 255, 0.9) !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;">
+          Failed to load content from: ${contentPath}.plain.html
+        </p>
+        <p style="color: rgba(255, 255, 255, 0.7) !important; font-size: 0.9rem !important; margin-top: 0 !important;">
+          Error: ${error.message}
+        </p>
+      </div>
+    `;
   }
   
   // Attach modal close listeners
@@ -336,13 +495,25 @@ function showFallbackContent(block) {
   `;
 }
 
+// Wait for Shoelace components to be ready
+async function waitForShoelaceComponents() {
+  const components = ['sl-card', 'sl-button', 'sl-badge', 'sl-icon-button', 'sl-spinner'];
+  
+  for (const component of components) {
+    while (!customElements.get(component)) {
+      await new Promise(resolve => setTimeout(resolve, 10));
+    }
+  }
+}
+
 // Main decoration function (EDS standard)
 export default async function decorate(block) {
   try {
-    console.debug('[shoelace-card] Starting decoration');
+    // Inject styles first
+    injectStyles();
     
-    // Load Shoelace resources progressively
-    await loadShoelaceResources();
+    // Wait for Shoelace components to be ready
+    await waitForShoelaceComponents();
     
     // Get query path and fetch data
     const queryPath = getQueryPath(block);
@@ -354,9 +525,6 @@ export default async function decorate(block) {
     
     // Generate cards
     await generateCards(block, cardData);
-    
-    console.debug('[shoelace-card] Decoration completed successfully');
-    
   } catch (error) {
     console.warn('[shoelace-card] Enhancement failed, showing fallback:', error);
     showFallbackContent(block);

@@ -547,4 +547,36 @@ npm run debug
 - Verify proxy URL in server configuration
 - Review network logs in browser dev tools
 
+## Real-World Success Example: Shoelace Card Component
+
+The shoelace-card component demonstrates the effectiveness of this testing approach:
+
+### ✅ Successful Testing Results
+- **Component**: Self-contained 114KB bundle with all Shoelace dependencies
+- **Data Loading**: Successfully fetches from `/slides/query-index.json` via proxy
+- **Visual Display**: Beautiful responsive cards with York attractions data
+- **Interactive Features**: Immersive full-screen modals with glassmorphism effects
+- **Error Handling**: Graceful 404 handling while maintaining functionality
+- **Debug Tools**: Built-in debug helpers and comprehensive logging
+
+### Testing Command Used
+```bash
+# Start EDS development server
+npm run debug
+
+# Access test page
+http://localhost:3000/blocks/shoelace-card/test.html
+```
+
+### Key Success Factors
+1. **Proper EDS Structure**: Used exact block structure with `.shoelace-card.block` class
+2. **Self-Contained Testing**: Component includes all dependencies in single file
+3. **Proxy Integration**: Server successfully proxied missing assets from allabout.network
+4. **Real Data Testing**: Used live data from query endpoints for authentic testing
+5. **Interactive Testing**: Successfully tested modal functionality and user interactions
+
+This demonstrates how the local development server enables comprehensive testing of complex EDS components with external dependencies and real data sources.
+
+---
+
 This guide provides comprehensive instructions for AI assistants to effectively debug and test EDS blocks using the local development server designed to improve AI assistant workflows. The server's local-first approach with proxy fallback enables AI assistants to work more efficiently by providing immediate feedback, clear error reporting, and consistent testing patterns. Follow these established patterns for reliable, efficient EDS development that leverages the server's AI assistant-focused design.

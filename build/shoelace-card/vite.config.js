@@ -29,12 +29,14 @@ export default defineConfig({
     },
     outDir: 'dist',
     rollupOptions: {
-      external: [],
+      external: [], // Bundle everything, no externals
       output: {
-        globals: {},
-        inlineDynamicImports: true
+        inlineDynamicImports: true,
+        manualChunks: undefined // Single file output
       }
     },
+    minify: 'esbuild',
+    target: 'es2020',
     emptyOutDir: true
   }
 });
