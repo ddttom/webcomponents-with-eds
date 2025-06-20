@@ -43,7 +43,7 @@ This Shoelace Card component showcases what becomes possible when AI can see eve
 The Shoelace Card component represents a significant advancement in web component design, combining:
 
 - **Advanced Glassmorphism Effects**: Multi-layer backdrop blur with sophisticated shadow systems
-- **Immersive Modal System**: Full-screen content display with background imagery integration
+- **Immersive Modal System**: Full-screen content display with background imagery integration. Close by double-clicking "ESC" button, pressing ESC key, or clicking outside modal
 - **Modern Web Standards**: ES Modules, Web Components, and progressive enhancement
 - **Accessibility First**: ARIA labels, keyboard navigation, and screen reader support
 - **Performance Optimized**: Minimal runtime overhead with efficient DOM manipulation

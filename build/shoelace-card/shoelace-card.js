@@ -16,6 +16,16 @@ const SHOELACE_CARD_CONFIG = {
   DEFAULT_BUTTON_TEXT: 'Learn More'
 };
 
+// Debug mode detection and logging
+const DEBUG_MODE = window.location.hostname === 'localhost' && 
+                   window.location.port === '3000';
+
+function debugLog(message, data = null) {
+  if (DEBUG_MODE) {
+    console.log(`[MODAL-DEBUG] ${message}`, data || '');
+  }
+}
+
 // Auto-inject styles when component loads
 function injectStyles() {
   if (!document.querySelector('#shoelace-card-styles')) {
@@ -237,6 +247,7 @@ function handleModalKeydown(event) {
   if (event.key === 'Escape') {
     const modal = document.querySelector('.shoelace-card-modal');
     if (modal) {
+      debugLog('ESC key pressed - closing modal');
       closeModal(modal);
     }
   }
@@ -251,33 +262,309 @@ function attachCardEventListeners(block) {
   document.addEventListener('keydown', handleModalKeydown);
 }
 
-// Close modal
+// Enhanced close modal with cleanup
 function closeModal(modal) {
-  modal.remove();
+  debugLog('Closing modal with enhanced cleanup');
+  
+  try {
+    // Clean up event handlers
+    if (modal._delegationHandler) {
+      document.removeEventListener('click', modal._delegationHandler);
+      debugLog('Document delegation handler removed');
+    }
+    
+    if (modal._keyHandler) {
+      // Remove all keyboard event listeners
+      document.removeEventListener('keydown', modal._keyHandler, { capture: true });
+      document.removeEventListener('keyup', modal._keyHandler, { capture: true });
+      modal.removeEventListener('keydown', modal._keyHandler, { capture: true });
+      modal.removeEventListener('keyup', modal._keyHandler, { capture: true });
+      debugLog('Enhanced keyboard handlers removed');
+    }
+    
+    if (modal._emergencyHandler) {
+      modal.removeEventListener('click', modal._emergencyHandler);
+      debugLog('Emergency handler removed');
+    }
+    
+    // Remove modal from DOM
+    if (modal.parentNode) {
+      modal.parentNode.removeChild(modal);
+      debugLog('Modal removed from DOM');
+    }
+    
+  } catch (error) {
+    debugLog('Error during modal cleanup:', error);
+    // Force removal as fallback
+    try {
+      modal.remove();
+    } catch (fallbackError) {
+      debugLog('Fallback removal also failed:', fallbackError);
+    }
+  }
 }
 
-// Attach modal close listeners
-function attachModalCloseListeners(modal) {
+// Validate modal structure
+function validateModalStructure(modal) {
+  debugLog('Validating modal structure');
+  
+  const overlay = modal.querySelector('.shoelace-card-modal-overlay');
+  const closeButton = modal.querySelector('.shoelace-card-modal-close');
+  const content = modal.querySelector('.shoelace-card-modal-content');
+  
+  const validation = {
+    modal: !!modal,
+    overlay: !!overlay,
+    closeButton: !!closeButton,
+    content: !!content,
+    modalInDOM: document.body.contains(modal),
+    closeButtonInDOM: closeButton ? document.body.contains(closeButton) : false
+  };
+  
+  debugLog('Modal structure validation:', validation);
+  return validation;
+}
+
+// Enhanced close button creation
+function createEnhancedCloseButton() {
+  const closeButton = document.createElement('button');
+  closeButton.className = 'shoelace-card-modal-close';
+  closeButton.innerHTML = 'ESC';
+  closeButton.setAttribute('aria-label', 'Press ESC or click to close modal');
+  closeButton.setAttribute('type', 'button');
+  closeButton.setAttribute('tabindex', '0');
+  
+  // Enhanced inline styles for ESC button
+  closeButton.style.cssText = `
+    position: absolute !important;
+    top: 1rem !important;
+    right: 1rem !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-radius: 0.5rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    font-family: monospace !important;
+    z-index: 1003 !important;
+    padding: 0.5rem 0.75rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    pointer-events: auto !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    touch-action: manipulation !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  `;
+  
+  // Add hover effects
+  closeButton.addEventListener('mouseenter', () => {
+    closeButton.style.background = 'rgba(255, 255, 255, 0.3)';
+    closeButton.style.transform = 'scale(1.1)';
+  });
+  
+  closeButton.addEventListener('mouseleave', () => {
+    closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
+    closeButton.style.transform = 'scale(1)';
+  });
+  
+  debugLog('Enhanced close button created');
+  return closeButton;
+}
+
+// Attempt event attachment with strategy
+function attemptEventAttachment(modal, strategy) {
+  debugLog(`Attempting event attachment: ${strategy}`);
+  
   const closeButton = modal.querySelector('.shoelace-card-modal-close');
   
-  // Close button click
-  if (closeButton) {
-    closeButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-      closeModal(modal);
-    });
+  if (!closeButton) {
+    debugLog(`No close button found for ${strategy} attachment`);
+    return false;
   }
   
-  // Click outside content
-  modal.addEventListener('click', (event) => {
-    if (event.target === modal) {
+  try {
+    // Multiple event attachment approaches for maximum compatibility
+    const clickHandler = (event) => {
+      debugLog(`Close button clicked via ${strategy} attachment`);
+      event.preventDefault();
+      event.stopPropagation();
       closeModal(modal);
+    };
+    
+    // Approach 1: Standard click event
+    closeButton.addEventListener('click', clickHandler, { capture: true });
+    
+    // Approach 2: Mouse events for broader compatibility
+    closeButton.addEventListener('mouseup', clickHandler, { capture: true });
+    
+    // Approach 3: Touch events for mobile
+    closeButton.addEventListener('touchend', clickHandler, { capture: true });
+    
+    // Approach 4: Pointer events for modern browsers
+    if ('PointerEvent' in window) {
+      closeButton.addEventListener('pointerup', clickHandler, { capture: true });
+    }
+    
+    // Add visual feedback
+    closeButton.addEventListener('mousedown', () => {
+      closeButton.style.transform = 'scale(0.95)';
+    });
+    
+    closeButton.addEventListener('mouseup', () => {
+      closeButton.style.transform = 'scale(1)';
+    });
+    
+    // Test event attachment by adding a test listener
+    closeButton.addEventListener('mouseover', () => {
+      debugLog(`Close button hover detected - events are working for ${strategy}`);
+    }, { once: true });
+    
+    debugLog(`Multiple event listeners attached successfully via ${strategy}`);
+    return true;
+    
+  } catch (error) {
+    debugLog(`Event attachment failed for ${strategy}:`, error);
+    return false;
+  }
+}
+
+// Document-level event delegation
+function setupDocumentDelegation(modal) {
+  debugLog('Setting up document delegation for modal:', modal);
+  
+  const modalId = 'modal-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+  modal.setAttribute('data-modal-id', modalId);
+  
+  // Create delegation handler
+  const delegationHandler = (event) => {
+    // Check if click is on close button within our modal
+    const closeButton = event.target.closest('.shoelace-card-modal-close');
+    if (closeButton) {
+      const targetModal = closeButton.closest(`[data-modal-id="${modalId}"]`);
+      if (targetModal === modal) {
+        debugLog('Close button clicked via document delegation');
+        event.preventDefault();
+        event.stopPropagation();
+        closeModal(modal);
+        
+        // Clean up delegation handler
+        document.removeEventListener('click', delegationHandler);
+      }
+    }
+    
+    // Check if click is outside modal
+    if (event.target === modal) {
+      debugLog('Clicked outside modal via document delegation');
+      closeModal(modal);
+      document.removeEventListener('click', delegationHandler);
+    }
+  };
+  
+  // Add delegation handler
+  document.addEventListener('click', delegationHandler);
+  debugLog('Document delegation handler added');
+  
+  // Store handler reference for cleanup
+  modal._delegationHandler = delegationHandler;
+}
+
+// Enhanced event attachment with multiple strategies
+function attachModalCloseListenersRobust(modal) {
+  debugLog('Starting robust event listener attachment');
+  
+  // Strategy 1: Immediate attachment
+  let attached = attemptEventAttachment(modal, 'immediate');
+  
+  if (!attached) {
+    // Strategy 2: Delayed attachment
+    setTimeout(() => {
+      debugLog('Attempting delayed event attachment');
+      attached = attemptEventAttachment(modal, 'delayed');
+      
+      if (!attached) {
+        // Strategy 3: Document delegation fallback
+        debugLog('Using document delegation fallback');
+        setupDocumentDelegation(modal);
+      }
+    }, 100);
+  }
+  
+  // Strategy 4: Always setup document delegation as backup
+  setupDocumentDelegation(modal);
+}
+
+// Enhanced keyboard handling
+function setupKeyboardHandling(modal) {
+  const keyHandler = (event) => {
+    debugLog(`Key pressed: ${event.key}, code: ${event.code}`);
+    if (event.key === 'Escape' || event.code === 'Escape' || event.keyCode === 27) {
+      debugLog('ESC key detected - closing modal');
+      event.preventDefault();
+      event.stopPropagation();
+      closeModal(modal);
+      document.removeEventListener('keydown', keyHandler);
+      document.removeEventListener('keyup', keyHandler);
+    }
+  };
+  
+  // Add both keydown and keyup listeners for maximum compatibility
+  document.addEventListener('keydown', keyHandler, { capture: true });
+  document.addEventListener('keyup', keyHandler, { capture: true });
+  
+  // Also add to the modal element itself
+  modal.addEventListener('keydown', keyHandler, { capture: true });
+  modal.addEventListener('keyup', keyHandler, { capture: true });
+  
+  modal._keyHandler = keyHandler;
+  debugLog('Enhanced keyboard handlers attached');
+}
+
+// Emergency close mechanism
+function setupEmergencyClose(modal) {
+  // Double-click anywhere on modal to close
+  let clickCount = 0;
+  const emergencyHandler = () => {
+    clickCount++;
+    if (clickCount === 2) {
+      debugLog('Emergency double-click close activated');
+      closeModal(modal);
+    }
+    setTimeout(() => { clickCount = 0; }, 500);
+  };
+  
+  modal.addEventListener('click', emergencyHandler);
+  modal._emergencyHandler = emergencyHandler;
+}
+
+// Wait for DOM readiness
+function waitForDOMReady(modal) {
+  return new Promise((resolve) => {
+    if (document.body.contains(modal)) {
+      // Use requestAnimationFrame to ensure rendering
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          debugLog('DOM ready for modal operations');
+          resolve();
+        });
+      });
+    } else {
+      debugLog('Modal not in DOM, waiting...');
+      setTimeout(() => waitForDOMReady(modal).then(resolve), 10);
     }
   });
 }
 
-// Open immersive modal with content
+// Enhanced modal creation with proper timing
 async function openImmersiveModal(contentPath, backgroundImage) {
+  debugLog('Opening immersive modal with enhanced timing');
+  
   // Ensure styles are injected before creating modal
   injectStyles();
   
@@ -334,37 +621,14 @@ async function openImmersiveModal(contentPath, backgroundImage) {
     color: white !important;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
     min-height: 200px !important;
-  `;
-  
-  // Create close button with fallback text
-  const closeButton = document.createElement('button');
-  closeButton.className = 'shoelace-card-modal-close';
-  closeButton.innerHTML = '×';
-  closeButton.setAttribute('aria-label', 'Close modal');
-  closeButton.setAttribute('type', 'button');
-  
-  // Critical inline styles for close button
-  closeButton.style.cssText = `
-    position: absolute !important;
-    top: 1rem !important;
-    right: 1rem !important;
-    background: rgba(255, 255, 255, 0.2) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border-radius: 50% !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    color: white !important;
-    font-size: 2rem !important;
+    position: relative !important;
     z-index: 1003 !important;
-    width: 3rem !important;
-    height: 3rem !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    line-height: 1 !important;
+    display: block !important;
+    overflow: visible !important;
   `;
+  
+  // Create enhanced close button
+  const closeButton = createEnhancedCloseButton();
   
   // Create loading state
   const loadingSpinner = document.createElement('sl-spinner');
@@ -376,28 +640,38 @@ async function openImmersiveModal(contentPath, backgroundImage) {
   modalOverlay.appendChild(modalContent);
   modal.appendChild(modalOverlay);
   
-  // Add to DOM
+  // Add to DOM first
   document.body.appendChild(modal);
+  debugLog('Modal added to DOM');
+  
+  // Wait for DOM to be ready
+  await waitForDOMReady(modal);
+  
+  // Validate structure
+  const validation = validateModalStructure(modal);
+  if (!validation.closeButton) {
+    debugLog('ERROR: Close button not found after DOM insertion');
+  }
+  
+  // Attach event listeners with robust strategy
+  attachModalCloseListenersRobust(modal);
+  
+  // Setup additional handlers
+  setupKeyboardHandling(modal);
+  setupEmergencyClose(modal);
   
   // Focus management - wait for DOM to be ready
   setTimeout(() => {
     try {
-      closeButton.focus();
+      const currentCloseButton = modal.querySelector('.shoelace-card-modal-close');
+      if (currentCloseButton) {
+        currentCloseButton.focus();
+        debugLog('Close button focused successfully');
+      }
     } catch (error) {
-      // Focus error is non-critical, ignore silently
+      debugLog('Focus error (non-critical):', error);
     }
-  }, 100);
-  
-  // Enhanced Modal Content Container
-  modalContent.style.cssText = `
-    color: white !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
-    min-height: 200px !important;
-    position: relative !important;
-    z-index: 1003 !important;
-    display: block !important;
-    overflow: visible !important;
-  `;
+  }, 150);
 
   // Fetch and display content with enhanced visibility fixes
   try {
@@ -511,8 +785,7 @@ async function openImmersiveModal(contentPath, backgroundImage) {
     `;
   }
   
-  // Attach modal close listeners
-  attachModalCloseListeners(modal);
+  debugLog('Modal creation complete');
 }
 
 // Fallback function for when preloading fails

@@ -119,7 +119,7 @@ npm run test
 - Full-screen modals with background imagery
 - Glassmorphism effects with backdrop blur
 - Dynamic content loading from `.plain.html` endpoints
-- Multiple close methods (button, outside click, ESC key)
+- Multiple close methods: double-click "ESC" button, press ESC key, or click outside modal
 
 ### Content Loading Architecture
 - Dual-loading: card data from `query-index.json`, full content from `.plain.html`
