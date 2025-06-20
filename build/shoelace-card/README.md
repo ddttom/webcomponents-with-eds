@@ -23,6 +23,7 @@ This directory contains the source files for developing the Shoelace Card compon
    ```bash
    npm run build  # Creates bundled version in dist/
    npm run build:component  # Bundles dependencies and copies to blocks directory
+   npm run deploy  # Build and deploy to blocks directory (recommended)
    ```
 
    This process:
@@ -30,6 +31,19 @@ This directory contains the source files for developing the Shoelace Card compon
    - Creates browser-compatible files in `dist/` directory
    - Copies bundled files to `/blocks/shoelace-card/` for EDS deployment
    - Ensures compatibility with direct browser usage (file:// protocol)
+
+4. **Deploy to EDS Blocks**
+
+   ```bash
+   npm run deploy
+   ```
+
+   The deploy script automatically:
+   - Builds the component using Vite
+   - Copies all necessary files to `../../blocks/shoelace-card/`
+   - Overwrites existing files (except preserved files like `test.html`)
+   - Maintains proper file structure for EDS integration
+   - Provides deployment summary and next steps
 
 ## Files
 

@@ -1,33 +1,32 @@
 # Shoelace Card Block
 
-A sophisticated card component for Adobe Edge Delivery Services (EDS) that uses Shoelace design system components to display dynamic content with advanced features including numbered slide badges and immersive modal overlays.
+A modern, interactive card component for Adobe Edge Delivery Services that displays dynamic content with numbered badges and immersive modal overlays.
 
-## Features
+## What It Does
 
-- **Dynamic Content Loading**: Fetches data from EDS query-index.json endpoints
-- **Numbered Slide Badges**: Visual hierarchy with Shoelace badge components
-- **Immersive Modal System**: Full-screen modals with glassmorphism effects
-- **Progressive Enhancement**: Graceful fallbacks when Shoelace fails to load
-- **Responsive Design**: Mobile-friendly grid layout
-- **Accessibility**: Full keyboard navigation and screen reader support
-- **EDS Native**: Uses standard EDS patterns with direct DOM manipulation
+The Shoelace Card block creates beautiful, interactive cards that:
+- Display content from your EDS query-index data
+- Show numbered badges for easy navigation
+- Open full-screen modals with detailed content
+- Adapt to any screen size automatically
+- Load content dynamically from your published pages
 
-## Usage
+## How to Use
 
 ### Basic Usage
 
-Create a block in your EDS document:
+Add this block to any EDS document:
 
 ```
 | shoelace-card |
 | :---- |
 ```
 
-This will fetch data from the default `/slides/query-index.json` endpoint.
+This will display cards using data from `/slides/query-index.json`.
 
-### Custom Query Path
+### Custom Data Source
 
-Specify a custom query-index.json endpoint:
+To use different content, specify a custom path:
 
 ```
 | shoelace-card |
@@ -35,172 +34,179 @@ Specify a custom query-index.json endpoint:
 | /products/query-index.json |
 ```
 
-## Data Format
+## Setting Up Your Content
 
-The component expects data from a query-index.json endpoint with this structure:
+### 1. Create Your Content Structure
 
-```json
-{
-  "total": 3,
-  "offset": 0,
-  "limit": 3,
-  "data": [
-    {
-      "path": "/slides/slide-1",
-      "title": "Card Title",
-      "description": "Card description text",
-      "image": "/slides/media_123.png",
-      "buttonText": "Learn More",
-      "lastModified": "1719573871"
-    }
-  ],
-  "columns": ["path", "title", "description", "image", "buttonText", "lastModified"],
-  ":type": "sheet"
-}
+Organize your content in a folder (e.g., `/slides/` or `/products/`):
+
+```
+/slides/
+├── slide-1.md
+├── slide-2.md  
+├── slide-3.md
+├── query-index.xlsx
+└── media/
+    ├── image1.jpg
+    ├── image2.jpg
+    └── image3.jpg
 ```
 
-### Required Fields
+### 2. Create Individual Pages
 
-- **path**: Link destination for modal content (will fetch `{path}.plain.html`)
-- **title**: Card heading text
-- **description**: Card body text
+Each card needs its own page with the content that appears in the modal:
 
-### Optional Fields
+**Example: slide-1.md**
+```markdown
+# Amazing Product Features
 
-- **image**: Card preview image URL
-- **buttonText**: Custom button label (defaults to "Learn More")
+![Product Image](./media/image1.jpg)
 
-## Setting Up Content
+Discover the incredible features that make our product stand out.
 
-1. **Create Content Folder**: Create a folder in your EDS project (e.g., `/slides/`, `/products/`)
-2. **Add Content Pages**: Create individual pages for each card
-3. **Create Query Index**: Add a `query-index.xlsx` file to the folder with columns:
-   - path
-   - title
-   - description
-   - image
-   - buttonText
-4. **Publish**: Publish the query-index to generate the JSON endpoint
+## Key Benefits
+- Lightning-fast performance
+- 99.9% uptime guarantee  
+- 24/7 customer support
+```
 
-## Component Structure
+### 3. Create Query Index Spreadsheet
 
-Each card displays:
+Create `query-index.xlsx` with these columns:
 
-1. **Image** (optional): Card preview image with lazy loading
-2. **Numbered Badge**: Slide number in top-left corner
-3. **Title**: Bold heading text
-4. **Description**: Body text content
-5. **Button**: Action button that opens modal
+| path | title | description | image | buttonText |
+|------|-------|-------------|-------|------------|
+| /slides/slide-1 | Amazing Product | Discover incredible features | /slides/media/image1.jpg | Learn More |
+| /slides/slide-2 | Customer Success | Real stories from customers | /slides/media/image2.jpg | Read Stories |
+| /slides/slide-3 | Get Started | Begin your journey today | /slides/media/image3.jpg | Start Now |
 
-## Modal System
+### 4. Publish Your Content
 
-Clicking the card button opens an immersive modal with:
+1. Save and publish each individual page
+2. Save and publish the query-index.xlsx file
+3. The system automatically generates the JSON endpoint
 
-- **Background Image**: Uses the card's image as full-screen background
-- **Glassmorphism Effects**: Translucent overlay with backdrop blur
-- **Dynamic Content**: Fetches and displays content from `{path}.plain.html`
-- **Multiple Close Options**: Close button, click outside, or ESC key
-- **Responsive Design**: Adapts to mobile screens
+## Content Guidelines
 
-## Shoelace Components Used
+### Titles
+- Keep short and engaging (2-6 words)
+- Use action-oriented language
+- Make them descriptive
 
-- **sl-card**: Main card container with image, content, and footer slots
-- **sl-button**: Action buttons with primary variant and pill styling
-- **sl-badge**: Numbered slide indicators with primary color
-- **sl-icon-button**: Close button for modals with x-lg icon
-- **sl-spinner**: Loading indicator for modal content
+### Descriptions  
+- Limit to 1-2 sentences
+- Focus on key benefits
+- Use clear, compelling language
 
-## Styling
+### Images
+- Use high-quality images (minimum 400px wide)
+- Optimize for web (under 500KB)
+- Ensure they work as modal backgrounds
+- Use descriptive alt text
 
-The component uses Shoelace's design tokens and includes:
+### Button Text
+- Keep short and action-oriented
+- Examples: "Learn More", "Get Started", "Read Story"
+- Match your content tone
 
-- **Responsive Grid**: Auto-fit columns with minimum 300px width
-- **Hover Effects**: Subtle transform and shadow on card hover
-- **Glassmorphism**: Modern translucent effects with backdrop blur
-- **High Contrast Support**: Adapts to user preferences
-- **Reduced Motion**: Respects user motion preferences
-- **Dark Mode**: Compatible with Shoelace dark theme
+## Examples
 
-## Browser Support
+### Product Showcase
 
-Requires modern browsers with support for:
+```
+| shoelace-card |
+| :---- |
+| /products/query-index.json |
+```
 
-- ES Modules
-- Web Components (Custom Elements)
-- CSS Custom Properties
-- Fetch API
-- CSS Grid
-- Backdrop Filter (with webkit prefixes for Safari)
+**Content Setup:**
+| path | title | description | image | buttonText |
+|------|-------|-------------|-------|------------|
+| /products/laptop-pro | Laptop Pro | Professional performance for demanding workflows | /products/media/laptop.jpg | View Specs |
+| /products/tablet-air | Tablet Air | Lightweight design meets powerful functionality | /products/media/tablet.jpg | Explore Features |
 
-## Performance
+### Team Profiles
 
-Optimized for performance with:
+```
+| shoelace-card |
+| :---- |
+| /team/query-index.json |
+```
 
-- **CDN Loading**: Shoelace components loaded from CDN
-- **Lazy Loading**: Images load only when needed
-- **Event Delegation**: Single event listener per block
-- **Progressive Enhancement**: Works without JavaScript for basic content
-- **Efficient DOM**: Minimal DOM operations and reflows
+**Content Setup:**
+| path | title | description | image | buttonText |
+|------|-------|-------------|-------|------------|
+| /team/john-doe | John Doe | Lead Developer with 10+ years experience | /team/media/john.jpg | View Profile |
+| /team/jane-smith | Jane Smith | UX Designer passionate about user experience | /team/media/jane.jpg | See Work |
 
-## Accessibility
+### Case Studies
 
-Full accessibility support including:
+```
+| shoelace-card |
+| :---- |
+| /case-studies/query-index.json |
+```
 
-- **ARIA Labels**: Proper roles and labels for screen readers
-- **Keyboard Navigation**: Tab order and ESC key support
-- **Focus Management**: Proper focus handling in modals
-- **Screen Reader**: Compatible with assistive technologies
-- **High Contrast**: Adapts to high contrast preferences
-- **Reduced Motion**: Respects motion sensitivity preferences
+**Content Setup:**
+| path | title | description | image | buttonText |
+|------|-------|-------------|-------|------------|
+| /case-studies/acme-corp | ACME Corp | 300% increase in productivity | /case-studies/media/acme.jpg | Read Case Study |
+| /case-studies/tech-startup | Tech Startup | From idea to IPO in 18 months | /case-studies/media/startup.jpg | View Success |
 
-## Testing
+## Best Practices
 
-Test the component using:
+### Content Organization
+- Use consistent naming conventions
+- Keep folder structures simple
+- Group related content together
 
-- **test.html**: EDS integration test page
-- **Browser Console**: Debug helpers available
-  - `debugShoelaceCard.testModal()` - Test modal functionality
-  - `debugShoelaceCard.checkShoelaceLoaded()` - Check component loading
+### Performance
+- Optimize images for web delivery
+- Keep descriptions concise
+- Use descriptive file names
+
+### Accessibility
+- Provide meaningful alt text for images
+- Use clear, descriptive titles
+- Ensure good color contrast
 
 ## Troubleshooting
 
-### Cards not displaying
+### Cards Not Displaying
+- Check that your query-index.xlsx file is published
+- Verify all paths in the spreadsheet are correct
+- Ensure images are accessible
 
-- Check browser console for errors
-- Verify query-index.json endpoint is accessible
-- Ensure Shoelace components are loading from CDN
-- Check that web components are supported
+### Modal Content Not Loading
+- Confirm individual pages are published
+- Check that paths match between query-index and actual pages
+- Verify content is accessible
 
-### Modal not opening
+### Images Not Showing
+- Check image paths are correct and absolute
+- Ensure images are published and accessible
+- Verify image formats are supported (JPEG, PNG, GIF, SVG)
 
-- Verify `.plain.html` endpoints are accessible
-- Check browser console for JavaScript errors
-- Ensure background images are loading correctly
+## Tips for Success
 
-### Styling issues
+1. **Start Simple**: Begin with basic cards and add complexity gradually
+2. **Test Regularly**: Preview your content to verify it displays correctly
+3. **Optimize Images**: Use appropriate sizes and formats for best performance
+4. **Keep Content Fresh**: Regular updates keep your cards engaging
+5. **Monitor Performance**: Check loading times and user engagement
 
-- Check browser support for backdrop-filter
-- Verify Shoelace theme is loading correctly
-- Ensure CSS custom properties are supported
+## Features
 
-### CORS Issues
+- **Numbered Badges**: Visual hierarchy with automatic numbering
+- **Immersive Modals**: Full-screen content display with background imagery
+- **Responsive Design**: Works perfectly on all devices
+- **Dynamic Loading**: Content loads from your published EDS pages
+- **Accessibility**: Screen reader compatible with keyboard navigation
+- **Modern Styling**: Beautiful glassmorphism effects and animations
 
-- Verify CORS headers for query-index.json endpoints
-- Check that `.plain.html` content is accessible
-- Ensure same-origin policy compliance
+## Support
 
-## Development
-
-For development and customization, see the source files in `/build/shoelace-card/`:
-
-- **shoelace-card.js**: Main component implementation
-- **shoelace-card.css**: Component styles
-- **index.html**: Development test page
-- **README.md**: Development documentation
-
-## Related Documentation
-
-- [Implementation Plan](../../docs/shoelace-card-implementation-plan.md)
-- [EDS Block Architecture Standards](../../docs/for-ai/block-architecture-standards.md)
-- [Query-Index Pattern](../../docs/json-prd.md)
-- [Shoelace Design System](https://shoelace.style/)
+For technical questions about implementation:
+- [Developer Documentation](../../build/shoelace-card/README.md)
+- [EDS Documentation](https://www.aem.live/docs/)
+- [Implementation Examples](example.md)
