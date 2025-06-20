@@ -35,8 +35,6 @@ function getQueryPath(block) {
 // Fetch card data from query-index.json
 async function fetchCardData(queryPath) {
   try {
-    
-    
     const response = await fetch(queryPath, {
       mode: 'cors',
       headers: { 'Accept': 'application/json' }
@@ -47,8 +45,6 @@ async function fetchCardData(queryPath) {
     }
     
     const json = await response.json();
-    
-    
     return json.data || [];
   } catch (error) {
     console.error('[shoelace-card] Fetch error:', error);
@@ -60,7 +56,6 @@ async function fetchCardData(queryPath) {
 async function fetchPlainHtml(path) {
   try {
     const url = `${path}.plain.html`;
-    
     
     const response = await fetch(url, {
       mode: 'cors',
@@ -85,6 +80,54 @@ async function fetchPlainHtml(path) {
   }
 }
 
+// Utility function to preload a single image
+async function preloadImage(src, timeout = 5000) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const timer = setTimeout(() => {
+      reject(new Error(`Image load timeout: ${src}`));
+    }, timeout);
+    
+    img.onload = () => {
+      clearTimeout(timer);
+      resolve(img);
+    };
+    
+    img.onerror = () => {
+      clearTimeout(timer);
+      reject(new Error(`Image load failed: ${src}`));
+    };
+    
+    img.src = src;
+  });
+}
+
+// Preload all card images in parallel
+async function preloadAllImages(cardData, timeout = 5000) {
+  const imageUrls = cardData
+    .map(card => card.image)
+    .filter(Boolean);
+    
+  if (imageUrls.length === 0) {
+    return [];
+  }
+  
+  console.log(`[shoelace-card] Preloading ${imageUrls.length} images...`);
+  
+  const preloadPromises = imageUrls.map(url => 
+    preloadImage(url, timeout).catch(error => {
+      console.warn(`[shoelace-card] Failed to preload image: ${url}`, error);
+      return null; // Return null for failed images
+    })
+  );
+  
+  const results = await Promise.all(preloadPromises);
+  const successCount = results.filter(Boolean).length;
+  console.log(`[shoelace-card] Preloaded ${successCount}/${imageUrls.length} images successfully`);
+  
+  return results;
+}
+
 // Create numbered badge element
 function createNumberedBadge(slideNumber) {
   const badge = document.createElement('sl-badge');
@@ -95,7 +138,7 @@ function createNumberedBadge(slideNumber) {
   return badge;
 }
 
-// Create card image element
+// Create card image element with enhanced error handling
 function createCardImage(imageSrc, title) {
   if (!imageSrc) return null;
   
@@ -103,7 +146,14 @@ function createCardImage(imageSrc, title) {
   img.slot = 'image';
   img.src = imageSrc;
   img.alt = title || 'Card image';
-  img.loading = 'lazy';
+  img.loading = 'lazy'; // Keep as fallback
+  
+  // Add error handling with placeholder
+  img.onerror = () => {
+    img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
+    img.alt = 'Image not found';
+  };
+  
   return img;
 }
 
@@ -228,8 +278,6 @@ function attachModalCloseListeners(modal) {
 
 // Open immersive modal with content
 async function openImmersiveModal(contentPath, backgroundImage) {
-  
-  
   // Ensure styles are injected before creating modal
   injectStyles();
   
@@ -330,7 +378,6 @@ async function openImmersiveModal(contentPath, backgroundImage) {
   
   // Add to DOM
   document.body.appendChild(modal);
-  
   
   // Focus management - wait for DOM to be ready
   setTimeout(() => {
@@ -468,12 +515,9 @@ async function openImmersiveModal(contentPath, backgroundImage) {
   attachModalCloseListeners(modal);
 }
 
-// Generate cards from data
-async function generateCards(block, cardData) {
-  if (!cardData || cardData.length === 0) {
-    block.innerHTML = '<p class="shoelace-card-empty">No cards available.</p>';
-    return;
-  }
+// Fallback function for when preloading fails
+function generateCardsProgressive(block, cardData) {
+  console.log('[shoelace-card] Using progressive loading fallback');
   
   const container = createCardContainer();
   
@@ -482,8 +526,58 @@ async function generateCards(block, cardData) {
     container.appendChild(card);
   });
   
+  block.innerHTML = '';
   block.appendChild(container);
+  block.classList.remove('loading');
+  
   attachCardEventListeners(block);
+}
+
+// Enhanced generate cards with image preloading
+async function generateCards(block, cardData) {
+  if (!cardData || cardData.length === 0) {
+    block.innerHTML = '<p class="shoelace-card-empty">No cards available.</p>';
+    return;
+  }
+  
+  // Show loading state
+  block.classList.add('loading');
+  
+  try {
+    // Preload all images first
+    console.log('[shoelace-card] Preloading images...');
+    await preloadAllImages(cardData);
+    console.log('[shoelace-card] All images preloaded');
+    
+    // Create container and all cards
+    const container = createCardContainer();
+    const fragment = document.createDocumentFragment();
+    
+    // Build all cards with preloaded images
+    cardData.forEach((data, index) => {
+      const card = createShoelaceCard(data, index + 1);
+      fragment.appendChild(card);
+    });
+    
+    container.appendChild(fragment);
+    
+    // Atomic replacement
+    block.innerHTML = '';
+    block.appendChild(container);
+    block.classList.remove('loading');
+    
+    // Trigger fade-in animation
+    requestAnimationFrame(() => {
+      container.classList.add('loaded');
+    });
+    
+    attachCardEventListeners(block);
+    
+  } catch (error) {
+    console.error('[shoelace-card] Image preloading failed:', error);
+    // Fallback to progressive loading
+    generateCardsProgressive(block, cardData);
+  }
 }
 
 // Show fallback content when enhancement fails
@@ -523,7 +617,7 @@ export default async function decorate(block) {
     block.innerHTML = '';
     block.classList.add('shoelace-card-block');
     
-    // Generate cards
+    // Generate cards with preloading
     await generateCards(block, cardData);
   } catch (error) {
     console.warn('[shoelace-card] Enhancement failed, showing fallback:', error);

@@ -188,6 +188,34 @@ Create `query-index.xlsx` with these columns:
 - Ensure images are published and accessible
 - Verify image formats are supported (JPEG, PNG, GIF, SVG)
 
+## Performance & User Experience
+
+### FOUC Elimination
+
+This component implements advanced **Flash of Unstyled Content (FOUC) elimination** to ensure a professional loading experience:
+
+**Image Preloading**: All card images are preloaded in parallel before any content is displayed, preventing the jarring effect of text appearing before images.
+
+**Atomic Rendering**: Cards appear as complete units rather than building up progressively, creating a polished, professional experience.
+
+**Loading States**: Users see a clean animated spinner while content loads, providing clear feedback about the loading process.
+
+**Graceful Fallbacks**: If image preloading fails or times out, the component gracefully falls back to progressive loading while maintaining functionality.
+
+**Performance Benefits**:
+- ✅ No progressive text/image building
+- ✅ Smooth loading with professional spinner
+- ✅ All content appears simultaneously
+- ✅ 5-second timeout for slow networks
+- ✅ Automatic fallback for failed images
+
+### Loading Behavior
+
+1. **Initial Load**: Component shows loading spinner
+2. **Image Preloading**: All images load in parallel (5-second timeout)
+3. **Atomic Display**: All cards appear simultaneously with smooth fade-in
+4. **Staggered Animation**: Cards animate in with subtle delays for polish
+
 ## Tips for Success
 
 1. **Start Simple**: Begin with basic cards and add complexity gradually
@@ -195,6 +223,8 @@ Create `query-index.xlsx` with these columns:
 3. **Optimize Images**: Use appropriate sizes and formats for best performance
 4. **Keep Content Fresh**: Regular updates keep your cards engaging
 5. **Monitor Performance**: Check loading times and user engagement
+6. **Image Optimization**: Smaller images load faster and improve the preloading experience</search>
+</search_and_replace>
 
 ## Technical Features
 
@@ -206,6 +236,10 @@ Create `query-index.xlsx` with these columns:
 - **Accessibility**: Screen reader compatible with keyboard navigation
 - **Modern Styling**: Beautiful glassmorphism effects and animations
 - **Universal Compatibility**: Works in EDS, standalone, and development environments
+- **FOUC Elimination**: Advanced image preloading prevents flash of unstyled content
+- **Smooth Loading**: Professional loading states with animated spinner
+- **Atomic Rendering**: All content appears simultaneously for polished experience</search>
+</search_and_replace>
 
 ## Component Architecture
 

@@ -3,8 +3,8 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const J = globalThis, gt = J.ShadowRoot && (J.ShadyCSS === void 0 || J.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, ft = Symbol(), At = /* @__PURE__ */ new WeakMap();
-let Ft = class {
+const K = globalThis, gt = K.ShadowRoot && (K.ShadyCSS === void 0 || K.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, ft = Symbol(), At = /* @__PURE__ */ new WeakMap();
+let Ht = class {
   constructor(t, o, r) {
     if (this._$cssResult$ = !0, r !== ft) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
     this.cssText = t, this.t = o;
@@ -22,33 +22,33 @@ let Ft = class {
     return this.cssText;
   }
 };
-const ie = (e) => new Ft(typeof e == "string" ? e : e + "", void 0, ft), z = (e, ...t) => {
+const de = (e) => new Ht(typeof e == "string" ? e : e + "", void 0, ft), z = (e, ...t) => {
   const o = e.length === 1 ? e[0] : t.reduce((r, s, l) => r + ((a) => {
     if (a._$cssResult$ === !0) return a.cssText;
     if (typeof a == "number") return a;
     throw Error("Value passed to 'css' function must be a 'css' function result: " + a + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
   })(s) + e[l + 1], e[0]);
-  return new Ft(o, e, ft);
-}, ne = (e, t) => {
+  return new Ht(o, e, ft);
+}, he = (e, t) => {
   if (gt) e.adoptedStyleSheets = t.map((o) => o instanceof CSSStyleSheet ? o : o.styleSheet);
   else for (const o of t) {
-    const r = document.createElement("style"), s = J.litNonce;
+    const r = document.createElement("style"), s = K.litNonce;
     s !== void 0 && r.setAttribute("nonce", s), r.textContent = o.cssText, e.appendChild(r);
   }
 }, Et = gt ? (e) => e : (e) => e instanceof CSSStyleSheet ? ((t) => {
   let o = "";
   for (const r of t.cssRules) o += r.cssText;
-  return ie(o);
+  return de(o);
 })(e) : e;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const { is: ce, defineProperty: de, getOwnPropertyDescriptor: he, getOwnPropertyNames: ue, getOwnPropertySymbols: pe, getPrototypeOf: me } = Object, $ = globalThis, St = $.trustedTypes, be = St ? St.emptyScript : "", ge = $.reactiveElementPolyfillSupport, R = (e, t) => e, ot = { toAttribute(e, t) {
+const { is: ue, defineProperty: pe, getOwnPropertyDescriptor: me, getOwnPropertyNames: be, getOwnPropertySymbols: ge, getPrototypeOf: fe } = Object, $ = globalThis, St = $.trustedTypes, ve = St ? St.emptyScript : "", ye = $.reactiveElementPolyfillSupport, R = (e, t) => e, ot = { toAttribute(e, t) {
   switch (t) {
     case Boolean:
-      e = e ? be : null;
+      e = e ? ve : null;
       break;
     case Object:
     case Array:
@@ -73,7 +73,7 @@ const { is: ce, defineProperty: de, getOwnPropertyDescriptor: he, getOwnProperty
       }
   }
   return o;
-} }, vt = (e, t) => !ce(e, t), zt = { attribute: !0, type: String, converter: ot, reflect: !1, useDefault: !1, hasChanged: vt };
+} }, vt = (e, t) => !ue(e, t), zt = { attribute: !0, type: String, converter: ot, reflect: !1, useDefault: !1, hasChanged: vt };
 Symbol.metadata ?? (Symbol.metadata = Symbol("metadata")), $.litPropertyMetadata ?? ($.litPropertyMetadata = /* @__PURE__ */ new WeakMap());
 let M = class extends HTMLElement {
   static addInitializer(t) {
@@ -85,18 +85,18 @@ let M = class extends HTMLElement {
   static createProperty(t, o = zt) {
     if (o.state && (o.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(t) && ((o = Object.create(o)).wrapped = !0), this.elementProperties.set(t, o), !o.noAccessor) {
       const r = Symbol(), s = this.getPropertyDescriptor(t, r, o);
-      s !== void 0 && de(this.prototype, t, s);
+      s !== void 0 && pe(this.prototype, t, s);
     }
   }
   static getPropertyDescriptor(t, o, r) {
-    const { get: s, set: l } = he(this.prototype, t) ?? { get() {
+    const { get: s, set: l } = me(this.prototype, t) ?? { get() {
       return this[o];
     }, set(a) {
       this[o] = a;
     } };
     return { get: s, set(a) {
-      const c = s?.call(this);
-      l?.call(this, a), this.requestUpdate(t, c, r);
+      const n = s?.call(this);
+      l?.call(this, a), this.requestUpdate(t, n, r);
     }, configurable: !0, enumerable: !0 };
   }
   static getPropertyOptions(t) {
@@ -104,13 +104,13 @@ let M = class extends HTMLElement {
   }
   static _$Ei() {
     if (this.hasOwnProperty(R("elementProperties"))) return;
-    const t = me(this);
+    const t = fe(this);
     t.finalize(), t.l !== void 0 && (this.l = [...t.l]), this.elementProperties = new Map(t.elementProperties);
   }
   static finalize() {
     if (this.hasOwnProperty(R("finalized"))) return;
     if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(R("properties"))) {
-      const o = this.properties, r = [...ue(o), ...pe(o)];
+      const o = this.properties, r = [...be(o), ...ge(o)];
       for (const s of r) this.createProperty(s, o[s]);
     }
     const t = this[Symbol.metadata];
@@ -156,7 +156,7 @@ let M = class extends HTMLElement {
   }
   createRenderRoot() {
     const t = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
-    return ne(t, this.constructor.elementStyles), t;
+    return he(t, this.constructor.elementStyles), t;
   }
   connectedCallback() {
     this.renderRoot ?? (this.renderRoot = this.createRenderRoot()), this.enableUpdating(!0), this._$EO?.forEach((t) => t.hostConnected?.());
@@ -216,8 +216,8 @@ let M = class extends HTMLElement {
       }
       const r = this.constructor.elementProperties;
       if (r.size > 0) for (const [s, l] of r) {
-        const { wrapped: a } = l, c = this[s];
-        a !== !0 || this._$AL.has(s) || c === void 0 || this.C(s, void 0, l, c);
+        const { wrapped: a } = l, n = this[s];
+        a !== !0 || this._$AL.has(s) || n === void 0 || this.C(s, void 0, l, n);
       }
     }
     let t = !1;
@@ -254,28 +254,28 @@ let M = class extends HTMLElement {
   firstUpdated(t) {
   }
 };
-M.elementStyles = [], M.shadowRootOptions = { mode: "open" }, M[R("elementProperties")] = /* @__PURE__ */ new Map(), M[R("finalized")] = /* @__PURE__ */ new Map(), ge?.({ ReactiveElement: M }), ($.reactiveElementVersions ?? ($.reactiveElementVersions = [])).push("2.1.0");
+M.elementStyles = [], M.shadowRootOptions = { mode: "open" }, M[R("elementProperties")] = /* @__PURE__ */ new Map(), M[R("finalized")] = /* @__PURE__ */ new Map(), ye?.({ ReactiveElement: M }), ($.reactiveElementVersions ?? ($.reactiveElementVersions = [])).push("2.1.0");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const V = globalThis, rt = V.trustedTypes, Mt = rt ? rt.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, Ht = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, jt = "?" + _, fe = `<${jt}>`, E = document, H = () => E.createComment(""), j = (e) => e === null || typeof e != "object" && typeof e != "function", yt = Array.isArray, ve = (e) => yt(e) || typeof e?.[Symbol.iterator] == "function", nt = `[ 	
-\f\r]`, O = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Lt = /-->/g, Pt = />/g, k = RegExp(`>|${nt}(?:([^\\s"'>=/]+)(${nt}*=${nt}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), Tt = /'/g, Ot = /"/g, qt = /^(?:script|style|textarea|title)$/i, ye = (e) => (t, ...o) => ({ _$litType$: e, strings: t, values: o }), W = ye(1), S = Symbol.for("lit-noChange"), g = Symbol.for("lit-nothing"), Nt = /* @__PURE__ */ new WeakMap(), A = E.createTreeWalker(E, 129);
+const V = globalThis, rt = V.trustedTypes, Mt = rt ? rt.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, Ft = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, jt = "?" + _, we = `<${jt}>`, E = document, F = () => E.createComment(""), j = (e) => e === null || typeof e != "object" && typeof e != "function", yt = Array.isArray, xe = (e) => yt(e) || typeof e?.[Symbol.iterator] == "function", nt = `[ 	
+\f\r]`, T = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Pt = /-->/g, Lt = />/g, k = RegExp(`>|${nt}(?:([^\\s"'>=/]+)(${nt}*=${nt}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`, "g"), It = /'/g, Tt = /"/g, qt = /^(?:script|style|textarea|title)$/i, _e = (e) => (t, ...o) => ({ _$litType$: e, strings: t, values: o }), W = _e(1), S = Symbol.for("lit-noChange"), g = Symbol.for("lit-nothing"), Ot = /* @__PURE__ */ new WeakMap(), A = E.createTreeWalker(E, 129);
 function Wt(e, t) {
   if (!yt(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return Mt !== void 0 ? Mt.createHTML(t) : t;
 }
-const we = (e, t) => {
+const $e = (e, t) => {
   const o = e.length - 1, r = [];
-  let s, l = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", a = O;
-  for (let c = 0; c < o; c++) {
-    const i = e[c];
+  let s, l = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", a = T;
+  for (let n = 0; n < o; n++) {
+    const i = e[n];
     let h, u, p = -1, w = 0;
-    for (; w < i.length && (a.lastIndex = w, u = a.exec(i), u !== null); ) w = a.lastIndex, a === O ? u[1] === "!--" ? a = Lt : u[1] !== void 0 ? a = Pt : u[2] !== void 0 ? (qt.test(u[2]) && (s = RegExp("</" + u[2], "g")), a = k) : u[3] !== void 0 && (a = k) : a === k ? u[0] === ">" ? (a = s ?? O, p = -1) : u[1] === void 0 ? p = -2 : (p = a.lastIndex - u[2].length, h = u[1], a = u[3] === void 0 ? k : u[3] === '"' ? Ot : Tt) : a === Ot || a === Tt ? a = k : a === Lt || a === Pt ? a = O : (a = k, s = void 0);
-    const x = a === k && e[c + 1].startsWith("/>") ? " " : "";
-    l += a === O ? i + fe : p >= 0 ? (r.push(h), i.slice(0, p) + Ht + i.slice(p) + _ + x) : i + _ + (p === -2 ? c : x);
+    for (; w < i.length && (a.lastIndex = w, u = a.exec(i), u !== null); ) w = a.lastIndex, a === T ? u[1] === "!--" ? a = Pt : u[1] !== void 0 ? a = Lt : u[2] !== void 0 ? (qt.test(u[2]) && (s = RegExp("</" + u[2], "g")), a = k) : u[3] !== void 0 && (a = k) : a === k ? u[0] === ">" ? (a = s ?? T, p = -1) : u[1] === void 0 ? p = -2 : (p = a.lastIndex - u[2].length, h = u[1], a = u[3] === void 0 ? k : u[3] === '"' ? Tt : It) : a === Tt || a === It ? a = k : a === Pt || a === Lt ? a = T : (a = k, s = void 0);
+    const x = a === k && e[n + 1].startsWith("/>") ? " " : "";
+    l += a === T ? i + we : p >= 0 ? (r.push(h), i.slice(0, p) + Ft + i.slice(p) + _ + x) : i + _ + (p === -2 ? n : x);
   }
   return [Wt(e, l + (e[o] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
 };
@@ -284,23 +284,23 @@ class q {
     let s;
     this.parts = [];
     let l = 0, a = 0;
-    const c = t.length - 1, i = this.parts, [h, u] = we(t, o);
+    const n = t.length - 1, i = this.parts, [h, u] = $e(t, o);
     if (this.el = q.createElement(h, r), A.currentNode = this.el.content, o === 2 || o === 3) {
       const p = this.el.content.firstChild;
       p.replaceWith(...p.childNodes);
     }
-    for (; (s = A.nextNode()) !== null && i.length < c; ) {
+    for (; (s = A.nextNode()) !== null && i.length < n; ) {
       if (s.nodeType === 1) {
-        if (s.hasAttributes()) for (const p of s.getAttributeNames()) if (p.endsWith(Ht)) {
-          const w = u[a++], x = s.getAttribute(p).split(_), X = /([.?@])?(.*)/.exec(w);
-          i.push({ type: 1, index: l, name: X[2], strings: x, ctor: X[1] === "." ? _e : X[1] === "?" ? $e : X[1] === "@" ? ke : lt }), s.removeAttribute(p);
+        if (s.hasAttributes()) for (const p of s.getAttributeNames()) if (p.endsWith(Ft)) {
+          const w = u[a++], x = s.getAttribute(p).split(_), Q = /([.?@])?(.*)/.exec(w);
+          i.push({ type: 1, index: l, name: Q[2], strings: x, ctor: Q[1] === "." ? Ce : Q[1] === "?" ? Ae : Q[1] === "@" ? Ee : lt }), s.removeAttribute(p);
         } else p.startsWith(_) && (i.push({ type: 6, index: l }), s.removeAttribute(p));
         if (qt.test(s.tagName)) {
           const p = s.textContent.split(_), w = p.length - 1;
           if (w > 0) {
             s.textContent = rt ? rt.emptyScript : "";
-            for (let x = 0; x < w; x++) s.append(p[x], H()), A.nextNode(), i.push({ type: 2, index: ++l });
-            s.append(p[w], H());
+            for (let x = 0; x < w; x++) s.append(p[x], F()), A.nextNode(), i.push({ type: 2, index: ++l });
+            s.append(p[w], F());
           }
         }
       } else if (s.nodeType === 8) if (s.data === jt) i.push({ type: 2, index: l });
@@ -316,13 +316,13 @@ class q {
     return r.innerHTML = t, r;
   }
 }
-function P(e, t, o = e, r) {
+function L(e, t, o = e, r) {
   if (t === S) return t;
   let s = r !== void 0 ? o._$Co?.[r] : o._$Cl;
   const l = j(t) ? void 0 : t._$litDirective$;
-  return s?.constructor !== l && (s?._$AO?.(!1), l === void 0 ? s = void 0 : (s = new l(e), s._$AT(e, o, r)), r !== void 0 ? (o._$Co ?? (o._$Co = []))[r] = s : o._$Cl = s), s !== void 0 && (t = P(e, s._$AS(e, t.values), s, r)), t;
+  return s?.constructor !== l && (s?._$AO?.(!1), l === void 0 ? s = void 0 : (s = new l(e), s._$AT(e, o, r)), r !== void 0 ? (o._$Co ?? (o._$Co = []))[r] = s : o._$Cl = s), s !== void 0 && (t = L(e, s._$AS(e, t.values), s, r)), t;
 }
-class xe {
+class ke {
   constructor(t, o) {
     this._$AV = [], this._$AN = void 0, this._$AD = t, this._$AM = o;
   }
@@ -335,11 +335,11 @@ class xe {
   u(t) {
     const { el: { content: o }, parts: r } = this._$AD, s = (t?.creationScope ?? E).importNode(o, !0);
     A.currentNode = s;
-    let l = A.nextNode(), a = 0, c = 0, i = r[0];
+    let l = A.nextNode(), a = 0, n = 0, i = r[0];
     for (; i !== void 0; ) {
       if (a === i.index) {
         let h;
-        i.type === 2 ? h = new G(l, l.nextSibling, this, t) : i.type === 1 ? h = new i.ctor(l, i.name, i.strings, this, t) : i.type === 6 && (h = new Ce(l, this, t)), this._$AV.push(h), i = r[++c];
+        i.type === 2 ? h = new Z(l, l.nextSibling, this, t) : i.type === 1 ? h = new i.ctor(l, i.name, i.strings, this, t) : i.type === 6 && (h = new Se(l, this, t)), this._$AV.push(h), i = r[++n];
       }
       a !== i?.index && (l = A.nextNode(), a++);
     }
@@ -350,7 +350,7 @@ class xe {
     for (const r of this._$AV) r !== void 0 && (r.strings !== void 0 ? (r._$AI(t, r, o), o += r.strings.length - 2) : r._$AI(t[o])), o++;
   }
 }
-class G {
+class Z {
   get _$AU() {
     return this._$AM?._$AU ?? this._$Cv;
   }
@@ -369,7 +369,7 @@ class G {
     return this._$AB;
   }
   _$AI(t, o = this) {
-    t = P(this, t, o), j(t) ? t === g || t == null || t === "" ? (this._$AH !== g && this._$AR(), this._$AH = g) : t !== this._$AH && t !== S && this._(t) : t._$litType$ !== void 0 ? this.$(t) : t.nodeType !== void 0 ? this.T(t) : ve(t) ? this.k(t) : this._(t);
+    t = L(this, t, o), j(t) ? t === g || t == null || t === "" ? (this._$AH !== g && this._$AR(), this._$AH = g) : t !== this._$AH && t !== S && this._(t) : t._$litType$ !== void 0 ? this.$(t) : t.nodeType !== void 0 ? this.T(t) : xe(t) ? this.k(t) : this._(t);
   }
   O(t) {
     return this._$AA.parentNode.insertBefore(t, this._$AB);
@@ -384,19 +384,19 @@ class G {
     const { values: o, _$litType$: r } = t, s = typeof r == "number" ? this._$AC(t) : (r.el === void 0 && (r.el = q.createElement(Wt(r.h, r.h[0]), this.options)), r);
     if (this._$AH?._$AD === s) this._$AH.p(o);
     else {
-      const l = new xe(s, this), a = l.u(this.options);
+      const l = new ke(s, this), a = l.u(this.options);
       l.p(o), this.T(a), this._$AH = l;
     }
   }
   _$AC(t) {
-    let o = Nt.get(t.strings);
-    return o === void 0 && Nt.set(t.strings, o = new q(t)), o;
+    let o = Ot.get(t.strings);
+    return o === void 0 && Ot.set(t.strings, o = new q(t)), o;
   }
   k(t) {
     yt(this._$AH) || (this._$AH = [], this._$AR());
     const o = this._$AH;
     let r, s = 0;
-    for (const l of t) s === o.length ? o.push(r = new G(this.O(H()), this.O(H()), this, this.options)) : r = o[s], r._$AI(l), s++;
+    for (const l of t) s === o.length ? o.push(r = new Z(this.O(F()), this.O(F()), this, this.options)) : r = o[s], r._$AI(l), s++;
     s < o.length && (this._$AR(r && r._$AB.nextSibling, s), o.length = s);
   }
   _$AR(t = this._$AA.nextSibling, o) {
@@ -422,11 +422,11 @@ class lt {
   _$AI(t, o = this, r, s) {
     const l = this.strings;
     let a = !1;
-    if (l === void 0) t = P(this, t, o, 0), a = !j(t) || t !== this._$AH && t !== S, a && (this._$AH = t);
+    if (l === void 0) t = L(this, t, o, 0), a = !j(t) || t !== this._$AH && t !== S, a && (this._$AH = t);
     else {
-      const c = t;
+      const n = t;
       let i, h;
-      for (t = l[0], i = 0; i < l.length - 1; i++) h = P(this, c[r + i], o, i), h === S && (h = this._$AH[i]), a || (a = !j(h) || h !== this._$AH[i]), h === g ? t = g : t !== g && (t += (h ?? "") + l[i + 1]), this._$AH[i] = h;
+      for (t = l[0], i = 0; i < l.length - 1; i++) h = L(this, n[r + i], o, i), h === S && (h = this._$AH[i]), a || (a = !j(h) || h !== this._$AH[i]), h === g ? t = g : t !== g && (t += (h ?? "") + l[i + 1]), this._$AH[i] = h;
     }
     a && !s && this.j(t);
   }
@@ -434,7 +434,7 @@ class lt {
     t === g ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
   }
 }
-class _e extends lt {
+class Ce extends lt {
   constructor() {
     super(...arguments), this.type = 3;
   }
@@ -442,7 +442,7 @@ class _e extends lt {
     this.element[this.name] = t === g ? void 0 : t;
   }
 }
-class $e extends lt {
+class Ae extends lt {
   constructor() {
     super(...arguments), this.type = 4;
   }
@@ -450,12 +450,12 @@ class $e extends lt {
     this.element.toggleAttribute(this.name, !!t && t !== g);
   }
 }
-class ke extends lt {
+class Ee extends lt {
   constructor(t, o, r, s, l) {
     super(t, o, r, s, l), this.type = 5;
   }
   _$AI(t, o = this) {
-    if ((t = P(this, t, o, 0) ?? g) === S) return;
+    if ((t = L(this, t, o, 0) ?? g) === S) return;
     const r = this._$AH, s = t === g && r !== g || t.capture !== r.capture || t.once !== r.once || t.passive !== r.passive, l = t !== g && (r === g || s);
     s && this.element.removeEventListener(this.name, this, r), l && this.element.addEventListener(this.name, this, t), this._$AH = t;
   }
@@ -463,7 +463,7 @@ class ke extends lt {
     typeof this._$AH == "function" ? this._$AH.call(this.options?.host ?? this.element, t) : this._$AH.handleEvent(t);
   }
 }
-class Ce {
+class Se {
   constructor(t, o, r) {
     this.element = t, this.type = 6, this._$AN = void 0, this._$AM = o, this.options = r;
   }
@@ -471,17 +471,17 @@ class Ce {
     return this._$AM._$AU;
   }
   _$AI(t) {
-    P(this, t);
+    L(this, t);
   }
 }
-const Ae = V.litHtmlPolyfillSupport;
-Ae?.(q, G), (V.litHtmlVersions ?? (V.litHtmlVersions = [])).push("3.3.0");
-const Ee = (e, t, o) => {
+const ze = V.litHtmlPolyfillSupport;
+ze?.(q, Z), (V.litHtmlVersions ?? (V.litHtmlVersions = [])).push("3.3.0");
+const Me = (e, t, o) => {
   const r = o?.renderBefore ?? t;
   let s = r._$litPart$;
   if (s === void 0) {
     const l = o?.renderBefore ?? null;
-    r._$litPart$ = s = new G(t.insertBefore(H(), l), l, void 0, o ?? {});
+    r._$litPart$ = s = new Z(t.insertBefore(F(), l), l, void 0, o ?? {});
   }
   return s._$AI(e), s;
 };
@@ -491,7 +491,7 @@ const Ee = (e, t, o) => {
  * SPDX-License-Identifier: BSD-3-Clause
  */
 const D = globalThis;
-let F = class extends M {
+let H = class extends M {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
   }
@@ -502,7 +502,7 @@ let F = class extends M {
   }
   update(t) {
     const o = this.render();
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = Ee(o, this.renderRoot, this.renderOptions);
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = Me(o, this.renderRoot, this.renderOptions);
   }
   connectedCallback() {
     super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -514,11 +514,11 @@ let F = class extends M {
     return S;
   }
 };
-F._$litElement$ = !0, F.finalized = !0, D.litElementHydrateSupport?.({ LitElement: F });
-const Se = D.litElementPolyfillSupport;
-Se?.({ LitElement: F });
+H._$litElement$ = !0, H.finalized = !0, D.litElementHydrateSupport?.({ LitElement: H });
+const Pe = D.litElementPolyfillSupport;
+Pe?.({ LitElement: H });
 (D.litElementVersions ?? (D.litElementVersions = [])).push("4.2.0");
-var ze = z`
+var Le = z`
   :host {
     --border-color: var(--sl-color-neutral-200);
     --border-radius: var(--sl-border-radius-medium);
@@ -583,7 +583,7 @@ var ze = z`
   .card:not(.card--has-footer) .card__footer {
     display: none;
   }
-`, Gt = class {
+`, Zt = class {
   constructor(e, ...t) {
     this.slotNames = [], this.handleSlotChange = (o) => {
       const r = o.target;
@@ -616,7 +616,7 @@ var ze = z`
   hostDisconnected() {
     this.host.shadowRoot.removeEventListener("slotchange", this.handleSlotChange);
   }
-}, T = z`
+}, I = z`
   :host {
     box-sizing: border-box;
   }
@@ -630,48 +630,48 @@ var ze = z`
   [hidden] {
     display: none !important;
   }
-`, Yt = Object.defineProperty, Me = Object.defineProperties, Le = Object.getOwnPropertyDescriptor, Pe = Object.getOwnPropertyDescriptors, Ut = Object.getOwnPropertySymbols, Te = Object.prototype.hasOwnProperty, Oe = Object.prototype.propertyIsEnumerable, Zt = (e) => {
+`, Gt = Object.defineProperty, Ie = Object.defineProperties, Te = Object.getOwnPropertyDescriptor, Oe = Object.getOwnPropertyDescriptors, Bt = Object.getOwnPropertySymbols, Be = Object.prototype.hasOwnProperty, Ne = Object.prototype.propertyIsEnumerable, Yt = (e) => {
   throw TypeError(e);
-}, Bt = (e, t, o) => t in e ? Yt(e, t, { enumerable: !0, configurable: !0, writable: !0, value: o }) : e[t] = o, Y = (e, t) => {
+}, Nt = (e, t, o) => t in e ? Gt(e, t, { enumerable: !0, configurable: !0, writable: !0, value: o }) : e[t] = o, G = (e, t) => {
   for (var o in t || (t = {}))
-    Te.call(t, o) && Bt(e, o, t[o]);
-  if (Ut)
-    for (var o of Ut(t))
-      Oe.call(t, o) && Bt(e, o, t[o]);
+    Be.call(t, o) && Nt(e, o, t[o]);
+  if (Bt)
+    for (var o of Bt(t))
+      Ne.call(t, o) && Nt(e, o, t[o]);
   return e;
-}, Xt = (e, t) => Me(e, Pe(t)), n = (e, t, o, r) => {
-  for (var s = r > 1 ? void 0 : r ? Le(t, o) : t, l = e.length - 1, a; l >= 0; l--)
+}, Qt = (e, t) => Ie(e, Oe(t)), c = (e, t, o, r) => {
+  for (var s = r > 1 ? void 0 : r ? Te(t, o) : t, l = e.length - 1, a; l >= 0; l--)
     (a = e[l]) && (s = (r ? a(t, o, s) : a(s)) || s);
-  return r && s && Yt(t, o, s), s;
-}, Kt = (e, t, o) => t.has(e) || Zt("Cannot " + o), Ne = (e, t, o) => (Kt(e, t, "read from private field"), t.get(e)), Ue = (e, t, o) => t.has(e) ? Zt("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, o), Be = (e, t, o, r) => (Kt(e, t, "write to private field"), t.set(e, o), o);
+  return r && s && Gt(t, o, s), s;
+}, Xt = (e, t, o) => t.has(e) || Yt("Cannot " + o), Ue = (e, t, o) => (Xt(e, t, "read from private field"), t.get(e)), Re = (e, t, o) => t.has(e) ? Yt("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, o), Ve = (e, t, o, r) => (Xt(e, t, "write to private field"), t.set(e, o), o);
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const Ie = { attribute: !0, type: String, converter: ot, reflect: !1, hasChanged: vt }, Re = (e = Ie, t, o) => {
+const De = { attribute: !0, type: String, converter: ot, reflect: !1, hasChanged: vt }, He = (e = De, t, o) => {
   const { kind: r, metadata: s } = o;
   let l = globalThis.litPropertyMetadata.get(s);
   if (l === void 0 && globalThis.litPropertyMetadata.set(s, l = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), l.set(o.name, e), r === "accessor") {
     const { name: a } = o;
-    return { set(c) {
+    return { set(n) {
       const i = t.get.call(this);
-      t.set.call(this, c), this.requestUpdate(a, i, e);
-    }, init(c) {
-      return c !== void 0 && this.C(a, void 0, e, c), c;
+      t.set.call(this, n), this.requestUpdate(a, i, e);
+    }, init(n) {
+      return n !== void 0 && this.C(a, void 0, e, n), n;
     } };
   }
   if (r === "setter") {
     const { name: a } = o;
-    return function(c) {
+    return function(n) {
       const i = this[a];
-      t.call(this, c), this.requestUpdate(a, i, e);
+      t.call(this, n), this.requestUpdate(a, i, e);
     };
   }
   throw Error("Unsupported decorator location: " + r);
 };
 function d(e) {
-  return (t, o) => typeof o == "object" ? Re(e, t, o) : ((r, s, l) => {
+  return (t, o) => typeof o == "object" ? He(e, t, o) : ((r, s, l) => {
     const a = s.hasOwnProperty(l);
     return s.constructor.createProperty(l, r), a ? Object.getOwnPropertyDescriptor(s, l) : void 0;
   })(e, t, o);
@@ -689,28 +689,28 @@ function at(e) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const Ve = (e, t, o) => (o.configurable = !0, o.enumerable = !0, Reflect.decorate && typeof t != "object" && Object.defineProperty(e, t, o), o);
+const Fe = (e, t, o) => (o.configurable = !0, o.enumerable = !0, Reflect.decorate && typeof t != "object" && Object.defineProperty(e, t, o), o);
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-function Qt(e, t) {
+function Jt(e, t) {
   return (o, r, s) => {
     const l = (a) => a.renderRoot?.querySelector(e) ?? null;
-    return Ve(o, r, { get() {
+    return Fe(o, r, { get() {
       return l(this);
     } });
   };
 }
-var tt, v = class extends F {
+var tt, v = class extends H {
   constructor() {
-    super(), Ue(this, tt, !1), this.initialReflectedProperties = /* @__PURE__ */ new Map(), Object.entries(this.constructor.dependencies).forEach(([e, t]) => {
+    super(), Re(this, tt, !1), this.initialReflectedProperties = /* @__PURE__ */ new Map(), Object.entries(this.constructor.dependencies).forEach(([e, t]) => {
       this.constructor.define(e, t);
     });
   }
   emit(e, t) {
-    const o = new CustomEvent(e, Y({
+    const o = new CustomEvent(e, G({
       bubbles: !0,
       cancelable: !1,
       composed: !0,
@@ -736,11 +736,11 @@ var tt, v = class extends F {
     );
   }
   attributeChangedCallback(e, t, o) {
-    Ne(this, tt) || (this.constructor.elementProperties.forEach(
+    Ue(this, tt) || (this.constructor.elementProperties.forEach(
       (r, s) => {
         r.reflect && this[s] != null && this.initialReflectedProperties.set(s, this[s]);
       }
-    ), Be(this, tt, !0)), super.attributeChangedCallback(e, t, o);
+    ), Ve(this, tt, !0)), super.attributeChangedCallback(e, t, o);
   }
   willUpdate(e) {
     super.willUpdate(e), this.initialReflectedProperties.forEach((t, o) => {
@@ -751,10 +751,10 @@ var tt, v = class extends F {
 tt = /* @__PURE__ */ new WeakMap();
 v.version = "2.20.1";
 v.dependencies = {};
-n([
+c([
   d()
 ], v.prototype, "dir", 2);
-n([
+c([
   d()
 ], v.prototype, "lang", 2);
 /**
@@ -762,8 +762,8 @@ n([
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const De = { ATTRIBUTE: 1 }, Fe = (e) => (...t) => ({ _$litDirective$: e, values: t });
-let He = class {
+const je = { ATTRIBUTE: 1 }, qe = (e) => (...t) => ({ _$litDirective$: e, values: t });
+let We = class {
   constructor(t) {
   }
   get _$AU() {
@@ -784,9 +784,9 @@ let He = class {
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const it = Fe(class extends He {
+const it = qe(class extends We {
   constructor(e) {
-    if (super(e), e.type !== De.ATTRIBUTE || e.name !== "class" || e.strings?.length > 2) throw Error("`classMap()` can only be used in the `class` attribute and must be the only part in the attribute.");
+    if (super(e), e.type !== je.ATTRIBUTE || e.name !== "class" || e.strings?.length > 2) throw Error("`classMap()` can only be used in the `class` attribute and must be the only part in the attribute.");
   }
   render(e) {
     return " " + Object.keys(e).filter((t) => e[t]).join(" ") + " ";
@@ -806,9 +806,9 @@ const it = Fe(class extends He {
     return S;
   }
 });
-var Jt = class extends v {
+var Kt = class extends v {
   constructor() {
-    super(...arguments), this.hasSlotController = new Gt(this, "footer", "header", "image");
+    super(...arguments), this.hasSlotController = new Zt(this, "footer", "header", "image");
   }
   render() {
     return W`
@@ -829,9 +829,9 @@ var Jt = class extends v {
     `;
   }
 };
-Jt.styles = [T, ze];
-Jt.define("sl-card");
-var je = z`
+Kt.styles = [I, Le];
+Kt.define("sl-card");
+var Ze = z`
   :host {
     --track-width: 2px;
     --track-color: rgb(128 128 128 / 25%);
@@ -889,7 +889,7 @@ var je = z`
     }
   }
 `;
-const ut = /* @__PURE__ */ new Set(), L = /* @__PURE__ */ new Map();
+const ut = /* @__PURE__ */ new Set(), P = /* @__PURE__ */ new Map();
 let C, wt = "ltr", xt = "en";
 const te = typeof MutationObserver < "u" && typeof document < "u" && typeof document.documentElement < "u";
 if (te) {
@@ -902,7 +902,7 @@ if (te) {
 function ee(...e) {
   e.map((t) => {
     const o = t.$code.toLowerCase();
-    L.has(o) ? L.set(o, Object.assign(Object.assign({}, L.get(o)), t)) : L.set(o, t), C || (C = t);
+    P.has(o) ? P.set(o, Object.assign(Object.assign({}, P.get(o)), t)) : P.set(o, t), C || (C = t);
   }), oe();
 }
 function oe() {
@@ -910,7 +910,7 @@ function oe() {
     typeof e.requestUpdate == "function" && e.requestUpdate();
   });
 }
-let qe = class {
+let Ge = class {
   constructor(t) {
     this.host = t, this.host.addController(this);
   }
@@ -928,8 +928,8 @@ let qe = class {
   }
   getTranslationData(t) {
     var o, r;
-    const s = new Intl.Locale(t.replace(/_/g, "-")), l = s?.language.toLowerCase(), a = (r = (o = s?.region) === null || o === void 0 ? void 0 : o.toLowerCase()) !== null && r !== void 0 ? r : "", c = L.get(`${l}-${a}`), i = L.get(l);
-    return { locale: s, language: l, region: a, primary: c, secondary: i };
+    const s = new Intl.Locale(t.replace(/_/g, "-")), l = s?.language.toLowerCase(), a = (r = (o = s?.region) === null || o === void 0 ? void 0 : o.toLowerCase()) !== null && r !== void 0 ? r : "", n = P.get(`${l}-${a}`), i = P.get(l);
+    return { locale: s, language: l, region: a, primary: n, secondary: i };
   }
   exists(t, o) {
     var r;
@@ -987,9 +987,9 @@ var re = {
   toggleColorFormat: "Toggle color format"
 };
 ee(re);
-var We = re, se = class extends qe {
+var Ye = re, se = class extends Ge {
 };
-ee(We);
+ee(Ye);
 var _t = class extends v {
   constructor() {
     super(...arguments), this.localize = new se(this);
@@ -1003,24 +1003,24 @@ var _t = class extends v {
     `;
   }
 };
-_t.styles = [T, je];
-var N = /* @__PURE__ */ new WeakMap(), U = /* @__PURE__ */ new WeakMap(), B = /* @__PURE__ */ new WeakMap(), ct = /* @__PURE__ */ new WeakSet(), K = /* @__PURE__ */ new WeakMap(), Ge = class {
+_t.styles = [I, Ze];
+var O = /* @__PURE__ */ new WeakMap(), B = /* @__PURE__ */ new WeakMap(), N = /* @__PURE__ */ new WeakMap(), ct = /* @__PURE__ */ new WeakSet(), X = /* @__PURE__ */ new WeakMap(), Qe = class {
   constructor(e, t) {
     this.handleFormData = (o) => {
       const r = this.options.disabled(this.host), s = this.options.name(this.host), l = this.options.value(this.host), a = this.host.tagName.toLowerCase() === "sl-button";
-      this.host.isConnected && !r && !a && typeof s == "string" && s.length > 0 && typeof l < "u" && (Array.isArray(l) ? l.forEach((c) => {
-        o.formData.append(s, c.toString());
+      this.host.isConnected && !r && !a && typeof s == "string" && s.length > 0 && typeof l < "u" && (Array.isArray(l) ? l.forEach((n) => {
+        o.formData.append(s, n.toString());
       }) : o.formData.append(s, l.toString()));
     }, this.handleFormSubmit = (o) => {
       var r;
       const s = this.options.disabled(this.host), l = this.options.reportValidity;
-      this.form && !this.form.noValidate && ((r = N.get(this.form)) == null || r.forEach((a) => {
+      this.form && !this.form.noValidate && ((r = O.get(this.form)) == null || r.forEach((a) => {
         this.setUserInteracted(a, !0);
       })), this.form && !this.form.noValidate && !s && !l(this.host) && (o.preventDefault(), o.stopImmediatePropagation());
     }, this.handleFormReset = () => {
-      this.options.setValue(this.host, this.options.defaultValue(this.host)), this.setUserInteracted(this.host, !1), K.set(this.host, []);
+      this.options.setValue(this.host, this.options.defaultValue(this.host)), this.setUserInteracted(this.host, !1), X.set(this.host, []);
     }, this.handleInteraction = (o) => {
-      const r = K.get(this.host);
+      const r = X.get(this.host);
       r.includes(o.type) || r.push(o.type), r.length === this.options.assumeInteractionOn.length && this.setUserInteracted(this.host, !0);
     }, this.checkFormValidity = () => {
       if (this.form && !this.form.noValidate) {
@@ -1038,7 +1038,7 @@ var N = /* @__PURE__ */ new WeakMap(), U = /* @__PURE__ */ new WeakMap(), B = /*
             return !1;
       }
       return !0;
-    }, (this.host = e).addController(this), this.options = Y({
+    }, (this.host = e).addController(this), this.options = G({
       form: (o) => {
         const r = o.form;
         if (r) {
@@ -1063,12 +1063,12 @@ var N = /* @__PURE__ */ new WeakMap(), U = /* @__PURE__ */ new WeakMap(), B = /*
   }
   hostConnected() {
     const e = this.options.form(this.host);
-    e && this.attachForm(e), K.set(this.host, []), this.options.assumeInteractionOn.forEach((t) => {
+    e && this.attachForm(e), X.set(this.host, []), this.options.assumeInteractionOn.forEach((t) => {
       this.host.addEventListener(t, this.handleInteraction);
     });
   }
   hostDisconnected() {
-    this.detachForm(), K.delete(this.host), this.options.assumeInteractionOn.forEach((e) => {
+    this.detachForm(), X.delete(this.host), this.options.assumeInteractionOn.forEach((e) => {
       this.host.removeEventListener(e, this.handleInteraction);
     });
   }
@@ -1077,12 +1077,12 @@ var N = /* @__PURE__ */ new WeakMap(), U = /* @__PURE__ */ new WeakMap(), B = /*
     e || this.detachForm(), e && this.form !== e && (this.detachForm(), this.attachForm(e)), this.host.hasUpdated && this.setValidity(this.host.validity.valid);
   }
   attachForm(e) {
-    e ? (this.form = e, N.has(this.form) ? N.get(this.form).add(this.host) : N.set(this.form, /* @__PURE__ */ new Set([this.host])), this.form.addEventListener("formdata", this.handleFormData), this.form.addEventListener("submit", this.handleFormSubmit), this.form.addEventListener("reset", this.handleFormReset), U.has(this.form) || (U.set(this.form, this.form.reportValidity), this.form.reportValidity = () => this.reportFormValidity()), B.has(this.form) || (B.set(this.form, this.form.checkValidity), this.form.checkValidity = () => this.checkFormValidity())) : this.form = void 0;
+    e ? (this.form = e, O.has(this.form) ? O.get(this.form).add(this.host) : O.set(this.form, /* @__PURE__ */ new Set([this.host])), this.form.addEventListener("formdata", this.handleFormData), this.form.addEventListener("submit", this.handleFormSubmit), this.form.addEventListener("reset", this.handleFormReset), B.has(this.form) || (B.set(this.form, this.form.reportValidity), this.form.reportValidity = () => this.reportFormValidity()), N.has(this.form) || (N.set(this.form, this.form.checkValidity), this.form.checkValidity = () => this.checkFormValidity())) : this.form = void 0;
   }
   detachForm() {
     if (!this.form) return;
-    const e = N.get(this.form);
-    e && (e.delete(this.host), e.size <= 0 && (this.form.removeEventListener("formdata", this.handleFormData), this.form.removeEventListener("submit", this.handleFormSubmit), this.form.removeEventListener("reset", this.handleFormReset), U.has(this.form) && (this.form.reportValidity = U.get(this.form), U.delete(this.form)), B.has(this.form) && (this.form.checkValidity = B.get(this.form), B.delete(this.form)), this.form = void 0));
+    const e = O.get(this.form);
+    e && (e.delete(this.host), e.size <= 0 && (this.form.removeEventListener("formdata", this.handleFormData), this.form.removeEventListener("submit", this.handleFormSubmit), this.form.removeEventListener("reset", this.handleFormReset), B.has(this.form) && (this.form.reportValidity = B.get(this.form), B.delete(this.form)), N.has(this.form) && (this.form.checkValidity = N.get(this.form), N.delete(this.form)), this.form = void 0));
   }
   setUserInteracted(e, t) {
     t ? ct.add(e) : ct.delete(e), e.requestUpdate();
@@ -1153,15 +1153,15 @@ var N = /* @__PURE__ */ new WeakMap(), U = /* @__PURE__ */ new WeakMap(), B = /*
   valid: !0,
   valueMissing: !1
 });
-Object.freeze(Xt(Y({}, $t), {
+Object.freeze(Qt(G({}, $t), {
   valid: !1,
   valueMissing: !0
 }));
-Object.freeze(Xt(Y({}, $t), {
+Object.freeze(Qt(G({}, $t), {
   valid: !1,
   customError: !0
 }));
-var Ye = z`
+var Xe = z`
   :host {
     display: inline-block;
     position: relative;
@@ -1755,26 +1755,26 @@ var Ye = z`
     z-index: 2;
   }
 `, pt = "";
-function It(e) {
+function Ut(e) {
   pt = e;
 }
-function Ze(e = "") {
+function Je(e = "") {
   if (!pt) {
     const t = [...document.getElementsByTagName("script")], o = t.find((r) => r.hasAttribute("data-shoelace"));
     if (o)
-      It(o.getAttribute("data-shoelace"));
+      Ut(o.getAttribute("data-shoelace"));
     else {
       const r = t.find((l) => /shoelace(\.min)?\.js($|\?)/.test(l.src) || /shoelace-autoloader(\.min)?\.js($|\?)/.test(l.src));
       let s = "";
-      r && (s = r.getAttribute("src")), It(s.split("/").slice(0, -1).join("/"));
+      r && (s = r.getAttribute("src")), Ut(s.split("/").slice(0, -1).join("/"));
     }
   }
   return pt.replace(/\/$/, "") + (e ? `/${e.replace(/^\//, "")}` : "");
 }
-var Xe = {
+var Ke = {
   name: "default",
-  resolver: (e) => Ze(`assets/icons/${e}.svg`)
-}, Ke = Xe, Rt = {
+  resolver: (e) => Je(`assets/icons/${e}.svg`)
+}, to = Ke, Rt = {
   caret: `
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="6 9 12 15 18 9"></polyline>
@@ -1885,20 +1885,20 @@ var Xe = {
       <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"></path>
     </svg>
   `
-}, Qe = {
+}, eo = {
   name: "system",
   resolver: (e) => e in Rt ? `data:image/svg+xml,${encodeURIComponent(Rt[e])}` : ""
-}, Je = Qe, to = [Ke, Je], mt = [];
-function eo(e) {
+}, oo = eo, ro = [to, oo], mt = [];
+function so(e) {
   mt.push(e);
 }
-function oo(e) {
+function lo(e) {
   mt = mt.filter((t) => t !== e);
 }
 function Vt(e) {
-  return to.find((t) => t.name === e);
+  return ro.find((t) => t.name === e);
 }
-var ro = z`
+var ao = z`
   :host {
     display: inline-block;
     width: 1em;
@@ -1913,19 +1913,19 @@ var ro = z`
   }
 `;
 function kt(e, t) {
-  const o = Y({
+  const o = G({
     waitUntilFirstUpdate: !1
   }, t);
   return (r, s) => {
     const { update: l } = r, a = Array.isArray(e) ? e : [e];
-    r.update = function(c) {
+    r.update = function(n) {
       a.forEach((i) => {
         const h = i;
-        if (c.has(h)) {
-          const u = c.get(h), p = this[h];
+        if (n.has(h)) {
+          const u = n.get(h), p = this[h];
           u !== p && (!o.waitUntilFirstUpdate || this.hasUpdated) && this[s](u, p);
         }
-      }), l.call(this, c);
+      }), l.call(this, n);
     };
   };
 }
@@ -1934,8 +1934,8 @@ function kt(e, t) {
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const so = (e, t) => e?._$litType$ !== void 0;
-var I = Symbol(), Q = Symbol(), dt, ht = /* @__PURE__ */ new Map(), y = class extends v {
+const io = (e, t) => e?._$litType$ !== void 0;
+var U = Symbol(), J = Symbol(), dt, ht = /* @__PURE__ */ new Map(), y = class extends v {
   constructor() {
     super(...arguments), this.initialRender = !1, this.svg = null, this.label = "", this.library = "default";
   }
@@ -1948,30 +1948,30 @@ var I = Symbol(), Q = Symbol(), dt, ht = /* @__PURE__ */ new Map(), y = class ex
         <use part="use" href="${e}"></use>
       </svg>`, this.svg;
     try {
-      if (r = await fetch(e, { mode: "cors" }), !r.ok) return r.status === 410 ? I : Q;
+      if (r = await fetch(e, { mode: "cors" }), !r.ok) return r.status === 410 ? U : J;
     } catch {
-      return Q;
+      return J;
     }
     try {
       const s = document.createElement("div");
       s.innerHTML = await r.text();
       const l = s.firstElementChild;
-      if (((o = l?.tagName) == null ? void 0 : o.toLowerCase()) !== "svg") return I;
+      if (((o = l?.tagName) == null ? void 0 : o.toLowerCase()) !== "svg") return U;
       dt || (dt = new DOMParser());
-      const c = dt.parseFromString(l.outerHTML, "text/html").body.querySelector("svg");
-      return c ? (c.part.add("svg"), document.adoptNode(c)) : I;
+      const n = dt.parseFromString(l.outerHTML, "text/html").body.querySelector("svg");
+      return n ? (n.part.add("svg"), document.adoptNode(n)) : U;
     } catch {
-      return I;
+      return U;
     }
   }
   connectedCallback() {
-    super.connectedCallback(), eo(this);
+    super.connectedCallback(), so(this);
   }
   firstUpdated() {
     this.initialRender = !0, this.setIcon();
   }
   disconnectedCallback() {
-    super.disconnectedCallback(), oo(this);
+    super.disconnectedCallback(), lo(this);
   }
   getIconSource() {
     const e = Vt(this.library);
@@ -1997,8 +1997,8 @@ var I = Symbol(), Q = Symbol(), dt, ht = /* @__PURE__ */ new Map(), y = class ex
     if (s || (s = this.resolveIcon(t, r), ht.set(t, s)), !this.initialRender)
       return;
     const l = await s;
-    if (l === Q && ht.delete(t), t === this.getIconSource().url) {
-      if (so(l)) {
+    if (l === J && ht.delete(t), t === this.getIconSource().url) {
+      if (io(l)) {
         if (this.svg = l, r) {
           await this.updateComplete;
           const a = this.shadowRoot.querySelector("[part='svg']");
@@ -2007,8 +2007,8 @@ var I = Symbol(), Q = Symbol(), dt, ht = /* @__PURE__ */ new Map(), y = class ex
         return;
       }
       switch (l) {
-        case Q:
-        case I:
+        case J:
+        case U:
           this.svg = null, this.emit("sl-error");
           break;
         default:
@@ -2020,26 +2020,26 @@ var I = Symbol(), Q = Symbol(), dt, ht = /* @__PURE__ */ new Map(), y = class ex
     return this.svg;
   }
 };
-y.styles = [T, ro];
-n([
+y.styles = [I, ao];
+c([
   at()
 ], y.prototype, "svg", 2);
-n([
+c([
   d({ reflect: !0 })
 ], y.prototype, "name", 2);
-n([
+c([
   d()
 ], y.prototype, "src", 2);
-n([
+c([
   d()
 ], y.prototype, "label", 2);
-n([
+c([
   d({ reflect: !0 })
 ], y.prototype, "library", 2);
-n([
+c([
   kt("label")
 ], y.prototype, "handleLabelChange", 1);
-n([
+c([
   kt(["name", "src", "library"])
 ], y.prototype, "setIcon", 1);
 /**
@@ -2047,27 +2047,27 @@ n([
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const le = Symbol.for(""), lo = (e) => {
+const le = Symbol.for(""), no = (e) => {
   if (e?.r === le) return e?._$litStatic$;
 }, st = (e, ...t) => ({ _$litStatic$: t.reduce((o, r, s) => o + ((l) => {
   if (l._$litStatic$ !== void 0) return l._$litStatic$;
   throw Error(`Value passed to 'literal' function must be a 'literal' result: ${l}. Use 'unsafeStatic' to pass non-literal values, but
             take care to ensure page security.`);
-})(r) + e[s + 1], e[0]), r: le }), Dt = /* @__PURE__ */ new Map(), ao = (e) => (t, ...o) => {
+})(r) + e[s + 1], e[0]), r: le }), Dt = /* @__PURE__ */ new Map(), co = (e) => (t, ...o) => {
   const r = o.length;
   let s, l;
-  const a = [], c = [];
+  const a = [], n = [];
   let i, h = 0, u = !1;
   for (; h < r; ) {
-    for (i = t[h]; h < r && (l = o[h], (s = lo(l)) !== void 0); ) i += s + t[++h], u = !0;
-    h !== r && c.push(l), a.push(i), h++;
+    for (i = t[h]; h < r && (l = o[h], (s = no(l)) !== void 0); ) i += s + t[++h], u = !0;
+    h !== r && n.push(l), a.push(i), h++;
   }
   if (h === r && a.push(t[r]), u) {
     const p = a.join("$$lit$$");
-    (t = Dt.get(p)) === void 0 && (a.raw = a, Dt.set(p, t = a)), o = c;
+    (t = Dt.get(p)) === void 0 && (a.raw = a, Dt.set(p, t = a)), o = n;
   }
   return e(t, ...o);
-}, et = ao(W);
+}, et = co(W);
 /**
  * @license
  * Copyright 2018 Google LLC
@@ -2076,9 +2076,9 @@ const le = Symbol.for(""), lo = (e) => {
 const b = (e) => e ?? g;
 var m = class extends v {
   constructor() {
-    super(...arguments), this.formControlController = new Ge(this, {
+    super(...arguments), this.formControlController = new Qe(this, {
       assumeInteractionOn: ["click"]
-    }), this.hasSlotController = new Gt(this, "[default]", "prefix", "suffix"), this.localize = new se(this), this.hasFocus = !1, this.invalid = !1, this.title = "", this.variant = "default", this.size = "medium", this.caret = !1, this.disabled = !1, this.loading = !1, this.outline = !1, this.pill = !1, this.circle = !1, this.type = "button", this.name = "", this.value = "", this.href = "", this.rel = "noreferrer noopener";
+    }), this.hasSlotController = new Zt(this, "[default]", "prefix", "suffix"), this.localize = new se(this), this.hasFocus = !1, this.invalid = !1, this.title = "", this.variant = "default", this.size = "medium", this.caret = !1, this.disabled = !1, this.loading = !1, this.outline = !1, this.pill = !1, this.circle = !1, this.type = "button", this.name = "", this.value = "", this.href = "", this.rel = "noreferrer noopener";
   }
   /** Gets the validity state object */
   get validity() {
@@ -2196,91 +2196,91 @@ var m = class extends v {
     `;
   }
 };
-m.styles = [T, Ye];
+m.styles = [I, Xe];
 m.dependencies = {
   "sl-icon": y,
   "sl-spinner": _t
 };
-n([
-  Qt(".button")
+c([
+  Jt(".button")
 ], m.prototype, "button", 2);
-n([
+c([
   at()
 ], m.prototype, "hasFocus", 2);
-n([
+c([
   at()
 ], m.prototype, "invalid", 2);
-n([
+c([
   d()
 ], m.prototype, "title", 2);
-n([
+c([
   d({ reflect: !0 })
 ], m.prototype, "variant", 2);
-n([
+c([
   d({ reflect: !0 })
 ], m.prototype, "size", 2);
-n([
+c([
   d({ type: Boolean, reflect: !0 })
 ], m.prototype, "caret", 2);
-n([
+c([
   d({ type: Boolean, reflect: !0 })
 ], m.prototype, "disabled", 2);
-n([
+c([
   d({ type: Boolean, reflect: !0 })
 ], m.prototype, "loading", 2);
-n([
+c([
   d({ type: Boolean, reflect: !0 })
 ], m.prototype, "outline", 2);
-n([
+c([
   d({ type: Boolean, reflect: !0 })
 ], m.prototype, "pill", 2);
-n([
+c([
   d({ type: Boolean, reflect: !0 })
 ], m.prototype, "circle", 2);
-n([
+c([
   d()
 ], m.prototype, "type", 2);
-n([
+c([
   d()
 ], m.prototype, "name", 2);
-n([
+c([
   d()
 ], m.prototype, "value", 2);
-n([
+c([
   d()
 ], m.prototype, "href", 2);
-n([
+c([
   d()
 ], m.prototype, "target", 2);
-n([
+c([
   d()
 ], m.prototype, "rel", 2);
-n([
+c([
   d()
 ], m.prototype, "download", 2);
-n([
+c([
   d()
 ], m.prototype, "form", 2);
-n([
+c([
   d({ attribute: "formaction" })
 ], m.prototype, "formAction", 2);
-n([
+c([
   d({ attribute: "formenctype" })
 ], m.prototype, "formEnctype", 2);
-n([
+c([
   d({ attribute: "formmethod" })
 ], m.prototype, "formMethod", 2);
-n([
+c([
   d({ attribute: "formnovalidate", type: Boolean })
 ], m.prototype, "formNoValidate", 2);
-n([
+c([
   d({ attribute: "formtarget" })
 ], m.prototype, "formTarget", 2);
-n([
+c([
   kt("disabled", { waitUntilFirstUpdate: !0 })
 ], m.prototype, "handleDisabledChange", 1);
 m.define("sl-button");
-var io = z`
+var ho = z`
   :host {
     display: inline-flex;
   }
@@ -2369,7 +2369,7 @@ var io = z`
       box-shadow: 0 0 0 0 transparent;
     }
   }
-`, Z = class extends v {
+`, Y = class extends v {
   constructor() {
     super(...arguments), this.variant = "primary", this.pill = !1, this.pulse = !1;
   }
@@ -2394,18 +2394,18 @@ var io = z`
     `;
   }
 };
-Z.styles = [T, io];
-n([
+Y.styles = [I, ho];
+c([
   d({ reflect: !0 })
-], Z.prototype, "variant", 2);
-n([
+], Y.prototype, "variant", 2);
+c([
   d({ type: Boolean, reflect: !0 })
-], Z.prototype, "pill", 2);
-n([
+], Y.prototype, "pill", 2);
+c([
   d({ type: Boolean, reflect: !0 })
-], Z.prototype, "pulse", 2);
-Z.define("sl-badge");
-var no = z`
+], Y.prototype, "pulse", 2);
+Y.define("sl-badge");
+var uo = z`
   :host {
     display: inline-block;
     color: var(--sl-color-neutral-600);
@@ -2512,41 +2512,41 @@ var no = z`
     `;
   }
 };
-f.styles = [T, no];
+f.styles = [I, uo];
 f.dependencies = { "sl-icon": y };
-n([
-  Qt(".icon-button")
+c([
+  Jt(".icon-button")
 ], f.prototype, "button", 2);
-n([
+c([
   at()
 ], f.prototype, "hasFocus", 2);
-n([
+c([
   d()
 ], f.prototype, "name", 2);
-n([
+c([
   d()
 ], f.prototype, "library", 2);
-n([
+c([
   d()
 ], f.prototype, "src", 2);
-n([
+c([
   d()
 ], f.prototype, "href", 2);
-n([
+c([
   d()
 ], f.prototype, "target", 2);
-n([
+c([
   d()
 ], f.prototype, "download", 2);
-n([
+c([
   d()
 ], f.prototype, "label", 2);
-n([
+c([
   d({ type: Boolean, reflect: !0 })
 ], f.prototype, "disabled", 2);
 f.define("sl-icon-button");
 _t.define("sl-spinner");
-const co = ':root,:host,.sl-theme-light{color-scheme:light;--sl-color-gray-50: hsl(0 0% 97.5%);--sl-color-gray-100: hsl(240 4.8% 95.9%);--sl-color-gray-200: hsl(240 5.9% 90%);--sl-color-gray-300: hsl(240 4.9% 83.9%);--sl-color-gray-400: hsl(240 5% 64.9%);--sl-color-gray-500: hsl(240 3.8% 46.1%);--sl-color-gray-600: hsl(240 5.2% 33.9%);--sl-color-gray-700: hsl(240 5.3% 26.1%);--sl-color-gray-800: hsl(240 3.7% 15.9%);--sl-color-gray-900: hsl(240 5.9% 10%);--sl-color-gray-950: hsl(240 7.3% 8%);--sl-color-red-50: hsl(0 85.7% 97.3%);--sl-color-red-100: hsl(0 93.3% 94.1%);--sl-color-red-200: hsl(0 96.3% 89.4%);--sl-color-red-300: hsl(0 93.5% 81.8%);--sl-color-red-400: hsl(0 90.6% 70.8%);--sl-color-red-500: hsl(0 84.2% 60.2%);--sl-color-red-600: hsl(0 72.2% 50.6%);--sl-color-red-700: hsl(0 73.7% 41.8%);--sl-color-red-800: hsl(0 70% 35.3%);--sl-color-red-900: hsl(0 62.8% 30.6%);--sl-color-red-950: hsl(0 60% 19.6%);--sl-color-orange-50: hsl(33.3 100% 96.5%);--sl-color-orange-100: hsl(34.3 100% 91.8%);--sl-color-orange-200: hsl(32.1 97.7% 83.1%);--sl-color-orange-300: hsl(30.7 97.2% 72.4%);--sl-color-orange-400: hsl(27 96% 61%);--sl-color-orange-500: hsl(24.6 95% 53.1%);--sl-color-orange-600: hsl(20.5 90.2% 48.2%);--sl-color-orange-700: hsl(17.5 88.3% 40.4%);--sl-color-orange-800: hsl(15 79.1% 33.7%);--sl-color-orange-900: hsl(15.3 74.6% 27.8%);--sl-color-orange-950: hsl(15.2 69.1% 19%);--sl-color-amber-50: hsl(48 100% 96.1%);--sl-color-amber-100: hsl(48 96.5% 88.8%);--sl-color-amber-200: hsl(48 96.6% 76.7%);--sl-color-amber-300: hsl(45.9 96.7% 64.5%);--sl-color-amber-400: hsl(43.3 96.4% 56.3%);--sl-color-amber-500: hsl(37.7 92.1% 50.2%);--sl-color-amber-600: hsl(32.1 94.6% 43.7%);--sl-color-amber-700: hsl(26 90.5% 37.1%);--sl-color-amber-800: hsl(22.7 82.5% 31.4%);--sl-color-amber-900: hsl(21.7 77.8% 26.5%);--sl-color-amber-950: hsl(22.9 74.1% 16.7%);--sl-color-yellow-50: hsl(54.5 91.7% 95.3%);--sl-color-yellow-100: hsl(54.9 96.7% 88%);--sl-color-yellow-200: hsl(52.8 98.3% 76.9%);--sl-color-yellow-300: hsl(50.4 97.8% 63.5%);--sl-color-yellow-400: hsl(47.9 95.8% 53.1%);--sl-color-yellow-500: hsl(45.4 93.4% 47.5%);--sl-color-yellow-600: hsl(40.6 96.1% 40.4%);--sl-color-yellow-700: hsl(35.5 91.7% 32.9%);--sl-color-yellow-800: hsl(31.8 81% 28.8%);--sl-color-yellow-900: hsl(28.4 72.5% 25.7%);--sl-color-yellow-950: hsl(33.1 69% 13.9%);--sl-color-lime-50: hsl(78.3 92% 95.1%);--sl-color-lime-100: hsl(79.6 89.1% 89.2%);--sl-color-lime-200: hsl(80.9 88.5% 79.6%);--sl-color-lime-300: hsl(82 84.5% 67.1%);--sl-color-lime-400: hsl(82.7 78% 55.5%);--sl-color-lime-500: hsl(83.7 80.5% 44.3%);--sl-color-lime-600: hsl(84.8 85.2% 34.5%);--sl-color-lime-700: hsl(85.9 78.4% 27.3%);--sl-color-lime-800: hsl(86.3 69% 22.7%);--sl-color-lime-900: hsl(87.6 61.2% 20.2%);--sl-color-lime-950: hsl(86.5 60.6% 13.9%);--sl-color-green-50: hsl(138.5 76.5% 96.7%);--sl-color-green-100: hsl(140.6 84.2% 92.5%);--sl-color-green-200: hsl(141 78.9% 85.1%);--sl-color-green-300: hsl(141.7 76.6% 73.1%);--sl-color-green-400: hsl(141.9 69.2% 58%);--sl-color-green-500: hsl(142.1 70.6% 45.3%);--sl-color-green-600: hsl(142.1 76.2% 36.3%);--sl-color-green-700: hsl(142.4 71.8% 29.2%);--sl-color-green-800: hsl(142.8 64.2% 24.1%);--sl-color-green-900: hsl(143.8 61.2% 20.2%);--sl-color-green-950: hsl(144.3 60.7% 12%);--sl-color-emerald-50: hsl(151.8 81% 95.9%);--sl-color-emerald-100: hsl(149.3 80.4% 90%);--sl-color-emerald-200: hsl(152.4 76% 80.4%);--sl-color-emerald-300: hsl(156.2 71.6% 66.9%);--sl-color-emerald-400: hsl(158.1 64.4% 51.6%);--sl-color-emerald-500: hsl(160.1 84.1% 39.4%);--sl-color-emerald-600: hsl(161.4 93.5% 30.4%);--sl-color-emerald-700: hsl(162.9 93.5% 24.3%);--sl-color-emerald-800: hsl(163.1 88.1% 19.8%);--sl-color-emerald-900: hsl(164.2 85.7% 16.5%);--sl-color-emerald-950: hsl(164.3 87.5% 9.4%);--sl-color-teal-50: hsl(166.2 76.5% 96.7%);--sl-color-teal-100: hsl(167.2 85.5% 89.2%);--sl-color-teal-200: hsl(168.4 83.8% 78.2%);--sl-color-teal-300: hsl(170.6 76.9% 64.3%);--sl-color-teal-400: hsl(172.5 66% 50.4%);--sl-color-teal-500: hsl(173.4 80.4% 40%);--sl-color-teal-600: hsl(174.7 83.9% 31.6%);--sl-color-teal-700: hsl(175.3 77.4% 26.1%);--sl-color-teal-800: hsl(176.1 69.4% 21.8%);--sl-color-teal-900: hsl(175.9 60.8% 19%);--sl-color-teal-950: hsl(176.5 58.6% 11.4%);--sl-color-cyan-50: hsl(183.2 100% 96.3%);--sl-color-cyan-100: hsl(185.1 95.9% 90.4%);--sl-color-cyan-200: hsl(186.2 93.5% 81.8%);--sl-color-cyan-300: hsl(187 92.4% 69%);--sl-color-cyan-400: hsl(187.9 85.7% 53.3%);--sl-color-cyan-500: hsl(188.7 94.5% 42.7%);--sl-color-cyan-600: hsl(191.6 91.4% 36.5%);--sl-color-cyan-700: hsl(192.9 82.3% 31%);--sl-color-cyan-800: hsl(194.4 69.6% 27.1%);--sl-color-cyan-900: hsl(196.4 63.6% 23.7%);--sl-color-cyan-950: hsl(196.8 61% 16.1%);--sl-color-sky-50: hsl(204 100% 97.1%);--sl-color-sky-100: hsl(204 93.8% 93.7%);--sl-color-sky-200: hsl(200.6 94.4% 86.1%);--sl-color-sky-300: hsl(199.4 95.5% 73.9%);--sl-color-sky-400: hsl(198.4 93.2% 59.6%);--sl-color-sky-500: hsl(198.6 88.7% 48.4%);--sl-color-sky-600: hsl(200.4 98% 39.4%);--sl-color-sky-700: hsl(201.3 96.3% 32.2%);--sl-color-sky-800: hsl(201 90% 27.5%);--sl-color-sky-900: hsl(202 80.3% 23.9%);--sl-color-sky-950: hsl(202.3 73.8% 16.5%);--sl-color-blue-50: hsl(213.8 100% 96.9%);--sl-color-blue-100: hsl(214.3 94.6% 92.7%);--sl-color-blue-200: hsl(213.3 96.9% 87.3%);--sl-color-blue-300: hsl(211.7 96.4% 78.4%);--sl-color-blue-400: hsl(213.1 93.9% 67.8%);--sl-color-blue-500: hsl(217.2 91.2% 59.8%);--sl-color-blue-600: hsl(221.2 83.2% 53.3%);--sl-color-blue-700: hsl(224.3 76.3% 48%);--sl-color-blue-800: hsl(225.9 70.7% 40.2%);--sl-color-blue-900: hsl(224.4 64.3% 32.9%);--sl-color-blue-950: hsl(226.2 55.3% 18.4%);--sl-color-indigo-50: hsl(225.9 100% 96.7%);--sl-color-indigo-100: hsl(226.5 100% 93.9%);--sl-color-indigo-200: hsl(228 96.5% 88.8%);--sl-color-indigo-300: hsl(229.7 93.5% 81.8%);--sl-color-indigo-400: hsl(234.5 89.5% 73.9%);--sl-color-indigo-500: hsl(238.7 83.5% 66.7%);--sl-color-indigo-600: hsl(243.4 75.4% 58.6%);--sl-color-indigo-700: hsl(244.5 57.9% 50.6%);--sl-color-indigo-800: hsl(243.7 54.5% 41.4%);--sl-color-indigo-900: hsl(242.2 47.4% 34.3%);--sl-color-indigo-950: hsl(243.5 43.6% 22.9%);--sl-color-violet-50: hsl(250 100% 97.6%);--sl-color-violet-100: hsl(251.4 91.3% 95.5%);--sl-color-violet-200: hsl(250.5 95.2% 91.8%);--sl-color-violet-300: hsl(252.5 94.7% 85.1%);--sl-color-violet-400: hsl(255.1 91.7% 76.3%);--sl-color-violet-500: hsl(258.3 89.5% 66.3%);--sl-color-violet-600: hsl(262.1 83.3% 57.8%);--sl-color-violet-700: hsl(263.4 70% 50.4%);--sl-color-violet-800: hsl(263.4 69.3% 42.2%);--sl-color-violet-900: hsl(263.5 67.4% 34.9%);--sl-color-violet-950: hsl(265.1 61.5% 21.4%);--sl-color-purple-50: hsl(270 100% 98%);--sl-color-purple-100: hsl(268.7 100% 95.5%);--sl-color-purple-200: hsl(268.6 100% 91.8%);--sl-color-purple-300: hsl(269.2 97.4% 85.1%);--sl-color-purple-400: hsl(270 95.2% 75.3%);--sl-color-purple-500: hsl(270.7 91% 65.1%);--sl-color-purple-600: hsl(271.5 81.3% 55.9%);--sl-color-purple-700: hsl(272.1 71.7% 47.1%);--sl-color-purple-800: hsl(272.9 67.2% 39.4%);--sl-color-purple-900: hsl(273.6 65.6% 32%);--sl-color-purple-950: hsl(276 59.5% 16.5%);--sl-color-fuchsia-50: hsl(289.1 100% 97.8%);--sl-color-fuchsia-100: hsl(287 100% 95.5%);--sl-color-fuchsia-200: hsl(288.3 95.8% 90.6%);--sl-color-fuchsia-300: hsl(291.1 93.1% 82.9%);--sl-color-fuchsia-400: hsl(292 91.4% 72.5%);--sl-color-fuchsia-500: hsl(292.2 84.1% 60.6%);--sl-color-fuchsia-600: hsl(293.4 69.5% 48.8%);--sl-color-fuchsia-700: hsl(294.7 72.4% 39.8%);--sl-color-fuchsia-800: hsl(295.4 70.2% 32.9%);--sl-color-fuchsia-900: hsl(296.7 63.6% 28%);--sl-color-fuchsia-950: hsl(297.1 56.8% 14.5%);--sl-color-pink-50: hsl(327.3 73.3% 97.1%);--sl-color-pink-100: hsl(325.7 77.8% 94.7%);--sl-color-pink-200: hsl(325.9 84.6% 89.8%);--sl-color-pink-300: hsl(327.4 87.1% 81.8%);--sl-color-pink-400: hsl(328.6 85.5% 70.2%);--sl-color-pink-500: hsl(330.4 81.2% 60.4%);--sl-color-pink-600: hsl(333.3 71.4% 50.6%);--sl-color-pink-700: hsl(335.1 77.6% 42%);--sl-color-pink-800: hsl(335.8 74.4% 35.3%);--sl-color-pink-900: hsl(335.9 69% 30.4%);--sl-color-pink-950: hsl(336.2 65.4% 15.9%);--sl-color-rose-50: hsl(355.7 100% 97.3%);--sl-color-rose-100: hsl(355.6 100% 94.7%);--sl-color-rose-200: hsl(352.7 96.1% 90%);--sl-color-rose-300: hsl(352.6 95.7% 81.8%);--sl-color-rose-400: hsl(351.3 94.5% 71.4%);--sl-color-rose-500: hsl(349.7 89.2% 60.2%);--sl-color-rose-600: hsl(346.8 77.2% 49.8%);--sl-color-rose-700: hsl(345.3 82.7% 40.8%);--sl-color-rose-800: hsl(343.4 79.7% 34.7%);--sl-color-rose-900: hsl(341.5 75.5% 30.4%);--sl-color-rose-950: hsl(341.3 70.1% 17.1%);--sl-color-primary-50: var(--sl-color-sky-50);--sl-color-primary-100: var(--sl-color-sky-100);--sl-color-primary-200: var(--sl-color-sky-200);--sl-color-primary-300: var(--sl-color-sky-300);--sl-color-primary-400: var(--sl-color-sky-400);--sl-color-primary-500: var(--sl-color-sky-500);--sl-color-primary-600: var(--sl-color-sky-600);--sl-color-primary-700: var(--sl-color-sky-700);--sl-color-primary-800: var(--sl-color-sky-800);--sl-color-primary-900: var(--sl-color-sky-900);--sl-color-primary-950: var(--sl-color-sky-950);--sl-color-success-50: var(--sl-color-green-50);--sl-color-success-100: var(--sl-color-green-100);--sl-color-success-200: var(--sl-color-green-200);--sl-color-success-300: var(--sl-color-green-300);--sl-color-success-400: var(--sl-color-green-400);--sl-color-success-500: var(--sl-color-green-500);--sl-color-success-600: var(--sl-color-green-600);--sl-color-success-700: var(--sl-color-green-700);--sl-color-success-800: var(--sl-color-green-800);--sl-color-success-900: var(--sl-color-green-900);--sl-color-success-950: var(--sl-color-green-950);--sl-color-warning-50: var(--sl-color-amber-50);--sl-color-warning-100: var(--sl-color-amber-100);--sl-color-warning-200: var(--sl-color-amber-200);--sl-color-warning-300: var(--sl-color-amber-300);--sl-color-warning-400: var(--sl-color-amber-400);--sl-color-warning-500: var(--sl-color-amber-500);--sl-color-warning-600: var(--sl-color-amber-600);--sl-color-warning-700: var(--sl-color-amber-700);--sl-color-warning-800: var(--sl-color-amber-800);--sl-color-warning-900: var(--sl-color-amber-900);--sl-color-warning-950: var(--sl-color-amber-950);--sl-color-danger-50: var(--sl-color-red-50);--sl-color-danger-100: var(--sl-color-red-100);--sl-color-danger-200: var(--sl-color-red-200);--sl-color-danger-300: var(--sl-color-red-300);--sl-color-danger-400: var(--sl-color-red-400);--sl-color-danger-500: var(--sl-color-red-500);--sl-color-danger-600: var(--sl-color-red-600);--sl-color-danger-700: var(--sl-color-red-700);--sl-color-danger-800: var(--sl-color-red-800);--sl-color-danger-900: var(--sl-color-red-900);--sl-color-danger-950: var(--sl-color-red-950);--sl-color-neutral-50: var(--sl-color-gray-50);--sl-color-neutral-100: var(--sl-color-gray-100);--sl-color-neutral-200: var(--sl-color-gray-200);--sl-color-neutral-300: var(--sl-color-gray-300);--sl-color-neutral-400: var(--sl-color-gray-400);--sl-color-neutral-500: var(--sl-color-gray-500);--sl-color-neutral-600: var(--sl-color-gray-600);--sl-color-neutral-700: var(--sl-color-gray-700);--sl-color-neutral-800: var(--sl-color-gray-800);--sl-color-neutral-900: var(--sl-color-gray-900);--sl-color-neutral-950: var(--sl-color-gray-950);--sl-color-neutral-0: hsl(0, 0%, 100%);--sl-color-neutral-1000: hsl(0, 0%, 0%);--sl-border-radius-small: .1875rem;--sl-border-radius-medium: .25rem;--sl-border-radius-large: .5rem;--sl-border-radius-x-large: 1rem;--sl-border-radius-circle: 50%;--sl-border-radius-pill: 9999px;--sl-shadow-x-small: 0 1px 2px hsl(240 3.8% 46.1% / 6%);--sl-shadow-small: 0 1px 2px hsl(240 3.8% 46.1% / 12%);--sl-shadow-medium: 0 2px 4px hsl(240 3.8% 46.1% / 12%);--sl-shadow-large: 0 2px 8px hsl(240 3.8% 46.1% / 12%);--sl-shadow-x-large: 0 4px 16px hsl(240 3.8% 46.1% / 12%);--sl-spacing-3x-small: .125rem;--sl-spacing-2x-small: .25rem;--sl-spacing-x-small: .5rem;--sl-spacing-small: .75rem;--sl-spacing-medium: 1rem;--sl-spacing-large: 1.25rem;--sl-spacing-x-large: 1.75rem;--sl-spacing-2x-large: 2.25rem;--sl-spacing-3x-large: 3rem;--sl-spacing-4x-large: 4.5rem;--sl-transition-x-slow: 1s;--sl-transition-slow: .5s;--sl-transition-medium: .25s;--sl-transition-fast: .15s;--sl-transition-x-fast: 50ms;--sl-font-mono: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;--sl-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--sl-font-serif: Georgia, "Times New Roman", serif;--sl-font-size-2x-small: .625rem;--sl-font-size-x-small: .75rem;--sl-font-size-small: .875rem;--sl-font-size-medium: 1rem;--sl-font-size-large: 1.25rem;--sl-font-size-x-large: 1.5rem;--sl-font-size-2x-large: 2.25rem;--sl-font-size-3x-large: 3rem;--sl-font-size-4x-large: 4.5rem;--sl-font-weight-light: 300;--sl-font-weight-normal: 400;--sl-font-weight-semibold: 500;--sl-font-weight-bold: 700;--sl-letter-spacing-denser: -.03em;--sl-letter-spacing-dense: -.015em;--sl-letter-spacing-normal: normal;--sl-letter-spacing-loose: .075em;--sl-letter-spacing-looser: .15em;--sl-line-height-denser: 1;--sl-line-height-dense: 1.4;--sl-line-height-normal: 1.8;--sl-line-height-loose: 2.2;--sl-line-height-looser: 2.6;--sl-focus-ring-color: var(--sl-color-primary-600);--sl-focus-ring-style: solid;--sl-focus-ring-width: 3px;--sl-focus-ring: var(--sl-focus-ring-style) var(--sl-focus-ring-width) var(--sl-focus-ring-color);--sl-focus-ring-offset: 1px;--sl-button-font-size-small: var(--sl-font-size-x-small);--sl-button-font-size-medium: var(--sl-font-size-small);--sl-button-font-size-large: var(--sl-font-size-medium);--sl-input-height-small: 1.875rem;--sl-input-height-medium: 2.5rem;--sl-input-height-large: 3.125rem;--sl-input-background-color: var(--sl-color-neutral-0);--sl-input-background-color-hover: var(--sl-input-background-color);--sl-input-background-color-focus: var(--sl-input-background-color);--sl-input-background-color-disabled: var(--sl-color-neutral-100);--sl-input-border-color: var(--sl-color-neutral-300);--sl-input-border-color-hover: var(--sl-color-neutral-400);--sl-input-border-color-focus: var(--sl-color-primary-500);--sl-input-border-color-disabled: var(--sl-color-neutral-300);--sl-input-border-width: 1px;--sl-input-required-content: "*";--sl-input-required-content-offset: -2px;--sl-input-required-content-color: var(--sl-input-label-color);--sl-input-border-radius-small: var(--sl-border-radius-medium);--sl-input-border-radius-medium: var(--sl-border-radius-medium);--sl-input-border-radius-large: var(--sl-border-radius-medium);--sl-input-font-family: var(--sl-font-sans);--sl-input-font-weight: var(--sl-font-weight-normal);--sl-input-font-size-small: var(--sl-font-size-small);--sl-input-font-size-medium: var(--sl-font-size-medium);--sl-input-font-size-large: var(--sl-font-size-large);--sl-input-letter-spacing: var(--sl-letter-spacing-normal);--sl-input-color: var(--sl-color-neutral-700);--sl-input-color-hover: var(--sl-color-neutral-700);--sl-input-color-focus: var(--sl-color-neutral-700);--sl-input-color-disabled: var(--sl-color-neutral-900);--sl-input-icon-color: var(--sl-color-neutral-500);--sl-input-icon-color-hover: var(--sl-color-neutral-600);--sl-input-icon-color-focus: var(--sl-color-neutral-600);--sl-input-placeholder-color: var(--sl-color-neutral-500);--sl-input-placeholder-color-disabled: var(--sl-color-neutral-600);--sl-input-spacing-small: var(--sl-spacing-small);--sl-input-spacing-medium: var(--sl-spacing-medium);--sl-input-spacing-large: var(--sl-spacing-large);--sl-input-focus-ring-color: hsl(198.6 88.7% 48.4% / 40%);--sl-input-focus-ring-offset: 0;--sl-input-filled-background-color: var(--sl-color-neutral-100);--sl-input-filled-background-color-hover: var(--sl-color-neutral-100);--sl-input-filled-background-color-focus: var(--sl-color-neutral-100);--sl-input-filled-background-color-disabled: var(--sl-color-neutral-100);--sl-input-filled-color: var(--sl-color-neutral-800);--sl-input-filled-color-hover: var(--sl-color-neutral-800);--sl-input-filled-color-focus: var(--sl-color-neutral-700);--sl-input-filled-color-disabled: var(--sl-color-neutral-800);--sl-input-label-font-size-small: var(--sl-font-size-small);--sl-input-label-font-size-medium: var(--sl-font-size-medium);--sl-input-label-font-size-large: var(--sl-font-size-large);--sl-input-label-color: inherit;--sl-input-help-text-font-size-small: var(--sl-font-size-x-small);--sl-input-help-text-font-size-medium: var(--sl-font-size-small);--sl-input-help-text-font-size-large: var(--sl-font-size-medium);--sl-input-help-text-color: var(--sl-color-neutral-500);--sl-toggle-size-small: .875rem;--sl-toggle-size-medium: 1.125rem;--sl-toggle-size-large: 1.375rem;--sl-overlay-background-color: hsl(240 3.8% 46.1% / 33%);--sl-panel-background-color: var(--sl-color-neutral-0);--sl-panel-border-color: var(--sl-color-neutral-200);--sl-panel-border-width: 1px;--sl-tooltip-border-radius: var(--sl-border-radius-medium);--sl-tooltip-background-color: var(--sl-color-neutral-800);--sl-tooltip-color: var(--sl-color-neutral-0);--sl-tooltip-font-family: var(--sl-font-sans);--sl-tooltip-font-weight: var(--sl-font-weight-normal);--sl-tooltip-font-size: var(--sl-font-size-small);--sl-tooltip-line-height: var(--sl-line-height-dense);--sl-tooltip-padding: var(--sl-spacing-2x-small) var(--sl-spacing-x-small);--sl-tooltip-arrow-size: 6px;--sl-z-index-drawer: 700;--sl-z-index-dialog: 800;--sl-z-index-dropdown: 900;--sl-z-index-toast: 950;--sl-z-index-tooltip: 1000}@supports (scrollbar-gutter: stable){.sl-scroll-lock{scrollbar-gutter:var(--sl-scroll-lock-gutter)!important}.sl-scroll-lock body{overflow:hidden!important}}@supports not (scrollbar-gutter: stable){.sl-scroll-lock body{padding-right:var(--sl-scroll-lock-size)!important;overflow:hidden!important}}.sl-toast-stack{position:fixed;top:0;inset-inline-end:0;z-index:var(--sl-z-index-toast);width:28rem;max-width:100%;max-height:100%;overflow:auto}.sl-toast-stack sl-alert{margin:var(--sl-spacing-medium)}.sl-toast-stack sl-alert::part(base){box-shadow:var(--sl-shadow-large)}', ho = '.shoelace-card-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;padding:1rem;max-width:1200px;margin:0 auto}.shoelace-card-item{position:relative;max-width:400px;margin:0 auto;transition:transform .2s ease,box-shadow .2s ease}.shoelace-card-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px #00000026}.shoelace-card-badge{position:absolute;top:1rem;left:1rem;z-index:10;--sl-color-primary-600: #0265DC;--sl-color-primary-500: #0265DC;font-weight:700;font-size:.875rem;min-width:2rem;height:2rem;display:flex;align-items:center;justify-content:center}.shoelace-card-content{padding:.5rem 0;line-height:1.5}.shoelace-card-content strong{font-size:1.125rem;color:var(--sl-color-neutral-900)}.shoelace-card-footer{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0}.shoelace-card-footer sl-button{--sl-color-primary-600: #0265DC;--sl-color-primary-500: #0265DC}.shoelace-card-empty{text-align:center;padding:2rem;color:var(--sl-color-neutral-500);font-style:italic}.shoelace-card-fallback{text-align:center;padding:2rem;color:var(--sl-color-neutral-600)}.shoelace-card-modal{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:1000;background-size:cover;background-position:center;background-repeat:no-repeat;display:flex;align-items:center;justify-content:center;animation:modalFadeIn .3s ease-out}@keyframes modalFadeIn{0%{opacity:0}to{opacity:1}}.shoelace-card-modal-overlay{position:relative;width:90%;max-width:800px;max-height:90vh;background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:1rem;border:1px solid rgba(255,255,255,.2);padding:2rem;overflow-y:auto;box-shadow:0 8px 32px #0000004d,inset 0 1px #fff3;animation:modalSlideIn .3s ease-out}@keyframes modalSlideIn{0%{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}.shoelace-card-modal-close{position:absolute;top:1rem;right:1rem;background:#fff3!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:50%!important;border:1px solid rgba(255,255,255,.3)!important;color:#fff!important;font-size:1.5rem;z-index:1001;width:3rem;height:3rem;transition:all .2s ease}.shoelace-card-modal-close:hover{background:#ffffff4d!important;transform:scale(1.05)}.shoelace-card-modal-close:focus{outline:2px solid rgba(255,255,255,.5);outline-offset:2px}.shoelace-card-modal-content{color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.5)}.shoelace-card-modal-text{font-size:1.1rem;line-height:1.6;background:linear-gradient(135deg,#0006,#0003);padding:2rem;border-radius:.5rem;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px #ffffff1a}.shoelace-card-modal-text h1,.shoelace-card-modal-text h2,.shoelace-card-modal-text h3{color:#fff;margin-top:0;text-shadow:0 2px 4px rgba(0,0,0,.7)}.shoelace-card-modal-text h1{font-size:2.5rem;font-weight:700;margin-bottom:1rem;background:linear-gradient(135deg,#fff,#e0e0e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.shoelace-card-modal-text p{margin-bottom:1rem;color:#ffffffe6}.shoelace-card-modal-text img{max-width:100%;height:auto;border-radius:.5rem;box-shadow:0 4px 12px #0000004d;margin:1rem 0}.shoelace-card-modal-loading{display:flex;justify-content:center;align-items:center;height:200px;font-size:2rem}.shoelace-card-modal-loading sl-spinner{--indicator-color: white;--track-color: rgba(255, 255, 255, .2);font-size:3rem}@media (max-width: 768px){.shoelace-card-container{grid-template-columns:1fr;gap:1rem;padding:.5rem}.shoelace-card-modal-overlay{width:95%;padding:1rem;max-height:95vh}.shoelace-card-modal-text{font-size:1rem;padding:1rem}.shoelace-card-modal-text h1{font-size:2rem}.shoelace-card-modal-close{top:.5rem;right:.5rem;width:2.5rem;height:2.5rem;font-size:1.25rem}}@media (max-width: 480px){.shoelace-card-container{padding:.25rem}.shoelace-card-modal-overlay{width:98%;padding:.75rem}.shoelace-card-modal-text{padding:.75rem}.shoelace-card-modal-text h1{font-size:1.75rem}}@media (prefers-contrast: high){.shoelace-card-badge{--sl-color-primary-600: #000;--sl-color-primary-500: #000;color:#fff;border:2px solid white}.shoelace-card-modal-overlay{background:#000000e6;border:2px solid white}.shoelace-card-modal-close{background:#000c!important;border:2px solid white!important}.shoelace-card-modal-text{background:#000c;border:1px solid white}}@media (prefers-reduced-motion: reduce){.shoelace-card-item{transition:none}.shoelace-card-item:hover{transform:none}.shoelace-card-modal,.shoelace-card-modal-overlay{animation:none}.shoelace-card-modal-close{transition:none}.shoelace-card-modal-close:hover{transform:none}}.shoelace-card-item:focus-within{outline:2px solid var(--sl-color-primary-600);outline-offset:2px}sl-button:focus{outline:2px solid var(--sl-color-primary-600);outline-offset:2px}@media print{.shoelace-card-modal{display:none}.shoelace-card-container{display:block}.shoelace-card-item{break-inside:avoid;margin-bottom:1rem}}@media (prefers-color-scheme: dark){.shoelace-card-modal-text h1{background:linear-gradient(135deg,#fff,#ccc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}}.shoelace-card-block{position:relative;z-index:1}.shoelace-card-block.loading{opacity:.7;pointer-events:none}.shoelace-card-block.loading:after{content:"";position:absolute;top:50%;left:50%;width:2rem;height:2rem;margin:-1rem 0 0 -1rem;border:2px solid var(--sl-color-neutral-300);border-top-color:var(--sl-color-primary-600);border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}', Ct = {
+const po = ':root,:host,.sl-theme-light{color-scheme:light;--sl-color-gray-50: hsl(0 0% 97.5%);--sl-color-gray-100: hsl(240 4.8% 95.9%);--sl-color-gray-200: hsl(240 5.9% 90%);--sl-color-gray-300: hsl(240 4.9% 83.9%);--sl-color-gray-400: hsl(240 5% 64.9%);--sl-color-gray-500: hsl(240 3.8% 46.1%);--sl-color-gray-600: hsl(240 5.2% 33.9%);--sl-color-gray-700: hsl(240 5.3% 26.1%);--sl-color-gray-800: hsl(240 3.7% 15.9%);--sl-color-gray-900: hsl(240 5.9% 10%);--sl-color-gray-950: hsl(240 7.3% 8%);--sl-color-red-50: hsl(0 85.7% 97.3%);--sl-color-red-100: hsl(0 93.3% 94.1%);--sl-color-red-200: hsl(0 96.3% 89.4%);--sl-color-red-300: hsl(0 93.5% 81.8%);--sl-color-red-400: hsl(0 90.6% 70.8%);--sl-color-red-500: hsl(0 84.2% 60.2%);--sl-color-red-600: hsl(0 72.2% 50.6%);--sl-color-red-700: hsl(0 73.7% 41.8%);--sl-color-red-800: hsl(0 70% 35.3%);--sl-color-red-900: hsl(0 62.8% 30.6%);--sl-color-red-950: hsl(0 60% 19.6%);--sl-color-orange-50: hsl(33.3 100% 96.5%);--sl-color-orange-100: hsl(34.3 100% 91.8%);--sl-color-orange-200: hsl(32.1 97.7% 83.1%);--sl-color-orange-300: hsl(30.7 97.2% 72.4%);--sl-color-orange-400: hsl(27 96% 61%);--sl-color-orange-500: hsl(24.6 95% 53.1%);--sl-color-orange-600: hsl(20.5 90.2% 48.2%);--sl-color-orange-700: hsl(17.5 88.3% 40.4%);--sl-color-orange-800: hsl(15 79.1% 33.7%);--sl-color-orange-900: hsl(15.3 74.6% 27.8%);--sl-color-orange-950: hsl(15.2 69.1% 19%);--sl-color-amber-50: hsl(48 100% 96.1%);--sl-color-amber-100: hsl(48 96.5% 88.8%);--sl-color-amber-200: hsl(48 96.6% 76.7%);--sl-color-amber-300: hsl(45.9 96.7% 64.5%);--sl-color-amber-400: hsl(43.3 96.4% 56.3%);--sl-color-amber-500: hsl(37.7 92.1% 50.2%);--sl-color-amber-600: hsl(32.1 94.6% 43.7%);--sl-color-amber-700: hsl(26 90.5% 37.1%);--sl-color-amber-800: hsl(22.7 82.5% 31.4%);--sl-color-amber-900: hsl(21.7 77.8% 26.5%);--sl-color-amber-950: hsl(22.9 74.1% 16.7%);--sl-color-yellow-50: hsl(54.5 91.7% 95.3%);--sl-color-yellow-100: hsl(54.9 96.7% 88%);--sl-color-yellow-200: hsl(52.8 98.3% 76.9%);--sl-color-yellow-300: hsl(50.4 97.8% 63.5%);--sl-color-yellow-400: hsl(47.9 95.8% 53.1%);--sl-color-yellow-500: hsl(45.4 93.4% 47.5%);--sl-color-yellow-600: hsl(40.6 96.1% 40.4%);--sl-color-yellow-700: hsl(35.5 91.7% 32.9%);--sl-color-yellow-800: hsl(31.8 81% 28.8%);--sl-color-yellow-900: hsl(28.4 72.5% 25.7%);--sl-color-yellow-950: hsl(33.1 69% 13.9%);--sl-color-lime-50: hsl(78.3 92% 95.1%);--sl-color-lime-100: hsl(79.6 89.1% 89.2%);--sl-color-lime-200: hsl(80.9 88.5% 79.6%);--sl-color-lime-300: hsl(82 84.5% 67.1%);--sl-color-lime-400: hsl(82.7 78% 55.5%);--sl-color-lime-500: hsl(83.7 80.5% 44.3%);--sl-color-lime-600: hsl(84.8 85.2% 34.5%);--sl-color-lime-700: hsl(85.9 78.4% 27.3%);--sl-color-lime-800: hsl(86.3 69% 22.7%);--sl-color-lime-900: hsl(87.6 61.2% 20.2%);--sl-color-lime-950: hsl(86.5 60.6% 13.9%);--sl-color-green-50: hsl(138.5 76.5% 96.7%);--sl-color-green-100: hsl(140.6 84.2% 92.5%);--sl-color-green-200: hsl(141 78.9% 85.1%);--sl-color-green-300: hsl(141.7 76.6% 73.1%);--sl-color-green-400: hsl(141.9 69.2% 58%);--sl-color-green-500: hsl(142.1 70.6% 45.3%);--sl-color-green-600: hsl(142.1 76.2% 36.3%);--sl-color-green-700: hsl(142.4 71.8% 29.2%);--sl-color-green-800: hsl(142.8 64.2% 24.1%);--sl-color-green-900: hsl(143.8 61.2% 20.2%);--sl-color-green-950: hsl(144.3 60.7% 12%);--sl-color-emerald-50: hsl(151.8 81% 95.9%);--sl-color-emerald-100: hsl(149.3 80.4% 90%);--sl-color-emerald-200: hsl(152.4 76% 80.4%);--sl-color-emerald-300: hsl(156.2 71.6% 66.9%);--sl-color-emerald-400: hsl(158.1 64.4% 51.6%);--sl-color-emerald-500: hsl(160.1 84.1% 39.4%);--sl-color-emerald-600: hsl(161.4 93.5% 30.4%);--sl-color-emerald-700: hsl(162.9 93.5% 24.3%);--sl-color-emerald-800: hsl(163.1 88.1% 19.8%);--sl-color-emerald-900: hsl(164.2 85.7% 16.5%);--sl-color-emerald-950: hsl(164.3 87.5% 9.4%);--sl-color-teal-50: hsl(166.2 76.5% 96.7%);--sl-color-teal-100: hsl(167.2 85.5% 89.2%);--sl-color-teal-200: hsl(168.4 83.8% 78.2%);--sl-color-teal-300: hsl(170.6 76.9% 64.3%);--sl-color-teal-400: hsl(172.5 66% 50.4%);--sl-color-teal-500: hsl(173.4 80.4% 40%);--sl-color-teal-600: hsl(174.7 83.9% 31.6%);--sl-color-teal-700: hsl(175.3 77.4% 26.1%);--sl-color-teal-800: hsl(176.1 69.4% 21.8%);--sl-color-teal-900: hsl(175.9 60.8% 19%);--sl-color-teal-950: hsl(176.5 58.6% 11.4%);--sl-color-cyan-50: hsl(183.2 100% 96.3%);--sl-color-cyan-100: hsl(185.1 95.9% 90.4%);--sl-color-cyan-200: hsl(186.2 93.5% 81.8%);--sl-color-cyan-300: hsl(187 92.4% 69%);--sl-color-cyan-400: hsl(187.9 85.7% 53.3%);--sl-color-cyan-500: hsl(188.7 94.5% 42.7%);--sl-color-cyan-600: hsl(191.6 91.4% 36.5%);--sl-color-cyan-700: hsl(192.9 82.3% 31%);--sl-color-cyan-800: hsl(194.4 69.6% 27.1%);--sl-color-cyan-900: hsl(196.4 63.6% 23.7%);--sl-color-cyan-950: hsl(196.8 61% 16.1%);--sl-color-sky-50: hsl(204 100% 97.1%);--sl-color-sky-100: hsl(204 93.8% 93.7%);--sl-color-sky-200: hsl(200.6 94.4% 86.1%);--sl-color-sky-300: hsl(199.4 95.5% 73.9%);--sl-color-sky-400: hsl(198.4 93.2% 59.6%);--sl-color-sky-500: hsl(198.6 88.7% 48.4%);--sl-color-sky-600: hsl(200.4 98% 39.4%);--sl-color-sky-700: hsl(201.3 96.3% 32.2%);--sl-color-sky-800: hsl(201 90% 27.5%);--sl-color-sky-900: hsl(202 80.3% 23.9%);--sl-color-sky-950: hsl(202.3 73.8% 16.5%);--sl-color-blue-50: hsl(213.8 100% 96.9%);--sl-color-blue-100: hsl(214.3 94.6% 92.7%);--sl-color-blue-200: hsl(213.3 96.9% 87.3%);--sl-color-blue-300: hsl(211.7 96.4% 78.4%);--sl-color-blue-400: hsl(213.1 93.9% 67.8%);--sl-color-blue-500: hsl(217.2 91.2% 59.8%);--sl-color-blue-600: hsl(221.2 83.2% 53.3%);--sl-color-blue-700: hsl(224.3 76.3% 48%);--sl-color-blue-800: hsl(225.9 70.7% 40.2%);--sl-color-blue-900: hsl(224.4 64.3% 32.9%);--sl-color-blue-950: hsl(226.2 55.3% 18.4%);--sl-color-indigo-50: hsl(225.9 100% 96.7%);--sl-color-indigo-100: hsl(226.5 100% 93.9%);--sl-color-indigo-200: hsl(228 96.5% 88.8%);--sl-color-indigo-300: hsl(229.7 93.5% 81.8%);--sl-color-indigo-400: hsl(234.5 89.5% 73.9%);--sl-color-indigo-500: hsl(238.7 83.5% 66.7%);--sl-color-indigo-600: hsl(243.4 75.4% 58.6%);--sl-color-indigo-700: hsl(244.5 57.9% 50.6%);--sl-color-indigo-800: hsl(243.7 54.5% 41.4%);--sl-color-indigo-900: hsl(242.2 47.4% 34.3%);--sl-color-indigo-950: hsl(243.5 43.6% 22.9%);--sl-color-violet-50: hsl(250 100% 97.6%);--sl-color-violet-100: hsl(251.4 91.3% 95.5%);--sl-color-violet-200: hsl(250.5 95.2% 91.8%);--sl-color-violet-300: hsl(252.5 94.7% 85.1%);--sl-color-violet-400: hsl(255.1 91.7% 76.3%);--sl-color-violet-500: hsl(258.3 89.5% 66.3%);--sl-color-violet-600: hsl(262.1 83.3% 57.8%);--sl-color-violet-700: hsl(263.4 70% 50.4%);--sl-color-violet-800: hsl(263.4 69.3% 42.2%);--sl-color-violet-900: hsl(263.5 67.4% 34.9%);--sl-color-violet-950: hsl(265.1 61.5% 21.4%);--sl-color-purple-50: hsl(270 100% 98%);--sl-color-purple-100: hsl(268.7 100% 95.5%);--sl-color-purple-200: hsl(268.6 100% 91.8%);--sl-color-purple-300: hsl(269.2 97.4% 85.1%);--sl-color-purple-400: hsl(270 95.2% 75.3%);--sl-color-purple-500: hsl(270.7 91% 65.1%);--sl-color-purple-600: hsl(271.5 81.3% 55.9%);--sl-color-purple-700: hsl(272.1 71.7% 47.1%);--sl-color-purple-800: hsl(272.9 67.2% 39.4%);--sl-color-purple-900: hsl(273.6 65.6% 32%);--sl-color-purple-950: hsl(276 59.5% 16.5%);--sl-color-fuchsia-50: hsl(289.1 100% 97.8%);--sl-color-fuchsia-100: hsl(287 100% 95.5%);--sl-color-fuchsia-200: hsl(288.3 95.8% 90.6%);--sl-color-fuchsia-300: hsl(291.1 93.1% 82.9%);--sl-color-fuchsia-400: hsl(292 91.4% 72.5%);--sl-color-fuchsia-500: hsl(292.2 84.1% 60.6%);--sl-color-fuchsia-600: hsl(293.4 69.5% 48.8%);--sl-color-fuchsia-700: hsl(294.7 72.4% 39.8%);--sl-color-fuchsia-800: hsl(295.4 70.2% 32.9%);--sl-color-fuchsia-900: hsl(296.7 63.6% 28%);--sl-color-fuchsia-950: hsl(297.1 56.8% 14.5%);--sl-color-pink-50: hsl(327.3 73.3% 97.1%);--sl-color-pink-100: hsl(325.7 77.8% 94.7%);--sl-color-pink-200: hsl(325.9 84.6% 89.8%);--sl-color-pink-300: hsl(327.4 87.1% 81.8%);--sl-color-pink-400: hsl(328.6 85.5% 70.2%);--sl-color-pink-500: hsl(330.4 81.2% 60.4%);--sl-color-pink-600: hsl(333.3 71.4% 50.6%);--sl-color-pink-700: hsl(335.1 77.6% 42%);--sl-color-pink-800: hsl(335.8 74.4% 35.3%);--sl-color-pink-900: hsl(335.9 69% 30.4%);--sl-color-pink-950: hsl(336.2 65.4% 15.9%);--sl-color-rose-50: hsl(355.7 100% 97.3%);--sl-color-rose-100: hsl(355.6 100% 94.7%);--sl-color-rose-200: hsl(352.7 96.1% 90%);--sl-color-rose-300: hsl(352.6 95.7% 81.8%);--sl-color-rose-400: hsl(351.3 94.5% 71.4%);--sl-color-rose-500: hsl(349.7 89.2% 60.2%);--sl-color-rose-600: hsl(346.8 77.2% 49.8%);--sl-color-rose-700: hsl(345.3 82.7% 40.8%);--sl-color-rose-800: hsl(343.4 79.7% 34.7%);--sl-color-rose-900: hsl(341.5 75.5% 30.4%);--sl-color-rose-950: hsl(341.3 70.1% 17.1%);--sl-color-primary-50: var(--sl-color-sky-50);--sl-color-primary-100: var(--sl-color-sky-100);--sl-color-primary-200: var(--sl-color-sky-200);--sl-color-primary-300: var(--sl-color-sky-300);--sl-color-primary-400: var(--sl-color-sky-400);--sl-color-primary-500: var(--sl-color-sky-500);--sl-color-primary-600: var(--sl-color-sky-600);--sl-color-primary-700: var(--sl-color-sky-700);--sl-color-primary-800: var(--sl-color-sky-800);--sl-color-primary-900: var(--sl-color-sky-900);--sl-color-primary-950: var(--sl-color-sky-950);--sl-color-success-50: var(--sl-color-green-50);--sl-color-success-100: var(--sl-color-green-100);--sl-color-success-200: var(--sl-color-green-200);--sl-color-success-300: var(--sl-color-green-300);--sl-color-success-400: var(--sl-color-green-400);--sl-color-success-500: var(--sl-color-green-500);--sl-color-success-600: var(--sl-color-green-600);--sl-color-success-700: var(--sl-color-green-700);--sl-color-success-800: var(--sl-color-green-800);--sl-color-success-900: var(--sl-color-green-900);--sl-color-success-950: var(--sl-color-green-950);--sl-color-warning-50: var(--sl-color-amber-50);--sl-color-warning-100: var(--sl-color-amber-100);--sl-color-warning-200: var(--sl-color-amber-200);--sl-color-warning-300: var(--sl-color-amber-300);--sl-color-warning-400: var(--sl-color-amber-400);--sl-color-warning-500: var(--sl-color-amber-500);--sl-color-warning-600: var(--sl-color-amber-600);--sl-color-warning-700: var(--sl-color-amber-700);--sl-color-warning-800: var(--sl-color-amber-800);--sl-color-warning-900: var(--sl-color-amber-900);--sl-color-warning-950: var(--sl-color-amber-950);--sl-color-danger-50: var(--sl-color-red-50);--sl-color-danger-100: var(--sl-color-red-100);--sl-color-danger-200: var(--sl-color-red-200);--sl-color-danger-300: var(--sl-color-red-300);--sl-color-danger-400: var(--sl-color-red-400);--sl-color-danger-500: var(--sl-color-red-500);--sl-color-danger-600: var(--sl-color-red-600);--sl-color-danger-700: var(--sl-color-red-700);--sl-color-danger-800: var(--sl-color-red-800);--sl-color-danger-900: var(--sl-color-red-900);--sl-color-danger-950: var(--sl-color-red-950);--sl-color-neutral-50: var(--sl-color-gray-50);--sl-color-neutral-100: var(--sl-color-gray-100);--sl-color-neutral-200: var(--sl-color-gray-200);--sl-color-neutral-300: var(--sl-color-gray-300);--sl-color-neutral-400: var(--sl-color-gray-400);--sl-color-neutral-500: var(--sl-color-gray-500);--sl-color-neutral-600: var(--sl-color-gray-600);--sl-color-neutral-700: var(--sl-color-gray-700);--sl-color-neutral-800: var(--sl-color-gray-800);--sl-color-neutral-900: var(--sl-color-gray-900);--sl-color-neutral-950: var(--sl-color-gray-950);--sl-color-neutral-0: hsl(0, 0%, 100%);--sl-color-neutral-1000: hsl(0, 0%, 0%);--sl-border-radius-small: .1875rem;--sl-border-radius-medium: .25rem;--sl-border-radius-large: .5rem;--sl-border-radius-x-large: 1rem;--sl-border-radius-circle: 50%;--sl-border-radius-pill: 9999px;--sl-shadow-x-small: 0 1px 2px hsl(240 3.8% 46.1% / 6%);--sl-shadow-small: 0 1px 2px hsl(240 3.8% 46.1% / 12%);--sl-shadow-medium: 0 2px 4px hsl(240 3.8% 46.1% / 12%);--sl-shadow-large: 0 2px 8px hsl(240 3.8% 46.1% / 12%);--sl-shadow-x-large: 0 4px 16px hsl(240 3.8% 46.1% / 12%);--sl-spacing-3x-small: .125rem;--sl-spacing-2x-small: .25rem;--sl-spacing-x-small: .5rem;--sl-spacing-small: .75rem;--sl-spacing-medium: 1rem;--sl-spacing-large: 1.25rem;--sl-spacing-x-large: 1.75rem;--sl-spacing-2x-large: 2.25rem;--sl-spacing-3x-large: 3rem;--sl-spacing-4x-large: 4.5rem;--sl-transition-x-slow: 1s;--sl-transition-slow: .5s;--sl-transition-medium: .25s;--sl-transition-fast: .15s;--sl-transition-x-fast: 50ms;--sl-font-mono: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;--sl-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--sl-font-serif: Georgia, "Times New Roman", serif;--sl-font-size-2x-small: .625rem;--sl-font-size-x-small: .75rem;--sl-font-size-small: .875rem;--sl-font-size-medium: 1rem;--sl-font-size-large: 1.25rem;--sl-font-size-x-large: 1.5rem;--sl-font-size-2x-large: 2.25rem;--sl-font-size-3x-large: 3rem;--sl-font-size-4x-large: 4.5rem;--sl-font-weight-light: 300;--sl-font-weight-normal: 400;--sl-font-weight-semibold: 500;--sl-font-weight-bold: 700;--sl-letter-spacing-denser: -.03em;--sl-letter-spacing-dense: -.015em;--sl-letter-spacing-normal: normal;--sl-letter-spacing-loose: .075em;--sl-letter-spacing-looser: .15em;--sl-line-height-denser: 1;--sl-line-height-dense: 1.4;--sl-line-height-normal: 1.8;--sl-line-height-loose: 2.2;--sl-line-height-looser: 2.6;--sl-focus-ring-color: var(--sl-color-primary-600);--sl-focus-ring-style: solid;--sl-focus-ring-width: 3px;--sl-focus-ring: var(--sl-focus-ring-style) var(--sl-focus-ring-width) var(--sl-focus-ring-color);--sl-focus-ring-offset: 1px;--sl-button-font-size-small: var(--sl-font-size-x-small);--sl-button-font-size-medium: var(--sl-font-size-small);--sl-button-font-size-large: var(--sl-font-size-medium);--sl-input-height-small: 1.875rem;--sl-input-height-medium: 2.5rem;--sl-input-height-large: 3.125rem;--sl-input-background-color: var(--sl-color-neutral-0);--sl-input-background-color-hover: var(--sl-input-background-color);--sl-input-background-color-focus: var(--sl-input-background-color);--sl-input-background-color-disabled: var(--sl-color-neutral-100);--sl-input-border-color: var(--sl-color-neutral-300);--sl-input-border-color-hover: var(--sl-color-neutral-400);--sl-input-border-color-focus: var(--sl-color-primary-500);--sl-input-border-color-disabled: var(--sl-color-neutral-300);--sl-input-border-width: 1px;--sl-input-required-content: "*";--sl-input-required-content-offset: -2px;--sl-input-required-content-color: var(--sl-input-label-color);--sl-input-border-radius-small: var(--sl-border-radius-medium);--sl-input-border-radius-medium: var(--sl-border-radius-medium);--sl-input-border-radius-large: var(--sl-border-radius-medium);--sl-input-font-family: var(--sl-font-sans);--sl-input-font-weight: var(--sl-font-weight-normal);--sl-input-font-size-small: var(--sl-font-size-small);--sl-input-font-size-medium: var(--sl-font-size-medium);--sl-input-font-size-large: var(--sl-font-size-large);--sl-input-letter-spacing: var(--sl-letter-spacing-normal);--sl-input-color: var(--sl-color-neutral-700);--sl-input-color-hover: var(--sl-color-neutral-700);--sl-input-color-focus: var(--sl-color-neutral-700);--sl-input-color-disabled: var(--sl-color-neutral-900);--sl-input-icon-color: var(--sl-color-neutral-500);--sl-input-icon-color-hover: var(--sl-color-neutral-600);--sl-input-icon-color-focus: var(--sl-color-neutral-600);--sl-input-placeholder-color: var(--sl-color-neutral-500);--sl-input-placeholder-color-disabled: var(--sl-color-neutral-600);--sl-input-spacing-small: var(--sl-spacing-small);--sl-input-spacing-medium: var(--sl-spacing-medium);--sl-input-spacing-large: var(--sl-spacing-large);--sl-input-focus-ring-color: hsl(198.6 88.7% 48.4% / 40%);--sl-input-focus-ring-offset: 0;--sl-input-filled-background-color: var(--sl-color-neutral-100);--sl-input-filled-background-color-hover: var(--sl-color-neutral-100);--sl-input-filled-background-color-focus: var(--sl-color-neutral-100);--sl-input-filled-background-color-disabled: var(--sl-color-neutral-100);--sl-input-filled-color: var(--sl-color-neutral-800);--sl-input-filled-color-hover: var(--sl-color-neutral-800);--sl-input-filled-color-focus: var(--sl-color-neutral-700);--sl-input-filled-color-disabled: var(--sl-color-neutral-800);--sl-input-label-font-size-small: var(--sl-font-size-small);--sl-input-label-font-size-medium: var(--sl-font-size-medium);--sl-input-label-font-size-large: var(--sl-font-size-large);--sl-input-label-color: inherit;--sl-input-help-text-font-size-small: var(--sl-font-size-x-small);--sl-input-help-text-font-size-medium: var(--sl-font-size-small);--sl-input-help-text-font-size-large: var(--sl-font-size-medium);--sl-input-help-text-color: var(--sl-color-neutral-500);--sl-toggle-size-small: .875rem;--sl-toggle-size-medium: 1.125rem;--sl-toggle-size-large: 1.375rem;--sl-overlay-background-color: hsl(240 3.8% 46.1% / 33%);--sl-panel-background-color: var(--sl-color-neutral-0);--sl-panel-border-color: var(--sl-color-neutral-200);--sl-panel-border-width: 1px;--sl-tooltip-border-radius: var(--sl-border-radius-medium);--sl-tooltip-background-color: var(--sl-color-neutral-800);--sl-tooltip-color: var(--sl-color-neutral-0);--sl-tooltip-font-family: var(--sl-font-sans);--sl-tooltip-font-weight: var(--sl-font-weight-normal);--sl-tooltip-font-size: var(--sl-font-size-small);--sl-tooltip-line-height: var(--sl-line-height-dense);--sl-tooltip-padding: var(--sl-spacing-2x-small) var(--sl-spacing-x-small);--sl-tooltip-arrow-size: 6px;--sl-z-index-drawer: 700;--sl-z-index-dialog: 800;--sl-z-index-dropdown: 900;--sl-z-index-toast: 950;--sl-z-index-tooltip: 1000}@supports (scrollbar-gutter: stable){.sl-scroll-lock{scrollbar-gutter:var(--sl-scroll-lock-gutter)!important}.sl-scroll-lock body{overflow:hidden!important}}@supports not (scrollbar-gutter: stable){.sl-scroll-lock body{padding-right:var(--sl-scroll-lock-size)!important;overflow:hidden!important}}.sl-toast-stack{position:fixed;top:0;inset-inline-end:0;z-index:var(--sl-z-index-toast);width:28rem;max-width:100%;max-height:100%;overflow:auto}.sl-toast-stack sl-alert{margin:var(--sl-spacing-medium)}.sl-toast-stack sl-alert::part(base){box-shadow:var(--sl-shadow-large)}', mo = '.shoelace-card-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;padding:1rem;max-width:1200px;margin:0 auto}.shoelace-card-item{position:relative;max-width:400px;margin:0 auto;transition:transform .2s ease,box-shadow .2s ease}.shoelace-card-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px #00000026}.shoelace-card-badge{position:absolute;top:1rem;left:1rem;z-index:10;--sl-color-primary-600: #0265DC;--sl-color-primary-500: #0265DC;font-weight:700;font-size:.875rem;min-width:2rem;height:2rem;display:flex;align-items:center;justify-content:center}.shoelace-card-content{padding:.5rem 0;line-height:1.5}.shoelace-card-content strong{font-size:1.125rem;color:var(--sl-color-neutral-900)}.shoelace-card-footer{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0}.shoelace-card-footer sl-button{--sl-color-primary-600: #0265DC;--sl-color-primary-500: #0265DC}.shoelace-card-empty{text-align:center;padding:2rem;color:var(--sl-color-neutral-500);font-style:italic}.shoelace-card-fallback{text-align:center;padding:2rem;color:var(--sl-color-neutral-600)}.shoelace-card-modal{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:1000;background-size:cover;background-position:center;background-repeat:no-repeat;display:flex;align-items:center;justify-content:center;animation:modalFadeIn .3s ease-out}@keyframes modalFadeIn{0%{opacity:0}to{opacity:1}}.shoelace-card-modal-overlay{position:relative;width:90%;max-width:800px;max-height:90vh;background:#ffffff1a;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:1rem;border:1px solid rgba(255,255,255,.2);padding:2rem;overflow-y:auto;box-shadow:0 8px 32px #0000004d,inset 0 1px #fff3;animation:modalSlideIn .3s ease-out}@keyframes modalSlideIn{0%{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}.shoelace-card-modal-close{position:absolute;top:1rem;right:1rem;background:#fff3!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:50%!important;border:1px solid rgba(255,255,255,.3)!important;color:#fff!important;font-size:1.5rem;z-index:1001;width:3rem;height:3rem;transition:all .2s ease}.shoelace-card-modal-close:hover{background:#ffffff4d!important;transform:scale(1.05)}.shoelace-card-modal-close:focus{outline:2px solid rgba(255,255,255,.5);outline-offset:2px}.shoelace-card-modal-content{color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.5)}.shoelace-card-modal-text{font-size:1.1rem;line-height:1.6;background:linear-gradient(135deg,#0006,#0003);padding:2rem;border-radius:.5rem;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px #ffffff1a}.shoelace-card-modal-text h1,.shoelace-card-modal-text h2,.shoelace-card-modal-text h3{color:#fff;margin-top:0;text-shadow:0 2px 4px rgba(0,0,0,.7)}.shoelace-card-modal-text h1{font-size:2.5rem;font-weight:700;margin-bottom:1rem;background:linear-gradient(135deg,#fff,#e0e0e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.shoelace-card-modal-text p{margin-bottom:1rem;color:#ffffffe6}.shoelace-card-modal-text img{max-width:100%;height:auto;border-radius:.5rem;box-shadow:0 4px 12px #0000004d;margin:1rem 0}.shoelace-card-modal-loading{display:flex;justify-content:center;align-items:center;height:200px;font-size:2rem}.shoelace-card-modal-loading sl-spinner{--indicator-color: white;--track-color: rgba(255, 255, 255, .2);font-size:3rem}@media (max-width: 768px){.shoelace-card-container{grid-template-columns:1fr;gap:1rem;padding:.5rem}.shoelace-card-modal-overlay{width:95%;padding:1rem;max-height:95vh}.shoelace-card-modal-text{font-size:1rem;padding:1rem}.shoelace-card-modal-text h1{font-size:2rem}.shoelace-card-modal-close{top:.5rem;right:.5rem;width:2.5rem;height:2.5rem;font-size:1.25rem}}@media (max-width: 480px){.shoelace-card-container{padding:.25rem}.shoelace-card-modal-overlay{width:98%;padding:.75rem}.shoelace-card-modal-text{padding:.75rem}.shoelace-card-modal-text h1{font-size:1.75rem}}@media (prefers-contrast: high){.shoelace-card-badge{--sl-color-primary-600: #000;--sl-color-primary-500: #000;color:#fff;border:2px solid white}.shoelace-card-modal-overlay{background:#000000e6;border:2px solid white}.shoelace-card-modal-close{background:#000c!important;border:2px solid white!important}.shoelace-card-modal-text{background:#000c;border:1px solid white}}@media (prefers-reduced-motion: reduce){.shoelace-card-item{transition:none}.shoelace-card-item:hover{transform:none}.shoelace-card-modal,.shoelace-card-modal-overlay{animation:none}.shoelace-card-modal-close{transition:none}.shoelace-card-modal-close:hover{transform:none}}.shoelace-card-item:focus-within{outline:2px solid var(--sl-color-primary-600);outline-offset:2px}sl-button:focus{outline:2px solid var(--sl-color-primary-600);outline-offset:2px}@media print{.shoelace-card-modal{display:none}.shoelace-card-container{display:block}.shoelace-card-item{break-inside:avoid;margin-bottom:1rem}}@media (prefers-color-scheme: dark){.shoelace-card-modal-text h1{background:linear-gradient(135deg,#fff,#ccc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}}.shoelace-card-block{position:relative;z-index:1}.shoelace-card-block.loading{opacity:.7;pointer-events:none;position:relative;min-height:200px}.shoelace-card-block.loading:after{content:"";position:absolute;top:50%;left:50%;width:2rem;height:2rem;margin:-1rem 0 0 -1rem;border:2px solid var(--sl-color-neutral-300);border-top-color:var(--sl-color-primary-600);border-radius:50%;animation:spin 1s linear infinite;z-index:10}.shoelace-card-container{opacity:0;transform:translateY(10px);transition:opacity .4s ease-out,transform .4s ease-out}.shoelace-card-container.loaded{opacity:1;transform:translateY(0)}.shoelace-card-item{opacity:0;transform:translateY(20px);transition:opacity .3s ease-out,transform .3s ease-out}.shoelace-card-container.loaded .shoelace-card-item{opacity:1;transform:translateY(0)}.shoelace-card-container.loaded .shoelace-card-item:nth-child(1){transition-delay:.1s}.shoelace-card-container.loaded .shoelace-card-item:nth-child(2){transition-delay:.2s}.shoelace-card-container.loaded .shoelace-card-item:nth-child(3){transition-delay:.3s}.shoelace-card-container.loaded .shoelace-card-item:nth-child(4){transition-delay:.4s}.shoelace-card-container.loaded .shoelace-card-item:nth-child(5){transition-delay:.5s}.shoelace-card-container.loaded .shoelace-card-item:nth-child(n+6){transition-delay:.6s}@keyframes spin{to{transform:rotate(360deg)}}', Ct = {
   QUERY_INDEX_PATH: "/slides/query-index.json",
   BADGE_COLOR: "primary",
   DEFAULT_BUTTON_TEXT: "Learn More"
@@ -2554,14 +2554,14 @@ const co = ':root,:host,.sl-theme-light{color-scheme:light;--sl-color-gray-50: h
 function ae() {
   if (!document.querySelector("#shoelace-card-styles")) {
     const e = document.createElement("style");
-    e.id = "shoelace-card-styles", e.textContent = co + `
-` + ho, document.head.appendChild(e);
+    e.id = "shoelace-card-styles", e.textContent = po + `
+` + mo, document.head.appendChild(e);
   }
 }
-function uo(e) {
+function bo(e) {
   return e.textContent.trim() || Ct.QUERY_INDEX_PATH;
 }
-async function po(e) {
+async function go(e) {
   try {
     const t = await fetch(e, {
       mode: "cors",
@@ -2574,7 +2574,7 @@ async function po(e) {
     return console.error("[shoelace-card] Fetch error:", t), [];
   }
 }
-async function mo(e) {
+async function fo(e) {
   try {
     const t = `${e}.plain.html`, o = await fetch(t, {
       mode: "cors",
@@ -2588,16 +2588,40 @@ async function mo(e) {
     return console.error("[shoelace-card] Plain HTML fetch error:", t), null;
   }
 }
-function bo(e) {
+async function vo(e, t = 5e3) {
+  return new Promise((o, r) => {
+    const s = new Image(), l = setTimeout(() => {
+      r(new Error(`Image load timeout: ${e}`));
+    }, t);
+    s.onload = () => {
+      clearTimeout(l), o(s);
+    }, s.onerror = () => {
+      clearTimeout(l), r(new Error(`Image load failed: ${e}`));
+    }, s.src = e;
+  });
+}
+async function yo(e, t = 5e3) {
+  const o = e.map((a) => a.image).filter(Boolean);
+  if (o.length === 0)
+    return [];
+  console.log(`[shoelace-card] Preloading ${o.length} images...`);
+  const r = o.map(
+    (a) => vo(a, t).catch((n) => (console.warn(`[shoelace-card] Failed to preload image: ${a}`, n), null))
+  ), s = await Promise.all(r), l = s.filter(Boolean).length;
+  return console.log(`[shoelace-card] Preloaded ${l}/${o.length} images successfully`), s;
+}
+function wo(e) {
   const t = document.createElement("sl-badge");
   return t.className = "shoelace-card-badge", t.setAttribute("variant", Ct.BADGE_COLOR), t.setAttribute("pill", ""), t.textContent = e, t;
 }
-function go(e, t) {
+function xo(e, t) {
   if (!e) return null;
   const o = document.createElement("img");
-  return o.slot = "image", o.src = e, o.alt = t || "Card image", o.loading = "lazy", o;
+  return o.slot = "image", o.src = e, o.alt = t || "Card image", o.loading = "lazy", o.onerror = () => {
+    o.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=", o.alt = "Image not found";
+  }, o;
 }
-function fo(e) {
+function _o(e) {
   const t = document.createElement("div");
   if (t.className = "shoelace-card-content", e.title) {
     const o = document.createElement("strong");
@@ -2609,46 +2633,46 @@ function fo(e) {
   }
   return t;
 }
-function vo(e) {
+function $o(e) {
   const t = document.createElement("div");
   t.slot = "footer", t.className = "shoelace-card-footer";
   const o = document.createElement("sl-button");
   return o.setAttribute("variant", "primary"), o.setAttribute("pill", ""), o.textContent = e.buttonText || Ct.DEFAULT_BUTTON_TEXT, o.dataset.cardPath = e.path, o.dataset.cardImage = e.image, o.dataset.action = "open-modal", t.appendChild(o), t;
 }
-function yo(e, t) {
+function ie(e, t) {
   const o = document.createElement("sl-card");
   return o.className = "shoelace-card-item", o.setAttribute("data-slide", t), [
-    bo(t),
-    go(e.image, e.title),
-    fo(e),
-    vo(e)
+    wo(t),
+    xo(e.image, e.title),
+    _o(e),
+    $o(e)
   ].filter(Boolean).forEach((s) => o.appendChild(s)), o;
 }
-function wo() {
+function ne() {
   const e = document.createElement("div");
   return e.className = "shoelace-card-container", e;
 }
-function xo(e) {
+function ko(e) {
   const t = e.target.closest('[data-action="open-modal"]');
   if (t) {
     e.preventDefault();
     const o = t.dataset.cardPath, r = t.dataset.cardImage;
-    Co(o, r);
+    Eo(o, r);
   }
 }
-function _o(e) {
+function Co(e) {
   if (e.key === "Escape") {
     const t = document.querySelector(".shoelace-card-modal");
     t && bt(t);
   }
 }
-function $o(e) {
-  e.addEventListener("click", xo), document.addEventListener("keydown", _o);
+function ce(e) {
+  e.addEventListener("click", ko), document.addEventListener("keydown", Co);
 }
 function bt(e) {
   e.remove();
 }
-function ko(e) {
+function Ao(e) {
   const t = e.querySelector(".shoelace-card-modal-close");
   t && t.addEventListener("click", (o) => {
     o.stopPropagation(), bt(e);
@@ -2656,7 +2680,7 @@ function ko(e) {
     o.target === e && bt(e);
   });
 }
-async function Co(e, t) {
+async function Eo(e, t) {
   ae();
   const o = document.createElement("div");
   o.className = "shoelace-card-modal", o.setAttribute("role", "dialog"), o.setAttribute("aria-modal", "true"), o.style.cssText = `
@@ -2735,8 +2759,8 @@ async function Co(e, t) {
     overflow: visible !important;
   `;
   try {
-    const c = await mo(e);
-    if (c) {
+    const n = await fo(e);
+    if (n) {
       const i = document.createElement("div");
       i.className = "shoelace-card-modal-text", i.style.cssText = `
         position: relative !important;
@@ -2759,7 +2783,7 @@ async function Co(e, t) {
         overflow-y: auto !important;
         backdrop-filter: blur(5px) !important;
         -webkit-backdrop-filter: blur(5px) !important;
-      `, i.innerHTML = c, i.querySelectorAll("*").forEach((u) => {
+      `, i.innerHTML = n, i.querySelectorAll("*").forEach((u) => {
         u.style.cssText += `
           color: white !important;
           text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
@@ -2785,8 +2809,8 @@ async function Co(e, t) {
       }), s.appendChild(i);
     } else
       throw new Error("Content not found");
-  } catch (c) {
-    console.error("[shoelace-card] Modal content error:", c), s.innerHTML = `
+  } catch (n) {
+    console.error("[shoelace-card] Modal content error:", n), s.innerHTML = `
       <div style="
         position: relative !important;
         z-index: 1003 !important;
@@ -2808,46 +2832,62 @@ async function Co(e, t) {
           Failed to load content from: ${e}.plain.html
         </p>
         <p style="color: rgba(255, 255, 255, 0.7) !important; font-size: 0.9rem !important; margin-top: 0 !important;">
-          Error: ${c.message}
+          Error: ${n.message}
         </p>
       </div>
     `;
   }
-  ko(o);
+  Ao(o);
 }
-async function Ao(e, t) {
+function So(e, t) {
+  console.log("[shoelace-card] Using progressive loading fallback");
+  const o = ne();
+  t.forEach((r, s) => {
+    const l = ie(r, s + 1);
+    o.appendChild(l);
+  }), e.innerHTML = "", e.appendChild(o), e.classList.remove("loading"), ce(e);
+}
+async function zo(e, t) {
   if (!t || t.length === 0) {
     e.innerHTML = '<p class="shoelace-card-empty">No cards available.</p>';
     return;
   }
-  const o = wo();
-  t.forEach((r, s) => {
-    const l = yo(r, s + 1);
-    o.appendChild(l);
-  }), e.appendChild(o), $o(e);
+  e.classList.add("loading");
+  try {
+    console.log("[shoelace-card] Preloading images..."), await yo(t), console.log("[shoelace-card] All images preloaded");
+    const o = ne(), r = document.createDocumentFragment();
+    t.forEach((s, l) => {
+      const a = ie(s, l + 1);
+      r.appendChild(a);
+    }), o.appendChild(r), e.innerHTML = "", e.appendChild(o), e.classList.remove("loading"), requestAnimationFrame(() => {
+      o.classList.add("loaded");
+    }), ce(e);
+  } catch (o) {
+    console.error("[shoelace-card] Image preloading failed:", o), So(e, t);
+  }
 }
-function Eo(e) {
+function Mo(e) {
   e.innerHTML = `
     <div class="shoelace-card-fallback">
       <p>Cards are loading...</p>
     </div>
   `;
 }
-async function So() {
+async function Po() {
   const e = ["sl-card", "sl-button", "sl-badge", "sl-icon-button", "sl-spinner"];
   for (const t of e)
     for (; !customElements.get(t); )
       await new Promise((o) => setTimeout(o, 10));
 }
-async function Oo(e) {
+async function No(e) {
   try {
-    ae(), await So();
-    const t = uo(e), o = await po(t);
-    e.innerHTML = "", e.classList.add("shoelace-card-block"), await Ao(e, o);
+    ae(), await Po();
+    const t = bo(e), o = await go(t);
+    e.innerHTML = "", e.classList.add("shoelace-card-block"), await zo(e, o);
   } catch (t) {
-    console.warn("[shoelace-card] Enhancement failed, showing fallback:", t), Eo(e);
+    console.warn("[shoelace-card] Enhancement failed, showing fallback:", t), Mo(e);
   }
 }
 export {
-  Oo as default
+  No as default
 };

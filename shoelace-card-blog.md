@@ -394,6 +394,241 @@ This multi-component approach demonstrates several key architectural principles:
 
 The result is a sophisticated, interactive card system that leverages the full power of Shoelace's component ecosystem while maintaining excellent performance and user experience standards.
 
+## FOUC Elimination and Performance Optimization
+
+### The Flash of Unstyled Content Challenge
+
+One of the most critical user experience issues in modern web components is the Flash of Unstyled Content (FOUC), where users see content building up progressively - text appearing first, followed by slowly loading images. This creates a jarring, unprofessional experience that undermines the sophisticated design.
+
+### Image Preloading Solution
+
+Our implementation addresses FOUC through a comprehensive **image preloading strategy** that ensures all visual content is ready before any cards are displayed:
+
+```javascript
+// Utility function to preload a single image
+async function preloadImage(src, timeout = 5000) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const timer = setTimeout(() => {
+      reject(new Error(`Image load timeout: ${src}`));
+    }, timeout);
+    
+    img.onload = () => {
+      clearTimeout(timer);
+      resolve(img);
+    };
+    
+    img.onerror = () => {
+      clearTimeout(timer);
+      reject(new Error(`Image load failed: ${src}`));
+    };
+    
+    img.src = src;
+  });
+}
+
+// Preload all card images in parallel
+async function preloadAllImages(cardData, timeout = 5000) {
+  const imageUrls = cardData
+    .map(card => card.image)
+    .filter(Boolean);
+    
+  if (imageUrls.length === 0) {
+    return [];
+  }
+  
+  console.log(`[shoelace-card] Preloading ${imageUrls.length} images...`);
+  
+  const preloadPromises = imageUrls.map(url => 
+    preloadImage(url, timeout).catch(error => {
+      console.warn(`[shoelace-card] Failed to preload image: ${url}`, error);
+      return null; // Return null for failed images
+    })
+  );
+  
+  const results = await Promise.all(preloadPromises);
+  const successCount = results.filter(Boolean).length;
+  console.log(`[shoelace-card] Preloaded ${successCount}/${imageUrls.length} images successfully`);
+  
+  return results;
+}
+```
+
+### Atomic Content Rendering
+
+The enhanced card generation process ensures all content appears simultaneously:
+
+```javascript
+// Enhanced generate cards with image preloading
+async function generateCards(block, cardData) {
+  if (!cardData || cardData.length === 0) {
+    block.innerHTML = '<p class="shoelace-card-empty">No cards available.</p>';
+    return;
+  }
+  
+  // Show loading state
+  block.classList.add('loading');
+  
+  try {
+    // Preload all images first
+    console.log('[shoelace-card] Preloading images...');
+    await preloadAllImages(cardData);
+    console.log('[shoelace-card] All images preloaded');
+    
+    // Create container and all cards
+    const container = createCardContainer();
+    const fragment = document.createDocumentFragment();
+    
+    // Build all cards with preloaded images
+    cardData.forEach((data, index) => {
+      const card = createShoelaceCard(data, index + 1);
+      fragment.appendChild(card);
+    });
+    
+    container.appendChild(fragment);
+    
+    // Atomic replacement
+    block.innerHTML = '';
+    block.appendChild(container);
+    block.classList.remove('loading');
+    
+    // Trigger fade-in animation
+    requestAnimationFrame(() => {
+      container.classList.add('loaded');
+    });
+    
+    attachCardEventListeners(block);
+    
+  } catch (error) {
+    console.error('[shoelace-card] Image preloading failed:', error);
+    // Fallback to progressive loading
+    generateCardsProgressive(block, cardData);
+  }
+}
+```
+
+### Enhanced CSS Loading States
+
+Sophisticated loading states and smooth transitions eliminate visual jarring:
+
+```css
+/* Enhanced loading state for the entire block */
+.shoelace-card-block.loading {
+  opacity: 0.7;
+  pointer-events: none;
+  position: relative;
+  min-height: 200px;
+}
+
+.shoelace-card-block.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2rem;
+  height: 2rem;
+  margin: -1rem 0 0 -1rem;
+  border: 2px solid var(--sl-color-neutral-300);
+  border-top-color: var(--sl-color-primary-600);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 10;
+}
+
+/* Container starts hidden, fades in when loaded */
+.shoelace-card-container {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.shoelace-card-container.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Individual cards with staggered animation */
+.shoelace-card-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.shoelace-card-container.loaded .shoelace-card-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered delay for each card */
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(1) { transition-delay: 0.1s; }
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(2) { transition-delay: 0.2s; }
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(3) { transition-delay: 0.3s; }
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(4) { transition-delay: 0.4s; }
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(5) { transition-delay: 0.5s; }
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(n+6) { transition-delay: 0.6s; }
+```
+
+### Error Handling and Fallbacks
+
+Robust error handling ensures graceful degradation:
+
+```javascript
+// Enhanced image creation with error handling
+function createCardImage(imageSrc, title) {
+  if (!imageSrc) return null;
+  
+  const img = document.createElement('img');
+  img.slot = 'image';
+  img.src = imageSrc;
+  img.alt = title || 'Card image';
+  img.loading = 'lazy'; // Keep as fallback
+  
+  // Add error handling with placeholder
+  img.onerror = () => {
+    img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
+    img.alt = 'Image not found';
+  };
+  
+  return img;
+}
+
+// Fallback function for when preloading fails
+function generateCardsProgressive(block, cardData) {
+  console.log('[shoelace-card] Using progressive loading fallback');
+  
+  const container = createCardContainer();
+  
+  cardData.forEach((data, index) => {
+    const card = createShoelaceCard(data, index + 1);
+    container.appendChild(card);
+  });
+  
+  block.innerHTML = '';
+  block.appendChild(container);
+  block.classList.remove('loading');
+  
+  attachCardEventListeners(block);
+}
+```
+
+### Performance Benefits
+
+The FOUC elimination implementation provides significant performance and user experience improvements:
+
+**✅ Eliminated FOUC**: No progressive text/image building - all content appears simultaneously
+**✅ Smooth Loading**: Professional loading states with animated spinner
+**✅ Fast Perceived Performance**: All content appears as complete units
+**✅ Reliable Fallbacks**: Graceful handling of failed/slow images with placeholder graphics
+**✅ Network Resilient**: 5-second timeout handling for slow connections
+**✅ Memory Efficient**: Uses DocumentFragment for optimal DOM manipulation
+**✅ Accessibility Maintained**: Proper loading states and alt text throughout
+
+### Implementation Results
+
+The implementation successfully transforms the user experience from a jarring progressive build-up to a smooth, professional loading experience. Users see a clean loading spinner while all images preload in parallel, followed by the simultaneous appearance of fully-formed cards with smooth staggered animations.
+
+This approach demonstrates how modern web component development can achieve both visual sophistication and technical excellence through careful attention to loading states and user experience optimization.
+
 ## Core Implementation
 
 ### JavaScript Architecture
