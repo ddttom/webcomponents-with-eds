@@ -22,7 +22,7 @@ graph TD
     A[New Component] --> B{Complexity Assessment}
     
     B --> C[EDS-Native Pattern<br/>Simple Components]
-    B --> D[Shoelace-Enhanced Pattern<br/>Complex Components]
+    B --> D[External-Library-Enhanced Pattern<br/>Complex Components]
     
     C --> E[Common Standards Layer]
     D --> E
@@ -63,16 +63,16 @@ graph TD
 
 **Examples:** floating-alert, banners, simple cards, content blocks, text components
 
-### Shoelace-Enhanced Pattern (Complex Components)
+### External-Library-Enhanced Pattern (Complex Components)
 
 **Use When:**
 
 - Component has 5+ interactive elements
 - Complex state management required
 - Rich UI components needed
-- Advanced glassmorphism effects and immersive modals required
+- Advanced visual effects and immersive overlays required
 - Multi-component assembly and coordination needed
-- Consistent Shoelace design system appearance critical
+- Consistent external design system appearance critical
 - Advanced interactions required
 - External dependencies need bundling
 - FOUC elimination and performance optimization critical
@@ -113,61 +113,61 @@ graph TD
   - Copies user documentation from `USER-README.md` to `README.md`
 - Uses `deploy.js` script for automated file copying and deployment
 
-**Examples:** shoelace-card (with advanced glassmorphism and immersive modals), data tables, complex forms, dashboards, interactive modals
+**Examples:** advanced card components, data tables, complex forms, dashboards, interactive modals, media galleries
 
 ### Multi-Component Assembly Architecture
 
-The Shoelace-Enhanced pattern demonstrates sophisticated **multi-component assembly** where multiple Shoelace components are coordinated to create rich user interfaces:
+The External-Library-Enhanced pattern demonstrates sophisticated **multi-component assembly** where multiple external library components are coordinated to create rich user interfaces:
 
 ```javascript
 // Core component assembly for rich UI experiences
-const components = ['sl-card', 'sl-button', 'sl-badge', 'sl-icon-button', 'sl-spinner'];
+const components = ['{ui-card}', '{ui-button}', '{ui-badge}', '{ui-icon-button}', '{ui-spinner}'];
 
 // Components are imported at module level for bundling
-import '@shoelace-style/shoelace/dist/components/card/card.js';
-import '@shoelace-style/shoelace/dist/components/button/button.js';
-import '@shoelace-style/shoelace/dist/components/badge/badge.js';
-import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
-import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
+import '{external-library}/components/card/card.js';
+import '{external-library}/components/button/button.js';
+import '{external-library}/components/badge/badge.js';
+import '{external-library}/components/icon-button/icon-button.js';
+import '{external-library}/components/spinner/spinner.js';
 ```
 
 #### Component Coordination Patterns
 
 **1. Hierarchical Component Structure**
 ```javascript
-// Primary container: sl-card provides the foundational structure
-function createCardContainer(cardData) {
-  const card = document.createElement('sl-card');
-  card.className = 'shoelace-enhanced-card';
+// Primary container: ui-card provides the foundational structure
+function createComponentContainer(componentData) {
+  const container = document.createElement('{ui-card}');
+  container.className = 'external-library-enhanced-component';
   
-  // Secondary components: sl-badge for categorization
-  const categoryBadge = document.createElement('sl-badge');
+  // Secondary components: ui-badge for categorization
+  const categoryBadge = document.createElement('{ui-badge}');
   categoryBadge.variant = 'primary';
-  categoryBadge.textContent = cardData.category || 'Featured';
+  categoryBadge.textContent = componentData.category || 'Featured';
   
-  // Interactive elements: sl-button for primary actions
-  const actionButton = document.createElement('sl-button');
+  // Interactive elements: ui-button for primary actions
+  const actionButton = document.createElement('{ui-button}');
   actionButton.variant = 'primary';
   actionButton.size = 'medium';
-  actionButton.textContent = cardData.buttonText || 'Learn More';
+  actionButton.textContent = componentData.buttonText || 'Learn More';
   
-  // Utility components: sl-icon-button for secondary actions
-  const favoriteButton = document.createElement('sl-icon-button');
-  favoriteButton.name = 'heart';
-  favoriteButton.label = 'Add to favorites';
+  // Utility components: ui-icon-button for secondary actions
+  const utilityButton = document.createElement('{ui-icon-button}');
+  utilityButton.name = 'heart';
+  utilityButton.label = 'Add to favorites';
   
-  return { card, categoryBadge, actionButton, favoriteButton };
+  return { container, categoryBadge, actionButton, utilityButton };
 }
 ```
 
 **2. State Management Across Components**
 ```javascript
 // Coordinated state management for multiple components
-class ShoelaceCardState {
+class ComponentState {
   constructor() {
     this.isLoading = false;
-    this.isFavorited = false;
-    this.isModalOpen = false;
+    this.isActive = false;
+    this.isExpanded = false;
     this.components = new Map();
   }
   
@@ -410,55 +410,70 @@ function setupAriaAttributes(container) {
 
 #### FOUC Elimination and Advanced Performance Optimization
 
-**Flash of Unstyled Content (FOUC) Challenge**: Modern web components often suffer from progressive content building where users see text appearing first, followed by slowly loading images. This creates a jarring, unprofessional experience.
+**Flash of Unstyled Content (FOUC) Challenge**: Modern web components often suffer from progressive content building where users see text appearing first, followed by slowly loading assets. This creates a jarring, unprofessional experience.
 
-**Image Preloading Solution**: Our implementation addresses FOUC through comprehensive **image preloading strategy** that ensures all visual content is ready before any cards are displayed:
+**Asset Preloading Solution**: Our implementation addresses FOUC through comprehensive **asset preloading strategy** that ensures all visual content is ready before any components are displayed:
 
 ```javascript
-// Utility function to preload a single image
-async function preloadImage(src, timeout = 5000) {
+// Utility function to preload a single asset (image, font, etc.)
+async function preloadAsset(src, type = 'image', timeout = 5000) {
   return new Promise((resolve, reject) => {
-    const img = new Image();
     const timer = setTimeout(() => {
-      reject(new Error(`Image load timeout: ${src}`));
+      reject(new Error(`Asset load timeout: ${src}`));
     }, timeout);
     
-    img.onload = () => {
-      clearTimeout(timer);
-      resolve(img);
-    };
-    
-    img.onerror = () => {
-      clearTimeout(timer);
-      reject(new Error(`Image load failed: ${src}`));
-    };
-    
-    img.src = src;
+    if (type === 'image') {
+      const img = new Image();
+      img.onload = () => {
+        clearTimeout(timer);
+        resolve(img);
+      };
+      img.onerror = () => {
+        clearTimeout(timer);
+        reject(new Error(`Asset load failed: ${src}`));
+      };
+      img.src = src;
+    } else if (type === 'font') {
+      // Font preloading logic
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'font';
+      link.href = src;
+      link.onload = () => {
+        clearTimeout(timer);
+        resolve(link);
+      };
+      link.onerror = () => {
+        clearTimeout(timer);
+        reject(new Error(`Asset load failed: ${src}`));
+      };
+      document.head.appendChild(link);
+    }
   });
 }
 
-// Preload all card images in parallel
-async function preloadAllImages(cardData, timeout = 5000) {
-  const imageUrls = cardData
-    .map(card => card.image)
+// Preload all component assets in parallel
+async function preloadAllAssets(componentData, timeout = 5000) {
+  const assetUrls = componentData
+    .map(item => item.asset || item.image)
     .filter(Boolean);
     
-  if (imageUrls.length === 0) {
+  if (assetUrls.length === 0) {
     return [];
   }
   
-  console.log(`[shoelace-card] Preloading ${imageUrls.length} images...`);
+  console.log(`[component] Preloading ${assetUrls.length} assets...`);
   
-  const preloadPromises = imageUrls.map(url => 
-    preloadImage(url, timeout).catch(error => {
-      console.warn(`[shoelace-card] Failed to preload image: ${url}`, error);
-      return null; // Return null for failed images
+  const preloadPromises = assetUrls.map(url => 
+    preloadAsset(url, 'image', timeout).catch(error => {
+      console.warn(`[component] Failed to preload asset: ${url}`, error);
+      return null; // Return null for failed assets
     })
   );
   
   const results = await Promise.all(preloadPromises);
   const successCount = results.filter(Boolean).length;
-  console.log(`[shoelace-card] Preloaded ${successCount}/${imageUrls.length} images successfully`);
+  console.log(`[component] Preloaded ${successCount}/${assetUrls.length} assets successfully`);
   
   return results;
 }
@@ -466,13 +481,13 @@ async function preloadAllImages(cardData, timeout = 5000) {
 
 #### Atomic Content Rendering
 
-Enhanced card generation ensures all content appears simultaneously:
+Enhanced component generation ensures all content appears simultaneously:
 
 ```javascript
-// Enhanced generate cards with image preloading
-async function generateCards(block, cardData) {
-  if (!cardData || cardData.length === 0) {
-    block.innerHTML = '<p class="shoelace-card-empty">No cards available.</p>';
+// Enhanced generate components with asset preloading
+async function generateComponents(block, componentData) {
+  if (!componentData || componentData.length === 0) {
+    block.innerHTML = '<p class="component-empty">No content available.</p>';
     return;
   }
   
@@ -480,19 +495,19 @@ async function generateCards(block, cardData) {
   block.classList.add('loading');
   
   try {
-    // Preload all images first
-    console.log('[shoelace-card] Preloading images...');
-    await preloadAllImages(cardData);
-    console.log('[shoelace-card] All images preloaded');
+    // Preload all assets first
+    console.log('[component] Preloading assets...');
+    await preloadAllAssets(componentData);
+    console.log('[component] All assets preloaded');
     
-    // Create container and all cards
-    const container = createCardContainer();
+    // Create container and all components
+    const container = createComponentContainer();
     const fragment = document.createDocumentFragment();
     
-    // Build all cards with preloaded images
-    cardData.forEach((data, index) => {
-      const card = createShoelaceCard(data, index + 1);
-      fragment.appendChild(card);
+    // Build all components with preloaded assets
+    componentData.forEach((data, index) => {
+      const component = createComponent(data, index + 1);
+      fragment.appendChild(component);
     });
     
     container.appendChild(fragment);
@@ -507,12 +522,12 @@ async function generateCards(block, cardData) {
       container.classList.add('loaded');
     });
     
-    attachCardEventListeners(block);
+    attachComponentEventListeners(block);
     
   } catch (error) {
-    console.error('[shoelace-card] Image preloading failed:', error);
+    console.error('[component] Asset preloading failed:', error);
     // Fallback to progressive loading
-    generateCardsProgressive(block, cardData);
+    generateComponentsProgressive(block, componentData);
   }
 }
 ```
@@ -521,14 +536,14 @@ async function generateCards(block, cardData) {
 
 ```css
 /* Enhanced loading state for the entire block */
-.shoelace-card-block.loading {
+.component-block.loading {
   opacity: 0.7;
   pointer-events: none;
   position: relative;
   min-height: 200px;
 }
 
-.shoelace-card-block.loading::after {
+.component-block.loading::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -536,44 +551,44 @@ async function generateCards(block, cardData) {
   width: 2rem;
   height: 2rem;
   margin: -1rem 0 0 -1rem;
-  border: 2px solid var(--sl-color-neutral-300);
-  border-top-color: var(--sl-color-primary-600);
+  border: 2px solid var(--component-neutral-300);
+  border-top-color: var(--component-primary-600);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   z-index: 10;
 }
 
 /* Container starts hidden, fades in when loaded */
-.shoelace-card-container {
+.component-container {
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
-.shoelace-card-container.loaded {
+.component-container.loaded {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Individual cards with staggered animation */
-.shoelace-card-item {
+/* Individual items with staggered animation */
+.component-item {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
 
-.shoelace-card-container.loaded .shoelace-card-item {
+.component-container.loaded .component-item {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Staggered delay for each card */
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(1) { transition-delay: 0.1s; }
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(2) { transition-delay: 0.2s; }
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(3) { transition-delay: 0.3s; }
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(4) { transition-delay: 0.4s; }
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(5) { transition-delay: 0.5s; }
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(n+6) { transition-delay: 0.6s; }
+/* Staggered delay for each item */
+.component-container.loaded .component-item:nth-child(1) { transition-delay: 0.1s; }
+.component-container.loaded .component-item:nth-child(2) { transition-delay: 0.2s; }
+.component-container.loaded .component-item:nth-child(3) { transition-delay: 0.3s; }
+.component-container.loaded .component-item:nth-child(4) { transition-delay: 0.4s; }
+.component-container.loaded .component-item:nth-child(5) { transition-delay: 0.5s; }
+.component-container.loaded .component-item:nth-child(n+6) { transition-delay: 0.6s; }
 ```
 
 #### Performance Benefits
@@ -581,7 +596,7 @@ async function generateCards(block, cardData) {
 **✅ Eliminated FOUC**: No progressive text/image building - all content appears simultaneously  
 **✅ Smooth Loading**: Professional loading states with animated spinner  
 **✅ Fast Perceived Performance**: All content appears as complete units  
-**✅ Reliable Fallbacks**: Graceful handling of failed/slow images with placeholder graphics  
+**✅ Reliable Fallbacks**: Graceful handling of failed/slow assets with placeholder content  
 **✅ Network Resilient**: 5-second timeout handling for slow connections  
 **✅ Memory Efficient**: Uses DocumentFragment for optimal DOM manipulation  
 **✅ Accessibility Maintained**: Proper loading states and alt text throughout
@@ -674,35 +689,35 @@ function extractContent(block) {
 </html>
 ```
 
-### Shoelace-Enhanced Pattern Implementation
+### External-Library-Enhanced Pattern Implementation
 
-#### Shoelace HTML Structure
+#### External Library HTML Structure
 
 ```html
 <div class="component-name block">
   <div>
-    <!-- Content structure with Shoelace components -->
+    <!-- Content structure with external library components -->
   </div>
 </div>
 ```
 
-#### Shoelace Integration Pattern
+#### External Library Integration Pattern
 
 ```javascript
-// Import Shoelace components for bundling
-import '@shoelace-style/shoelace/dist/components/card/card.js';
-import '@shoelace-style/shoelace/dist/components/button/button.js';
-import '@shoelace-style/shoelace/dist/components/badge/badge.js';
-import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
-import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
+// Import external library components for bundling
+import '{external-library}/components/card/card.js';
+import '{external-library}/components/button/button.js';
+import '{external-library}/components/badge/badge.js';
+import '{external-library}/components/icon-button/icon-button.js';
+import '{external-library}/components/spinner/spinner.js';
 
 // Import styles for bundling
-import shoelaceStyles from '@shoelace-style/shoelace/dist/themes/light.css?inline';
-import componentStyles from './shoelace-card.css?inline';
+import libraryStyles from '{external-library}/themes/light.css?inline';
+import componentStyles from './{component-name}.css?inline';
 
 // Configuration with debug mode detection
-const SHOELACE_CARD_CONFIG = {
-  QUERY_INDEX_PATH: '/slides/query-index.json',
+const COMPONENT_CONFIG = {
+  DATA_SOURCE_PATH: '/data/component-data.json',
   BADGE_COLOR: 'primary',
   DEFAULT_BUTTON_TEXT: 'Learn More'
 };
@@ -719,10 +734,10 @@ function debugLog(message, data = null) {
 
 // Auto-inject styles when component loads
 function injectStyles() {
-  if (!document.querySelector('#shoelace-card-styles')) {
+  if (!document.querySelector('#{component-name}-styles')) {
     const style = document.createElement('style');
-    style.id = 'shoelace-card-styles';
-    style.textContent = shoelaceStyles + '\n' + componentStyles;
+    style.id = '{component-name}-styles';
+    style.textContent = libraryStyles + '\n' + componentStyles;
     document.head.appendChild(style);
   }
 }
@@ -732,34 +747,34 @@ export default async function decorate(block) {
     // Inject styles first
     injectStyles();
     
-    // Wait for Shoelace components to be ready
-    await waitForShoelaceComponents();
+    // Wait for external library components to be ready
+    await waitForLibraryComponents();
     
-    // Get query path and fetch data
-    const queryPath = getQueryPath(block);
-    const cardData = await fetchCardData(queryPath);
+    // Get data path and fetch data
+    const dataPath = getDataPath(block);
+    const componentData = await fetchComponentData(dataPath);
     
     // Clear block and add container class
     block.innerHTML = '';
-    block.classList.add('shoelace-card-block');
+    block.classList.add('{component-name}-block');
     
-    // Generate cards with preloading
-    await generateCards(block, cardData);
+    // Generate components with preloading
+    await generateComponents(block, componentData);
     
   } catch (error) {
-    console.warn('[shoelace-card] Enhancement failed, showing fallback:', error);
+    console.warn('[{component-name}] Enhancement failed, showing fallback:', error);
     showFallbackContent(block);
   }
 }
 ```
 
-#### Advanced Modal System with Integrated Title Header
+#### Advanced Overlay System with Integrated Title Header
 
-The modal implementation features sophisticated glassmorphism effects with an innovative **integrated title header design**:
+The overlay implementation features sophisticated visual effects with an innovative **integrated title header design**:
 
 ```javascript
 // Enhanced content processing with integrated title header
-async function loadModalContent(modalContent, contentPath) {
+async function loadOverlayContent(overlayContent, contentPath) {
   try {
     // Fetch content with enhanced error handling
     const htmlContent = await fetchPlainHtml(contentPath);
@@ -767,7 +782,7 @@ async function loadModalContent(modalContent, contentPath) {
     if (htmlContent) {
       // Create content container
       const contentDiv = document.createElement('div');
-      contentDiv.className = 'shoelace-card-modal-text';
+      contentDiv.className = 'component-overlay-text';
       contentDiv.innerHTML = htmlContent;
       
       // Extract title from content and create header with ESC button
@@ -781,7 +796,7 @@ async function loadModalContent(modalContent, contentPath) {
       
       // Create title header with ESC button
       const titleHeader = document.createElement('div');
-      titleHeader.className = 'shoelace-card-modal-header';
+      titleHeader.className = 'component-overlay-header';
       titleHeader.style.cssText = `
         display: flex !important;
         justify-content: space-between !important;
@@ -809,9 +824,9 @@ async function loadModalContent(modalContent, contentPath) {
       
       // Create ESC button for header
       const headerCloseButton = document.createElement('button');
-      headerCloseButton.className = 'shoelace-card-modal-close';
+      headerCloseButton.className = 'component-overlay-close';
       headerCloseButton.innerHTML = 'ESC';
-      headerCloseButton.setAttribute('aria-label', 'Press ESC or click to close modal');
+      headerCloseButton.setAttribute('aria-label', 'Press ESC or click to close overlay');
       headerCloseButton.style.cssText = `
         background: rgba(255, 255, 255, 0.2) !important;
         backdrop-filter: blur(10px) !important;
@@ -832,18 +847,18 @@ async function loadModalContent(modalContent, contentPath) {
       titleHeader.appendChild(headerCloseButton);
       
       // Clear all content and add new structure
-      modalContent.innerHTML = '';
-      modalContent.appendChild(titleHeader);
-      modalContent.appendChild(contentDiv);
+      overlayContent.innerHTML = '';
+      overlayContent.appendChild(titleHeader);
+      overlayContent.appendChild(contentDiv);
     }
   } catch (error) {
-    console.error('[shoelace-card] Content loading failed:', error);
-    modalContent.innerHTML = createErrorContent(contentPath, error);
+    console.error('[component] Content loading failed:', error);
+    overlayContent.innerHTML = createErrorContent(contentPath, error);
   }
 }
 ```
 
-#### Test File Template (Shoelace-Enhanced)
+#### Test File Template (External-Library-Enhanced)
 
 ```html
 <!DOCTYPE html>
@@ -851,7 +866,7 @@ async function loadModalContent(modalContent, contentPath) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Component] Test - Shoelace Enhanced</title>
+    <title>[Component] Test - External Library Enhanced</title>
     <link rel="stylesheet" href="[component].css">
     <style>
         body {
@@ -902,15 +917,13 @@ async function loadModalContent(modalContent, contentPath) {
 </head>
 <body>
     <div class="container">
-        <h1>🎴 [Component] Component - Development Test</h1>
+        <h1>🧩 [Component] Component - Development Test</h1>
         
         <div class="test-section">
             <h2>Default Configuration</h2>
-            <p>Testing with default query path: <code>/slides/query-index.json</code></p>
+            <p>Testing with default data path: <code>/data/component-data.json</code></p>
             <div class="debug-info">
-                <strong>Expected behavior
-
-:</strong> Component loads with Shoelace styling and functionality</div>
+                <strong>Expected behavior:</strong> Component loads with external library styling and functionality</div>
             
             <div class="[component] block">
                 <div>
@@ -920,8 +933,8 @@ async function loadModalContent(modalContent, contentPath) {
         </div>
         
         <div class="test-section">
-            <h2>Custom Query Path</h2>
-            <p>Testing with custom query path</p>
+            <h2>Custom Data Path</h2>
+            <p>Testing with custom data path</p>
             <div class="debug-info">
                 <strong>Expected behavior:</strong> Component loads data from custom path
             </div>
@@ -935,7 +948,7 @@ async function loadModalContent(modalContent, contentPath) {
         
         <div class="test-section">
             <h2>Error Handling</h2>
-            <p>Testing with invalid query path</p>
+            <p>Testing with invalid data path</p>
             <div class="debug-info">
                 <strong>Expected behavior:</strong> Component shows error state gracefully
             </div>
@@ -1418,11 +1431,11 @@ This architecture standards guide provides a comprehensive framework for develop
 - **Enable AI Assistance**: Local-first development environment supports intelligent assistance
 - **Scale Effectively**: Clear patterns support team growth and knowledge transfer
 
-The dual-pattern approach (EDS-Native and Shoelace-Enhanced) provides flexibility while maintaining consistency, allowing teams to choose the right tool for each component's complexity and requirements.
+The dual-pattern approach (EDS-Native and External-Library-Enhanced) provides flexibility while maintaining consistency, allowing teams to choose the right tool for each component's complexity and requirements.
 
 ### Key Takeaways
 
-1. **Choose the Right Pattern**: Use EDS-Native for simple components, Shoelace-Enhanced for complex ones
+1. **Choose the Right Pattern**: Use EDS-Native for simple components, External-Library-Enhanced for complex ones
 2. **Follow Common Standards**: All components share error handling, accessibility, and performance standards
 3. **Test Thoroughly**: Use the provided checklists and templates for comprehensive testing
 4. **Document Everything**: Clear documentation enables team collaboration and maintenance
