@@ -13,8 +13,8 @@ const CONFIG = {
   targetBlocksDir: path.resolve(__dirname, '../../blocks/shoelace-card'),
   filesToDeploy: [
     { source: 'shoelace-card.js', target: 'shoelace-card.js' },
-    { source: 'shoelace-card.css', target: 'shoelace-card.css' },
-    { source: 'README.md', target: 'README.md' }
+    { source: 'shoelace-card-stub.css', target: 'shoelace-card.css' },
+    { source: 'USER-README.md', target: 'README.md' }
   ],
   preserveFiles: [
     'test.html' // Don't overwrite existing test files
@@ -120,11 +120,19 @@ async function validateSourceFiles() {
     return false;
   }
   
-  const cssFile = path.join(CONFIG.buildDir, 'shoelace-card.css');
+  const cssFile = path.join(CONFIG.buildDir, 'shoelace-card-stub.css');
   const cssExists = await fileExists(cssFile);
   
   if (!cssExists) {
-    log.error('CSS file not found in build directory');
+    log.error('CSS stub file not found in build directory');
+    return false;
+  }
+  
+  const readmeFile = path.join(CONFIG.buildDir, 'USER-README.md');
+  const readmeExists = await fileExists(readmeFile);
+  
+  if (!readmeExists) {
+    log.error('User README file not found in build directory');
     return false;
   }
   
@@ -132,32 +140,7 @@ async function validateSourceFiles() {
   return true;
 }
 
-// Update relative paths in deployed files
-async function updateRelativePaths(filePath) {
-  try {
-    const content = await fs.readFile(filePath, 'utf8');
-    
-    // Update any build-specific paths to be EDS-compatible
-    let updatedContent = content
-      // Remove local utility functions and replace with EDS imports
-      .replace(/\/\/ Local utility functions for development environment[\s\S]*?^}/gm, '')
-      .replace(/^async function loadCSS[\s\S]*?^}/gm, '')
-      .replace(/^async function loadScript[\s\S]*?^}/gm, '')
-      // Add proper EDS imports at the top
-      .replace(/^(\/\/ Configuration|const SHOELACE_CARD_CONFIG)/m, 
-        `// Import EDS utilities\nimport { loadCSS, loadScript } from '../../scripts/aem.js';\n\n$1`);
-    
-    if (updatedContent !== content) {
-      await fs.writeFile(filePath, updatedContent);
-      log.info(`Updated relative paths in: ${path.basename(filePath)}`);
-    }
-    
-    return true;
-  } catch (error) {
-    log.warn(`Failed to update paths in ${filePath}: ${error.message}`);
-    return false;
-  }
-}
+
 
 // Create deployment summary
 function createDeploymentSummary(results) {
@@ -210,12 +193,6 @@ async function deploy() {
       log.info(`\nProcessing: ${fileConfig.source} → ${fileConfig.target}`);
       
       const success = await deployFile(fileConfig.source, fileConfig.target, fileConfig);
-      
-      // Update relative paths for JavaScript files
-      if (success && fileConfig.target.endsWith('.js')) {
-        const targetPath = path.join(CONFIG.targetBlocksDir, fileConfig.target);
-        await updateRelativePaths(targetPath);
-      }
       
       results.push({
         source: fileConfig.source,

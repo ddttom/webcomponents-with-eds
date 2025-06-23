@@ -985,7 +985,7 @@ Tests component with proper EDS block structure using the Node.js development se
 
 #### Automated Build and Deployment
 ```bash
-# Note: The build script currently references spectrum-card and needs updating
+# Build and Deploy Process
 npx node scripts/build-component.js shoelace-card
 ```
 Builds and deploys component to `blocks/` directory for EDS integration with dependency bundling.
