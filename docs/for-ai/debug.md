@@ -552,7 +552,7 @@ npm run debug
 The shoelace-card component demonstrates the effectiveness of this testing approach:
 
 ### ✅ Successful Testing Results
-- **Component**: Self-contained 114KB bundle with all Shoelace dependencies
+- **Component**: Self-contained bundle with all Shoelace dependencies
 - **Data Loading**: Successfully fetches from `/slides/query-index.json` via proxy
 - **Visual Display**: Beautiful responsive cards with York attractions data
 - **Interactive Features**: Immersive full-screen modals with glassmorphism effects
