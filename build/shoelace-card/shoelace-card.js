@@ -62,21 +62,35 @@ async function fetchCardData(queryPath) {
   }
 }
 
-// Fetch plain HTML content for modal display
+// Fetch plain HTML content for modal display with enhanced error handling
 async function fetchPlainHtml(path) {
+  debugLog('FETCH', `Starting fetch for: ${path}`);
+  
   try {
     const url = `${path}.plain.html`;
     
+    // Create abort controller for timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+      debugLog('FETCH', `Timeout reached for: ${url}`);
+    }, 10000); // 10 second timeout
+    
+    debugLog('FETCH', `Fetching URL: ${url}`);
     const response = await fetch(url, {
       mode: 'cors',
-      headers: { 'Accept': 'text/html' }
+      headers: { 'Accept': 'text/html' },
+      signal: controller.signal
     });
     
+    clearTimeout(timeoutId);
+    
     if (!response.ok) {
-      throw new Error(`Failed to fetch plain HTML: ${response.status}`);
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
     
     let html = await response.text();
+    debugLog('FETCH', 'Content loaded successfully', { size: html.length });
     
     // Fix relative image paths
     html = html.replace(/src="\.\/media\//g, 'src="/media/');
@@ -85,8 +99,9 @@ async function fetchPlainHtml(path) {
     
     return html;
   } catch (error) {
+    debugLog('FETCH', 'Fetch failed', error);
     console.error('[shoelace-card] Plain HTML fetch error:', error);
-    return null;
+    throw error; // Re-throw to be handled by caller
   }
 }
 
@@ -327,55 +342,10 @@ function validateModalStructure(modal) {
 
 // Enhanced close button creation
 function createEnhancedCloseButton() {
-  const closeButton = document.createElement('button');
-  closeButton.className = 'shoelace-card-modal-close';
-  closeButton.innerHTML = 'ESC';
-  closeButton.setAttribute('aria-label', 'Press ESC or click to close modal');
-  closeButton.setAttribute('type', 'button');
-  closeButton.setAttribute('tabindex', '0');
-  
-  // Enhanced inline styles for ESC button
-  closeButton.style.cssText = `
-    position: absolute !important;
-    top: 1rem !important;
-    right: 1rem !important;
-    background: rgba(255, 255, 255, 0.2) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border-radius: 0.5rem !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    color: white !important;
-    font-size: 0.875rem !important;
-    font-weight: 600 !important;
-    font-family: monospace !important;
-    z-index: 1003 !important;
-    padding: 0.5rem 0.75rem !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    line-height: 1 !important;
-    pointer-events: auto !important;
-    user-select: none !important;
-    -webkit-user-select: none !important;
-    touch-action: manipulation !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
-  `;
-  
-  // Add hover effects
-  closeButton.addEventListener('mouseenter', () => {
-    closeButton.style.background = 'rgba(255, 255, 255, 0.3)';
-    closeButton.style.transform = 'scale(1.1)';
-  });
-  
-  closeButton.addEventListener('mouseleave', () => {
-    closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
-    closeButton.style.transform = 'scale(1)';
-  });
-  
-  debugLog('Enhanced close button created');
-  return closeButton;
+  // ESC button is now created as part of the title header in loadModalContent
+  // This function is kept for compatibility but returns null
+  debugLog('Close button creation skipped - now part of title header');
+  return null;
 }
 
 // Attempt event attachment with strategy
@@ -561,127 +531,117 @@ function waitForDOMReady(modal) {
   });
 }
 
-// Enhanced modal creation with proper timing
-async function openImmersiveModal(contentPath, backgroundImage) {
-  debugLog('Opening immersive modal with enhanced timing');
-  
-  // Ensure styles are injected before creating modal
-  injectStyles();
-  
-  // Create modal structure
-  const modal = document.createElement('div');
-  modal.className = 'shoelace-card-modal';
-  modal.setAttribute('role', 'dialog');
-  modal.setAttribute('aria-modal', 'true');
-  
-  // Critical inline styles for visibility
-  modal.style.cssText = `
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 1000 !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background-color: rgba(0, 0, 0, 0.8) !important;
-    animation: modalFadeIn 0.3s ease-out !important;
+// Create error content for failed loads
+function createErrorContent(contentPath, error) {
+  return `
+    <div style="
+      position: relative !important;
+      z-index: 2147483647 !important;
+      color: white !important;
+      text-align: center !important;
+      padding: 1rem !important;
+      background: rgba(255, 0, 0, 0.8) !important;
+      border-radius: 0.5rem !important;
+      margin: 0 !important;
+      border: 2px solid white !important;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    ">
+      <h2 style="color: white !important; margin-bottom: 1rem !important; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;">
+        ⚠️ Content Loading Error
+      </h2>
+      <p style="color: rgba(255, 255, 255, 0.9) !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;">
+        Failed to load content from: ${contentPath}.plain.html
+      </p>
+      <p style="color: rgba(255, 255, 255, 0.7) !important; font-size: 0.9rem !important; margin-top: 0 !important;">
+        Error: ${error.message}
+      </p>
+      <button onclick="location.reload()" style="
+        background: rgba(255, 255, 255, 0.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+        padding: 0.5rem 1rem !important;
+        border-radius: 0.25rem !important;
+        cursor: pointer !important;
+        margin-top: 1rem !important;
+      ">
+        🔄 Retry
+      </button>
+    </div>
   `;
-  
-  // Set background image with fallback
-  if (backgroundImage) {
-    modal.style.backgroundImage = `url(${backgroundImage})`;
-  }
-  
-  const modalOverlay = document.createElement('div');
-  modalOverlay.className = 'shoelace-card-modal-overlay';
-  modalOverlay.style.cssText = `
-    position: relative !important;
-    width: 90% !important;
-    max-width: 800px !important;
-    max-height: 90vh !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border-radius: 1rem !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    padding: 2rem !important;
-    overflow-y: auto !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-    animation: modalSlideIn 0.3s ease-out !important;
-  `;
-  
-  const modalContent = document.createElement('div');
-  modalContent.className = 'shoelace-card-modal-content';
-  modalContent.style.cssText = `
-    color: white !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
-    min-height: 200px !important;
-    position: relative !important;
-    z-index: 1003 !important;
-    display: block !important;
-    overflow: visible !important;
-  `;
-  
-  // Create enhanced close button
-  const closeButton = createEnhancedCloseButton();
-  
-  // Create loading state
-  const loadingSpinner = document.createElement('sl-spinner');
-  loadingSpinner.className = 'shoelace-card-modal-loading';
-  modalContent.appendChild(loadingSpinner);
-  
-  // Assemble modal
-  modalOverlay.appendChild(closeButton);
-  modalOverlay.appendChild(modalContent);
-  modal.appendChild(modalOverlay);
-  
-  // Add to DOM first
-  document.body.appendChild(modal);
-  debugLog('Modal added to DOM');
-  
-  // Wait for DOM to be ready
-  await waitForDOMReady(modal);
-  
-  // Validate structure
-  const validation = validateModalStructure(modal);
-  if (!validation.closeButton) {
-    debugLog('ERROR: Close button not found after DOM insertion');
-  }
-  
-  // Attach event listeners with robust strategy
-  attachModalCloseListenersRobust(modal);
-  
-  // Setup additional handlers
-  setupKeyboardHandling(modal);
-  setupEmergencyClose(modal);
-  
-  // Focus management - wait for DOM to be ready
-  setTimeout(() => {
-    try {
-      const currentCloseButton = modal.querySelector('.shoelace-card-modal-close');
-      if (currentCloseButton) {
-        currentCloseButton.focus();
-        debugLog('Close button focused successfully');
-      }
-    } catch (error) {
-      debugLog('Focus error (non-critical):', error);
-    }
-  }, 150);
+}
 
-  // Fetch and display content with enhanced visibility fixes
+// Enhanced modal content loading with guaranteed spinner replacement
+async function loadModalContent(modalContent, contentPath) {
+  debugLog('CONTENT', 'Starting content load process');
+  
+  // Set up timeout protection
+  const LOADING_TIMEOUT = 8000; // 8 seconds max
+  let timeoutReached = false;
+  
+  const timeoutId = setTimeout(() => {
+    timeoutReached = true;
+    debugLog('TIMEOUT', 'Loading timeout reached, showing fallback');
+    
+    modalContent.innerHTML = `
+      <div style="
+        position: relative !important;
+        z-index: 2147483647 !important;
+        color: white !important;
+        text-align: center !important;
+        padding: 1rem !important;
+        background: rgba(255, 165, 0, 0.8) !important;
+        border-radius: 0.5rem !important;
+        margin: 0 !important;
+        border: 2px solid white !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      ">
+        <h2 style="color: white !important; margin-bottom: 1rem !important;">⏱️ Loading Timeout</h2>
+        <p style="color: rgba(255, 255, 255, 0.9) !important;">
+          Content is taking too long to load from: ${contentPath}.plain.html
+        </p>
+        <button onclick="location.reload()" style="
+          background: rgba(255, 255, 255, 0.2) !important;
+          border: 1px solid rgba(255, 255, 255, 0.3) !important;
+          color: white !important;
+          padding: 0.5rem 1rem !important;
+          border-radius: 0.25rem !important;
+          cursor: pointer !important;
+          margin-top: 1rem !important;
+        ">
+          🔄 Retry
+        </button>
+      </div>
+    `;
+  }, LOADING_TIMEOUT);
+  
   try {
+    // Ensure spinner exists
+    const spinner = modalContent.querySelector('.shoelace-card-modal-loading');
+    if (!spinner) {
+      debugLog('CONTENT', 'WARNING: No spinner found to replace');
+    }
+    
+    // Fetch content with enhanced error handling
     const htmlContent = await fetchPlainHtml(contentPath);
     
+    // Clear timeout if content loads successfully
+    clearTimeout(timeoutId);
+    
+    if (timeoutReached) {
+      debugLog('CONTENT', 'Content loaded but timeout already reached');
+      return;
+    }
+    
     if (htmlContent) {
+      // Create content container
       const contentDiv = document.createElement('div');
       contentDiv.className = 'shoelace-card-modal-text';
       
-      // Enhanced Content Container Positioning and Visibility
+      // Enhanced Content Container Positioning and Visibility - Optimized Spacing
       contentDiv.style.cssText = `
         position: relative !important;
         z-index: 1002 !important;
@@ -691,15 +651,15 @@ async function openImmersiveModal(contentPath, backgroundImage) {
         font-size: 1.1rem !important;
         line-height: 1.6 !important;
         background: rgba(0, 0, 0, 0.85) !important;
-        padding: 2rem !important;
+        padding: 0.5rem 1rem 1rem 1rem !important;
         border-radius: 0.5rem !important;
         border: 2px solid rgba(255, 255, 255, 0.3) !important;
         color: white !important;
         box-shadow: 
           0 4px 20px rgba(0, 0, 0, 0.5),
           inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-        margin-top: 0 !important;
-        max-height: 60vh !important;
+        margin: 0 !important;
+        max-height: 70vh !important;
         overflow-y: auto !important;
         backdrop-filter: blur(5px) !important;
         -webkit-backdrop-filter: blur(5px) !important;
@@ -749,41 +709,227 @@ async function openImmersiveModal(contentPath, backgroundImage) {
         }
       });
       
-      modalContent.appendChild(contentDiv);
-    } else {
-      throw new Error('Content not found');
-    }
-  } catch (error) {
-    // Enhanced Error Handling with Visible Fallback
-    console.error('[shoelace-card] Modal content error:', error);
-    
-    modalContent.innerHTML = `
-      <div style="
-        position: relative !important;
-        z-index: 1003 !important;
+      // Extract title from content and create header with ESC button
+      const titleElement = contentDiv.querySelector('h1');
+      const titleText = titleElement ? titleElement.textContent : 'Content';
+      
+      // Remove original title from content
+      if (titleElement) {
+        titleElement.remove();
+      }
+      
+      // Create title header with ESC button
+      const titleHeader = document.createElement('div');
+      titleHeader.className = 'shoelace-card-modal-header';
+      titleHeader.style.cssText = `
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 1rem 1rem 0.5rem 1rem !important;
+        margin-bottom: 1rem !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+      `;
+      
+      // Create title element
+      const title = document.createElement('h1');
+      title.textContent = titleText;
+      title.style.cssText = `
         color: white !important;
-        text-align: center !important;
-        padding: 2rem !important;
-        background: rgba(255, 0, 0, 0.8) !important;
+        font-size: 2rem !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+        background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        flex: 1 !important;
+      `;
+      
+      // Create ESC button for header
+      const headerCloseButton = document.createElement('button');
+      headerCloseButton.className = 'shoelace-card-modal-close';
+      headerCloseButton.innerHTML = 'ESC';
+      headerCloseButton.setAttribute('aria-label', 'Press ESC or click to close modal');
+      headerCloseButton.setAttribute('type', 'button');
+      headerCloseButton.setAttribute('tabindex', '0');
+      headerCloseButton.style.cssText = `
+        background: rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
         border-radius: 0.5rem !important;
-        margin-top: 0 !important;
-        border: 2px solid white !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-      ">
-        <h2 style="color: white !important; margin-bottom: 1rem !important; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;">
-          ⚠️ Content Loading Error
-        </h2>
-        <p style="color: rgba(255, 255, 255, 0.9) !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;">
-          Failed to load content from: ${contentPath}.plain.html
-        </p>
-        <p style="color: rgba(255, 255, 255, 0.7) !important; font-size: 0.9rem !important; margin-top: 0 !important;">
-          Error: ${error.message}
-        </p>
-      </div>
-    `;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        font-family: monospace !important;
+        z-index: 2147483647 !important;
+        width: 3rem !important;
+        height: 2rem !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-left: 1rem !important;
+      `;
+      
+      // Add hover effect
+      headerCloseButton.addEventListener('mouseenter', () => {
+        headerCloseButton.style.background = 'rgba(255, 255, 255, 0.3) !important';
+        headerCloseButton.style.transform = 'scale(1.05)';
+      });
+      
+      headerCloseButton.addEventListener('mouseleave', () => {
+        headerCloseButton.style.background = 'rgba(255, 255, 255, 0.2) !important';
+        headerCloseButton.style.transform = 'scale(1)';
+      });
+      
+      // Assemble header
+      titleHeader.appendChild(title);
+      titleHeader.appendChild(headerCloseButton);
+      
+      // GUARANTEED SPINNER REPLACEMENT - Clear all content and add new structure
+      modalContent.innerHTML = '';
+      modalContent.appendChild(titleHeader);
+      modalContent.appendChild(contentDiv);
+      
+      debugLog('CONTENT', 'Content successfully replaced spinner');
+    } else {
+      throw new Error('Empty content received');
+    }
+    
+  } catch (error) {
+    // Clear timeout on error
+    clearTimeout(timeoutId);
+    
+    if (timeoutReached) {
+      debugLog('CONTENT', 'Error occurred but timeout already reached');
+      return;
+    }
+    
+    debugLog('CONTENT', 'Content loading failed, showing error', error);
+    
+    // GUARANTEED SPINNER REPLACEMENT - Always replace spinner with error message
+    modalContent.innerHTML = createErrorContent(contentPath, error);
   }
+}
+
+// Enhanced modal creation with proper timing and guaranteed spinner replacement
+async function openImmersiveModal(contentPath, backgroundImage) {
+  debugLog('Opening immersive modal with enhanced timing');
+  
+  // Ensure styles are injected before creating modal
+  injectStyles();
+  
+  // Create modal structure
+  const modal = document.createElement('div');
+  modal.className = 'shoelace-card-modal';
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+  
+  // Critical inline styles for visibility
+  modal.style.cssText = `
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 1000 !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    animation: modalFadeIn 0.3s ease-out !important;
+  `;
+  
+  // Set background image with fallback
+  if (backgroundImage) {
+    modal.style.backgroundImage = `url(${backgroundImage})`;
+  }
+  
+  const modalOverlay = document.createElement('div');
+  modalOverlay.className = 'shoelace-card-modal-overlay';
+  modalOverlay.style.cssText = `
+    position: relative !important;
+    width: 90% !important;
+    max-width: 800px !important;
+    max-height: 90vh !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 1rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 1rem !important;
+    overflow-y: auto !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    animation: modalSlideIn 0.3s ease-out !important;
+  `;
+  
+  const modalContent = document.createElement('div');
+  modalContent.className = 'shoelace-card-modal-content';
+  modalContent.style.cssText = `
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    position: relative !important;
+    z-index: 2147483647 !important;
+    display: block !important;
+    overflow: visible !important;
+  `;
+  
+  // Create enhanced close button
+  const closeButton = createEnhancedCloseButton();
+  
+  // Create loading state
+  const loadingSpinner = document.createElement('sl-spinner');
+  loadingSpinner.className = 'shoelace-card-modal-loading';
+  modalContent.appendChild(loadingSpinner);
+  
+  // Assemble modal
+  if (closeButton) {
+    modalOverlay.appendChild(closeButton);
+  }
+  modalOverlay.appendChild(modalContent);
+  modal.appendChild(modalOverlay);
+  
+  // Add to DOM first
+  document.body.appendChild(modal);
+  debugLog('Modal added to DOM');
+  
+  // Wait for DOM to be ready
+  await waitForDOMReady(modal);
+  
+  // Validate structure
+  const validation = validateModalStructure(modal);
+  if (!validation.closeButton) {
+    debugLog('ERROR: Close button not found after DOM insertion');
+  }
+  
+  // Attach event listeners with robust strategy
+  attachModalCloseListenersRobust(modal);
+  
+  // Setup additional handlers
+  setupKeyboardHandling(modal);
+  setupEmergencyClose(modal);
+  
+  // Focus management - wait for DOM to be ready
+  setTimeout(() => {
+    try {
+      const currentCloseButton = modal.querySelector('.shoelace-card-modal-close');
+      if (currentCloseButton) {
+        currentCloseButton.focus();
+        debugLog('Close button focused successfully');
+      }
+    } catch (error) {
+      debugLog('Focus error (non-critical):', error);
+    }
+  }, 150);
+
+  // Load content with guaranteed spinner replacement
+  await loadModalContent(modalContent, contentPath);
   
   debugLog('Modal creation complete');
 }

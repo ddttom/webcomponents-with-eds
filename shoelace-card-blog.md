@@ -43,7 +43,7 @@ This Shoelace Card component showcases what becomes possible when AI can see eve
 The Shoelace Card component represents a significant advancement in web component design, combining:
 
 - **Advanced Glassmorphism Effects**: Multi-layer backdrop blur with sophisticated shadow systems
-- **Immersive Modal System**: Full-screen content display with background imagery integration. Close by double-clicking "ESC" button, pressing ESC key, or clicking outside modal
+- **Immersive Modal System**: Full-screen content display with background imagery integration and integrated title header design. Close by clicking the ESC button in the title header, pressing ESC key, or clicking outside modal
 - **Modern Web Standards**: ES Modules, Web Components, and progressive enhancement
 - **Accessibility First**: ARIA labels, keyboard navigation, and screen reader support
 - **Performance Optimized**: Minimal runtime overhead with efficient DOM manipulation
@@ -717,7 +717,7 @@ export default async function decorate(block) {
 
 ### Advanced Modal System
 
-The modal implementation features sophisticated glassmorphism effects:
+The modal implementation features sophisticated glassmorphism effects with an innovative integrated title header design:
 
 ```javascript
 function createAdvancedModal(cardData, index) {
@@ -733,20 +733,12 @@ function createAdvancedModal(cardData, index) {
     modal.className = 'shoelace-card-modal';
     modal.style.backgroundImage = `url(${cardData.image})`;
     
-    // Content area with dark overlay for text readability
+    // Content area with integrated title header
     const content = document.createElement('div');
     content.className = 'shoelace-card-modal-content';
-    content.style.background = 'linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%)';
-    content.style.backdropFilter = 'blur(8px)';
-    
-    // Enhanced interactive elements
-    const closeButton = createGlassmorphicButton('×', 'Close modal');
-    const slideNumberBadge = createGlassmorphicBadge(index + 1);
     
     // Assemble modal structure
     modal.appendChild(content);
-    modal.appendChild(slideNumberBadge);
-    modal.appendChild(closeButton);
     overlay.appendChild(modal);
     
     // Add to DOM with animation
@@ -761,645 +753,154 @@ function createAdvancedModal(cardData, index) {
 }
 ```
 
-## Advanced CSS Implementation
+### Integrated Title Header Design
 
-### Glassmorphism Design System
+One of the most significant UX improvements in our modal system is the **integrated title header** that combines the content title with the ESC button in a unified, professional interface:
 
-The CSS implementation features a sophisticated glassmorphism design system:
+```javascript
+// Enhanced content processing with integrated title header
+async function loadModalContent(modalContent, contentPath) {
+  try {
+    const htmlContent = await fetchPlainHtml(contentPath);
+    const contentDiv = document.createElement('div');
+    contentDiv.innerHTML = htmlContent;
+    
+    // Extract title from content and create header with ESC button
+    const titleElement = contentDiv.querySelector('h1');
+    const titleText = titleElement ? titleElement.textContent : 'Content';
+    
+    // Remove original title from content to avoid duplication
+    if (titleElement) {
+      titleElement.remove();
+    }
+    
+    // Create integrated title header with ESC button
+    const titleHeader = document.createElement('div');
+    titleHeader.className = 'shoelace-card-modal-header';
+    titleHeader.style.cssText = `
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 1rem 1rem 0.5rem 1rem !important;
+      margin-bottom: 1rem !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    `;
+    
+    // Create title element with gradient styling
+    const title = document.createElement('h1');
+    title.textContent = titleText;
+    title.style.cssText = `
+      color: white !important;
+      font-size: 2rem !important;
+      font-weight: 700 !important;
+      margin: 0 !important;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+      background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+      flex: 1 !important;
+    `;
+    
+    // Create ESC button integrated into header
+    const headerCloseButton = document.createElement('button');
+    headerCloseButton.className = 'shoelace-card-modal-close';
+    headerCloseButton.innerHTML = 'ESC';
+    headerCloseButton.setAttribute('aria-label', 'Press ESC or click to close modal');
+    headerCloseButton.style.cssText = `
+      background: rgba(255, 255, 255, 0.2) !important;
+      backdrop-filter: blur(10px) !important;
+      border-radius: 0.5rem !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      color: white !important;
+      font-size: 0.875rem !important;
+      font-weight: 600 !important;
+      width: 3rem !important;
+      height: 2rem !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      margin-left: 1rem !important;
+    `;
+    
+    // Assemble complete structure
+    titleHeader.appendChild(title);
+    titleHeader.appendChild(headerCloseButton);
+    
+    modalContent.appendChild(titleHeader);
+    modalContent.appendChild(contentDiv);
+    
+  } catch (error) {
+    console.error('[shoelace-card] Content loading failed:', error);
+    modalContent.innerHTML = createErrorContent(contentPath, error);
+  }
+}
+```
+
+#### Design Benefits
+
+**Professional Interface Pattern**
+- Follows standard modal design conventions with clear header/content separation
+- Title and close button are logically grouped in a unified header area
+- Eliminates floating UI elements that can obstruct content
+
+**Enhanced Usability**
+- ESC button is always visible and accessible, never hidden behind content
+- Clear visual hierarchy with title prominently displayed
+- Intuitive placement follows user expectations from other applications
+
+**Visual Excellence**
+- Gradient text styling for the title creates visual impact
+- Glassmorphism effects maintain design consistency
+- Subtle border separation provides clear content organization
+
+**Space Optimization**
+- No wasted vertical space above content
+- Efficient use of header area for both title and controls
+- Content can utilize full available space below the header
 
 ```css
-/* CSS Custom Properties for Design System */
-:root {
-  --shoelace-card-glass-bg: rgba(255, 255, 255, 0.25);
-  --shoelace-card-glass-border: rgba(255, 255, 255, 0.3);
-  --shoelace-card-backdrop-blur: 20px;
-  --shoelace-card-shadow-primary: 0 8px 32px rgba(0, 0, 0, 0.3);
-  --shoelace-card-shadow-secondary: 0 4px 12px rgba(0, 0, 0, 0.2);
-  --shoelace-card-gradient-overlay: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
-  --shoelace-card-transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Enhanced Modal Overlay */
-.shoelace-card-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(var(--shoelace-card-backdrop-blur));
-  -webkit-backdrop-filter: blur(var(--shoelace-card-backdrop-blur));
-  z-index: 1000;
+/* Integrated header styling */
+.shoelace-card-modal-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  animation: modalOverlayFadeIn 0.3s ease-out;
+  padding: 1rem 1rem 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Advanced Modal Container */
-.shoelace-card-modal {
-  position: relative;
-  max-width: 1000px;
-  max-height: 80vh;
-  width: 95%;
-  height: 600px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 
-    var(--shoelace-card-shadow-primary),
-    var(--shoelace-card-shadow-secondary),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
-  animation: modalSlideIn 0.3s ease-out;
-}
-
-/* Glassmorphic Content Area */
-.shoelace-card-modal-content {
-  position: relative;
-  height: 100%;
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  background: var(--shoelace-card-gradient-overlay);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-/* Enhanced Typography */
-.shoelace-card-modal h1 {
-  margin: 0 0 1.5rem 0;
-  font-size: 3rem;
-  font-weight: 700;
+.shoelace-card-modal-header h1 {
   color: white;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-  line-height: 1.1;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  flex: 1;
 }
 
-/* Interactive Elements */
-.shoelace-card-close-button {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: var(--shoelace-card-glass-bg);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid var(--shoelace-card-glass-border);
-  border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
+.shoelace-card-modal-header .shoelace-card-modal-close {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
-  font-size: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  width: 3rem;
+  height: 2rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--shoelace-card-transition-smooth);
-  box-shadow: var(--shoelace-card-shadow-secondary);
-  z-index: 1001;
+  transition: all 0.2s ease;
+  margin-left: 1rem;
 }
 
-.shoelace-card-close-button:hover {
-  background: rgba(255, 255, 255, 0.35);
+.shoelace-card-modal-header .shoelace-card-modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
   transform: scale(1.05);
 }
-```
-
-### Animation System
-
-Sophisticated animation system for smooth user interactions:
-
-```css
-/* Modal Entry Animations */
-@keyframes modalOverlayFadeIn {
-  from {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
-  }
-  to {
-    opacity: 1;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-}
-
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .shoelace-card-modal {
-    width: 95%;
-    height: 70vh;
-  }
-  
-  .shoelace-card-modal-content {
-    padding: 2rem;
-  }
-  
-  .shoelace-card-modal h1 {
-    font-size: 2.5rem;
-  }
-}
-```
-
-## Development Environment Setup
-
-### Development Environment Optimization
-
-A key challenge in modern web component development is managing dependencies between development and production environments. Our implementation addresses this with a clean separation approach:
-
-```javascript
-// Get query path from block content or use default
-function getQueryPath(block) {
-  const customPath = block.textContent.trim();
-  return customPath || SHOELACE_CARD_CONFIG.QUERY_INDEX_PATH;
-}
-
-// Fetch card data from query-index.json
-async function fetchCardData(queryPath) {
-  try {
-    const response = await fetch(queryPath, {
-      mode: 'cors',
-      headers: { 'Accept': 'application/json' }
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch card data: ${response.status}`);
-    }
-    
-    const json = await response.json();
-    return json.data || [];
-  } catch (error) {
-    console.error('[shoelace-card] Fetch error:', error);
-    return [];
-  }
-}
-```
-
-This approach creates a bundled component that includes all dependencies while maintaining compatibility with Adobe Edge Delivery Services through the exported decorate function.
-
-**Benefits:**
-- ✅ Bundled component with all Shoelace dependencies included
-- ✅ Vite-based development environment with hot reload
-- ✅ Automatic style injection for seamless integration
-- ✅ Debug mode detection for development logging
-- ✅ Compatible with EDS block structure requirements
-- ✅ Exportable decorate function for EDS integration
-
-## Development and EDS Testing Workflows
-
-### Dual Development Environment
-
-The Shoelace Card component supports multiple development and testing scenarios through a sophisticated build system:
-
-#### Standalone Development with Vite
-```bash
-cd build/shoelace-card
-npm run dev  # http://localhost:5174
-```
-Perfect for rapid component development with hot reload, modern ES modules, and immediate feedback.
-
-#### EDS Integration Testing
-```bash
-npm run debug  # http://localhost:3000
-```
-Tests component with proper EDS block structure using the Node.js development server that replicates the EDS environment locally.
-
-#### Automated Build and Deployment
-```bash
-# Build and Deploy Process
-npx node scripts/build-component.js shoelace-card
-```
-Builds and deploys component to `blocks/` directory for EDS integration with dependency bundling.
-
-### EDS Compatibility Through Exported Decorate Function
-
-The component exports a `decorate` function that enables seamless EDS integration:
-
-```javascript
-import decorate from './build/shoelace-card/shoelace-card.js';
-
-// Works directly with EDS block structure
-const block = document.querySelector('.shoelace-card.block');
-await decorate(block);
-```
-
-This approach ensures the component works both as a standalone module and within EDS environments without modification.
-
-### NPX Command Workflows
-
-#### Development Commands
-```bash
-# Standalone development
-cd build/shoelace-card && npm run dev
-
-# EDS testing environment
-npm run debug
-
-# Build and deploy using package script
-cd build/shoelace-card && npm run deploy
-
-# Alternative: Build for production (script needs updating for shoelace-card)
-npx node scripts/build-component.js shoelace-card
-```
-
-#### Testing URLs
-```bash
-# Standalone development
-http://localhost:5174/
-
-# EDS integration testing
-http://localhost:3000/blocks/shoelace-card/test.html
-```
-
-### EDS Block Structure Requirements
-
-For proper EDS compatibility, test files must use the exact block structure:
-
-```html
-<div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">
-    <div>
-        <div>
-            <p>Content goes here</p>
-        </div>
-    </div>
-</div>
-```
-
-This structure ensures the component behaves identically in development and production EDS environments.
-
-### Vite Configuration</search>
-</search_and_replace>
-
-Modern build setup with Vite for optimal development experience:
-
-```javascript
-import { defineConfig } from 'vite';
-
-export default defineConfig({
-  root: '.',
-  server: {
-    port: 5174,
-    strictPort: true,
-    open: true,
-    host: true,
-    proxy: {
-      '/slides': {
-        target: 'https://allabout.network',
-        changeOrigin: true,
-        secure: true
-      },
-      '/media': {
-        target: 'https://allabout.network',
-        changeOrigin: true,
-        secure: true
-      }
-    }
-  },
-  build: {
-    lib: {
-      entry: 'shoelace-card.js',
-      name: 'ShoelaceCard',
-      fileName: () => 'shoelace-card.js',
-      formats: ['es']
-    },
-    outDir: 'dist',
-    rollupOptions: {
-      external: [], // Bundle everything, no externals
-      output: {
-        inlineDynamicImports: true,
-        manualChunks: undefined // Single file output
-      }
-    },
-    minify: 'esbuild',
-    target: 'es2020',
-    emptyOutDir: true
-  }
-});
-```
-
-### Package Configuration
-
-Minimal dependencies focusing on performance:
-
-```json
-{
-  "name": "shoelace-card-build",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "Self-contained Shoelace Card component for Adobe Edge Delivery Services",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "deploy": "npm run build && cp dist/shoelace-card.js ../../blocks/shoelace-card/ && cp shoelace-card.css ../../blocks/shoelace-card/",
-    "test": "npm run deploy && echo 'Component deployed. Open blocks/shoelace-card/test.html to test.'",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@shoelace-style/shoelace": "^2.20.1",
-    "vite": "^5.0.0"
-  },
-  "keywords": [
-    "shoelace",
-    "web-components",
-    "eds",
-    "adobe",
-    "card",
-    "self-contained"
-  ],
-  "author": "EDS Team",
-  "license": "MIT"
-}
-```
-
-## Testing and Quality Assurance
-
-### Component Testing
-
-Comprehensive testing approach covering functionality and accessibility:
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shoelace Card Component Test</title>
-    <link rel="stylesheet" href="shoelace-card.css">
-</head>
-<body>
-    <div class="test-environment">
-        <h1>Shoelace Card Component Test</h1>
-        
-        <!-- Component Test Block -->
-        <div class="shoelace-card block" data-block-name="shoelace-card">
-            <div>
-                <div>/slides/query-index.json</div>
-            </div>
-        </div>
-        
-        <!-- Test Controls -->
-        <div class="test-controls">
-            <button onclick="testAccessibility()">Test Accessibility</button>
-            <button onclick="testResponsive()">Test Responsive</button>
-            <button onclick="testPerformance()">Test Performance</button>
-        </div>
-    </div>
-
-    <script type="module">
-        import decorate from './shoelace-card.js';
-        
-        // Initialize component
-        document.addEventListener('DOMContentLoaded', () => {
-            const blocks = document.querySelectorAll('.shoelace-card.block');
-            blocks.forEach(block => decorate(block));
-        });
-        
-        // Test functions
-        window.testAccessibility = () => {
-            console.log('Running accessibility tests...');
-            // Accessibility testing logic
-        };
-        
-        window.testResponsive = () => {
-            console.log('Testing responsive behavior...');
-            // Responsive testing logic
-        };
-        
-        window.testPerformance = () => {
-            console.log('Measuring performance metrics...');
-            // Performance testing logic
-        };
-    </script>
-</body>
-</html>
-```
-
-## Performance Optimization
-
-### Core Web Vitals Optimization
-
-The component is optimized for excellent Core Web Vitals scores:
-
-```javascript
-// Lazy loading for non-critical features
-const lazyLoadModal = async () => {
-  const { createAdvancedModal } = await import('./modal-system.js');
-  return createAdvancedModal;
-};
-
-// Efficient DOM manipulation
-const updateCardContent = (card, data) => {
-  // Use DocumentFragment for batch DOM updates
-  const fragment = document.createDocumentFragment();
-  
-  data.forEach(item => {
-    const cardElement = createCardElement(item);
-    fragment.appendChild(cardElement);
-  });
-  
-  // Single DOM update
-  card.appendChild(fragment);
-};
-
-// Memory management
-const cleanupModal = (overlay) => {
-  // Remove event listeners
-  overlay.removeEventListener('click', handleOverlayClick);
-  document.removeEventListener('keydown', handleEscapeKey);
-  
-  // Clean up DOM
-  document.body.removeChild(overlay);
-  document.body.style.overflow = '';
-};
-```
-
-### Bundle Optimization
-
-Efficient module loading and tree-shaking:
-
-```javascript
-// Dynamic imports for code splitting
-const loadShoelaceComponents = async () => {
-  const [
-    { default: SlCard },
-    { default: SlButton },
-    { default: SlIcon }
-  ] = await Promise.all([
-    import('@shoelace-style/shoelace/dist/components/card/card.js'),
-    import('@shoelace-style/shoelace/dist/components/button/button.js'),
-    import('@shoelace-style/shoelace/dist/components/icon/icon.js')
-  ]);
-  
-  return { SlCard, SlButton, SlIcon };
-};
-```
-
-## Accessibility Implementation
-
-### ARIA and Keyboard Support
-
-Comprehensive accessibility features:
-
-```javascript
-// Modal accessibility setup
-const setupModalAccessibility = (modal, overlay) => {
-  // ARIA attributes
-  modal.setAttribute('role', 'dialog');
-  modal.setAttribute('aria-modal', 'true');
-  modal.setAttribute('aria-labelledby', 'modal-title');
-  modal.setAttribute('aria-describedby', 'modal-description');
-  
-  // Focus management
-  const focusableElements = modal.querySelectorAll(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-  );
-  
-  const firstFocusable = focusableElements[0];
-  const lastFocusable = focusableElements[focusableElements.length - 1];
-  
-  // Focus trap
-  modal.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-      if (e.shiftKey) {
-        if (document.activeElement === firstFocusable) {
-          lastFocusable.focus();
-          e.preventDefault();
-        }
-      } else {
-        if (document.activeElement === lastFocusable) {
-          firstFocusable.focus();
-          e.preventDefault();
-        }
-      }
-    }
-  });
-  
-  // Initial focus
-  firstFocusable?.focus();
-};
-```
-
-## Advanced Features
-
-### Content Management Integration
-
-Seamless integration with EDS content management:
-
-```javascript
-// Fetch card data from query-index.json
-async function fetchCardData(queryPath) {
-  try {
-    const response = await fetch(queryPath, {
-      mode: 'cors',
-      headers: { 'Accept': 'application/json' }
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch card data: ${response.status}`);
-    }
-    
-    const json = await response.json();
-    return json.data || [];
-  } catch (error) {
-    console.error('[shoelace-card] Fetch error:', error);
-    return [];
-  }
-}
-
-// Fetch plain HTML content for modal display
-async function fetchPlainHtml(path) {
-  try {
-    const url = `${path}.plain.html`;
-    
-    const response = await fetch(url, {
-      mode: 'cors',
-      headers: { 'Accept': 'text/html' }
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch plain HTML: ${response.status}`);
-    }
-    
-    let html = await response.text();
-    
-    // Fix relative image paths
-    html = html.replace(/src="\.\/media\//g, 'src="/media/');
-    html = html.replace(/src="media\//g, 'src="/media/');
-    html = html.replace(/src="\.\.\/media\//g, 'src="/media/');
-    
-    return html;
-  } catch (error) {
-    console.error('[shoelace-card] Plain HTML fetch error:', error);
-    return null;
-  }
-}
-
-// Content rendering with fallbacks
-const renderCardContent = (cardData) => {
-  return {
-    title: cardData.title || 'Card Title',
-    description: cardData.description || 'Card description',
-    image: cardData.image || null,
-    buttonText: cardData.buttonText || SHOELACE_CARD_CONFIG.DEFAULT_BUTTON_TEXT,
-    path: cardData.path || '#'
-  };
-};
-```
-
-### Error Handling and Fallbacks
-
-Robust error handling for production reliability:
-
-```javascript
-// Comprehensive error handling
-const handleComponentError = (error, context) => {
-  console.error(`[shoelace-card] Error in ${context}:`, error);
-  
-  // Send error to monitoring service
-  if (window.analytics) {
-    window.analytics.track('Component Error', {
-      component: 'shoelace-card',
-      context,
-      error: error.message,
-      stack: error.stack
-    });
-  }
-  
-  // Show user-friendly fallback
-  return createErrorFallback(context, error);
-};
-
-const createErrorFallback = (context, error) => {
-  const fallback = document.createElement('div');
-  fallback.className = 'shoelace-card-error-fallback';
-  fallback.innerHTML = `
-    <div class="error-content">
-      <h3>Content Temporarily Unavailable</h3>
-      <p>We're experiencing technical difficulties. Please try again later.</p>
-      <button onclick="location.reload()">Retry</button>
-    </div>
-  `;
-  return fallback;
-};
 ```
 
 ## Conclusion
@@ -1409,6 +910,7 @@ The Shoelace Card component represents a significant advancement in modern web c
 ### Technical Excellence
 
 - **Advanced Glassmorphism**: Multi-layer backdrop blur with sophisticated shadow systems
+- **Integrated Title Header Design**: Professional modal interface with unified title and ESC button
 - **Modern Architecture**: ES Modules, Web Components, and progressive enhancement
 - **Performance Optimized**: Efficient DOM manipulation and lazy loading
 - **Accessibility First**: Comprehensive ARIA support and keyboard navigation
@@ -1425,6 +927,7 @@ The Shoelace Card component represents a significant advancement in modern web c
 ### User Experience
 
 - **Visual Excellence**: Premium glassmorphism effects rivaling native applications
+- **Professional Modal Interface**: Integrated title headers that follow industry standards
 - **Smooth Interactions**: Sophisticated animation system with smooth transitions
 - **Responsive Design**: Mobile-optimized with adaptive layouts
 - **Content Integration**: Seamless EDS content management integration
@@ -1437,4 +940,4 @@ The component successfully bridges the gap between design system consistency and
 
 The Shoelace Card component is actively maintained and continuously improved. For the most up-to-date implementation details, complete source code, and latest features, visit the GitHub repository at https://github.com/ddttom/webcomponents-with-eds.
 
-**Note**: Some build automation scripts are currently being updated to fully support the shoelace-card component. The core functionality is complete and working, with ongoing improvements to the development workflow and deployment processes.
+**Recent Updates**: The modal system now features an integrated title header design that combines the content title with the ESC button in a professional, unified interface. This enhancement eliminates floating UI elements and provides a more intuitive user experience that follows standard modal design patterns.

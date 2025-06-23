@@ -116,10 +116,11 @@ npm run test
 - Responsive positioning and accessibility
 
 ### Immersive Modal System
-- Full-screen modals with background imagery
+- Full-screen modals with background imagery and integrated title headers
+- Professional header design with title and ESC button unified interface
 - Glassmorphism effects with backdrop blur
 - Dynamic content loading from `.plain.html` endpoints
-- Multiple close methods: double-click "ESC" button, press ESC key, or click outside modal
+- Multiple close methods: click ESC button in header, press ESC key, or click outside modal
 
 ### Content Loading Architecture
 - Dual-loading: card data from `query-index.json`, full content from `.plain.html`

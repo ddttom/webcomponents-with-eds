@@ -105,7 +105,7 @@
   }
 }
 
-/* Modal Overlay with Glassmorphism */
+/* Modal Overlay with Glassmorphism - Optimized Spacing */
 .shoelace-card-modal-overlay {
   position: relative;
   width: 90%;
@@ -116,7 +116,7 @@
   backdrop-filter: blur(20px);
   border-radius: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 2rem;
+  padding: 1rem;
   overflow-y: auto;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.3),
@@ -135,7 +135,7 @@
   }
 }
 
-/* Close Button with Glassmorphism */
+/* Close Button with Glassmorphism - Optimized Positioning */
 .shoelace-card-modal-close {
   position: absolute;
   top: 1rem;
@@ -143,14 +143,18 @@
   background: rgba(255, 255, 255, 0.2) !important;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  border-radius: 50% !important;
+  border-radius: 0.5rem !important;
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
   color: white !important;
-  font-size: 1.5rem;
-  z-index: 1001;
-  width: 3rem;
-  height: 3rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  z-index: 2147483647;
+  width: 2.5rem;
+  height: 2rem;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .shoelace-card-modal-close:hover {
@@ -169,7 +173,7 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Modal Text Content with Enhanced Glassmorphism */
+/* Modal Text Content with Enhanced Glassmorphism - Optimized Spacing */
 .shoelace-card-modal-text {
   font-size: 1.1rem;
   line-height: 1.6;
@@ -178,7 +182,7 @@
     rgba(0, 0, 0, 0.4) 0%,
     rgba(0, 0, 0, 0.2) 100%
   );
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
@@ -191,13 +195,14 @@
 .shoelace-card-modal-text h3 {
   color: white;
   margin-top: 0;
+  margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .shoelace-card-modal-text h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -242,13 +247,13 @@
   
   .shoelace-card-modal-overlay {
     width: 95%;
-    padding: 1rem;
+    padding: 0.75rem;
     max-height: 95vh;
   }
   
   .shoelace-card-modal-text {
     font-size: 1rem;
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   .shoelace-card-modal-text h1 {
@@ -271,11 +276,11 @@
   
   .shoelace-card-modal-overlay {
     width: 98%;
-    padding: 0.75rem;
+    padding: 0.5rem;
   }
   
   .shoelace-card-modal-text {
-    padding: 0.75rem;
+    padding: 0.5rem;
   }
   
   .shoelace-card-modal-text h1 {

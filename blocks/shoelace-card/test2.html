@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shoelace Card - Self-Contained Component Test</title>
-  <link rel="stylesheet" href="./shoelace-card.css">
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -59,7 +58,7 @@
     .shoelace-card {
       margin: 2rem 0;
     }
-  </link>
+  </style>
 </head>
 <body>
   <div class="container">
@@ -67,15 +66,14 @@
     
     <div class="test-section">
       <h2>Default Configuration</h2>
-      <p>Testing with default query path: /slides/query-index.json</p>
+      <p>Testing with default query path: <code>/slides/query-index.json</code></p>
       <div class="debug-info">
         <strong>Expected behavior:</strong><br>
         • Self-contained component loads all dependencies<br>
         • Fetch data from /slides/query-index.json<br>
         • Display cards with numbered badges<br>
         • Open immersive modals on button click<br>
-        • CSS stub loaded (styles bundled in JS)
-        • No external dependencies required
+        • No external CSS or JS loading required
       </div>
       
       <!-- Default Shoelace Card Block -->
