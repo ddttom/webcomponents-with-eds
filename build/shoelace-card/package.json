@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "npm run build && cp dist/shoelace-card.js ../../blocks/shoelace-card/ && cp shoelace-card.css ../../blocks/shoelace-card/",
+    "deploy": "npm run build && cp dist/shoelace-card.js ../../blocks/shoelace-card/ && cp shoelace-card-stub.css ../../blocks/shoelace-card/shoelace-card.css && cp USER-README.md ../../blocks/shoelace-card/README.md",
     "test": "npm run deploy && echo 'Component deployed. Open blocks/shoelace-card/test.html to test.'",
     "preview": "vite preview"
   },

@@ -61,7 +61,10 @@ build/shoelace-card/
 ├── index.html            # Development test environment
 ├── package.json          # Dependencies and scripts
 ├── vite.config.js        # Build configuration
-└── README.md             # Documentation
+├── deploy.js             # Deployment script
+├── shoelace-card-stub.css # Stub CSS for EDS deployment
+├── USER-README.md        # User documentation
+└── DEV-README.md         # Development documentation
 ```
 
 ### Design System Integration
@@ -89,25 +92,12 @@ One of the most powerful aspects of Shoelace is its modular component system. Ou
 // Core component assembly for rich UI experiences
 const components = ['sl-card', 'sl-button', 'sl-badge', 'sl-icon-button', 'sl-spinner'];
 
-// Strategic component loading for optimal performance
-async function loadShoelaceComponents() {
-  const componentPromises = [
-    import('@shoelace-style/shoelace/dist/components/card/card.js'),
-    import('@shoelace-style/shoelace/dist/components/button/button.js'),
-    import('@shoelace-style/shoelace/dist/components/badge/badge.js'),
-    import('@shoelace-style/shoelace/dist/components/icon-button/icon-button.js'),
-    import('@shoelace-style/shoelace/dist/components/spinner/spinner.js')
-  ];
-  
-  try {
-    await Promise.all(componentPromises);
-    console.debug('[shoelace-card] All components loaded successfully');
-    return true;
-  } catch (error) {
-    console.error('[shoelace-card] Component loading failed:', error);
-    return false;
-  }
-}
+// Components are imported at module level for bundling
+import '@shoelace-style/shoelace/dist/components/card/card.js';
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/badge/badge.js';
+import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
 ```
 
 #### Component Coordination Patterns
@@ -761,74 +751,81 @@ One of the most significant UX improvements in our modal system is the **integra
 // Enhanced content processing with integrated title header
 async function loadModalContent(modalContent, contentPath) {
   try {
+    // Fetch content with enhanced error handling
     const htmlContent = await fetchPlainHtml(contentPath);
-    const contentDiv = document.createElement('div');
-    contentDiv.innerHTML = htmlContent;
     
-    // Extract title from content and create header with ESC button
-    const titleElement = contentDiv.querySelector('h1');
-    const titleText = titleElement ? titleElement.textContent : 'Content';
-    
-    // Remove original title from content to avoid duplication
-    if (titleElement) {
-      titleElement.remove();
+    if (htmlContent) {
+      // Create content container
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'shoelace-card-modal-text';
+      contentDiv.innerHTML = htmlContent;
+      
+      // Extract title from content and create header with ESC button
+      const titleElement = contentDiv.querySelector('h1');
+      const titleText = titleElement ? titleElement.textContent : 'Content';
+      
+      // Remove original title from content
+      if (titleElement) {
+        titleElement.remove();
+      }
+      
+      // Create title header with ESC button
+      const titleHeader = document.createElement('div');
+      titleHeader.className = 'shoelace-card-modal-header';
+      titleHeader.style.cssText = `
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 1rem 1rem 0.5rem 1rem !important;
+        margin-bottom: 1rem !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+      `;
+      
+      // Create title element
+      const title = document.createElement('h1');
+      title.textContent = titleText;
+      title.style.cssText = `
+        color: white !important;
+        font-size: 2rem !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+        background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        flex: 1 !important;
+      `;
+      
+      // Create ESC button for header
+      const headerCloseButton = document.createElement('button');
+      headerCloseButton.className = 'shoelace-card-modal-close';
+      headerCloseButton.innerHTML = 'ESC';
+      headerCloseButton.setAttribute('aria-label', 'Press ESC or click to close modal');
+      headerCloseButton.style.cssText = `
+        background: rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(10px) !important;
+        border-radius: 0.5rem !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        width: 3rem !important;
+        height: 2rem !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        margin-left: 1rem !important;
+      `;
+      
+      // Assemble header
+      titleHeader.appendChild(title);
+      titleHeader.appendChild(headerCloseButton);
+      
+      // Clear all content and add new structure
+      modalContent.innerHTML = '';
+      modalContent.appendChild(titleHeader);
+      modalContent.appendChild(contentDiv);
     }
-    
-    // Create integrated title header with ESC button
-    const titleHeader = document.createElement('div');
-    titleHeader.className = 'shoelace-card-modal-header';
-    titleHeader.style.cssText = `
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      padding: 1rem 1rem 0.5rem 1rem !important;
-      margin-bottom: 1rem !important;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-    `;
-    
-    // Create title element with gradient styling
-    const title = document.createElement('h1');
-    title.textContent = titleText;
-    title.style.cssText = `
-      color: white !important;
-      font-size: 2rem !important;
-      font-weight: 700 !important;
-      margin: 0 !important;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
-      background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%) !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-      background-clip: text !important;
-      flex: 1 !important;
-    `;
-    
-    // Create ESC button integrated into header
-    const headerCloseButton = document.createElement('button');
-    headerCloseButton.className = 'shoelace-card-modal-close';
-    headerCloseButton.innerHTML = 'ESC';
-    headerCloseButton.setAttribute('aria-label', 'Press ESC or click to close modal');
-    headerCloseButton.style.cssText = `
-      background: rgba(255, 255, 255, 0.2) !important;
-      backdrop-filter: blur(10px) !important;
-      border-radius: 0.5rem !important;
-      border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      color: white !important;
-      font-size: 0.875rem !important;
-      font-weight: 600 !important;
-      width: 3rem !important;
-      height: 2rem !important;
-      cursor: pointer !important;
-      transition: all 0.2s ease !important;
-      margin-left: 1rem !important;
-    `;
-    
-    // Assemble complete structure
-    titleHeader.appendChild(title);
-    titleHeader.appendChild(headerCloseButton);
-    
-    modalContent.appendChild(titleHeader);
-    modalContent.appendChild(contentDiv);
-    
   } catch (error) {
     console.error('[shoelace-card] Content loading failed:', error);
     modalContent.innerHTML = createErrorContent(contentPath, error);

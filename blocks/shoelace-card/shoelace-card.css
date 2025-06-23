@@ -1,0 +1,445 @@
+/* Shoelace Card Component Styles */
+
+/* Container Grid Layout */
+.shoelace-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Individual Card Styling */
+.shoelace-card-item {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shoelace-card-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Numbered Badge Styling */
+.shoelace-card-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  --sl-color-primary-600: #0265DC;
+  --sl-color-primary-500: #0265DC;
+  font-weight: bold;
+  font-size: 0.875rem;
+  min-width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card Content */
+.shoelace-card-content {
+  padding: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.shoelace-card-content strong {
+  font-size: 1.125rem;
+  color: var(--sl-color-neutral-900);
+}
+
+/* Card Footer */
+.shoelace-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.shoelace-card-footer sl-button {
+  --sl-color-primary-600: #0265DC;
+  --sl-color-primary-500: #0265DC;
+}
+
+/* Empty State */
+.shoelace-card-empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--sl-color-neutral-500);
+  font-style: italic;
+}
+
+/* Fallback State */
+.shoelace-card-fallback {
+  text-align: center;
+  padding: 2rem;
+  color: var(--sl-color-neutral-600);
+}
+
+/* Modal Styles - Immersive with Glassmorphism */
+.shoelace-card-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Overlay with Glassmorphism - Optimized Spacing */
+.shoelace-card-modal-overlay {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  overflow-y: auto;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Close Button with Glassmorphism - Optimized Positioning */
+.shoelace-card-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.2) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 0.5rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+  font-size: 0.875rem;
+  font-weight: 600;
+  z-index: 2147483647;
+  width: 2.5rem;
+  height: 2rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shoelace-card-modal-close:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: scale(1.05);
+}
+
+.shoelace-card-modal-close:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* Modal Content */
+.shoelace-card-modal-content {
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Text Content with Enhanced Glassmorphism - Optimized Spacing */
+.shoelace-card-modal-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  padding: 1rem;
+  border-radius: 0.5rem;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.shoelace-card-modal-text h1,
+.shoelace-card-modal-text h2,
+.shoelace-card-modal-text h3 {
+  color: white;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.shoelace-card-modal-text h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shoelace-card-modal-text p {
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.shoelace-card-modal-text img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  margin: 1rem 0;
+}
+
+/* Loading Spinner */
+.shoelace-card-modal-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 2rem;
+}
+
+.shoelace-card-modal-loading sl-spinner {
+  --indicator-color: white;
+  --track-color: rgba(255, 255, 255, 0.2);
+  font-size: 3rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .shoelace-card-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+  
+  .shoelace-card-modal-overlay {
+    width: 95%;
+    padding: 0.75rem;
+    max-height: 95vh;
+  }
+  
+  .shoelace-card-modal-text {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .shoelace-card-modal-text h1 {
+    font-size: 2rem;
+  }
+  
+  .shoelace-card-modal-close {
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .shoelace-card-container {
+    padding: 0.25rem;
+  }
+  
+  .shoelace-card-modal-overlay {
+    width: 98%;
+    padding: 0.5rem;
+  }
+  
+  .shoelace-card-modal-text {
+    padding: 0.5rem;
+  }
+  
+  .shoelace-card-modal-text h1 {
+    font-size: 1.75rem;
+  }
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+  .shoelace-card-badge {
+    --sl-color-primary-600: #000;
+    --sl-color-primary-500: #000;
+    color: white;
+    border: 2px solid white;
+  }
+  
+  .shoelace-card-modal-overlay {
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid white;
+  }
+  
+  .shoelace-card-modal-close {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border: 2px solid white !important;
+  }
+  
+  .shoelace-card-modal-text {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid white;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .shoelace-card-item {
+    transition: none;
+  }
+  
+  .shoelace-card-item:hover {
+    transform: none;
+  }
+  
+  .shoelace-card-modal {
+    animation: none;
+  }
+  
+  .shoelace-card-modal-overlay {
+    animation: none;
+  }
+  
+  .shoelace-card-modal-close {
+    transition: none;
+  }
+  
+  .shoelace-card-modal-close:hover {
+    transform: none;
+  }
+}
+
+/* Focus Styles for Accessibility */
+.shoelace-card-item:focus-within {
+  outline: 2px solid var(--sl-color-primary-600);
+  outline-offset: 2px;
+}
+
+sl-button:focus {
+  outline: 2px solid var(--sl-color-primary-600);
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .shoelace-card-modal {
+    display: none;
+  }
+  
+  .shoelace-card-container {
+    display: block;
+  }
+  
+  .shoelace-card-item {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Dark Mode Support (if Shoelace dark theme is loaded) */
+@media (prefers-color-scheme: dark) {
+  .shoelace-card-modal-text h1 {
+    background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Ensure proper stacking context */
+.shoelace-card-block {
+  position: relative;
+  z-index: 1;
+}
+
+/* Enhanced loading state for the entire block */
+.shoelace-card-block.loading {
+  opacity: 0.7;
+  pointer-events: none;
+  position: relative;
+  min-height: 200px;
+}
+
+.shoelace-card-block.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2rem;
+  height: 2rem;
+  margin: -1rem 0 0 -1rem;
+  border: 2px solid var(--sl-color-neutral-300);
+  border-top-color: var(--sl-color-primary-600);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 10;
+}
+
+/* Container starts hidden, fades in when loaded */
+.shoelace-card-container {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.shoelace-card-container.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Individual cards with staggered animation */
+.shoelace-card-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.shoelace-card-container.loaded .shoelace-card-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered delay for each card */
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(1) { transition-delay: 0.1s; }
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(2) { transition-delay: 0.2s; }
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(3) { transition-delay: 0.3s; }
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(4) { transition-delay: 0.4s; }
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(5) { transition-delay: 0.5s; }
+.shoelace-card-container.loaded .shoelace-card-item:nth-child(n+6) { transition-delay: 0.6s; }
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -33,10 +33,31 @@ webcomponents-with-eds/
 ├── .github/                   # GitHub templates and workflows
 ├── blocks/                    # EDS-ready components
 │   ├── counter/              # Interactive counter component
+│   │   ├── counter.css       # Component styles
+│   │   ├── counter.js        # Component logic
+│   │   ├── example.md        # Usage examples
+│   │   └── README.md         # Component documentation
 │   ├── shoelace/             # Shoelace design system integration
+│   │   ├── shoelace.css      # Integration styles
+│   │   ├── shoelace.js       # Integration logic
+│   │   └── README.md         # Integration documentation
 │   └── shoelace-card/        # Advanced glassmorphism card component
-├── build/                    # Standalone build environments (gitignored)
+│       ├── shoelace-card.css # Stub CSS (styles bundled in JS)
+│       ├── shoelace-card.js  # Self-contained component bundle
+│       ├── example.md        # Usage examples
+│       ├── test.html         # Test page
+│       └── README.md         # Component documentation
+├── build/                    # Standalone build environments
 │   └── shoelace-card/        # Vite-based development setup
+│       ├── deploy.js         # Deployment script
+│       ├── DEV-README.md     # Development documentation
+│       ├── index.html        # Development test page
+│       ├── package.json      # Build dependencies and scripts
+│       ├── shoelace-card.css # Source styles
+│       ├── shoelace-card.js  # Source component
+│       ├── shoelace-card-stub.css # Stub CSS for deployment
+│       ├── USER-README.md    # User documentation
+│       └── vite.config.js    # Vite build configuration
 ├── docs/                     # Comprehensive documentation
 │   ├── server-README.md      # Development server guide
 │   └── for-ai/              # AI assistant development guidelines
@@ -52,9 +73,13 @@ webcomponents-with-eds/
 ├── server.js                 # Zero-dependency development server
 ├── server.html              # Development server interface
 ├── shoelace-card-blog.md    # Advanced implementation guide
+├── favicon.ico              # Site favicon
 ├── eslint.config.js         # ESLint configuration
 ├── package.json             # Project dependencies and scripts
-└── Configuration files      # .gitignore, .hintrc, .markdownlint.json, etc.
+├── CODE_OF_CONDUCT.md       # Community guidelines
+├── CONTRIBUTING.md          # Contribution guidelines
+├── LICENSE                  # MIT license
+└── SECURITY.md              # Security policy
 ```
 
 ## 🧩 Advanced Components
@@ -68,8 +93,7 @@ webcomponents-with-eds/
 - **Standalone Build System**: Vite-based development with hot reload and proxy support
 - **EDS Compatibility**: Exported decorate function for seamless integration
 - **Performance Optimized**: Minimal runtime overhead with efficient DOM manipulation
-- **✅ Live Tested**: Successfully tested with real data, modal functionality, and proxy integration</search>
-</search_and_replace>
+- **✅ Live Tested**: Successfully tested with real data, modal functionality, and proxy integration
 
 ```bash
 # Standalone development
@@ -77,7 +101,6 @@ cd build/shoelace-card && npm run dev
 
 # Build and deploy to EDS
 cd build/shoelace-card && npm run deploy
-# Alternative: npx node scripts/build-component.js shoelace-card (script needs updating)
 ```
 
 ### Shoelace Integration
@@ -190,9 +213,8 @@ npm run debug  # Start on http://localhost:3000
 **NPX-powered build and deployment:**
 
 ```bash
-# Build and deploy components (script needs updating for shoelace-card)
-npx node scripts/build-component.js shoelace-card
-# Alternative: cd build/shoelace-card && npm run deploy
+# Build and deploy components
+cd build/shoelace-card && npm run deploy
 
 # Development workflows
 npm run debug     # EDS testing environment
@@ -217,10 +239,7 @@ npm run debug  # Node.js server with EDS structure validation
 ```bash
 # Using package script (recommended)
 cd build/shoelace-card && npm run deploy
-
-# Alternative: Using build script (needs updating for shoelace-card)
-npx node scripts/build-component.js shoelace-card
-# Builds and copies to blocks/ directory
+# Builds self-contained component and copies to blocks/ directory
 ```
 
 ## 🧪 Testing & Quality Assurance
@@ -283,9 +302,6 @@ cd build/shoelace-card && npm run dev
 
 # Build and deploy to blocks directory
 cd build/shoelace-card && npm run deploy
-
-# Alternative: Automated EDS deployment (script needs updating)
-npx node scripts/build-component.js shoelace-card
 ```
 
 ### Development Server Features
@@ -300,9 +316,8 @@ npx node scripts/build-component.js shoelace-card
 # Development server
 npm run debug
 
-# Component builds (script needs updating for shoelace-card)
-npx node scripts/build-component.js shoelace-card
-# Alternative: cd build/shoelace-card && npm run deploy
+# Component builds
+cd build/shoelace-card && npm run deploy
 
 # Quality assurance
 npm run validate

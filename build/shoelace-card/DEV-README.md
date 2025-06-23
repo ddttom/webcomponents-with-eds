@@ -28,6 +28,8 @@ This directory contains the development environment for building a self-containe
    - Builds the self-contained component with Vite
    - Bundles all Shoelace dependencies into one file
    - Copies the built component to `../../blocks/shoelace-card/`
+   - Copies stub CSS file (styles are bundled in JS)
+   - Copies user documentation as README.md
    - No code transformation or path modification needed
 
 ## Architecture
@@ -157,9 +159,11 @@ await decorate(document.querySelector('.my-container'));
 
 ## Build Output
 
-The build process creates a single, optimized file:
+The build process creates optimized files for deployment:
 
-- **Size**: 114KB self-contained bundle with complete dependency bundling
+- **JavaScript**: ~130KB self-contained bundle with complete dependency bundling
+- **CSS Stub**: 49B minimal file indicating styles are bundled in JS
+- **Documentation**: Complete user guide copied from USER-README.md
 - **Dependencies**: All Shoelace components and styles included
 - **Styles**: CSS automatically injected when loaded
 - **Compatibility**: Works in any modern browser environment
@@ -197,7 +201,7 @@ The build process creates a single, optimized file:
 ### ✅ Successful Live Testing
 The component has been successfully tested with the following results:
 
-- **Self-contained Loading**: Component loads with all dependencies bundled (114KB)
+- **Self-contained Loading**: Component loads with all dependencies bundled (~130KB)
 - **Data Fetching**: Successfully fetches from `/slides/query-index.json` via proxy
 - **Card Display**: Beautiful responsive cards with York attractions data
 - **Image Loading**: High-quality images load via allabout.network proxy
@@ -231,8 +235,7 @@ open http://localhost:3000/blocks/shoelace-card/test.html
 - Ensure port 5174 is available for Vite dev server
 - Ensure port 3000 is available for EDS testing server
 - Check proxy configuration for external API access
-- Verify hot reload is working</search>
-</search_and_replace>
+- Verify hot reload is working
 
 ## Related Documentation
 
