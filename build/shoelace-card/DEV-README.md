@@ -162,7 +162,7 @@ await decorate(document.querySelector('.my-container'));
 The build process creates optimized files for deployment:
 
 - **JavaScript**: ~130KB self-contained bundle with complete dependency bundling
-- **CSS Stub**: 49B minimal file indicating styles are bundled in JS
+- **CSS Stub**: Single comment line indicating styles are bundled in JS
 - **Documentation**: Complete user guide copied from USER-README.md
 - **Dependencies**: All Shoelace components and styles included
 - **Styles**: CSS automatically injected when loaded
