@@ -51,7 +51,6 @@ async function serveLocalFile(filePath, res) {
     res.end(content);
     return true;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error(`Error serving local file ${filePath}:`, error.message);
     return false;
   }
@@ -80,9 +79,7 @@ async function proxyRequest(url, res) {
     console.log('Proxy response headers:', Object.fromEntries(response.headers.entries()));
 
     if (!response.ok) {
-      // eslint-disable-next-line no-console
       console.error(`Proxy request failed: ${response.status} ${response.statusText}`);
-      // eslint-disable-next-line no-console
       console.error(`Failed URL: ${proxyUrl}`);
       throw new Error(`Proxy request failed: ${response.status} ${response.statusText}`);
     }
@@ -125,9 +122,7 @@ async function proxyRequest(url, res) {
     console.log(`✅ Successfully proxied: ${url}`);
     return true;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error(`❌ Error proxying request for ${url}:`, error.message);
-    // eslint-disable-next-line no-console
     console.error('Full error:', error);
     return false;
   }
