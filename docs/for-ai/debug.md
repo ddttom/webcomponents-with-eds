@@ -547,14 +547,173 @@ npm run debug
 - Verify proxy URL in server configuration
 - Review network logs in browser dev tools
 
-## Real-World Success Example: Shoelace Card Component
+## Understanding EDS HTML States: Dual Layout System
 
-The shoelace-card component demonstrates the effectiveness of this testing approach:
+### Critical Architectural Distinction for Debugging
 
-### ✅ Successful Testing Results
+EDS operates with a **dual layout system** where HTML undergoes transformation from served to rendered state through [`scripts/aem.js`](scripts/aem.js) and [`scripts/scripts.js`](scripts/scripts.js) processing. This transformation is fundamental to how EDS blocks function.
+
+#### **Served HTML State** (`test2.html`)
+- **Raw content** as delivered from CMS/authoring systems
+- **Minimal structure** before EDS processing
+- **Example**: `<div class="shoelace-card"></div>`
+- **Processing**: Awaits transformation by EDS scripts
+- **Use case**: Represents what EDS receives from content management
+
+#### **Rendered HTML State** (`test.html`) 
+- **Processed content** after EDS scripts transformation
+- **Full block structure** with proper attributes and nesting
+- **Example**: `<div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">`
+- **Processing**: Final DOM state after EDS processing complete
+- **Use case**: Represents final DOM state after EDS processing
+
+#### **HTML Transformation Process**
+
+**CRITICAL**: The served HTML (like [`test2.html`](blocks/shoelace-card/test2.html)) is **perfect as delivered by EDS**. The transformation process automatically converts minimal served HTML into full rendered HTML structure.
+
+The transformation from served to rendered HTML occurs through:
+
+1. **EDS Automatic Structure Creation**:
+   - EDS automatically wraps content in proper `div.section > div > div` structure
+   - Minimal served HTML: `<div class="shoelace-card"></div>`
+   - Gets automatically wrapped to match `div.section > div > div` selector pattern
+
+2. **[`scripts/aem.js`](scripts/aem.js) Processing**:
+   - [`decorateBlocks()`](scripts/aem.js:626) - Finds blocks via `div.section > div > div` selector (after auto-wrapping)
+   - [`decorateBlock()`](scripts/aem.js:608) - Adds `.block` class and `data-block-*` attributes
+   - [`loadBlock()`](scripts/aem.js:687) - Dynamically imports and executes block JavaScript
+
+3. **[`scripts/scripts.js`](scripts/scripts.js) Processing**:
+   - [`loadEager()`](scripts/scripts.js:77) - Processes main content and adds `body.appear` class
+   - [`decorateMain()`](scripts/scripts.js:77) - Orchestrates block decoration
+   - [`loadSection()`](scripts/scripts.js:81) - Handles section-level processing
+
+4. **Component Execution**:
+   - Block's `decorate()` function is called with the transformed element
+   - Component creates final rendered content</search>
+
+#### **Why This Dual Layout System Matters for Debugging**
+
+The distinction is critical because:
+- **EDS processing** transforms minimal HTML into full block structure
+- **Block decoration timing** determines when component `decorate()` functions execute
+- **Shadow DOM timing** can interfere with EDS's DOM manipulation during transformation
+- **Style injection** may occur before or after DOM transformation
+- **Race conditions** exist between EDS transformation and custom element registration
+
+#### **Debugging Strategy for Dual Layout System**
+
+**For Served HTML Issues** (`test2.html`):
+- Debug EDS block discovery: Does `decorateBlocks()` find the element?
+- Debug block decoration: Does `decorateBlock()` add required attributes?
+- Debug block loading: Does `loadBlock()` successfully import component?
+
+**For Rendered HTML Issues** (`test.html`):
+- Debug component execution: Does the `decorate()` function execute?
+- Debug DOM manipulation: Are component changes applied correctly?
+- Debug styling: Are styles properly applied to transformed DOM?
+
+#### **Testing Both Layout States**
+
+Create test files for both scenarios:
+```bash
+blocks/your-block/
+├── test.html      # Rendered HTML (EDS-processed structure)
+├── test2.html     # Served HTML (raw/minimal structure)
+└── your-block.js  # Component logic
+```
+
+#### **Common Dual Layout Debugging Patterns**
+
+**Served HTML Debug Pattern**:
+```javascript
+// In scripts/aem.js - decorateBlocks function
+function decorateBlocks(main) {
+  const blocks = main.querySelectorAll('div.section > div > div');
+  console.log('[DEBUG-EDS] decorateBlocks found:', blocks.length, 'blocks');
+  blocks.forEach(decorateBlock);
+}
+```
+
+**Rendered HTML Debug Pattern**:
+```javascript
+// In component decorate() function
+export default function decorate(block) {
+  console.log('[DEBUG-COMPONENT] decorate() called for:', block.className);
+  console.log('[DEBUG-COMPONENT] Block attributes:', block.dataset);
+  // Component logic here
+}
+```
+
+## Real-World Debug Case Study: Shoelace Card Shadow DOM Issue
+
+The shoelace-card component demonstrates a critical debugging scenario involving Shadow DOM vs EDS processing race conditions:
+
+### 🔍 **Confirmed Issue: Shadow DOM Visibility Problem**
+
+#### **Symptoms Observed:**
+- **✅ Component loads successfully** (console logs show successful processing)
+- **✅ Data fetches correctly** (5/5 images preloaded from `/slides/query-index.json`)
+- **❌ Content completely invisible** (blank white screen despite successful processing)
+- **🔍 DOM timing conflicts** (MutationObserver errors during initialization)
+
+#### **Root Cause Analysis:**
+**Shadow DOM vs EDS Processing Race Condition** where:
+
+1. **EDS Processing**: [`scripts/aem.js:decorateBlock()`](scripts/aem.js:608-620) adds `data-block-status="initialized"` to block
+2. **Component Processing**: [`build/shoelace-card/shoelace-card.js:decorate()`](build/shoelace-card/shoelace-card.js:1036) clears `innerHTML` 
+3. **Shadow DOM Creation**: Component creates Shadow DOM content inside cleared block
+4. **Style Isolation**: CSS targeting `[data-block-status="initialized"]` cannot penetrate Shadow DOM boundaries
+5. **Result**: Content exists but is invisible due to style isolation
+
+#### **Debugging Evidence:**
+```
+Console Logs (test2.html):
+✅ [shoelace-card] Preloading 5 images...
+✅ [shoelace-card] Preloaded 5/5 images successfully  
+✅ [shoelace-card] All images preloaded
+❌ Visual Result: Completely blank screen
+🔍 [DEBUG-TIMING] MutationObserver timing errors
+```
+
+#### **Testing Methodology:**
+- **Served HTML State**: [`test2.html`](blocks/shoelace-card/test2.html) - minimal `<div class="shoelace-card"></div>`
+- **Rendered HTML State**: [`test.html`](blocks/shoelace-card/test.html) - full EDS processed structure
+- **Debug Instrumentation**: Comprehensive timing analysis with [`debug-shoelace-timing.js`](debug-shoelace-timing.js)
+- **Browser Testing**: Visual confirmation via `http://localhost:3000/blocks/shoelace-card/test2.html`
+
+#### **Fix Implementation:**
+**Problem**: [`decorate()`](build/shoelace-card/shoelace-card.js:1040) cleared `innerHTML` without preserving EDS attributes
+
+**Solution Applied**: Preserve and restore EDS attributes after innerHTML clearing
+```javascript
+// Preserve EDS attributes before clearing innerHTML
+const blockStatus = block.getAttribute('data-block-status');
+const blockName = block.getAttribute('data-block-name');
+
+// Clear block and add container class
+block.innerHTML = '';
+block.classList.add('shoelace-card-block');
+
+// Restore EDS attributes to maintain visibility controls
+if (blockStatus) {
+  block.setAttribute('data-block-status', blockStatus);
+  console.warn('[shoelace-card] Preserved data-block-status:', blockStatus);
+}
+if (blockName) {
+  block.setAttribute('data-block-name', blockName);
+  console.warn('[shoelace-card] Preserved data-block-name:', blockName);
+}
+```
+
+**Deployment Process**: 
+1. Modified [`build/shoelace-card/shoelace-card.js`](build/shoelace-card/shoelace-card.js)
+2. Built and deployed: `cd build/shoelace-card && npm run deploy`
+3. Updated [`blocks/shoelace-card/shoelace-card.js`](blocks/shoelace-card/shoelace-card.js) with fix
+
+### ✅ **Previous Successful Testing Results** (for comparison)
 - **Component**: Self-contained bundle with all Shoelace dependencies
 - **Data Loading**: Successfully fetches from `/slides/query-index.json` via proxy
-- **Visual Display**: Beautiful responsive cards with York attractions data
 - **Interactive Features**: Immersive full-screen modals with glassmorphism effects
 - **Error Handling**: Graceful 404 handling while maintaining functionality
 - **Debug Tools**: Built-in debug helpers and comprehensive logging
@@ -574,6 +733,227 @@ http://localhost:3000/blocks/shoelace-card/test.html
 3. **Proxy Integration**: Server successfully proxied missing assets from allabout.network
 4. **Real Data Testing**: Used live data from query endpoints for authentic testing
 5. **Interactive Testing**: Successfully tested modal functionality and user interactions
+
+## ⚠️ **CRITICAL: EDS Core Scripts Constraint**
+
+### **DO NOT MODIFY EDS CORE SCRIPTS**
+
+The following files belong to Adobe Edge Delivery Services and **MUST NOT** be modified:
+
+- **[`scripts/scripts.js`](scripts/scripts.js)** - EDS main processing script
+- **[`scripts/aem.js`](scripts/aem.js)** - EDS core functionality (Adobe licensed)
+- **[`scripts/delayed.js`](scripts/delayed.js)** - EDS delayed loading functionality
+
+### **EDS Body Visibility System**
+
+**How EDS Controls Body Visibility:**
+1. **Default State**: [`styles/styles.css`](styles/styles.css) sets `body { display: none; }`
+2. **Visibility Trigger**: [`scripts/scripts.js:80`](scripts/scripts.js:80) adds `document.body.classList.add('appear')`
+3. **Visible State**: CSS rule `body.appear { display: block; }` makes content visible
+
+**When EDS Adds `appear` Class:**
+- **Condition**: When `main` element exists (line 78: `if (main)`)
+- **Timing**: During `loadEager()` function execution
+- **Location**: [`scripts/scripts.js:80`](scripts/scripts.js:80)
+
+### **Debugging EDS Body Visibility Issues**
+
+**Root Cause Analysis:**
+If `body.appear` class is missing, investigate:
+
+1. **EDS Scripts Loading**: Are [`scripts/scripts.js`](scripts/scripts.js) and [`scripts/aem.js`](scripts/aem.js) loading?
+2. **Main Element**: Does the HTML contain a `<main>` element?
+3. **Script Errors**: Are JavaScript errors preventing EDS completion?
+4. **Timing Issues**: Are custom components interfering with EDS lifecycle?
+
+**Fix Locations (EDS Scripts Excluded):**
+- ✅ **Component Level**: Add fallback in component's `decorate()` function
+- ✅ **Test Files**: Add manual `appear` class in test HTML
+- ✅ **Debug Scripts**: Add visibility fix in debugging tools
+- ❌ **EDS Scripts**: Cannot modify Adobe's core scripts
+
+### **Component-Level Body Visibility Fix Pattern**
+
+```javascript
+// Safe pattern for component decorate() functions
+export default async function decorate(block) {
+  try {
+    // Ensure body visibility for component rendering
+    if (!document.body.classList.contains('appear')) {
+      console.warn('[component-name] EDS appear class missing, adding for visibility');
+      document.body.classList.add('appear');
+    }
+    
+    // ... rest of component logic
+  } catch (error) {
+    console.error('[component-name] Enhancement failed:', error);
+  }
+}
+```
+
+This pattern ensures components work regardless of EDS script timing or failures while respecting the constraint against modifying EDS core files.
+
+### **🔧 DEBUGGING EXCEPTION: Temporary Debug Statements in EDS Core Scripts**
+
+**IMPORTANT**: While EDS core scripts cannot be permanently modified, **temporary debugging statements** are allowed for troubleshooting purposes.
+
+#### **Allowed Debug Modifications**
+
+You **MAY** add temporary debugging statements to these EDS core files:
+- **[`scripts/aem.js`](scripts/aem.js)** - EDS core functionality and block processing
+- **[`scripts/scripts.js`](scripts/scripts.js)** - EDS main processing script and lifecycle
+- **[`scripts/delayed.js`](scripts/delayed.js)** - EDS delayed loading functionality
+- **Served HTML test files** - Any HTML files served by the development server
+
+#### **Debug Statement Requirements**
+
+**✅ ALLOWED Debug Statements:**
+```javascript
+// DOM inspection and state logging
+console.log('[DEBUG-EDS] Block processing state:', blockStatus);
+console.log('[DEBUG-EDS] Element count:', elements.length);
+console.log('[DEBUG-EDS] Current DOM structure:', element.innerHTML);
+
+// Execution flow tracking
+console.group('[DEBUG-EDS] Function: decorateBlocks()');
+console.log('[DEBUG-EDS] Processing block:', blockName);
+console.groupEnd();
+
+// Variable value inspection
+console.log('[DEBUG-EDS] Configuration:', config);
+console.log('[DEBUG-EDS] Data loaded:', data);
+
+// Timing and lifecycle tracking
+console.time('[DEBUG-EDS] Block decoration time');
+console.timeEnd('[DEBUG-EDS] Block decoration time');
+```
+
+**❌ FORBIDDEN Modifications:**
+```javascript
+// DO NOT modify logic or behavior
+if (condition) {
+  // Adding new conditional logic - FORBIDDEN
+}
+
+// DO NOT change function parameters or return values
+function decorateBlock(block) {
+  // Changing function signature - FORBIDDEN
+  return modifiedResult; // Changing return value - FORBIDDEN
+}
+
+// DO NOT add new functionality
+block.addEventListener('click', handler); // Adding new behavior - FORBIDDEN
+```
+
+#### **Debug Statement Guidelines**
+
+1. **Non-Behavioral Only**: Debug statements must NOT alter functionality, logic, or behavior
+2. **Visibility Only**: Only provide visibility into execution flow, variable values, and state
+3. **Temporary**: Must be removed after debugging session is complete
+4. **Prefixed**: Use `[DEBUG-EDS]` prefix for easy identification and removal
+5. **Grouped**: Use `console.group()` for organized output
+
+#### **Debug Session Workflow**
+
+```mermaid
+flowchart TD
+    A[Identify Debug Need] --> B[Add Debug Statements]
+    B --> C[Test and Analyze]
+    C --> D[Implement Fix]
+    D --> E[Verify Solution Works]
+    E --> F[Remove All Debug Statements]
+    F --> G[git restore Modified Files]
+    
+    B --> B1[scripts/aem.js debugging]
+    B --> B2[scripts/scripts.js debugging]
+    B --> B3[scripts/delayed.js debugging]
+    B --> B4[HTML test file debugging]
+    
+    F --> F1[git restore scripts/aem.js]
+    F --> F2[git restore scripts/scripts.js]
+    F --> F3[git restore scripts/delayed.js]
+    F --> F4[git restore test files]
+```
+
+#### **Cleanup Process**
+
+After successful debugging and fix implementation:
+
+```bash
+# Remove all temporary debug statements
+git restore scripts/aem.js
+git restore scripts/scripts.js
+git restore scripts/delayed.js
+git restore blocks/*/test*.html
+
+# Verify clean state
+git status
+```
+
+#### **Example Debug Session: EDS Block Processing**
+
+**Problem**: Block not initializing properly
+
+**Debug Strategy**: Add logging to EDS block processing pipeline
+
+```javascript
+// In scripts/aem.js - decorateBlock function
+export function decorateBlock(block) {
+  console.log('[DEBUG-EDS] decorateBlock called for:', block.className);
+  console.log('[DEBUG-EDS] Block dataset:', block.dataset);
+  
+  const shortBlockName = block.classList[0];
+  console.log('[DEBUG-EDS] Short block name:', shortBlockName);
+  
+  if (shortBlockName) {
+    console.log('[DEBUG-EDS] Setting data-block-name:', shortBlockName);
+    block.dataset.blockName = shortBlockName;
+    
+    console.log('[DEBUG-EDS] Setting data-block-status to initialized');
+    block.dataset.blockStatus = 'initialized';
+    
+    console.log('[DEBUG-EDS] Final block state:', {
+      className: block.className,
+      dataset: block.dataset,
+      children: block.children.length
+    });
+  }
+}
+```
+
+**Analysis**: Debug output reveals whether EDS attributes are being set correctly
+
+**Cleanup**: `git restore scripts/aem.js` after fix is implemented
+
+#### **Common Debug Scenarios**
+
+**🔍 Block Processing Issues**
+```javascript
+// In scripts/aem.js
+console.log('[DEBUG-EDS] decorateBlocks processing:', blocks.length, 'blocks');
+blocks.forEach(block => {
+  console.log('[DEBUG-EDS] Processing block:', block.className, block.dataset);
+});
+```
+
+**⏱️ Timing and Lifecycle Issues**
+```javascript
+// In scripts/scripts.js
+console.log('[DEBUG-EDS] loadEager starting');
+console.time('[DEBUG-EDS] loadEager execution');
+await loadEager(doc);
+console.timeEnd('[DEBUG-EDS] loadEager execution');
+console.log('[DEBUG-EDS] Body appear class added');
+```
+
+**📦 Resource Loading Issues**
+```javascript
+// In scripts/delayed.js
+console.log('[DEBUG-EDS] Delayed scripts loading');
+console.log('[DEBUG-EDS] Available blocks for lazy loading:', blocks);
+```
+
+This debugging capability provides powerful visibility into EDS internal processing while maintaining the constraint that core functionality cannot be permanently altered.
 
 This demonstrates how the local development server enables comprehensive testing of complex EDS components with external dependencies and real data sources.
 

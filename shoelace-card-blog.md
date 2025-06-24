@@ -933,6 +933,137 @@ This implementation serves as a blueprint for creating advanced web components t
 
 The component successfully bridges the gap between design system consistency and creative visual expression, providing developers with a powerful tool for creating engaging, accessible, and performant web experiences.
 
+## ⚠️ **EDS Core Scripts Constraint**
+
+### **Critical Development Constraint**
+
+When working with EDS blocks, it's essential to understand that **EDS core scripts cannot be modified**:
+
+- **[`scripts/scripts.js`](scripts/scripts.js)** - EDS main processing script
+- **[`scripts/aem.js`](scripts/aem.js)** - Adobe licensed core functionality  
+- **[`scripts/delayed.js`](scripts/delayed.js)** - EDS delayed loading functionality
+
+These files belong to Adobe Edge Delivery Services and must remain untouched.
+
+### **EDS Body Visibility System Understanding**
+
+**The EDS Visibility Control Flow:**
+1. **Initial State**: CSS sets `body { display: none; }` by default
+2. **Processing**: EDS [`scripts/scripts.js:80`](scripts/scripts.js:80) adds `document.body.classList.add('appear')`
+3. **Final State**: CSS rule `body.appear { display: block; }` makes content visible
+
+**When EDS Should Add `appear` Class:**
+- **Trigger Condition**: When `<main>` element exists in DOM
+- **Execution Point**: During `loadEager()` function in [`scripts/scripts.js:78-80`](scripts/scripts.js:78-80)
+- **Expected Behavior**: Body becomes visible after EDS processing completes
+
+### **Component-Level Visibility Solutions**
+
+Since EDS scripts cannot be modified, components must ensure their own visibility:
+
+```javascript
+// Recommended pattern for component decorate() functions
+export default async function decorate(block) {
+  try {
+    // Preserve EDS attributes after innerHTML clearing
+    const blockStatus = block.getAttribute('data-block-status');
+    const blockName = block.getAttribute('data-block-name');
+    
+    // Clear block and add container class
+    block.innerHTML = '';
+    block.classList.add('shoelace-card-block');
+    
+    // Restore EDS attributes to maintain visibility controls
+    if (blockStatus) {
+      block.setAttribute('data-block-status', blockStatus);
+    }
+    if (blockName) {
+      block.setAttribute('data-block-name', blockName);
+    }
+    
+    // Ensure body visibility for component rendering
+    if (!document.body.classList.contains('appear')) {
+      console.warn('[shoelace-card] EDS appear class missing, adding for visibility');
+      document.body.classList.add('appear');
+    }
+    
+    // ... rest of component logic
+    
+  } catch (error) {
+    console.error('[shoelace-card] Enhancement failed:', error);
+    showFallbackContent(block);
+  }
+}
+```
+
+### **Why This Approach Works**
+
+**Respects EDS Architecture:**
+- Doesn't modify Adobe's core scripts
+- Maintains EDS processing lifecycle
+- Preserves block status attributes
+- Works with EDS section visibility system
+
+**Provides Reliable Fallback:**
+- Components ensure their own visibility
+- Graceful handling of EDS script timing issues
+- Self-contained component behavior
+- No dependency on EDS script completion timing
+
+**Maintains Performance:**
+- Minimal overhead (single class check/addition)
+- No interference with EDS processing
+- Preserves EDS optimization benefits
+- Compatible with EDS caching strategies
+
+This constraint-aware approach ensures Shoelace Card components work reliably while respecting the boundaries of the EDS system architecture.
+## Understanding EDS HTML Processing States
+
+### Served vs Rendered HTML: A Critical Distinction
+
+When working with EDS blocks, especially those incorporating Shadow DOM components like Shoelace, understanding the difference between **served HTML** and **rendered HTML** is crucial for effective debugging:
+
+#### **Served HTML State** (`test2.html`)
+- **Raw content** as delivered from CMS/authoring systems (Google Docs, SharePoint)
+- **Minimal structure** before EDS processing scripts run
+- **Example**: `<div class="shoelace-card"></div>`
+- **Represents**: Initial state that EDS receives from content management
+- **Use case**: Testing component behavior with minimal DOM structure
+
+#### **Rendered HTML State** (`test.html`)
+- **Processed content** after [`scripts/aem.js`](scripts/aem.js) and [`scripts/scripts.js`](scripts/scripts.js) transformation
+- **Full block structure** with proper EDS attributes and nesting
+- **Example**: `<div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">`
+- **Represents**: Final DOM state after complete EDS processing
+- **Use case**: Testing component behavior in production-like environment
+
+#### **Why This Distinction Matters for Shadow DOM Components**
+
+The served vs rendered distinction is critical because:
+
+1. **EDS Processing Lifecycle**: EDS adds `data-block-status="initialized"` and proper block structure during processing
+2. **Shadow DOM Timing**: Custom elements may register before or after EDS processing completes
+3. **Style Injection**: CSS may not penetrate Shadow DOM boundaries properly depending on timing
+4. **Race Conditions**: Competition between custom element registration and EDS block loading
+5. **Visibility Controls**: EDS section visibility may conflict with Shadow DOM component initialization
+
+#### **Testing Strategy for Both States**
+
+Create comprehensive test files covering both scenarios:
+```bash
+blocks/shoelace-card/
+├── test.html      # Rendered HTML (EDS-processed state)
+├── test2.html     # Served HTML (raw/minimal state)  
+├── shoelace-card.js  # Component logic
+└── shoelace-card.css # Component styles
+```
+
+This dual-testing approach enables debugging of:
+- **Component initialization** in minimal DOM environments
+- **EDS integration** with full block processing
+- **Shadow DOM timing** issues across different lifecycle stages
+- **Style application** in various DOM states
+
 ## Debugging and Development Guide
 
 ### Comprehensive Debugging Process

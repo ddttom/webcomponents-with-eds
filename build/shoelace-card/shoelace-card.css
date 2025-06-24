@@ -8,6 +8,9 @@
   padding: 1rem;
   max-width: 1200px;
   margin: 0 auto;
+  /* Fix for white screen issue - Force immediate visibility */
+  opacity: 1 !important;
+  transition: none !important;
 }
 
 /* Individual Card Styling */
@@ -16,6 +19,8 @@
   max-width: 400px;
   margin: 0 auto;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Fix for white screen issue - Force immediate visibility */
+  opacity: 1 !important;
 }
 
 .shoelace-card-item:hover {
@@ -385,10 +390,10 @@ sl-button:focus {
 
 /* Enhanced loading state for the entire block */
 .shoelace-card-block.loading {
-  opacity: 0.7;
+  opacity: 1 !important;
   pointer-events: none;
   position: relative;
-  min-height: 200px;
+  min-height: auto !important;
 }
 
 .shoelace-card-block.loading::after {
@@ -406,37 +411,16 @@ sl-button:focus {
   z-index: 10;
 }
 
-/* Container starts hidden, fades in when loaded */
-.shoelace-card-container {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-}
-
+/* Loaded state overrides for immediate visibility */
 .shoelace-card-container.loaded {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Individual cards with staggered animation */
-.shoelace-card-item {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 .shoelace-card-container.loaded .shoelace-card-item {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
-
-/* Staggered delay for each card */
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(1) { transition-delay: 0.1s; }
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(2) { transition-delay: 0.2s; }
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(3) { transition-delay: 0.3s; }
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(4) { transition-delay: 0.4s; }
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(5) { transition-delay: 0.5s; }
-.shoelace-card-container.loaded .shoelace-card-item:nth-child(n+6) { transition-delay: 0.6s; }
 
 @keyframes spin {
   to {

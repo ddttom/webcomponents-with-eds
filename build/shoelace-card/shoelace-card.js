@@ -20,11 +20,7 @@ const SHOELACE_CARD_CONFIG = {
 const DEBUG_MODE = window.location.hostname === 'localhost' && 
                    window.location.port === '3000';
 
-function debugLog(message, data = null) {
-  if (DEBUG_MODE) {
-    console.log(`[MODAL-DEBUG] ${message}`, data || '');
-  }
-}
+// Debug logging removed for production
 
 // Auto-inject styles when component loads
 function injectStyles() {
@@ -33,6 +29,9 @@ function injectStyles() {
     style.id = 'shoelace-card-styles';
     style.textContent = shoelaceStyles + '\n' + componentStyles;
     document.head.appendChild(style);
+    
+  } else {
+    
   }
 }
 
@@ -64,7 +63,7 @@ async function fetchCardData(queryPath) {
 
 // Fetch plain HTML content for modal display with enhanced error handling
 async function fetchPlainHtml(path) {
-  debugLog('FETCH', `Starting fetch for: ${path}`);
+  
   
   try {
     const url = `${path}.plain.html`;
@@ -73,10 +72,10 @@ async function fetchPlainHtml(path) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => {
       controller.abort();
-      debugLog('FETCH', `Timeout reached for: ${url}`);
+      
     }, 10000); // 10 second timeout
     
-    debugLog('FETCH', `Fetching URL: ${url}`);
+    
     const response = await fetch(url, {
       mode: 'cors',
       headers: { 'Accept': 'text/html' },
@@ -90,7 +89,7 @@ async function fetchPlainHtml(path) {
     }
     
     let html = await response.text();
-    debugLog('FETCH', 'Content loaded successfully', { size: html.length });
+    
     
     // Fix relative image paths
     html = html.replace(/src="\.\/media\//g, 'src="/media/');
@@ -99,7 +98,7 @@ async function fetchPlainHtml(path) {
     
     return html;
   } catch (error) {
-    debugLog('FETCH', 'Fetch failed', error);
+    
     console.error('[shoelace-card] Plain HTML fetch error:', error);
     throw error; // Re-throw to be handled by caller
   }
@@ -107,22 +106,27 @@ async function fetchPlainHtml(path) {
 
 // Utility function to preload a single image
 async function preloadImage(src, timeout = 5000) {
+  console.log(`[shoelace-card] Starting preload for: ${src}`);
   return new Promise((resolve, reject) => {
     const img = new Image();
     const timer = setTimeout(() => {
+      console.warn(`[shoelace-card] Image load TIMEOUT after ${timeout}ms: ${src}`);
       reject(new Error(`Image load timeout: ${src}`));
     }, timeout);
     
     img.onload = () => {
       clearTimeout(timer);
+      console.log(`[shoelace-card] Image loaded successfully: ${src}`);
       resolve(img);
     };
     
     img.onerror = () => {
       clearTimeout(timer);
+      console.error(`[shoelace-card] Image load ERROR: ${src}`);
       reject(new Error(`Image load failed: ${src}`));
     };
     
+    console.log(`[shoelace-card] Setting img.src for: ${src}`);
     img.src = src;
   });
 }
@@ -262,7 +266,7 @@ function handleModalKeydown(event) {
   if (event.key === 'Escape') {
     const modal = document.querySelector('.shoelace-card-modal');
     if (modal) {
-      debugLog('ESC key pressed - closing modal');
+      
       closeModal(modal);
     }
   }
@@ -279,13 +283,13 @@ function attachCardEventListeners(block) {
 
 // Enhanced close modal with cleanup
 function closeModal(modal) {
-  debugLog('Closing modal with enhanced cleanup');
+  
   
   try {
     // Clean up event handlers
     if (modal._delegationHandler) {
       document.removeEventListener('click', modal._delegationHandler);
-      debugLog('Document delegation handler removed');
+      
     }
     
     if (modal._keyHandler) {
@@ -294,34 +298,34 @@ function closeModal(modal) {
       document.removeEventListener('keyup', modal._keyHandler, { capture: true });
       modal.removeEventListener('keydown', modal._keyHandler, { capture: true });
       modal.removeEventListener('keyup', modal._keyHandler, { capture: true });
-      debugLog('Enhanced keyboard handlers removed');
+      
     }
     
     if (modal._emergencyHandler) {
       modal.removeEventListener('click', modal._emergencyHandler);
-      debugLog('Emergency handler removed');
+      
     }
     
     // Remove modal from DOM
     if (modal.parentNode) {
       modal.parentNode.removeChild(modal);
-      debugLog('Modal removed from DOM');
+      
     }
     
   } catch (error) {
-    debugLog('Error during modal cleanup:', error);
+    
     // Force removal as fallback
     try {
       modal.remove();
     } catch (fallbackError) {
-      debugLog('Fallback removal also failed:', fallbackError);
+      
     }
   }
 }
 
 // Validate modal structure
 function validateModalStructure(modal) {
-  debugLog('Validating modal structure');
+  
   
   const overlay = modal.querySelector('.shoelace-card-modal-overlay');
   const closeButton = modal.querySelector('.shoelace-card-modal-close');
@@ -336,7 +340,7 @@ function validateModalStructure(modal) {
     closeButtonInDOM: closeButton ? document.body.contains(closeButton) : false
   };
   
-  debugLog('Modal structure validation:', validation);
+  
   return validation;
 }
 
@@ -344,25 +348,25 @@ function validateModalStructure(modal) {
 function createEnhancedCloseButton() {
   // ESC button is now created as part of the title header in loadModalContent
   // This function is kept for compatibility but returns null
-  debugLog('Close button creation skipped - now part of title header');
+  
   return null;
 }
 
 // Attempt event attachment with strategy
 function attemptEventAttachment(modal, strategy) {
-  debugLog(`Attempting event attachment: ${strategy}`);
+  
   
   const closeButton = modal.querySelector('.shoelace-card-modal-close');
   
   if (!closeButton) {
-    debugLog(`No close button found for ${strategy} attachment`);
+    
     return false;
   }
   
   try {
     // Multiple event attachment approaches for maximum compatibility
     const clickHandler = (event) => {
-      debugLog(`Close button clicked via ${strategy} attachment`);
+      
       event.preventDefault();
       event.stopPropagation();
       closeModal(modal);
@@ -393,21 +397,21 @@ function attemptEventAttachment(modal, strategy) {
     
     // Test event attachment by adding a test listener
     closeButton.addEventListener('mouseover', () => {
-      debugLog(`Close button hover detected - events are working for ${strategy}`);
+      
     }, { once: true });
     
-    debugLog(`Multiple event listeners attached successfully via ${strategy}`);
+    
     return true;
     
   } catch (error) {
-    debugLog(`Event attachment failed for ${strategy}:`, error);
+    
     return false;
   }
 }
 
 // Document-level event delegation
 function setupDocumentDelegation(modal) {
-  debugLog('Setting up document delegation for modal:', modal);
+  
   
   const modalId = 'modal-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
   modal.setAttribute('data-modal-id', modalId);
@@ -419,7 +423,7 @@ function setupDocumentDelegation(modal) {
     if (closeButton) {
       const targetModal = closeButton.closest(`[data-modal-id="${modalId}"]`);
       if (targetModal === modal) {
-        debugLog('Close button clicked via document delegation');
+        
         event.preventDefault();
         event.stopPropagation();
         closeModal(modal);
@@ -431,7 +435,7 @@ function setupDocumentDelegation(modal) {
     
     // Check if click is outside modal
     if (event.target === modal) {
-      debugLog('Clicked outside modal via document delegation');
+      
       closeModal(modal);
       document.removeEventListener('click', delegationHandler);
     }
@@ -439,7 +443,7 @@ function setupDocumentDelegation(modal) {
   
   // Add delegation handler
   document.addEventListener('click', delegationHandler);
-  debugLog('Document delegation handler added');
+  
   
   // Store handler reference for cleanup
   modal._delegationHandler = delegationHandler;
@@ -447,7 +451,7 @@ function setupDocumentDelegation(modal) {
 
 // Enhanced event attachment with multiple strategies
 function attachModalCloseListenersRobust(modal) {
-  debugLog('Starting robust event listener attachment');
+  
   
   // Strategy 1: Immediate attachment
   let attached = attemptEventAttachment(modal, 'immediate');
@@ -455,12 +459,12 @@ function attachModalCloseListenersRobust(modal) {
   if (!attached) {
     // Strategy 2: Delayed attachment
     setTimeout(() => {
-      debugLog('Attempting delayed event attachment');
+      
       attached = attemptEventAttachment(modal, 'delayed');
       
       if (!attached) {
         // Strategy 3: Document delegation fallback
-        debugLog('Using document delegation fallback');
+        
         setupDocumentDelegation(modal);
       }
     }, 100);
@@ -473,9 +477,9 @@ function attachModalCloseListenersRobust(modal) {
 // Enhanced keyboard handling
 function setupKeyboardHandling(modal) {
   const keyHandler = (event) => {
-    debugLog(`Key pressed: ${event.key}, code: ${event.code}`);
+    
     if (event.key === 'Escape' || event.code === 'Escape' || event.keyCode === 27) {
-      debugLog('ESC key detected - closing modal');
+      
       event.preventDefault();
       event.stopPropagation();
       closeModal(modal);
@@ -493,7 +497,7 @@ function setupKeyboardHandling(modal) {
   modal.addEventListener('keyup', keyHandler, { capture: true });
   
   modal._keyHandler = keyHandler;
-  debugLog('Enhanced keyboard handlers attached');
+  
 }
 
 // Emergency close mechanism
@@ -503,7 +507,7 @@ function setupEmergencyClose(modal) {
   const emergencyHandler = () => {
     clickCount++;
     if (clickCount === 2) {
-      debugLog('Emergency double-click close activated');
+      
       closeModal(modal);
     }
     setTimeout(() => { clickCount = 0; }, 500);
@@ -520,12 +524,12 @@ function waitForDOMReady(modal) {
       // Use requestAnimationFrame to ensure rendering
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          debugLog('DOM ready for modal operations');
+          
           resolve();
         });
       });
     } else {
-      debugLog('Modal not in DOM, waiting...');
+      
       setTimeout(() => waitForDOMReady(modal).then(resolve), 10);
     }
   });
@@ -574,7 +578,7 @@ function createErrorContent(contentPath, error) {
 
 // Enhanced modal content loading with guaranteed spinner replacement
 async function loadModalContent(modalContent, contentPath) {
-  debugLog('CONTENT', 'Starting content load process');
+  
   
   // Set up timeout protection
   const LOADING_TIMEOUT = 8000; // 8 seconds max
@@ -582,7 +586,7 @@ async function loadModalContent(modalContent, contentPath) {
   
   const timeoutId = setTimeout(() => {
     timeoutReached = true;
-    debugLog('TIMEOUT', 'Loading timeout reached, showing fallback');
+    
     
     modalContent.innerHTML = `
       <div style="
@@ -622,7 +626,7 @@ async function loadModalContent(modalContent, contentPath) {
     // Ensure spinner exists
     const spinner = modalContent.querySelector('.shoelace-card-modal-loading');
     if (!spinner) {
-      debugLog('CONTENT', 'WARNING: No spinner found to replace');
+      
     }
     
     // Fetch content with enhanced error handling
@@ -632,7 +636,7 @@ async function loadModalContent(modalContent, contentPath) {
     clearTimeout(timeoutId);
     
     if (timeoutReached) {
-      debugLog('CONTENT', 'Content loaded but timeout already reached');
+      
       return;
     }
     
@@ -794,7 +798,7 @@ async function loadModalContent(modalContent, contentPath) {
       modalContent.appendChild(titleHeader);
       modalContent.appendChild(contentDiv);
       
-      debugLog('CONTENT', 'Content successfully replaced spinner');
+      
     } else {
       throw new Error('Empty content received');
     }
@@ -804,11 +808,11 @@ async function loadModalContent(modalContent, contentPath) {
     clearTimeout(timeoutId);
     
     if (timeoutReached) {
-      debugLog('CONTENT', 'Error occurred but timeout already reached');
+      
       return;
     }
     
-    debugLog('CONTENT', 'Content loading failed, showing error', error);
+    
     
     // GUARANTEED SPINNER REPLACEMENT - Always replace spinner with error message
     modalContent.innerHTML = createErrorContent(contentPath, error);
@@ -817,7 +821,7 @@ async function loadModalContent(modalContent, contentPath) {
 
 // Enhanced modal creation with proper timing and guaranteed spinner replacement
 async function openImmersiveModal(contentPath, backgroundImage) {
-  debugLog('Opening immersive modal with enhanced timing');
+  
   
   // Ensure styles are injected before creating modal
   injectStyles();
@@ -897,7 +901,7 @@ async function openImmersiveModal(contentPath, backgroundImage) {
   
   // Add to DOM first
   document.body.appendChild(modal);
-  debugLog('Modal added to DOM');
+  
   
   // Wait for DOM to be ready
   await waitForDOMReady(modal);
@@ -905,7 +909,7 @@ async function openImmersiveModal(contentPath, backgroundImage) {
   // Validate structure
   const validation = validateModalStructure(modal);
   if (!validation.closeButton) {
-    debugLog('ERROR: Close button not found after DOM insertion');
+    
   }
   
   // Attach event listeners with robust strategy
@@ -921,7 +925,7 @@ async function openImmersiveModal(contentPath, backgroundImage) {
       const currentCloseButton = modal.querySelector('.shoelace-card-modal-close');
       if (currentCloseButton) {
         currentCloseButton.focus();
-        debugLog('Close button focused successfully');
+        
       }
     } catch (error) {
       debugLog('Focus error (non-critical):', error);
@@ -931,7 +935,7 @@ async function openImmersiveModal(contentPath, backgroundImage) {
   // Load content with guaranteed spinner replacement
   await loadModalContent(modalContent, contentPath);
   
-  debugLog('Modal creation complete');
+  
 }
 
 // Fallback function for when preloading fails
@@ -970,6 +974,10 @@ async function generateCards(block, cardData) {
     
     // Create container and all cards
     const container = createCardContainer();
+    
+    
+    
+    
     const fragment = document.createDocumentFragment();
     
     // Build all cards with preloaded images
@@ -985,9 +993,74 @@ async function generateCards(block, cardData) {
     block.appendChild(container);
     block.classList.remove('loading');
     
+    
+    
+    
+    
+    // [DEBUG-COMPONENT] Shoelace Component Status
+    console.group('[DEBUG-COMPONENT] Shoelace Component Status');
+    console.log('[DEBUG-COMPONENT] Custom elements defined:', {
+      'sl-card': !!customElements.get('sl-card'),
+      'sl-button': !!customElements.get('sl-button'),
+      'sl-icon': !!customElements.get('sl-icon')
+    });
+    const slCards = container.querySelectorAll('sl-card');
+    console.log('[DEBUG-COMPONENT] sl-card elements found:', slCards.length);
+    slCards.forEach((card, index) => {
+      console.log(`[DEBUG-COMPONENT] sl-card ${index}:`, {
+        tagName: card.tagName,
+        shadowRoot: !!card.shadowRoot,
+        innerHTML: card.innerHTML.substring(0, 100) + '...',
+        computedDisplay: window.getComputedStyle(card).display,
+        computedVisibility: window.getComputedStyle(card).visibility,
+        offsetWidth: card.offsetWidth,
+        offsetHeight: card.offsetHeight
+      });
+    });
+    console.groupEnd();
+    
     // Trigger fade-in animation
     requestAnimationFrame(() => {
+      // Log initial state before adding loaded class
+      const initialOpacity = window.getComputedStyle(container).opacity;
+      
+      
       container.classList.add('loaded');
+      
+      
+      // Check immediately after adding class
+      const immediateOpacity = window.getComputedStyle(container).opacity;
+      
+      
+      // DIRECT FIX: Force visibility with !important override
+      setTimeout(() => {
+        const finalOpacity = window.getComputedStyle(container).opacity;
+        
+        
+        if (finalOpacity !== '1') {
+          
+          
+          // Create CSS rule with maximum specificity to override failed transition
+          const forceVisibleCSS = `
+            .shoelace-card-container.loaded {
+              opacity: 1 !important;
+              transform: translateY(0) !important;
+              transition: none !important;
+            }
+            .shoelace-card-container.loaded .shoelace-card-item {
+              opacity: 1 !important;
+              transform: translateY(0) !important;
+            }
+          `;
+          
+          const style = document.createElement('style');
+          style.id = 'shoelace-card-visibility-fix';
+          style.textContent = forceVisibleCSS;
+          document.head.appendChild(style);
+          
+          
+        }
+      }, 500);
     });
     
     attachCardEventListeners(block);
@@ -1032,14 +1105,42 @@ export default async function decorate(block) {
     const queryPath = getQueryPath(block);
     const cardData = await fetchCardData(queryPath);
     
+    // Preserve EDS attributes before clearing innerHTML
+    const blockStatus = block.getAttribute('data-block-status');
+    const blockName = block.getAttribute('data-block-name');
+    
     // Clear block and add container class
     block.innerHTML = '';
     block.classList.add('shoelace-card-block');
     
+    // Restore EDS attributes to maintain visibility controls
+    if (blockStatus) {
+      block.setAttribute('data-block-status', blockStatus);
+      
+    }
+    if (blockName) {
+      block.setAttribute('data-block-name', blockName);
+      
+    }
+    
+    // Ensure body visibility for component rendering
+    if (!document.body.classList.contains('appear')) {
+      
+      document.body.classList.add('appear');
+    }
+    
+    // Ensure section visibility for component rendering
+    const section = block.closest('.section');
+    if (section && section.style.display === 'none') {
+      
+      section.style.display = null;
+      section.dataset.sectionStatus = 'loaded';
+    }
+    
     // Generate cards with preloading
     await generateCards(block, cardData);
   } catch (error) {
-    console.warn('[shoelace-card] Enhancement failed, showing fallback:', error);
+    
     showFallbackContent(block);
   }
 }
