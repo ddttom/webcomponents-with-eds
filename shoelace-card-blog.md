@@ -933,6 +933,55 @@ This implementation serves as a blueprint for creating advanced web components t
 
 The component successfully bridges the gap between design system consistency and creative visual expression, providing developers with a powerful tool for creating engaging, accessible, and performant web experiences.
 
+## 🚀 Deployment and EDS Integration
+
+### Deploy Command
+
+The `npm run deploy` command is the key to deploying the finished built stubs and README to the blocks folder:
+
+```bash
+cd build/shoelace-card
+npm run deploy
+```
+
+This command:
+- **Builds the self-contained component** with Vite bundling all Shoelace dependencies
+- **Copies built files** to `../../blocks/shoelace-card/` directory
+- **Deploys stub CSS** (styles are bundled in JavaScript for performance)
+- **Copies user documentation** as README.md for content authors
+- **Creates production-ready files** optimized for EDS deployment
+
+### Using the Built System in Your EDS Project
+
+To actually use the built system in your EDS project, you need to copy the `blocks/shoelace-card/` contents to your own repository and push to git:
+
+```bash
+# Copy the built component to your EDS project
+cp -r blocks/shoelace-card /path/to/your/eds-project/blocks/
+
+# Navigate to your EDS project
+cd /path/to/your/eds-project
+
+# Add the component to git
+git add blocks/shoelace-card/
+
+# Commit the changes
+git commit -m "Add Shoelace Card component with glassmorphism effects"
+
+# Push to your repository
+git push origin main
+```
+
+### Integration Workflow
+
+1. **Development**: Work in `build/shoelace-card/` with hot reload and modern tooling
+2. **Build & Deploy**: Run `npm run deploy` to create production files in `blocks/`
+3. **Copy to EDS**: Copy `blocks/shoelace-card/` contents to your EDS repository
+4. **Git Integration**: Commit and push the component files to your EDS project
+5. **Content Creation**: Use the component in your documents and pages
+
+The deploy command handles the technical build process, but the final step requires manual integration into your specific EDS repository to maintain proper version control and deployment workflows.
+
 ## ⚠️ **EDS Core Scripts Constraint**
 
 ### **Critical Development Constraint**

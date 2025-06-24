@@ -957,6 +957,56 @@ This debugging capability provides powerful visibility into EDS internal process
 
 This demonstrates how the local development server enables comprehensive testing of complex EDS components with external dependencies and real data sources.
 
+## 🚀 Deployment and EDS Integration
+
+### Deploy Command Usage
+
+After successful development and testing, use the deploy command to build and deploy components:
+
+```bash
+# Navigate to component build directory
+cd build/shoelace-card
+
+# Deploy finished built stubs and README to blocks folder
+npm run deploy
+```
+
+The deploy command:
+- **Builds self-contained component** with all dependencies bundled
+- **Copies to blocks/ directory** (`../../blocks/shoelace-card/`)
+- **Creates stub CSS** (styles bundled in JavaScript for performance)
+- **Copies user documentation** as README.md for content authors
+- **Prepares production-ready files** for EDS deployment
+
+### EDS Project Integration
+
+To actually use the built system in your EDS project, copy the `blocks/` contents to your own repository:
+
+```bash
+# Copy built components to your EDS project
+cp -r blocks/shoelace-card /path/to/your/eds-project/blocks/
+
+# Navigate to your EDS project
+cd /path/to/your/eds-project
+
+# Add to git and commit
+git add blocks/shoelace-card/
+git commit -m "Add Shoelace Card component with advanced features"
+
+# Push to your repository
+git push origin main
+```
+
+### Complete Workflow
+
+1. **Development**: Work in `build/shoelace-card/` with `npm run dev`
+2. **Testing**: Use `npm run debug` for EDS compatibility testing
+3. **Build & Deploy**: Run `npm run deploy` to create production files
+4. **Copy to EDS**: Copy `blocks/shoelace-card/` to your EDS repository
+5. **Git Integration**: Commit and push to your EDS project repository
+
+The deploy command handles the technical build process, but final integration requires manual copying to your specific EDS repository to maintain proper version control and deployment workflows.
+
 ---
 
 This guide provides comprehensive instructions for AI assistants to effectively debug and test EDS blocks using the local development server designed to improve AI assistant workflows. The server's local-first approach with proxy fallback enables AI assistants to work more efficiently by providing immediate feedback, clear error reporting, and consistent testing patterns. Follow these established patterns for reliable, efficient EDS development that leverages the server's AI assistant-focused design.

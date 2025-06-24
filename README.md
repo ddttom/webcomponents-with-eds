@@ -12,6 +12,12 @@ cd webcomponents-with-eds
 
 # Copy blocks to your EDS project
 cp -r blocks/* /path/to/your/eds-project/blocks/
+
+# Commit to your EDS repository
+cd /path/to/your/eds-project
+git add blocks/
+git commit -m "Add web components from webcomponents-with-eds"
+git push
 ```
 
 ### For Development
@@ -101,6 +107,10 @@ cd build/shoelace-card && npm run dev
 
 # Build and deploy to EDS
 cd build/shoelace-card && npm run deploy
+
+# Copy to your EDS project and commit
+cp -r blocks/shoelace-card /path/to/your/eds-project/blocks/
+cd /path/to/your/eds-project && git add blocks/ && git commit -m "Add Shoelace Card component" && git push
 ```
 
 ### Shoelace Integration
@@ -241,6 +251,40 @@ npm run debug  # Node.js server with EDS structure validation
 cd build/shoelace-card && npm run deploy
 # Builds self-contained component and copies to blocks/ directory
 ```
+
+## 🚀 Deployment Workflow
+
+### Deploy Command
+The `npm run deploy` command builds finished components and deploys stubs and README to the blocks folder:
+
+```bash
+cd build/shoelace-card
+npm run deploy
+```
+
+This command:
+- **Builds self-contained component** with all dependencies bundled
+- **Copies to blocks/ directory** for EDS compatibility
+- **Creates stub CSS** (styles bundled in JavaScript)
+- **Copies documentation** for content authors
+
+### EDS Integration
+To use the built system in your EDS project, copy the `blocks/` contents to your repository:
+
+```bash
+# Copy built components to your EDS project
+cp -r blocks/* /path/to/your/eds-project/blocks/
+
+# Navigate to your EDS project
+cd /path/to/your/eds-project
+
+# Commit and push to git
+git add blocks/
+git commit -m "Add web components with advanced features"
+git push origin main
+```
+
+The deploy command handles the build process, but final integration requires copying to your EDS repository and committing the changes.
 
 ## 🧪 Testing & Quality Assurance
 

@@ -32,6 +32,20 @@ This directory contains the development environment for building a self-containe
    - Copies user documentation as README.md
    - No code transformation or path modification needed
 
+4. **EDS Integration**
+
+   To use the built system in your EDS project:
+   ```bash
+   # Copy blocks to your EDS repository
+   cp -r ../../blocks/shoelace-card /path/to/your/eds-project/blocks/
+   
+   # Commit and push to git
+   cd /path/to/your/eds-project
+   git add blocks/shoelace-card/
+   git commit -m "Add Shoelace Card component"
+   git push
+   ```
+
 ## Architecture
 
 ### Self-Contained Design
