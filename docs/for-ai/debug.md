@@ -805,6 +805,8 @@ You **MAY** add temporary debugging statements to these EDS core files:
 - **[`scripts/delayed.js`](scripts/delayed.js)** - EDS delayed loading functionality
 - **Served HTML test files** - Any HTML files served by the development server
 
+When debugging is complete, use git restore to get the originals back, after user confirmation
+
 #### **Debug Statement Requirements**
 
 **✅ ALLOWED Debug Statements:**
