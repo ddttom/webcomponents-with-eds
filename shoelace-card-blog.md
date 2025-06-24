@@ -933,8 +933,127 @@ This implementation serves as a blueprint for creating advanced web components t
 
 The component successfully bridges the gap between design system consistency and creative visual expression, providing developers with a powerful tool for creating engaging, accessible, and performant web experiences.
 
+## Debugging and Development Guide
+
+### Comprehensive Debugging Process
+
+The project includes a sophisticated debugging environment designed specifically for AI-assisted development. Here's the complete debugging workflow:
+
+#### **Step 1: Start the Debug Server**
+```bash
+npm run debug  # Starts on http://localhost:3000
+```
+
+**Key Features:**
+- **Local-first, proxy-fallback architecture** - serves local files first, proxies missing assets from `https://allabout.network`
+- **Real-time error reporting** with comprehensive server logs
+- **EDS block structure validation**
+- **AI-friendly environment** with complete context visibility
+
+#### **Step 2: Access Test Pages**
+Navigate to: [`http://localhost:3000/blocks/shoelace-card/test.html`](http://localhost:3000/blocks/shoelace-card/test.html)
+
+**The test page includes:**
+- **Multiple test scenarios** (default, custom path, error handling)
+- **Self-contained component testing** with all Shoelace dependencies bundled
+- **Built-in debug helpers** accessible via browser console
+- **Professional glassmorphism styling** matching component aesthetic
+
+#### **Step 3: Use Debug Tools**
+**Browser Console Helpers:**
+```javascript
+// Test modal functionality
+debugShoelaceCard.testModal()
+
+// Check component loading status
+debugShoelaceCard.checkShoelaceLoaded()
+```
+
+**Browser Developer Tools:**
+- **Console**: Component initialization logs, success/failure messages
+- **Network**: Asset loading (CSS, JS, JSON data, images)
+- **Elements**: DOM structure and component rendering
+
+### **✅ Verified Working Features**
+
+#### **Component Loading**
+- ✅ Self-contained Shoelace Card component loads successfully
+- ✅ All Shoelace dependencies bundled (no external CDN required)
+- ✅ CSS stub loads with styles bundled in JavaScript
+- ✅ Multiple block instances initialize properly
+
+#### **Data Fetching & Proxy**
+- ✅ Default query path: `/slides/query-index.json` (proxied successfully)
+- ✅ Custom query path: `/custom/query-index.json` (404 handled gracefully)
+- ✅ Error handling: `/invalid/path/query-index.json` (proper fallback)
+- ✅ Image preloading: 5/5 images loaded successfully
+
+#### **Modal Functionality**
+- ✅ Immersive glassmorphism modals open on "Learn More" clicks
+- ✅ Background images load from proxied content
+- ✅ Rich content loaded from `.plain.html` files
+- ✅ Click-outside-to-close functionality works
+- ✅ Comprehensive debug logging for modal operations
+
+### **Common Issues & Solutions**
+
+#### **Port Already in Use**
+```bash
+# Kill processes using port 3000
+lsof -ti:3000 | xargs kill -9
+npm run debug
+```
+
+#### **HTML Syntax Errors**
+- Check for malformed tags (like `</link>` instead of `</style>`)
+- Validate proper EDS block structure
+- Ensure proper nesting of elements
+
+#### **Component Not Loading**
+- Verify ES module imports/exports
+- Check browser console for JavaScript errors
+- Ensure proper EDS block structure with correct class names and data attributes
+
+### **Server Behavior**
+
+#### **Local-First Architecture**
+- **Local files** served first from project directory
+- **Proxy fallback** to `https://allabout.network` for missing assets
+- **Comprehensive logging** showing request flow and proxy status
+- **CORS support** for cross-origin development
+
+#### **Asset Management**
+- **JSON data**: Query index files with graceful 404 handling
+- **Images**: Automatic proxy with format optimization
+- **HTML content**: Plain HTML files for modal content
+- **CSS/JS**: Local files with proper MIME types
+
+### **EDS Block Structure Requirements**
+```html
+<div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">
+    <div>
+        <div>
+            <!-- Content processed by decorate function -->
+        </div>
+    </div>
+</div>
+```
+
+### **Quality Assurance Scripts**
+```bash
+npm run lint          # ESLint with automatic fixes
+npm run lint:md       # Markdown linting  
+npm run hint          # Webhint analysis
+npm run security      # Security audit
+npm run validate      # Complete quality check
+```
+
 ## Current Implementation Status
 
 The Shoelace Card component is actively maintained and continuously improved. For the most up-to-date implementation details, complete source code, and latest features, visit the GitHub repository at https://github.com/ddttom/webcomponents-with-eds.
 
-**Recent Updates**: The modal system now features an integrated title header design that combines the content title with the ESC button in a professional, unified interface. This enhancement eliminates floating UI elements and provides a more intuitive user experience that follows standard modal design patterns.
+**Recent Updates**: 
+- The modal system now features an integrated title header design that combines the content title with the ESC button in a professional, unified interface
+- Fixed HTML syntax error in test file that was preventing proper rendering
+- Enhanced debugging environment with comprehensive test scenarios and built-in debug helpers
+- Verified working modal functionality with click-outside-to-close and comprehensive error handling

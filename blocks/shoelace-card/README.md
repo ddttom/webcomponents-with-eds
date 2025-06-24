@@ -7,7 +7,7 @@ A modern, self-contained card component for Adobe Edge Delivery Services that di
 The Shoelace Card block creates beautiful, interactive cards that:
 - Display content from your EDS query-index data
 - Show numbered badges for easy navigation
-- Open full-screen modals with detailed content
+- Open full-screen modals with integrated title headers and ESC buttons
 - Adapt to any screen size automatically
 - Load content dynamically from your published pages
 - Work completely self-contained with zero external dependencies
@@ -226,10 +226,50 @@ This component implements advanced **Flash of Unstyled Content (FOUC) eliminatio
 6. **Image Optimization**: Smaller images load faster and improve the preloading experience</search>
 </search_and_replace>
 
+## Modal Interface
+
+### Integrated Title Header Design
+
+The modal features a professional **integrated title header** that combines the content title with the close button in a unified interface:
+
+**Header Layout:**
+```
+┌─────────────────────────────────────┐
+│ Content Title               ESC     │ ← Integrated Header
+├─────────────────────────────────────┤
+│                                     │
+│ Your content appears here...        │ ← Modal Content
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Key Benefits:**
+- **Always Visible**: ESC button never gets hidden behind content
+- **Professional Design**: Follows standard modal interface patterns
+- **Space Efficient**: No wasted space above content
+- **Clear Hierarchy**: Title and controls are logically grouped
+- **Intuitive Navigation**: Users immediately understand how to close the modal
+
+### Closing the Modal
+
+You can close any modal using:
+- **ESC Button**: Click the ESC button in the title header
+- **Keyboard**: Press the ESC key
+- **Click Outside**: Click anywhere outside the modal content
+- **Double-click**: Double-click anywhere on the modal background
+
+### Content Display
+
+- **Title Extraction**: The H1 from your content becomes the modal title
+- **Gradient Styling**: Titles use beautiful gradient text effects
+- **Content Flow**: Remaining content flows naturally below the header
+- **Responsive**: Header adapts perfectly to all screen sizes
+
 ## Technical Features
 
 - **Self-Contained**: No external dependencies or network requests required
 - **Numbered Badges**: Visual hierarchy with automatic numbering
+- **Integrated Modal Headers**: Professional title headers with built-in ESC buttons
 - **Immersive Modals**: Full-screen content display with background imagery
 - **Responsive Design**: Works perfectly on all devices
 - **Dynamic Loading**: Content loads from your published EDS pages
