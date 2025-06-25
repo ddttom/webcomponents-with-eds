@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Columns - Instrumented</title>
+    <link rel="canonical" href="https://allabout.network/blogs/ddt/integrations/columns">
+    <meta property="og:title" content="Columns">
+    <meta property="og:url" content="https://allabout.network/blogs/ddt/integrations/columns">
+    <meta property="og:image" content="https://allabout.network/blogs/ddt/integrations/media_193050d52a802830d970fde49644ae9a504a61b7f.png?width=1200&#x26;format=pjpg&#x26;optimize=medium">
+    <meta property="og:image:secure_url" content="https://allabout.network/blogs/ddt/integrations/media_193050d52a802830d970fde49644ae9a504a61b7f.png?width=1200&#x26;format=pjpg&#x26;optimize=medium">
+    <meta property="og:image:alt" content="green double Helix">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Columns">
+    <meta name="twitter:image" content="https://allabout.network/blogs/ddt/integrations/media_193050d52a802830d970fde49644ae9a504a61b7f.png?width=1200&#x26;format=pjpg&#x26;optimize=medium">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/scripts/aem-instrumented.js" type="module"></script>
+    <script src="/scripts/scripts-instrumented.js" type="module"></script>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <script>
+      // Global instrumentation access for debugging
+      window.addEventListener('load', () => {
+        // Wait a bit for all scripts to load and execute
+        setTimeout(() => {
+          if (window.instrumentation) {
+            console.log('🔍 Instrumentation Report Available');
+            console.log('📊 Use window.getInstrumentationReport() to view detailed metrics');
+            
+            // Make report accessible globally
+            window.getInstrumentationReport = () => {
+              const report = window.instrumentation.generateReport();
+              console.log('📈 Performance Instrumentation Report:', report);
+              return report;
+            };
+            
+            // Make export function available
+            window.exportInstrumentationData = () => {
+              const data = window.instrumentation.exportData();
+              console.log('💾 Exported Instrumentation Data:', data);
+              
+              // Create downloadable file
+              const blob = new Blob([data], { type: 'application/json' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `instrumentation-data-${new Date().toISOString()}.json`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+              
+              return data;
+            };
+            
+            // Auto-generate report after 5 seconds
+            setTimeout(() => {
+              console.log('🎯 Auto-generating instrumentation report...');
+              window.getInstrumentationReport();
+            }, 5000);
+          }
+        }, 1000);
+      });
+    </script>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <div>
+        <p>Columns - Instrumented Version</p>
+        <div class="columns">
+          <div>
+            <div>
+              <p>Columns block</p>
+              <ul>
+                <li>One</li>
+                <li>Two</li>
+                <li>Three</li>
+              </ul>
+              <p><a href="/">Live</a></p>
+            </div>
+            <div>
+              <picture>
+                <source type="image/webp" srcset="./media_193050d52a802830d970fde49644ae9a504a61b7f.png?width=2000&#x26;format=webply&#x26;optimize=medium" media="(min-width: 600px)">
+                <source type="image/webp" srcset="./media_193050d52a802830d970fde49644ae9a504a61b7f.png?width=750&#x26;format=webply&#x26;optimize=medium">
+                <source type="image/png" srcset="./media_193050d52a802830d970fde49644ae9a504a61b7f.png?width=2000&#x26;format=png&#x26;optimize=medium" media="(min-width: 600px)">
+                <img loading="lazy" alt="green double Helix" src="./media_193050d52a802830d970fde49644ae9a504a61b7f.png?width=750&#x26;format=png&#x26;optimize=medium" width="750" height="500">
+              </picture>
+            </div>
+          </div>
+          <div>
+            <div>
+              <picture>
+                <source type="image/webp" srcset="./media_1e562f39bbce4d269e279cbbf8c5674a399fe0070.png?width=2000&#x26;format=webply&#x26;optimize=medium" media="(min-width: 600px)">
+                <source type="image/webp" srcset="./media_1e562f39bbce4d269e279cbbf8c5674a399fe0070.png?width=750&#x26;format=webply&#x26;optimize=medium">
+                <source type="image/png" srcset="./media_1e562f39bbce4d269e279cbbf8c5674a399fe0070.png?width=2000&#x26;format=png&#x26;optimize=medium" media="(min-width: 600px)">
+                <img loading="lazy" alt="Yellow Double Helix" src="./media_1e562f39bbce4d269e279cbbf8c5674a399fe0070.png?width=750&#x26;format=png&#x26;optimize=medium" width="644" height="470">
+              </picture>
+            </div>
+            <div>
+              <p>Or you can just view the preview</p>
+              <p><em><a href="/">Preview</a></em></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>
