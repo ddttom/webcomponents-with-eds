@@ -21,7 +21,7 @@ This document defines testing standards specifically for EDS-Native pattern comp
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Component] Test - EDS Native Pattern</title>
+    <title>Component Test - EDS Native Pattern</title>
     
     <!-- EDS Native Styles (root-based paths for server.js) -->
     <link rel="stylesheet" href="/styles/styles.css">
@@ -91,13 +91,13 @@ This document defines testing standards specifically for EDS-Native pattern comp
 </head></search>
 <body>
     <div class="test-content">
-        <h1>[Component] Test Page - EDS Native Pattern</h1>
+        <h1>Component Test Page - EDS Native Pattern</h1>
         <p>Testing EDS-Native component with direct implementation.</p>
         
         <!-- Standard EDS Block Structure -->
         <div class="test-section">
             <h2>Basic Component Test</h2>
-            <div class="[component] block" data-block-name="[component]" data-block-status="initialized">
+            <div class="component-name block" data-block-name="component-name" data-block-status="initialized">
                 <div>
                     <div>
                         <!-- Test content here -->
@@ -131,7 +131,7 @@ This document defines testing standards specifically for EDS-Native pattern comp
     </div>
 
     <script type="module">
-        import decorate from '/blocks/[component]/[component].js';
+        import decorate from '/blocks/component-name/component-name.js';
         
         // EDS Native initialization pattern
         document.addEventListener('DOMContentLoaded', () => {
@@ -139,7 +139,7 @@ This document defines testing standards specifically for EDS-Native pattern comp
             document.body.classList.add('appear');
             
             // Initialize components
-            const blocks = document.querySelectorAll('.[component].block');
+            const blocks = document.querySelectorAll('.component-name.block');
             blocks.forEach(decorate);
         });
 

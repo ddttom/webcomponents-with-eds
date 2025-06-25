@@ -225,8 +225,11 @@ When both local and proxy fail, returns a helpful error page:
 
 ```html
 <!DOCTYPE html>
-<html>
-  <head><title>404 Not Found</title></head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>404 Not Found</title>
+  </head>
   <body>
     <h1>404 Not Found</h1>
     <p>The requested resource <code>/path</code> was not found locally 

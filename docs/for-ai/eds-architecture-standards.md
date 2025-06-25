@@ -313,7 +313,7 @@ function extractContent(block) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Component] Test - EDS Structure</title>
+    <title>Component Test - EDS Structure</title>
     <link rel="stylesheet" href="[component].css">
     <style>
         body {
@@ -333,9 +333,9 @@ function extractContent(block) {
 </head>
 <body>
     <div class="test-content">
-        <h1>[Component] Test Page</h1>
+        <h1>Component Test Page</h1>
         
-        <div class="[component] block" data-block-name="[component]" data-block-status="initialized">
+        <div class="component-name block" data-block-name="component-name" data-block-status="initialized">
             <div>
                 <div>
                     <!-- Test content here -->
@@ -345,10 +345,10 @@ function extractContent(block) {
     </div>
 
     <script type="module">
-        import decorate from './[component].js';
+        import decorate from './component-name.js';
         
         document.addEventListener('DOMContentLoaded', () => {
-            const blocks = document.querySelectorAll('.[component].block');
+            const blocks = document.querySelectorAll('.component-name.block');
             blocks.forEach(decorate);
         });
     </script>
