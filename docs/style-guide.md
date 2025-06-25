@@ -309,3 +309,58 @@ Following these naming conventions ensures:
 - **Maintainable codebase** that scales with project growth
 
 For questions or clarifications about these conventions, refer to the component examples in the `/blocks/` directory or consult the EDS documentation.
+## Block Documentation Standards
+
+### Documentation Structure Template
+
+All block README files must follow the standardized template from [`docs/for-ai/eds-appendix.md`](for-ai/eds-appendix.md) to ensure consistency and completeness across the project.
+
+#### Required Sections
+
+```markdown
+# Block Name
+## Overview
+## Content Structure
+### Example Table Structure
+## Variations
+### Variation Examples
+## Configuration Options
+## Accessibility Considerations
+## Performance Impact
+## Dependencies
+## Known Limitations
+```
+
+#### Section Guidelines
+
+**Overview**: Brief description of what the block does and its primary use cases.
+
+**Content Structure**: Explain how authors should structure content in Google Docs to use this block, including table structures and content organization.
+
+**Variations**: List all supported variations with examples, including CSS class variations and configuration options.
+
+**Configuration Options**: Any custom configuration options available for developers, including CSS custom properties and JavaScript configuration.
+
+**Accessibility Considerations**: Notes on accessibility features, ARIA attributes, keyboard navigation, and screen reader compatibility.
+
+**Performance Impact**: Any notable performance considerations, optimizations, loading behavior, and resource usage.
+
+**Dependencies**: List any dependencies, requirements, browser support, and external resources.
+
+**Known Limitations**: Document any known issues, limitations, or troubleshooting information.
+
+#### Content Preservation
+
+When standardizing existing documentation:
+- Preserve all existing valuable content and technical details
+- Maintain working examples and usage instructions
+- Keep unique features and implementation details
+- Reorganize content to fit the standard template structure
+
+#### Quality Standards
+
+- Use consistent heading levels (H1, H2, H3)
+- Include working table examples for content authors
+- Provide clear code examples with proper formatting
+- Use relative links between documentation files
+- Ensure all sections are complete and accurate

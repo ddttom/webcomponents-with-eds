@@ -1,20 +1,14 @@
 # Shoelace Block
 
-A web component integration block that provides seamless integration with Shoelace design system components in Adobe Edge Delivery Services (EDS) projects.
+## Overview
 
-## Features
+A web component integration block that provides seamless integration with Shoelace design system components in Adobe Edge Delivery Services (EDS) projects. The Shoelace block enables progressive enhancement with modern web components, lazy loading of the Shoelace library, and performance-optimized delivery of accessible design system components.
 
-- Progressive enhancement with Shoelace web components
-- Lazy loading of Shoelace library
-- Custom styling support
-- EDS-compatible implementation
-- Performance optimized loading
-- Accessible design system components
-- Modern web standards compliance
-
-## Usage
+## Content Structure
 
 To use the Shoelace block in your EDS project, create a block with the following structure:
+
+### Example Table Structure
 
 | Shoelace |
 |----------|
@@ -22,7 +16,7 @@ To use the Shoelace block in your EDS project, create a block with the following
 
 The content cell specifies which Shoelace component to render. Supported components include buttons, inputs, cards, and other Shoelace elements.
 
-## Authoring
+### Authoring in Google Docs
 
 When creating content for the Shoelace block in Google Docs or Microsoft Word:
 
@@ -31,118 +25,181 @@ When creating content for the Shoelace block in Google Docs or Microsoft Word:
 3. In the cell below, specify the component type (e.g., "button", "input", "card")
 4. The block will automatically load and render the appropriate Shoelace component
 
-## Styling
+### Supported Component Examples
 
-The Shoelace block supports custom styling through:
+| Shoelace |
+|----------|
+| button   |
 
-- CSS custom properties for theming
-- Shoelace's built-in design tokens
-- Custom CSS overrides
-- EDS theme integration
+| Shoelace |
+|----------|
+| input    |
 
-## Behavior
+| Shoelace |
+|----------|
+| card     |
 
-The Shoelace block:
+## Variations
 
-1. Detects the requested component type from content
-2. Lazy loads the Shoelace library when needed
-3. Renders the appropriate web component
-4. Applies custom styling and theming
-5. Maintains accessibility standards
-6. Provides progressive enhancement
+The Shoelace block supports various component types and can be configured through content authoring and data attributes:
 
-## Performance
+### Component Variations
+- **button**: Renders `sl-button` components
+- **input**: Renders `sl-input` components  
+- **card**: Renders `sl-card` components
+- **icon**: Renders `sl-icon` components
+- **badge**: Renders `sl-badge` components
 
-The block is optimized for performance:
+### Variation Examples
 
-- Lazy loading of Shoelace library
-- Component-specific loading (only loads what's needed)
-- Efficient DOM manipulation
-- Minimal bundle size impact
-- CDN-based delivery for Shoelace assets
+| Shoelace (primary) |
+|--------------------|
+| button             |
 
-## Browser Support
+| Shoelace (large) |
+|------------------|
+| input            |
 
-This block uses modern web standards and should work in all modern browsers that support:
+## Configuration Options
 
-- Custom Elements
-- ES6+ JavaScript features
-- CSS Custom Properties
-- Dynamic imports
+The Shoelace block can be configured through multiple methods:
 
-## Troubleshooting
+### Content Authoring Configuration
+- **Component Type**: Specified in the content cell
+- **Variations**: Added as parameters in parentheses
+- **Data Attributes**: Component properties via data attributes
 
-Common issues and solutions:
-
-1. Component not rendering
-   - Check that the component name is valid
-   - Ensure network connectivity for CDN resources
-   - Verify browser support for web components
-
-2. Styling not applying
-   - Check CSS custom properties are defined
-   - Verify Shoelace theme is properly loaded
-   - Ensure no conflicting styles
-
-3. Performance issues
-   - Verify lazy loading is working correctly
-   - Check network tab for unnecessary resource loading
-   - Ensure proper caching headers
-
-## Supported Components
-
-The block supports various Shoelace components:
-
-- Buttons (`sl-button`)
-- Inputs (`sl-input`)
-- Cards (`sl-card`)
-- Icons (`sl-icon`)
-- Badges (`sl-badge`)
-- And many more from the Shoelace library
-
-## Standalone Implementations
-
-### Shoelace Card Component
-
-A standalone version of the Shoelace Card component has been created in [`build/shoelace-card/`](../build/shoelace-card/) that exports a `decorate` function for direct use. This implementation:
-
-> **🔧 Development Approach Note**: The [`build/shoelace-card/`](../build/shoelace-card/) directory represents a **complex component approach** that uses build processes and external dependencies, which differs from the standard EDS philosophy of simple JavaScript. This dual approach allows for both simple EDS blocks and sophisticated components when advanced functionality is required.
-
-- **Self-contained**: Uses local utility functions instead of EDS dependencies
-- **Development optimized**: Clean Vite integration without warnings
-- **Production ready**: Maintains full compatibility with Adobe Edge Delivery Services
-- **Standalone usage**: Can be imported and used independently
-
-```javascript
-import decorate from './build/shoelace-card/shoelace-card.js';
-
-// Use directly on any DOM element
-const cardBlock = document.querySelector('.my-card-container');
-await decorate(cardBlock);
+### CSS Custom Properties
+```css
+.shoelace {
+  --sl-color-primary-600: #1473e6;
+  --sl-color-neutral-0: #ffffff;
+  --sl-border-radius-medium: 0.375rem;
+  --sl-spacing-medium: 1rem;
+}
 ```
 
-The standalone version demonstrates how to create reusable Shoelace components that work both within EDS projects and as independent modules.
+### JavaScript Configuration
+```javascript
+// Advanced usage with custom configuration
+const shoelaceBlock = document.querySelector('.shoelace.block');
+shoelaceBlock.setAttribute('data-component-props', JSON.stringify({
+  variant: 'primary',
+  size: 'large',
+  disabled: false
+}));
+```
 
-## Build Process and EDS Testing
+### Theming Integration
+- **Shoelace Design Tokens**: Full access to Shoelace's design token system
+- **EDS Theme Integration**: Seamless integration with EDS theme variables
+- **Custom CSS Overrides**: Support for custom styling and brand customization
 
-### Development Workflows
+## Accessibility Considerations
 
-#### Standalone Development
+The Shoelace block maintains high accessibility standards through:
+
+### Built-in Accessibility Features
+- **Shoelace Accessibility**: Leverages Shoelace's comprehensive accessibility features
+- **ARIA Attributes**: Proper ARIA attributes automatically applied
+- **Keyboard Navigation**: Full keyboard navigation support across all components
+- **Screen Reader Compatibility**: Optimized for screen readers and assistive technologies
+- **Focus Management**: Proper focus indicators and management
+- **High Contrast Support**: Compatible with high contrast modes and themes
+
+### Accessibility Standards
+- WCAG 2.1 AA compliance through Shoelace components
+- Semantic HTML structure maintained
+- Color contrast ratios meet accessibility guidelines
+- Keyboard shortcuts and navigation patterns
+- Screen reader announcements and labels
+
+## Performance Impact
+
+The Shoelace block is optimized for performance with several key strategies:
+
+### Loading Optimization
+- **Lazy Loading**: Shoelace library loaded only when needed
+- **Component-Specific Loading**: Only loads required components, not entire library
+- **CDN Delivery**: Efficient delivery via Shoelace CDN
+- **Caching Strategy**: Proper caching headers for optimal performance
+- **Progressive Enhancement**: Works without JavaScript, enhanced with components
+
+### Performance Characteristics
+- **Minimal Bundle Impact**: No impact on initial page load
+- **Efficient DOM Manipulation**: Optimized component rendering
+- **Memory Management**: Proper cleanup and memory management
+- **Network Optimization**: Reduced network requests through intelligent loading
+
+### Performance Metrics
+- First Contentful Paint: No impact (lazy loaded)
+- Largest Contentful Paint: Minimal impact
+- Cumulative Layout Shift: Prevented through proper sizing
+- Time to Interactive: Enhanced through progressive loading
+
+## Dependencies
+
+The Shoelace block has specific dependencies and requirements:
+
+### External Dependencies
+- **Shoelace Library**: Loaded from CDN (https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace)
+- **Web Components Support**: Modern browser support for Custom Elements
+- **ES6+ JavaScript**: Modern JavaScript features required
+- **CSS Custom Properties**: CSS Variables support needed
+
+### Browser Support
+- **Chrome 54+**: Full support for all features
+- **Firefox 63+**: Complete compatibility
+- **Safari 10.1+**: Full web components support
+- **Edge 79+**: Modern Edge with Chromium engine
+
+### EDS Framework Requirements
+- Standard EDS block structure and decoration pattern
+- EDS CSS framework for base styling
+- Compatible with EDS lazy loading and performance patterns
+
+### Network Requirements
+- **CDN Access**: Requires access to Shoelace CDN
+- **CSP Headers**: Proper Content Security Policy headers for external resources
+- **HTTPS**: Secure delivery of external components
+
+## Known Limitations
+
+Current limitations and troubleshooting information:
+
+### Functional Limitations
+1. **CDN Dependency**: Requires external CDN access for Shoelace library
+2. **Component Subset**: Not all Shoelace components may be supported
+3. **Version Lock**: Tied to specific Shoelace library version
+4. **Customization Limits**: Some deep customization may require additional CSS
+5. **Bundle Size**: Adds external dependency weight when components are used
+
+### Build Process and Development Workflows
+
+#### Standalone Implementations
+
+The Shoelace block includes standalone implementations for complex components:
+
+**Shoelace Card Component**: A standalone version has been created in [`build/shoelace-card/`](../../build/shoelace-card/) that exports a `decorate` function for direct use.
+
+> **🔧 Development Approach Note**: The [`build/shoelace-card/`](../../build/shoelace-card/) directory represents a **complex component approach** that uses build processes and external dependencies, which differs from the standard EDS philosophy of simple JavaScript. This dual approach allows for both simple EDS blocks and sophisticated components when advanced functionality is required.
+
+#### Development Workflows
+
+**Standalone Development**:
 ```bash
 # Vite development server for component development
 cd build/shoelace-card
 npm run dev  # http://localhost:5174
 ```
-Perfect for rapid component development with hot reload and modern tooling.
 
-#### EDS Integration Testing
+**EDS Integration Testing**:
 ```bash
 # Node.js server for EDS compatibility testing
 npm run debug  # http://localhost:3000 (from project root)
 ```
-Tests component with proper EDS block structure using the development server that mimics EDS environment.
 
-#### Build and Deployment
+**Build and Deployment**:
 ```bash
 # Automated build and deploy to EDS
 npx node scripts/build-component.js shoelace-card
@@ -172,12 +229,25 @@ blocks.forEach(block => decorate(block));
 </script>
 ```
 
-### Testing Workflow
+### Common Issues and Solutions
 
-1. **Start EDS Server**: `npm run debug`
-2. **Access Test**: `http://localhost:3000/blocks/shoelace-card/test.html`
-3. **Verify Structure**: Component works with EDS block structure
-4. **Deploy**: `npx node scripts/build-component.js shoelace-card`
+**Component not rendering:**
+- Check that the component name is valid and supported
+- Ensure network connectivity for CDN resources
+- Verify browser support for web components
+- Check console for loading errors
+
+**Styling not applying:**
+- Check CSS custom properties are properly defined
+- Verify Shoelace theme is properly loaded
+- Ensure no conflicting styles override component CSS
+- Validate CSP headers allow external stylesheets
+
+**Performance issues:**
+- Verify lazy loading is working correctly
+- Check network tab for unnecessary resource loading
+- Ensure proper caching headers are set
+- Monitor for memory leaks in long-running applications
 
 ### NPX Commands Reference
 
@@ -195,30 +265,16 @@ cd build/shoelace-card && npm run dev
 npm run serve
 ```
 
-## Configuration
+### Testing Workflow
+1. **Start EDS Server**: `npm run debug`
+2. **Access Test**: `http://localhost:3000/blocks/shoelace-card/test.html`
+3. **Verify Structure**: Component works with EDS block structure
+4. **Deploy**: `npx node scripts/build-component.js shoelace-card`
 
-The block can be configured through:
-
-- Content authoring (component type)
-- CSS custom properties (styling)
-- Data attributes (component properties)
-- JavaScript configuration (advanced usage)
-
-## Accessibility
-
-The Shoelace block maintains accessibility through:
-
-- Shoelace's built-in accessibility features
-- Proper ARIA attributes
-- Keyboard navigation support
-- Screen reader compatibility
-- High contrast support
-
-## Integration
-
+### Integration Requirements
 To integrate with your EDS project:
-
 1. Copy the shoelace block files to your blocks directory
 2. Ensure proper CSP headers for Shoelace CDN
 3. Configure any custom styling or theming
 4. Test components in your target browsers
+5. Verify performance impact in production environment
