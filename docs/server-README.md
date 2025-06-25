@@ -33,6 +33,66 @@ The server will start on `http://localhost:3000` and serve files from the projec
 
 ## Server Architecture
 
+## HTML File Naming in EDS Testing
+
+### `test.html` vs `index.html` Distinction
+
+**Important**: The EDS development server uses `test.html` files, not `index.html`. This is an intentional architectural decision, not an inconsistency.
+
+#### File Purpose Distinction
+
+| File         | Environment        | Auto-loaded | Purpose                |
+| ------------ | ------------------ | ----------- | ---------------------- |
+| `index.html` | Development (Vite) | ✅ Yes       | Build tool integration |
+| `test.html`  | EDS Testing        | ❌ No        | Manual EDS testing     |
+
+#### Why `test.html` for EDS?
+
+1. **Explicit naming** prevents conflicts with development servers that auto-serve `index.html`
+2. **Multiple test files** can exist (test.html, test-advanced.html, test-error.html)
+3. **Clear purpose** - specifically for EDS environment testing
+4. **No auto-discovery** - must be explicitly accessed, preventing accidental loading
+5. **Tool separation** - development tools use `index.html`, EDS testing uses `test.html`
+
+### Access Patterns
+
+```bash
+# Development (Vite auto-loads index.html)
+cd build/my-component
+npm run dev
+# Automatically opens: http://localhost:5174/ (serves index.html)
+
+# EDS Testing (explicit test.html request)  
+npm run debug
+# Manually navigate to: http://localhost:3000/blocks/my-component/test.html
+```
+
+### Creating EDS Test Files
+
+When creating test files for EDS components:
+
+1. **Always name them `test.html`** (not `index.html`)
+2. **Use explicit paths** when referencing in documentation
+3. **Include multiple test scenarios** if needed:
+   ```
+   blocks/my-component/
+   ├── test.html              # Basic functionality
+   ├── test-error.html        # Error handling
+   └── test-advanced.html     # Complex scenarios
+   ```
+
+### Common Mistakes to Avoid
+
+❌ **Wrong**: Expecting `index.html` to work with EDS server
+❌ **Wrong**: Assuming file naming is inconsistent
+❌ **Wrong**: Using development URLs for EDS testing
+
+✅ **Correct**: Understanding the different purposes of each file type
+✅ **Correct**: Using appropriate file names for each environment
+✅ **Correct**: Explicit URLs for EDS testing
+
+This separation ensures that development tools work smoothly while providing clear, explicit testing for the EDS environment.
+
 ### Core Functionality
 
 The server implements a **local-first, proxy-fallback** architecture:

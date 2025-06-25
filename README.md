@@ -381,6 +381,43 @@ npm run validate
 npm run security
 ```
 
+## File Naming Conventions
+
+### HTML Files Quick Reference
+
+This project uses two distinct HTML file naming patterns for different environments:
+
+| File         | Location              | Purpose     | Auto-loaded   | Usage                   |
+| ------------ | --------------------- | ----------- | ------------- | ----------------------- |
+| `index.html` | `build/` directories  | Development | ✅ Yes (Vite)  | Component building      |
+| `test.html`  | `blocks/` directories | EDS Testing | ❌ No (Manual) | EDS environment testing |
+
+### Quick Usage Guide
+
+```bash
+# Development (auto-loads index.html)
+cd build/component-name
+npm run dev  # → http://localhost:5174/ (serves index.html)
+
+# EDS Testing (explicit test.html request)
+npm run debug  # → http://localhost:3000/blocks/component-name/test.html
+```
+
+### Why Two Different Files?
+
+- **`index.html`**: Expected by modern build tools (Vite, webpack) for auto-loading
+- **`test.html`**: Explicit naming for EDS testing, allows multiple test scenarios
+
+### Developer Quick Start
+
+1. **Build components** in `build/` directories using `index.html`
+2. **Deploy with** `npm run deploy` (creates `test.html` in `blocks/`)
+3. **Test in EDS** using the deployed `test.html` files
+
+This naming pattern ensures smooth integration with both development tools and EDS testing while maintaining clear environment separation.
+
+> **Note**: This is intentional architecture, not a naming inconsistency. Each environment uses the appropriate file naming convention for its tools and workflows.
+
 ## 📋 Prerequisites
 
 - **Node.js 18+** (for built-in fetch and ES modules)

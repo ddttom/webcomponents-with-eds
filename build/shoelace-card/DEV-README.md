@@ -48,6 +48,67 @@ This directory contains the development environment for building a self-containe
 
 ## Architecture
 
+## File Naming Conventions
+
+### Development vs Testing HTML Files
+
+This component follows the project's standard HTML file naming pattern, which separates development and testing environments:
+
+#### Development: `index.html`
+- **Location**: `build/shoelace-card/index.html`
+- **Auto-loaded by Vite** when running `npm run dev`
+- **Hot reload enabled** for rapid development iteration
+- **Build tool integration** - expected entry point by modern bundlers
+- **Development server**: `http://localhost:5174/` (automatically serves index.html)
+
+#### Testing: `test.html` (in blocks directory)
+- **Location**: `blocks/shoelace-card/test.html` (created during deployment)
+- **Manual EDS testing** via `npm run debug`
+- **Explicit file requests** to EDS development server
+- **Multiple test scenarios** possible (test.html, test-advanced.html)
+- **EDS server**: `http://localhost:3000/blocks/shoelace-card/test.html` (explicit path required)
+
+### Development Workflow
+
+```bash
+# 1. Component Development
+npm run dev
+# Opens: http://localhost:5174/ (auto-loads index.html)
+# Hot reload active for rapid iteration
+
+# 2. Build & Deploy
+npm run deploy
+# Creates: ../../blocks/shoelace-card/test.html (among other files)
+
+# 3. EDS Testing  
+cd ../../  # Return to project root
+npm run debug
+# Navigate to: http://localhost:3000/blocks/shoelace-card/test.html
+```
+
+### Why This Pattern?
+
+1. **Tool Compatibility**: Vite expects `index.html` as the default entry point
+2. **Environment Isolation**: Development and testing use different file names
+3. **Deployment Clarity**: Built files have appropriate names for their target environment
+4. **Testing Flexibility**: EDS can support multiple test files without conflicts
+
+### File Lifecycle
+
+```
+Development → Build → Deploy → Test
+index.html  → dist/  → blocks/test.html → EDS Server
+```
+
+The `index.html` file is for development only and never gets deployed to the blocks directory. The `test.html` file is specifically created for EDS testing and uses the exact EDS block structure for accurate testing.
+
+### Important Notes
+
+- **Never modify** the deployed `test.html` directly - it gets overwritten by `npm run deploy`
+- **Development changes** should be made in this directory's `index.html`
+- **Testing structure** in both files should be identical for consistency
+- **Different servers** serve different files: Vite serves `index.html`, EDS serves `test.html`
+
 ### Self-Contained Design
 
 The component is built as a completely self-contained module:

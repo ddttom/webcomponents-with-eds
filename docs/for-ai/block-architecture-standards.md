@@ -46,6 +46,77 @@ graph TD
     I --> J
 ```
 
+## HTML File Naming Conventions
+
+### Development vs Testing Files
+
+The project uses two distinct HTML file naming patterns for different purposes, addressing the needs of different development tools and testing environments:
+
+#### `index.html` - Development Files
+- **Location**: `/build/{component-name}/index.html`
+- **Purpose**: Automatically loaded by development tools (Vite, webpack, Parcel, etc.)
+- **Usage**: Hot reload development and component building
+- **Auto-discovery**: Development servers automatically serve `index.html` when accessing the root directory
+- **Environment**: Build/development environment with modern tooling
+- **Tool Integration**: Expected default entry point for bundlers and dev servers
+
+#### `test.html` - EDS Testing Files  
+- **Location**: `/blocks/{component-name}/test.html`
+- **Purpose**: Manual testing within EDS environment
+- **Usage**: User-chosen testing with EDS development server (`npm run debug`)
+- **Manual loading**: Must be explicitly requested (`/blocks/component/test.html`)
+- **Environment**: EDS testing environment
+- **Flexibility**: Allows multiple test scenarios (test.html, test-advanced.html, test-error.html)
+
+### File Structure Example
+
+```bash
+/build/shoelace-card/           # Development environment
+├── index.html                 # Auto-loaded by Vite dev server
+├── package.json               # Contains "dev": "vite" script
+├── vite.config.js             # Vite expects index.html as entry
+└── shoelace-card.js
+
+/blocks/shoelace-card/          # EDS environment  
+├── test.html                  # Manual: localhost:3000/blocks/shoelace-card/test.html
+├── test-advanced.html         # Optional: Advanced test scenarios
+├── shoelace-card.js           # Deployed component
+└── shoelace-card.css
+```
+
+### Why Two Different Files?
+
+1. **Tool Integration**: Modern development tools (Vite, webpack) expect `index.html` as the default entry point
+2. **EDS Compatibility**: EDS testing requires explicit file names to avoid conflicts with auto-serving behavior
+3. **Environment Separation**: Clear distinction between development and testing phases prevents confusion
+4. **Multiple Test Scenarios**: EDS can have multiple test files without interfering with development auto-loading
+5. **Deployment Clarity**: Build outputs go to different locations with appropriate naming for each environment
+
+### Development Workflow
+
+```bash
+# 1. Development (auto-loads index.html)
+cd build/component-name
+npm run dev  # Vite serves index.html at localhost:5174
+
+# 2. Build and deploy
+npm run deploy  # Copies built files to blocks/ directory
+
+# 3. EDS testing (explicit file request)
+npm run debug  # Start EDS server
+# Navigate to: localhost:3000/blocks/component-name/test.html
+```
+
+### Best Practices
+
+- **Never rename `index.html`** in build directories - breaks tool integration
+- **Always use `test.html`** for EDS testing - maintains consistency
+- **Create multiple test files** if needed (test-error.html, test-advanced.html)
+- **Document test scenarios** in each test file's comments
+- **Keep test structure identical to EDS** for accurate testing
+
+This naming convention ensures smooth integration with both modern development tools and the EDS testing environment while maintaining clear separation of concerns.
+
 ## Pattern Selection Criteria
 
 ### EDS-Native Pattern (Simple Components)
