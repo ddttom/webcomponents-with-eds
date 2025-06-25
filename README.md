@@ -88,6 +88,15 @@ webcomponents-with-eds/
 └── SECURITY.md              # Security policy
 ```
 
+### **📁 Architecture Philosophy**
+
+> **Important**: This project demonstrates **two complementary development approaches**:
+> 
+> - **`/blocks/` Directory**: Contains EDS-native components following the core philosophy of simple JavaScript, no dependencies, and no build steps
+> - **`/build/` Directory**: Contains complex components that use build processes, external dependencies, and modern tooling when sophisticated functionality is required
+> 
+> Both approaches are valid and designed to coexist, allowing developers to choose the right tool for each component's complexity and requirements.
+
 ## 🧩 Advanced Components
 
 ### Shoelace Card Component

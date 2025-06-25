@@ -1,5 +1,11 @@
 # EDS Block Architecture Standards Guide
 
+> **🏗️ Architecture Distinction**: This document covers **two distinct development approaches**:
+> - **Simple Blocks** (outside `/build/` directories): Follow EDS core philosophy of simple JavaScript, no dependencies, no build steps
+> - **Complex Components** (inside `/build/` directories): May use build processes, external dependencies, and modern tooling
+> 
+> The choice between approaches depends on component complexity and requirements.
+
 ## Executive Summary
 
 This document establishes two complementary architectural patterns for EDS block development, ensuring consistency while providing flexibility based on component complexity. Both patterns share common standards for error handling, accessibility, and performance.

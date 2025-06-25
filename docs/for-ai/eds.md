@@ -34,6 +34,8 @@ Before diving into EDS, it's important to understand its core development philos
 
 These requirements enable EDS to achieve perfect Core Web Vitals scores (100/100/100/100) by eliminating the overhead traditionally associated with modern web development. This approach is increasingly rare but remarkably effective—letting developers focus on solving real problems rather than managing toolchains.
 
+> **📁 Important Architecture Note**: The simple JavaScript philosophy described above applies to **files outside the `/build/` directory**. Files within `/build/` directories are for complex components that require build processes and may use external dependencies. This separation allows for both simple blocks (no build) and advanced components (with build systems) to coexist in the same project.
+
 ## The Document Transformation Journey
 
 Let's follow a document's complete journey from creation to final rendered webpage. This transformation process is at the heart of how EDS works, and understanding it will help you see where and how to extend functionality as a developer.

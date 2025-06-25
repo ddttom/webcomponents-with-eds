@@ -106,6 +106,8 @@ The block supports various Shoelace components:
 
 A standalone version of the Shoelace Card component has been created in [`build/shoelace-card/`](../build/shoelace-card/) that exports a `decorate` function for direct use. This implementation:
 
+> **🔧 Development Approach Note**: The [`build/shoelace-card/`](../build/shoelace-card/) directory represents a **complex component approach** that uses build processes and external dependencies, which differs from the standard EDS philosophy of simple JavaScript. This dual approach allows for both simple EDS blocks and sophisticated components when advanced functionality is required.
+
 - **Self-contained**: Uses local utility functions instead of EDS dependencies
 - **Development optimized**: Clean Vite integration without warnings
 - **Production ready**: Maintains full compatibility with Adobe Edge Delivery Services

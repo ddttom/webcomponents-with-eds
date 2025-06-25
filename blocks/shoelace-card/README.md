@@ -283,6 +283,8 @@ You can close any modal using:
 
 ## Component Architecture
 
+> **⚙️ Build Component Notice**: This component uses a build process and external dependencies, which differs from the core EDS philosophy of simple JavaScript. Build components are designed for complex functionality that requires sophisticated tooling while maintaining EDS compatibility. The source development happens in [`/build/shoelace-card/`](../../build/shoelace-card/) with the built output deployed to this directory.
+
 This component is built using modern web standards:
 - **Web Components**: Uses Shoelace design system components
 - **ES Modules**: Modern JavaScript module system
