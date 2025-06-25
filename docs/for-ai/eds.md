@@ -1916,7 +1916,7 @@ Create this in /blocks/markdown/README.md then ask the AI to implement it.
 
 ![][image8]
 
-No doubt you will make adjustments as the AI does it work, at the end ask it to update/blocks/READMe.md and you will have developer and content author documentation.
+No doubt you will make adjustments as the AI does it work, at the end ask it to update/blocks/README.md and you will have developer and content author documentation.
 
 ### Final Thoughts
 
