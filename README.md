@@ -1,5 +1,7 @@
 # Web Components with Adobe Edge Delivery Services
 
+> **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](docs/style-guide.md)
+
 A comprehensive development framework for building high-performance web components with Adobe Edge Delivery Services (EDS). This project provides advanced components, development infrastructure, and build automation for creating sophisticated EDS blocks with modern web technologies.
 
 ## 🚀 Quick Start

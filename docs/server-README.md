@@ -1,5 +1,7 @@
 # Development Server Documentation
 
+> **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](style-guide.md)
+
 ## Overview
 
 This document explains the minimal Node.js development server (`server.js`) designed to improve AI assistant workflows when testing and developing EDS (Edge Delivery Services) components locally. The server provides local file serving with automatic fallback to a remote proxy, making it ideal for AI assistants to test blocks and components in isolation with immediate feedback and clear error reporting.

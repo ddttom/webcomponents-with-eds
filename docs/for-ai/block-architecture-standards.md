@@ -1,5 +1,7 @@
 # EDS Block Architecture Standards Guide
 
+> **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](../style-guide.md)
+
 > **🏗️ Architecture Distinction**: This document covers **two distinct development approaches**:
 > - **Simple Blocks** (outside `/build/` directories): Follow EDS core philosophy of simple JavaScript, no dependencies, no build steps
 > - **Complex Components** (inside `/build/` directories): May use build processes, external dependencies, and modern tooling
