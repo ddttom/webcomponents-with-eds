@@ -39,7 +39,8 @@ Organize your content in a folder structure:
 
 ### Query Index Spreadsheet Structure
 
-Create `query-index.xlsx` with these columns:
+Create `index` sheet with these columns, and publishm, or use automatic publishing as documented in https://allabout.network/blogs/ddt/integrations/building-headless-applications-with-edge-delivery-services
+
 
 | path            | title            | description                  | image                    | buttonText   |
 | --------------- | ---------------- | ---------------------------- | ------------------------ | ------------ |
