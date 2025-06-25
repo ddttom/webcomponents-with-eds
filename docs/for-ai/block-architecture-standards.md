@@ -1241,10 +1241,35 @@ Brief description of what this component does and when to use it.
 ### Examples
 
 #### Example 1: Basic Usage
-[Provide example]
+
+```html
+<div class="component-name block">
+  <div>
+    <div>
+      <h2>Welcome Message</h2>
+      <p>This is a simple component with basic content.</p>
+      <button>Click Me</button>
+    </div>
+  </div>
+</div>
+```
 
 #### Example 2: Advanced Configuration
-[Provide example]
+
+```html
+<div class="component-name block">
+  <div>
+    <div>
+      <h2>Advanced Component</h2>
+      <p>This component includes custom data attributes and configuration.</p>
+      <div data-config='{"theme": "dark", "animation": true}'>
+        <button class="primary">Primary Action</button>
+        <button class="secondary">Secondary Action</button>
+      </div>
+    </div>
+  </div>
+</div>
+```
 
 ## Accessibility
 
@@ -1281,7 +1306,23 @@ This component follows WCAG 2.1 AA guidelines:
 
 ### Customization
 
-[Provide guidance on customizing the component]
+The component can be customized through CSS custom properties and configuration options:
+
+```css
+.component-name {
+  --component-primary: #your-brand-color;
+  --component-spacing-md: 2rem;
+  --component-border-radius: 8px;
+}
+```
+
+You can also customize behavior through data attributes:
+
+```html
+<div class="component-name block" data-theme="dark" data-animation="fade">
+  <!-- Component content -->
+</div>
+```
 
 ## Troubleshooting
 
@@ -1339,13 +1380,35 @@ And special formatting
 ## Common Patterns
 
 ### Pattern 1: Simple Content
-[Example]
+
+```
+Component Name
+Simple text content
+Basic information display
+```
 
 ### Pattern 2: Rich Content
-[Example]
+
+```
+Component Name
+# Rich Content Example
+This content includes **bold text**, *italic text*, and [links](https://example.com).
+
+## Features
+- Feature 1
+- Feature 2
+- Feature 3
+```
 
 ### Pattern 3: Interactive Content
-[Example]
+
+```
+Component Name
+Interactive Demo
+Click to expand details
+Button: Learn More | https://example.com/learn-more
+Button: Contact Us | mailto:contact@example.com
+```
 ```
 
 ## Implementation Timeline
@@ -1420,6 +1483,288 @@ And special formatting
 - [ ] Code is well-documented
 - [ ] API documentation is current
 - [ ] Troubleshooting guide is helpful
+
+## Generic Debugging and Instrumentation Standards
+
+### Component Debugging Patterns
+
+All components should implement comprehensive debugging capabilities for development and troubleshooting:
+
+#### **Standard Error Handling Pattern**
+```javascript
+export default async function decorate(block) {
+  const componentName = block.dataset.blockName || 'unknown';
+  
+  try {
+    console.group(`[${componentName.toUpperCase()}] Component decoration starting`);
+    console.time(`[${componentName.toUpperCase()}] Decoration time`);
+    
+    // Ensure visibility (generic pattern)
+    if (!document.body.classList.contains('appear')) {
+      console.warn(`[${componentName.toUpperCase()}] Adding appear class for visibility`);
+      document.body.classList.add('appear');
+    }
+    
+    // Component logic here
+    await enhanceComponent(block);
+    
+    console.log(`[${componentName.toUpperCase()}] Decoration completed successfully`);
+    
+  } catch (error) {
+    console.error(`[${componentName.toUpperCase()}] Decoration failed:`, error);
+    
+    // Graceful degradation
+    block.innerHTML = `<p>Component temporarily unavailable</p>`;
+    
+  } finally {
+    console.timeEnd(`[${componentName.toUpperCase()}] Decoration time`);
+    console.groupEnd();
+  }
+}
+```
+
+#### **Performance Monitoring Integration**
+```javascript
+// Add to any component for performance monitoring
+export default function decorate(block) {
+  const startTime = performance.now();
+  const initialMemory = performance.memory?.usedJSHeapSize || 0;
+  
+  try {
+    // Component logic here
+    
+    const endTime = performance.now();
+    const finalMemory = performance.memory?.usedJSHeapSize || 0;
+    const memoryIncrease = finalMemory - initialMemory;
+    
+    console.log(`[PERF] Execution time: ${(endTime - startTime).toFixed(2)}ms`);
+    console.log(`[PERF] Memory increase: ${(memoryIncrease / 1024).toFixed(2)}KB`);
+    
+  } catch (error) {
+    console.error(`[PERF] Performance monitoring failed:`, error);
+  }
+}
+```
+
+### File Replacement Testing Strategy
+
+For testing enhanced or instrumented versions of components:
+
+#### **Generic File Replacement Workflow**
+```bash
+# 1. Backup original component
+cp blocks/your-component/your-component.js blocks/your-component/your-component-backup.js
+
+# 2. Replace with enhanced/instrumented version
+cp blocks/your-component/your-component-enhanced.js blocks/your-component/your-component.js
+
+# 3. Run tests (system automatically loads enhanced version)
+# Test your changes thoroughly
+
+# 4. Restore original file
+cp blocks/your-component/your-component-backup.js blocks/your-component/your-component.js
+
+# Or use git to restore (recommended)
+git restore blocks/your-component/your-component.js
+```
+
+#### **Automated Testing Script Template**
+```bash
+#!/bin/bash
+# test-enhanced-component.sh
+
+COMPONENT_NAME="$1"
+COMPONENT_PATH="blocks/$COMPONENT_NAME"
+ORIGINAL_FILE="${COMPONENT_PATH}/${COMPONENT_NAME}.js"
+ENHANCED_FILE="${COMPONENT_PATH}/${COMPONENT_NAME}-enhanced.js"
+BACKUP_FILE="${COMPONENT_PATH}/${COMPONENT_NAME}-backup.js"
+
+# Validation
+if [ ! -f "$ENHANCED_FILE" ]; then
+    echo "❌ Enhanced file not found: $ENHANCED_FILE"
+    exit 1
+fi
+
+echo "🔧 Testing enhanced $COMPONENT_NAME component..."
+
+# 1. Backup original
+cp "$ORIGINAL_FILE" "$BACKUP_FILE"
+echo "✅ Original file backed up"
+
+# 2. Replace with enhanced version
+cp "$ENHANCED_FILE" "$ORIGINAL_FILE"
+echo "✅ Enhanced version deployed"
+
+# 3. Wait for user testing
+echo "🌐 Open: http://localhost:3000/blocks/$COMPONENT_NAME/test.html"
+echo "📊 Run tests, then press Enter to restore..."
+read -r
+
+# 4. Restore original
+cp "$BACKUP_FILE" "$ORIGINAL_FILE"
+rm "$BACKUP_FILE"
+echo "✅ Original file restored and backup cleaned up"
+```
+
+### Browser Console Debug Tools
+
+Implement comprehensive debugging tools accessible via browser console:
+
+```javascript
+// Add to test files for instant debugging access
+window.debugComponents = {
+  // Get all components on the page
+  getComponents: () => document.querySelectorAll('[data-block-name]'),
+  
+  // Get status of specific component
+  getComponentStatus: (componentName) => {
+    const components = document.querySelectorAll(`[data-block-name="${componentName}"]`);
+    return Array.from(components).map(component => ({
+      element: component,
+      status: component.dataset.blockStatus,
+      name: component.dataset.blockName,
+      classes: component.className
+    }));
+  },
+  
+  // Force reinitialize a component
+  reinitComponent: async (componentName) => {
+    const components = document.querySelectorAll(`[data-block-name="${componentName}"]`);
+    for (const component of components) {
+      const module = await import(`/blocks/${componentName}/${componentName}.js`);
+      if (module.default) await module.default(component);
+    }
+  },
+  
+  // Check memory usage
+  getMemoryUsage: () => {
+    if (performance.memory) {
+      const memory = performance.memory;
+      return {
+        used: `${(memory.usedJSHeapSize / 1024 / 1024).toFixed(2)}MB`,
+        total: `${(memory.totalJSHeapSize / 1024 / 1024).toFixed(2)}MB`,
+        percentage: `${((memory.usedJSHeapSize / memory.totalJSHeapSize) * 100).toFixed(1)}%`
+      };
+    }
+    return 'Memory API not available';
+  }
+};
+
+console.log('🔧 Component Debug Tools Available:');
+console.log('- debugComponents.getComponents()');
+console.log('- debugComponents.getComponentStatus("component-name")');
+console.log('- debugComponents.reinitComponent("component-name")');
+console.log('- debugComponents.getMemoryUsage()');
+```
+
+### Instrumentation Request Pattern
+
+For comprehensive performance analysis, use this AI assistant prompt:
+
+```
+Please create comprehensive instrumentation for this project's JavaScript files. I need detailed performance metrics, function call traces, execution timing data, variable scope analysis, memory usage patterns, and program flow information during execution.
+
+Requirements:
+1. **Core Instrumentation Framework**: Create a reusable instrumentation.js file that can wrap any function with performance monitoring
+2. **Instrumented Versions**: Create instrumented versions of all major JavaScript files and components
+3. **Performance Metrics**: Capture function execution times, memory usage, DOM mutations, async operations
+4. **Structured Output**: Generate telemetry data in a structured format suitable for analysis
+5. **Minimal Impact**: Ensure instrumentation has minimal impact on execution performance
+6. **File Replacement Strategy**: Create instrumented versions with "-instrumented" suffix for testing
+7. **Browser Integration**: Include browser console integration for real-time monitoring
+
+Please create instrumented versions of:
+- All component JavaScript files
+- Core application scripts
+- Any utility or helper files
+
+Include test files that demonstrate the instrumentation working with browser console integration.
+```
+
+### Performance Benchmarks
+
+Target performance metrics for components:
+
+- **Component Loading**: 15-20ms (including CSS/JS loading)
+- **Component Decoration**: 1-3ms for simple components, 5-15ms for complex components
+- **Memory Overhead**: <500KB per component
+- **DOM Mutations**: <15 mutations per decoration cycle
+
+### Common Debugging Scenarios
+
+#### **Component Not Appearing**
+1. Check if component file exists and loads correctly
+2. Verify CSS class names match naming conventions
+3. Ensure proper visibility classes are applied
+4. Check for JavaScript errors in console
+
+#### **Performance Issues**
+1. Use instrumentation to identify bottlenecks
+2. Monitor memory usage patterns
+3. Check for excessive DOM mutations
+4. Analyze async operation timing
+
+#### **Integration Conflicts**
+1. Verify attribute preservation during DOM manipulation
+2. Check for styling conflicts
+3. Monitor race conditions between processing stages
+4. Validate error handling and recovery
+
+### Debug Configuration
+
+#### **Development Mode Settings**
+```javascript
+// Add to development configurations
+const DEBUG_MODE = process.env.DEBUG === 'true' || window.location.search.includes('debug=true');
+
+if (DEBUG_MODE) {
+  console.log('🔧 Debug mode enabled');
+  console.log('📊 Enhanced logging active');
+  console.log('🔍 Performance monitoring enabled');
+}
+```
+
+#### **Browser Debug Configuration**
+```javascript
+// Add to test files for debug mode
+<script>
+  // Enable debug mode
+  window.DEBUG_MODE = true;
+  
+  // Enhanced error reporting
+  window.addEventListener('error', (event) => {
+    console.error('[GLOBAL-ERROR]', {
+      message: event.message,
+      filename: event.filename,
+      lineno: event.lineno,
+      colno: event.colno,
+      error: event.error
+    });
+  });
+  
+  // Unhandled promise rejection tracking
+  window.addEventListener('unhandledrejection', (event) => {
+    console.error('[UNHANDLED-PROMISE]', event.reason);
+  });
+</script>
+```
+
+### Systematic Debugging Workflow
+
+#### **5-Phase Debugging Process**
+1. **Initial Assessment**: Check basic loading and file structure
+2. **Network Analysis**: Monitor resource loading and requests
+3. **DOM and Timing Analysis**: Track DOM changes and processing timing
+4. **Performance Analysis**: Measure execution times and memory usage
+5. **Error Resolution**: Implement error handling and recovery
+
+#### **Debug Checklist**
+- [ ] **Pre-Development Setup**: Debug tools available and configured
+- [ ] **Component Loading**: Files exist and load correctly
+- [ ] **Performance Monitoring**: Timing and memory tracking active
+- [ ] **Error Handling**: Comprehensive error catching and logging
+- [ ] **Recovery Testing**: Graceful degradation implemented
+- [ ] **Documentation**: Debug procedures documented
 
 ## Conclusion
 

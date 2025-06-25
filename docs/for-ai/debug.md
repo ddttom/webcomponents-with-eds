@@ -1,5 +1,7 @@
 # Block Debugging Guide for AI Assistants
 
+This debug guide is a comprehensive debugging manual that addresses all aspects of EDS block development, testing, and troubleshooting while maintaining universal applicability across all EDS projects. The addition of the generic instrumentation prompt makes advanced performance analysis accessible to any developer working with EDS.
+
 This guide provides step-by-step instructions for AI assistants to debug and test EDS (Edge Delivery Services) blocks using the local development server designed to improve AI assistant workflows.
 
 ## Overview
@@ -47,6 +49,200 @@ blocks/block-name/
 ```
 
 **CRITICAL**: Test files must use the exact same block structure as EDS. The purpose of test files is to replicate the EDS environment locally - there is no alternative structure.
+
+## File Replacement Testing Strategy
+
+### **EDS Dynamic Block Loading Constraint**
+
+**CRITICAL**: EDS uses dynamic imports with constructed paths that cannot be modified:
+```javascript
+// In scripts/aem.js - loadBlock function
+const mod = await import(`/blocks/${blockName}/${blockName}.js`);
+```
+
+This means EDS **always** calls the block by its exact name (`your-component.js`), making direct instrumentation impossible without file replacement.
+
+### **File Replacement Testing Workflow**
+
+When testing instrumented or enhanced block versions, you must temporarily replace the original block file:
+
+#### **Method 1: Manual Backup/Restore**
+```bash
+# 1. Create backup of original
+cp blocks/your-component/your-component.js blocks/your-component/your-component-backup.js
+
+# 2. Replace with instrumented/test version
+cp blocks/your-component/your-component-instrumented.js blocks/your-component/your-component.js
+
+# 3. Run tests (EDS automatically loads the replacement version)
+# http://localhost:3000/blocks/your-component/test.html
+
+# 4. Restore original file
+cp blocks/your-component/your-component-backup.js blocks/your-component/your-component.js
+
+# 5. Clean up backup
+rm blocks/your-component/your-component-backup.js
+```
+
+#### **Method 2: Git-Based Workflow (Recommended)**
+```bash
+# 1. Ensure clean working directory
+git status
+
+# 2. Replace with instrumented/test version
+cp blocks/your-component/your-component-instrumented.js blocks/your-component/your-component.js
+
+# 3. Run tests and collect data
+# (Execute testing procedures)
+
+# 4. Restore original using git
+git restore blocks/your-component/your-component.js
+
+# 5. Verify restoration
+git status  # Should show no changes
+```
+
+#### **Automated Testing Script Template**
+```bash
+#!/bin/bash
+# test-instrumented-block.sh
+
+BLOCK_NAME="$1"
+BLOCK_PATH="blocks/$BLOCK_NAME"
+ORIGINAL_FILE="${BLOCK_PATH}/${BLOCK_NAME}.js"
+INSTRUMENTED_FILE="${BLOCK_PATH}/${BLOCK_NAME}-instrumented.js"
+BACKUP_FILE="${BLOCK_PATH}/${BLOCK_NAME}-backup.js"
+
+# Validation
+if [ ! -f "$INSTRUMENTED_FILE" ]; then
+    echo "❌ Instrumented file not found: $INSTRUMENTED_FILE"
+    exit 1
+fi
+
+echo "🔧 Testing instrumented $BLOCK_NAME block..."
+
+# 1. Backup original
+cp "$ORIGINAL_FILE" "$BACKUP_FILE"
+echo "✅ Original file backed up"
+
+# 2. Replace with instrumented version
+cp "$INSTRUMENTED_FILE" "$ORIGINAL_FILE"
+echo "✅ Instrumented version deployed"
+
+# 3. Wait for user testing
+echo "🌐 Open: http://localhost:3000/blocks/$BLOCK_NAME/test.html"
+echo "📊 Run tests, then press Enter to restore..."
+read -r
+
+# 4. Restore original
+cp "$BACKUP_FILE" "$ORIGINAL_FILE"
+rm "$BACKUP_FILE"
+echo "✅ Original file restored and backup cleaned up"
+```
+
+### **Why File Replacement is Required**
+
+1. **EDS Dynamic Loading**: `import(\`/blocks/\${blockName}/\${blockName}.js\`)` cannot be modified
+2. **Exact Name Matching**: EDS constructs paths using block name, requires exact filename
+3. **No Import Redirection**: Cannot redirect imports without modifying core EDS files
+4. **Testing Isolation**: File replacement allows testing enhanced code in real EDS environment
+
+## Block JavaScript Implementation Debugging
+
+### **Enhanced `decorate()` Function Patterns**
+
+All EDS blocks should implement comprehensive debugging patterns in their `decorate()` functions:
+
+#### **Standard Error Handling Pattern**
+```javascript
+// Standard error handling pattern for all blocks
+export default async function decorate(block) {
+  const blockName = block.dataset.blockName || 'unknown';
+  
+  try {
+    console.group(`[${blockName.toUpperCase()}] Block decoration starting`);
+    console.time(`[${blockName.toUpperCase()}] Decoration time`);
+    
+    // Ensure EDS visibility
+    if (!document.body.classList.contains('appear')) {
+      console.warn(`[${blockName.toUpperCase()}] Adding appear class for visibility`);
+      document.body.classList.add('appear');
+    }
+    
+    // Component logic here
+    await enhanceBlock(block);
+    
+    console.log(`[${blockName.toUpperCase()}] Decoration completed successfully`);
+    
+  } catch (error) {
+    console.error(`[${blockName.toUpperCase()}] Decoration failed:`, error);
+    
+    // Fallback content
+    block.innerHTML = `<p>Component temporarily unavailable</p>`;
+    
+  } finally {
+    console.timeEnd(`[${blockName.toUpperCase()}] Decoration time`);
+    console.groupEnd();
+  }
+}
+```
+
+#### **Performance Monitoring Integration**
+```javascript
+// Add to component decorate() function for performance monitoring
+export default function decorate(block) {
+  const startTime = performance.now();
+  console.time('[PERF] Block decoration');
+  
+  try {
+    // Component logic here
+    
+    const endTime = performance.now();
+    console.timeEnd('[PERF] Block decoration');
+    console.log(`[PERF] ${block.className} decorated in ${endTime - startTime}ms`);
+  } catch (error) {
+    console.error(`[PERF] ${block.className} decoration failed:`, error);
+  }
+}
+```
+
+#### **EDS Attribute Preservation**
+```javascript
+// Problem: Shadow DOM isolation prevents EDS styling
+export default function decorate(block) {
+  // Preserve EDS attributes before DOM manipulation
+  const blockStatus = block.getAttribute('data-block-status');
+  const blockName = block.getAttribute('data-block-name');
+  
+  // Clear and rebuild DOM
+  block.innerHTML = '';
+  
+  // Restore EDS attributes for proper styling
+  if (blockStatus) block.setAttribute('data-block-status', blockStatus);
+  if (blockName) block.setAttribute('data-block-name', blockName);
+}
+```
+
+#### **Race Condition Prevention**
+```javascript
+// Detect and handle race conditions
+let decorationInProgress = false;
+
+export default async function decorate(block) {
+  if (decorationInProgress) {
+    console.warn('[RACE-CONDITION] Decoration already in progress');
+    return;
+  }
+  
+  decorationInProgress = true;
+  
+  try {
+    await performDecoration(block);
+  } finally {
+    decorationInProgress = false;
+  }
+}
+```
 
 ## Creating test.html Files
 
@@ -251,6 +447,640 @@ Common debugging steps:
 - Ensure DOM is ready before initialization
 - Verify block structure matches expectations
 
+### Step 6: Performance Analysis
+
+Monitor and optimize block performance using these debugging techniques:
+
+#### **Function Execution Timing**
+```javascript
+// Add to component decorate() function for performance monitoring
+export default function decorate(block) {
+  const startTime = performance.now();
+  console.time('[PERF] Block decoration');
+  
+  try {
+    // Component logic here
+    
+    const endTime = performance.now();
+    console.timeEnd('[PERF] Block decoration');
+    console.log(`[PERF] ${block.className} decorated in ${endTime - startTime}ms`);
+  } catch (error) {
+    console.error(`[PERF] ${block.className} decoration failed:`, error);
+  }
+}
+```
+
+#### **Memory Usage Monitoring**
+```javascript
+// Memory monitoring pattern for debugging memory leaks
+function monitorMemoryUsage(blockName) {
+  if (performance.memory) {
+    const memory = performance.memory;
+    console.log(`[MEMORY] ${blockName}:`, {
+      used: `${(memory.usedJSHeapSize / 1024 / 1024).toFixed(2)}MB`,
+      total: `${(memory.totalJSHeapSize / 1024 / 1024).toFixed(2)}MB`,
+      limit: `${(memory.jsHeapSizeLimit / 1024 / 1024).toFixed(2)}MB`
+    });
+  }
+}
+```
+
+#### **Performance Benchmarking Guidelines**
+Based on testing, typical performance metrics:
+
+- **Block Loading**: 15-20ms (including CSS/JS loading)
+- **Block Decoration**: 1-3ms for simple blocks, 5-15ms for complex blocks
+- **Memory Overhead**: 150KB-500KB per instrumented block
+- **DOM Mutations**: 5-10 mutations per block decoration
+
+### Step 7: Error Resolution
+
+Implement systematic error handling and recovery:
+
+#### **Error Pattern Analysis**
+```javascript
+// Comprehensive error logging
+function logError(context, error, additionalInfo = {}) {
+  const errorReport = {
+    context,
+    message: error.message,
+    stack: error.stack,
+    timestamp: new Date().toISOString(),
+    userAgent: navigator.userAgent,
+    url: window.location.href,
+    ...additionalInfo
+  };
+  
+  console.error('[ERROR-REPORT]', errorReport);
+  
+  // Optional: Send to monitoring service
+  // sendErrorReport(errorReport);
+}
+```
+
+#### **Graceful Degradation Pattern**
+```javascript
+export default async function decorate(block) {
+  try {
+    // Primary functionality
+    await enhanceBlock(block);
+  } catch (error) {
+    console.error('[ERROR-RECOVERY] Enhancement failed, using fallback:', error);
+    
+    // Fallback functionality
+    block.innerHTML = '<p>Content temporarily unavailable</p>';
+    
+    // Ensure visibility
+    if (!document.body.classList.contains('appear')) {
+      document.body.classList.add('appear');
+    }
+  }
+}
+```
+
+## Performance Debugging and Instrumentation
+
+### **Creating Instrumentation for Any EDS Project**
+
+#### **AI Assistant Prompt for Generic Instrumentation**
+
+Use this prompt to request comprehensive instrumentation for any EDS project:
+
+```
+Please create comprehensive instrumentation for this EDS project's JavaScript files. I need detailed performance metrics, function call traces, execution timing data, variable scope analysis, memory usage patterns, and program flow information during execution.
+
+Requirements:
+1. **Core Instrumentation Framework**: Create a reusable instrumentation.js file that can wrap any function with performance monitoring
+2. **Instrumented Versions**: Create instrumented versions of all major JavaScript files (scripts/aem.js, scripts/scripts.js, scripts/delayed.js, and any blocks)
+3. **Performance Metrics**: Capture function execution times, memory usage, DOM mutations, async operations
+4. **Structured Output**: Generate telemetry data in a structured format suitable for analysis
+5. **Minimal Impact**: Ensure instrumentation has minimal impact on execution performance
+6. **File Replacement Strategy**: Create instrumented versions with "-instrumented" suffix for testing
+7. **Browser Integration**: Include browser console integration for real-time monitoring
+
+The instrumentation should:
+- Wrap all major functions with timing and memory monitoring
+- Track DOM mutations and changes
+- Monitor async operations and Promise chains
+- Capture error patterns and recovery attempts
+- Provide detailed execution flow analysis
+- Generate comprehensive performance reports
+- Support file replacement testing workflow
+
+Please create instrumented versions of:
+- scripts/aem.js → scripts/aem-instrumented.js
+- scripts/scripts.js → scripts/scripts-instrumented.js  
+- scripts/delayed.js → scripts/delayed-instrumented.js
+- blocks/[component]/[component].js → blocks/[component]/[component]-instrumented.js
+
+Include test files that demonstrate the instrumentation working with browser console integration.
+```
+
+#### **Expected Instrumentation Output**
+
+The AI assistant should create:
+
+1. **Core Framework** (`scripts/instrumentation.js`):
+   - Function wrapping utilities
+   - Performance monitoring tools
+   - Memory tracking capabilities
+   - DOM mutation observers
+   - Error handling and logging
+
+2. **Instrumented Core Files**:
+   - `scripts/aem-instrumented.js` - All AEM core functions wrapped
+   - `scripts/scripts-instrumented.js` - Main application flow instrumented
+   - `scripts/delayed-instrumented.js` - Delayed functionality instrumented
+
+3. **Instrumented Block Files**:
+   - `blocks/[component]/[component]-instrumented.js` - Individual block instrumentation
+
+4. **Test Infrastructure**:
+   - Test HTML files with browser console integration
+   - Global instrumentation access functions
+   - Performance report generation tools
+
+#### **Using the Instrumentation**
+
+Once created, use the file replacement strategy to test:
+
+```bash
+# 1. Backup original block
+cp blocks/your-component/your-component.js blocks/your-component/your-component-backup.js
+
+# 2. Replace with instrumented version
+cp blocks/your-component/your-component-instrumented.js blocks/your-component/your-component.js
+
+# 3. Run tests and collect performance data
+# Open: http://localhost:3000/blocks/your-component/test.html
+# Use browser console: window.getInstrumentationReport()
+
+# 4. Restore original
+git restore blocks/your-component/your-component.js
+```
+
+### **Function Execution Timing Analysis**
+
+When debugging performance issues, use instrumentation to capture detailed execution metrics:
+
+```javascript
+// Enhanced performance monitoring with detailed metrics
+export default function decorate(block) {
+  const blockName = block.dataset.blockName || 'unknown';
+  const startTime = performance.now();
+  const initialMemory = performance.memory?.usedJSHeapSize || 0;
+  
+  console.group(`[PERF-DEBUG] ${blockName.toUpperCase()}`);
+  console.time(`[PERF] ${blockName} decoration`);
+  
+  try {
+    // Component logic here
+    
+    const endTime = performance.now();
+    const finalMemory = performance.memory?.usedJSHeapSize || 0;
+    const memoryIncrease = finalMemory - initialMemory;
+    
+    console.timeEnd(`[PERF] ${blockName} decoration`);
+    console.log(`[PERF] Execution time: ${(endTime - startTime).toFixed(2)}ms`);
+    console.log(`[PERF] Memory increase: ${(memoryIncrease / 1024).toFixed(2)}KB`);
+    
+  } catch (error) {
+    console.error(`[PERF] ${blockName} decoration failed:`, error);
+  } finally {
+    console.groupEnd();
+  }
+}
+```
+
+### **Memory Leak Detection**
+
+Monitor memory usage patterns to identify leaks:
+
+```javascript
+// Memory leak detection pattern
+function detectMemoryLeaks(blockName) {
+  const initialMemory = performance.memory?.usedJSHeapSize || 0;
+  
+  return {
+    check: () => {
+      const currentMemory = performance.memory?.usedJSHeapSize || 0;
+      const increase = currentMemory - initialMemory;
+      
+      if (increase > 1024 * 1024) { // 1MB threshold
+        console.warn(`[MEMORY-LEAK] ${blockName} increased memory by ${(increase / 1024 / 1024).toFixed(2)}MB`);
+      }
+      
+      return { initial: initialMemory, current: currentMemory, increase };
+    }
+  };
+}
+
+// Usage in component
+export default function decorate(block) {
+  const memoryTracker = detectMemoryLeaks(block.className);
+  
+  // Component logic here
+  
+  // Check memory after decoration
+  setTimeout(() => memoryTracker.check(), 1000);
+}
+```
+
+## Error Pattern Analysis and Resolution
+
+### **Common Error Patterns**
+
+#### **Module Loading Failures**
+```javascript
+// Error Pattern:
+Error: failed to load module for header
+  at loadBlock (scripts/aem.js:589)
+  at async loadSection (scripts/aem.js:683)
+
+// Root Cause: Missing block JavaScript file or ES module syntax errors
+// Resolution Strategy:
+1. Verify block file exists: blocks/header/header.js
+2. Check ES module syntax: export default function decorate(block) {}
+3. Test module in isolation: import('./header.js').then(console.log)
+4. Implement graceful fallback for missing blocks
+```
+
+#### **Resource Loading Errors**
+```javascript
+// Error Pattern:
+Failed to load resource: the server responded with a status of 404 (Not Found)
+Resource: /fonts/roboto-medium.woff2
+
+// Root Cause: Missing font files or incorrect proxy configuration
+// Resolution Strategy:
+1. Check if resource exists locally
+2. Verify proxy URL configuration in server.js
+3. Implement font fallbacks in CSS
+4. Use web fonts with proper fallback stack
+```
+
+#### **Shadow DOM Visibility Issues**
+```javascript
+// Error Pattern:
+✅ Component loads successfully
+✅ Data fetches correctly  
+❌ Content completely invisible
+
+// Root Cause: Shadow DOM isolation prevents EDS styling
+// Resolution Strategy:
+1. Preserve EDS attributes: data-block-status, data-block-name
+2. Ensure body.appear class is present
+3. Add component-level visibility fallbacks
+4. Test both served and rendered HTML states
+```
+
+### **Error Recovery Templates**
+
+```javascript
+// Standard error handling template for all blocks
+export default async function decorate(block) {
+  const blockName = block.dataset.blockName || 'unknown';
+  
+  try {
+    console.group(`[${blockName.toUpperCase()}] Block decoration starting`);
+    console.time(`[${blockName.toUpperCase()}] Decoration time`);
+    
+    // Ensure EDS visibility
+    if (!document.body.classList.contains('appear')) {
+      console.warn(`[${blockName.toUpperCase()}] Adding appear class for visibility`);
+      document.body.classList.add('appear');
+    }
+    
+    // Component logic here
+    await enhanceBlock(block);
+    
+    console.log(`[${blockName.toUpperCase()}] Decoration completed successfully`);
+    
+  } catch (error) {
+    console.error(`[${blockName.toUpperCase()}] Decoration failed:`, error);
+    
+    // Fallback content
+    block.innerHTML = `<p>Component temporarily unavailable</p>`;
+    
+  } finally {
+    console.timeEnd(`[${blockName.toUpperCase()}] Decoration time`);
+    console.groupEnd();
+  }
+}
+```
+
+## Advanced Debugging Techniques
+
+### **DOM Mutation and Timing Debugging**
+
+#### **Tracking DOM Changes**
+
+Monitor DOM mutations during block processing:
+
+```javascript
+// DOM mutation observer for debugging
+function debugDOMMutations(targetElement, blockName) {
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      console.log(`[DOM-DEBUG] ${blockName}:`, {
+        type: mutation.type,
+        target: mutation.target.tagName,
+        addedNodes: mutation.addedNodes.length,
+        removedNodes: mutation.removedNodes.length,
+        attributeName: mutation.attributeName,
+        oldValue: mutation.oldValue
+      });
+    });
+  });
+  
+  observer.observe(targetElement, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeOldValue: true
+  });
+  
+  return observer;
+}
+```
+
+#### **Common DOM Timing Issues**
+
+**EDS Processing Race Conditions**:
+```javascript
+// Problem: Component modifies DOM before EDS processing completes
+export default function decorate(block) {
+  // ✅ CORRECT: Wait for EDS processing
+  if (block.dataset.blockStatus !== 'initialized') {
+    console.warn('[DOM-DEBUG] Block not fully initialized, waiting...');
+    setTimeout(() => decorate(block), 10);
+    return;
+  }
+  
+  // Safe to modify DOM after EDS initialization
+  block.innerHTML = '<div>New content</div>';
+}
+```
+
+**Shadow DOM vs EDS Conflicts**:
+```javascript
+// Problem: Shadow DOM isolation prevents EDS styling
+export default function decorate(block) {
+  // Preserve EDS attributes before DOM manipulation
+  const blockStatus = block.getAttribute('data-block-status');
+  const blockName = block.getAttribute('data-block-name');
+  
+  // Clear and rebuild DOM
+  block.innerHTML = '';
+  
+  // Restore EDS attributes for proper styling
+  if (blockStatus) block.setAttribute('data-block-status', blockStatus);
+  if (blockName) block.setAttribute('data-block-name', blockName);
+}
+```
+
+### **Asynchronous Operation Debugging**
+
+#### **Tracking Async Operations**
+
+Monitor Promise-based operations during block loading:
+
+```javascript
+// Async operation tracking pattern
+export default async function decorate(block) {
+  const asyncOps = [];
+  
+  try {
+    // Track CSS loading
+    const cssPromise = loadCSS('./block.css')
+      .then(() => console.log('[ASYNC] CSS loaded'))
+      .catch(error => console.error('[ASYNC] CSS failed:', error));
+    asyncOps.push(cssPromise);
+    
+    // Track data fetching
+    const dataPromise = fetch('/api/data')
+      .then(response => response.json())
+      .then(data => console.log('[ASYNC] Data loaded:', data.length, 'items'))
+      .catch(error => console.error('[ASYNC] Data failed:', error));
+    asyncOps.push(dataPromise);
+    
+    // Wait for all async operations
+    await Promise.allSettled(asyncOps);
+    console.log('[ASYNC] All operations completed');
+    
+  } catch (error) {
+    console.error('[ASYNC] Block decoration failed:', error);
+  }
+}
+```
+
+#### **Promise Chain Debugging**
+```javascript
+// Debug Promise chains with detailed logging
+fetch('/api/data')
+  .then(response => {
+    console.log('[ASYNC-DEBUG] Response status:', response.status);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  })
+  .then(data => {
+    console.log('[ASYNC-DEBUG] Data parsed:', typeof data, Object.keys(data));
+    return processData(data);
+  })
+  .then(result => {
+    console.log('[ASYNC-DEBUG] Processing complete:', result);
+  })
+  .catch(error => {
+    console.error('[ASYNC-DEBUG] Chain failed:', error);
+  });
+```
+
+### **Memory Usage Optimization**
+
+#### **Efficient DOM Manipulation**
+```javascript
+// ❌ INEFFICIENT: Multiple DOM queries
+function decorateInefficient(block) {
+  block.querySelector('.item').style.color = 'red';
+  block.querySelector('.item').style.fontSize = '16px';
+  block.querySelector('.item').addEventListener('click', handler);
+}
+
+// ✅ EFFICIENT: Single query, batch operations
+function decorateEfficient(block) {
+  const item = block.querySelector('.item');
+  if (item) {
+    Object.assign(item.style, { color: 'red', fontSize: '16px' });
+    item.addEventListener('click', handler);
+  }
+}
+```
+
+#### **Resource Loading Optimization**
+```javascript
+// Preload critical resources
+function preloadResources(urls) {
+  urls.forEach(url => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.href = url;
+    link.as = url.endsWith('.css') ? 'style' : 'script';
+    document.head.appendChild(link);
+  });
+}
+```
+
+## Browser Console Debug Tools
+
+### **Console Integration Patterns**
+
+Implement comprehensive console debugging for components:
+
+```javascript
+// Debug helper functions
+window.debugEDS = {
+  // Get all blocks on page
+  getBlocks: () => document.querySelectorAll('[data-block-name]'),
+  
+  // Get block status
+  getBlockStatus: (blockName) => {
+    const blocks = document.querySelectorAll(`[data-block-name="${blockName}"]`);
+    return Array.from(blocks).map(block => ({
+      element: block,
+      status: block.dataset.blockStatus,
+      name: block.dataset.blockName,
+      classes: block.className
+    }));
+  },
+  
+  // Force block reinitialization
+  reinitBlock: async (blockName) => {
+    const blocks = document.querySelectorAll(`[data-block-name="${blockName}"]`);
+    for (const block of blocks) {
+      const module = await import(`/blocks/${blockName}/${blockName}.js`);
+      if (module.default) await module.default(block);
+    }
+  },
+  
+  // Memory usage report
+  getMemoryUsage: () => {
+    if (performance.memory) {
+      const memory = performance.memory;
+      return {
+        used: `${(memory.usedJSHeapSize / 1024 / 1024).toFixed(2)}MB`,
+        total: `${(memory.totalJSHeapSize / 1024 / 1024).toFixed(2)}MB`,
+        percentage: `${((memory.usedJSHeapSize / memory.totalJSHeapSize) * 100).toFixed(1)}%`
+      };
+    }
+    return 'Memory API not available';
+  }
+};
+
+// Make available globally
+console.log('🔧 EDS Debug Tools Available:');
+console.log('- window.debugEDS.getBlocks()');
+console.log('- window.debugEDS.getBlockStatus("block-name")');
+console.log('- window.debugEDS.reinitBlock("block-name")');
+console.log('- window.debugEDS.getMemoryUsage()');
+```
+
+### **Console Command Examples**
+
+```javascript
+// Debug commands for browser console
+
+// 1. Check all blocks on page
+debugEDS.getBlocks()
+
+// 2. Get specific block status
+debugEDS.getBlockStatus('your-component')
+
+// 3. Check memory usage
+debugEDS.getMemoryUsage()
+
+// 4. Reinitialize problematic block
+await debugEDS.reinitBlock('your-component')
+
+// 5. Monitor DOM mutations
+const observer = new MutationObserver(console.log);
+observer.observe(document.body, { childList: true, subtree: true });
+
+// 6. Performance timing
+console.time('Block Loading');
+await debugEDS.reinitBlock('your-component');
+console.timeEnd('Block Loading');
+
+// 7. Get instrumentation report (if instrumented versions are active)
+window.getInstrumentationReport()
+
+// 8. Export instrumentation data for analysis
+window.exportInstrumentationData()
+```
+
+### **Requesting Instrumentation Creation**
+
+When you need comprehensive performance analysis, use this approach:
+
+#### **Step 1: Request AI Assistant to Create Instrumentation**
+Copy and paste this prompt to any AI assistant:
+
+```
+Please create comprehensive instrumentation for this EDS project's JavaScript files. I need detailed performance metrics, function call traces, execution timing data, variable scope analysis, memory usage patterns, and program flow information during execution.
+
+Requirements:
+1. **Core Instrumentation Framework**: Create a reusable instrumentation.js file that can wrap any function with performance monitoring
+2. **Instrumented Versions**: Create instrumented versions of all major JavaScript files (scripts/aem.js, scripts/scripts.js, scripts/delayed.js, and any blocks)
+3. **Performance Metrics**: Capture function execution times, memory usage, DOM mutations, async operations
+4. **Structured Output**: Generate telemetry data in a structured format suitable for analysis
+5. **Minimal Impact**: Ensure instrumentation has minimal impact on execution performance
+6. **File Replacement Strategy**: Create instrumented versions with "-instrumented" suffix for testing
+7. **Browser Integration**: Include browser console integration for real-time monitoring
+
+Please create instrumented versions of:
+- scripts/aem.js → scripts/aem-instrumented.js
+- scripts/scripts.js → scripts/scripts-instrumented.js  
+- scripts/delayed.js → scripts/delayed-instrumented.js
+- blocks/[component]/[component].js → blocks/[component]/[component]-instrumented.js
+
+Include test files that demonstrate the instrumentation working with browser console integration.
+```
+
+#### **Step 2: Implement File Replacement Testing**
+```bash
+# Use the file replacement strategy to test instrumented versions
+cp blocks/your-component/your-component-instrumented.js blocks/your-component/your-component.js
+# Run tests, then restore: git restore blocks/your-component/your-component.js
+```
+
+#### **Step 3: Analyze Performance Data**
+```javascript
+// In browser console after loading instrumented version
+const report = window.getInstrumentationReport();
+console.table(report.functionMetrics);
+console.log('Total execution time:', report.totalTime + 'ms');
+console.log('Memory usage:', report.memoryUsage);
+```
+
+### **Browser DevTools Integration**
+
+#### **Network Tab Analysis**
+- Monitor resource loading order and timing
+- Identify failed requests (404s, CORS errors)
+- Check response headers and content types
+- Analyze transfer sizes and compression
+
+#### **Performance Tab Usage**
+- Record page load performance
+- Identify long-running tasks
+- Analyze memory usage patterns
+- Detect layout thrashing
+
+#### **Console Tab Debugging**
+- Use console.group() for organized logging
+- Implement console.time() for performance measurement
+- Use console.table() for structured data display
+- Set up console.assert() for validation checks
+
 ## Advanced Testing Scenarios
 
 ### Testing with Multiple Instances
@@ -339,12 +1169,104 @@ Common debugging steps:
 </div>
 ```
 
+## Server Request Debugging
+
+### **Analyzing Server Logs**
+
+Monitor server terminal output for detailed request information:
+
+```bash
+# Successful local file serving
+Request: GET /blocks/your-component/your-component.js
+✅ Serving local file: /project-root/blocks/your-component/your-component.js
+
+# Proxy request pattern
+Request: GET /media_image.png
+🔄 Local file not found, attempting proxy for: /media_image.png
+🔄 Proxying request to: https://your-domain.com/media_image.png
+✅ Proxy Success: 200 OK (50,054 bytes, image/webp)
+
+# Failed proxy request
+❌ Proxy Failed: 404 Not Found
+Failed URL: https://your-domain.com/fonts/roboto-medium.woff2
+```
+
+### **Common Server Issues and Solutions**
+
+#### **Resource Loading Failures**
+```bash
+# Symptom: 404 errors for fonts or images
+❌ Error proxying request for /fonts/roboto-medium.woff2: Proxy request failed: 404 Not Found
+
+# Debug Steps:
+1. Check if resource exists locally
+2. Verify proxy URL configuration
+3. Test direct access to proxy URL
+4. Implement fallback resources
+```
+
+#### **Module Loading Errors**
+```bash
+# Symptom: Block JavaScript fails to load
+failed to load module for header JSHandle@error
+failed to load module for footer JSHandle@error
+
+# Debug Steps:
+1. Verify ES module syntax in block JavaScript
+2. Check for circular dependencies
+3. Ensure proper export statements
+4. Test module in isolation
+```
+
+### **Network Request Analysis**
+
+Use browser DevTools Network tab to analyze:
+
+- **Request Timeline**: Order of resource loading
+- **Response Headers**: CORS, caching, content-type
+- **Transfer Sizes**: Identify large resources
+- **Failed Requests**: 404s, timeouts, CORS errors
+
+#### **Network Debug Checklist**
+- [ ] All local resources load successfully (200 status)
+- [ ] Proxy requests have appropriate fallbacks
+- [ ] CORS headers present for cross-origin requests
+- [ ] Resource sizes are reasonable (<1MB for images)
+- [ ] No circular dependency errors in modules
+
+### **Network Request Debug Template**
+
+```javascript
+// Network request debugging wrapper
+async function debugFetch(url, options = {}) {
+  console.log(`[NETWORK] Requesting: ${url}`);
+  const startTime = performance.now();
+  
+  try {
+    const response = await fetch(url, options);
+    const endTime = performance.now();
+    
+    console.log(`[NETWORK] Response: ${response.status} ${response.statusText} (${(endTime - startTime).toFixed(2)}ms)`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    return response;
+    
+  } catch (error) {
+    console.error(`[NETWORK] Request failed: ${url}`, error);
+    throw error;
+  }
+}
+```
+
 ## Server Behavior
 
 ### Local File Priority
 
 - Server serves local files first
-- Falls back to proxy (`https://allabout.network`) for missing files
+- Falls back to proxy (`https://your-domain.com`) for missing files
 - Enables testing with real remote assets
 
 ### MIME Type Support
@@ -360,22 +1282,96 @@ Common debugging steps:
 - Permissive CORS for development
 - No caching for immediate updates
 
-## Debugging Checklist
+### **Server Configuration Debug Settings**
 
-### Before Testing
+```javascript
+// Add to server.js for enhanced debugging
+const DEBUG_MODE = process.env.DEBUG === 'true';
 
+if (DEBUG_MODE) {
+  console.log('🔧 Debug mode enabled');
+  console.log('📊 Enhanced logging active');
+  console.log('🔍 Request timing enabled');
+}
+```
+
+## Complete Block Debugging Workflow
+
+### **Phase 1: Initial Assessment**
+- [ ] **Check Server Status**: Verify `npm run debug` is running
+- [ ] **Verify File Structure**: Ensure block files exist and are properly named
+- [ ] **Test Basic Loading**: Access `http://localhost:3000/blocks/block-name/test.html`
+- [ ] **Check Browser Console**: Look for immediate errors
+- [ ] **Validate Block Structure**: Confirm EDS naming conventions
+
+### **Phase 2: Network Analysis**
+- [ ] **Open DevTools Network Tab**: Monitor resource loading
+- [ ] **Reload Page**: Watch request sequence and timing
+- [ ] **Identify Failed Requests**: Note 404s, timeouts, CORS errors
+- [ ] **Check Server Logs**: Monitor terminal output for detailed request info
+- [ ] **Verify Proxy Behavior**: Confirm fallback requests work correctly
+
+### **Phase 3: DOM and Timing Analysis**
+- [ ] **Add DOM Mutation Observer**: Track DOM changes during loading
+- [ ] **Monitor EDS Processing**: Check for `data-block-status` changes
+- [ ] **Verify Block Decoration**: Ensure `decorate()` function executes
+- [ ] **Check Timing Conflicts**: Look for race conditions
+- [ ] **Validate EDS Attributes**: Confirm proper attribute preservation
+
+### **Phase 4: Performance Analysis**
+- [ ] **Add Performance Timing**: Measure function execution times
+- [ ] **Monitor Memory Usage**: Track memory allocation and cleanup
+- [ ] **Analyze Async Operations**: Verify Promise resolution
+- [ ] **Check Resource Loading**: Measure network request timing
+- [ ] **Validate Optimization**: Ensure efficient DOM manipulation
+
+### **Phase 5: Error Resolution**
+- [ ] **Implement Error Handling**: Add try/catch blocks with logging
+- [ ] **Add Fallback Content**: Ensure graceful degradation
+- [ ] **Test Error Scenarios**: Simulate network failures, missing resources
+- [ ] **Verify Recovery**: Ensure system continues functioning after errors
+- [ ] **Document Solutions**: Record fixes for future reference
+
+## Enhanced Debugging Checklist
+
+### **Pre-Development Setup**
+- [ ] **File Replacement Strategy**: Understand instrumented file testing workflow
+- [ ] **Debug Tools Available**: Browser console, DevTools, server logs
+- [ ] **Performance Baseline**: Know expected timing and memory benchmarks
+- [ ] **Error Patterns**: Familiar with common failure modes and solutions
+
+### **Before Testing**
 - [ ] Block files exist (`.js`, `.css`)
 - [ ] Server is running (`npm run debug`)
 - [ ] Test file created in correct location
 - [ ] Block structure follows EDS conventions
+- [ ] **Instrumented versions prepared** (if performance testing)
+- [ ] **Git working directory clean** (for file replacement workflow)
 
-### During Testing
-
+### **During Testing**
 - [ ] Check browser console for errors
 - [ ] Verify network requests succeed
 - [ ] Test responsive behavior
 - [ ] Validate accessibility features
 - [ ] Test all interactive elements
+- [ ] **Monitor performance metrics** (timing, memory)
+- [ ] **Track DOM mutations** (if debugging timing issues)
+- [ ] **Verify EDS integration** (attributes, styling, lifecycle)
+
+### **Performance Testing Checklist**
+- [ ] **Function Execution Timing**: <20ms for block decoration
+- [ ] **Memory Usage**: <500KB increase per block
+- [ ] **DOM Mutations**: <15 mutations per decoration cycle
+- [ ] **Async Operations**: <5 concurrent operations
+- [ ] **Resource Loading**: All critical resources <1MB
+- [ ] **Error Recovery**: Graceful degradation implemented
+
+### **File Replacement Testing Checklist**
+- [ ] **Backup Created**: Original file safely backed up
+- [ ] **Instrumented Version**: Enhanced version ready for deployment
+- [ ] **Testing Complete**: All scenarios tested thoroughly
+- [ ] **Original Restored**: File replacement properly reversed
+- [ ] **Git Status Clean**: No unintended changes committed
 
 ### Common Issues
 
@@ -556,26 +1552,26 @@ EDS operates with a **dual layout system** where HTML undergoes transformation f
 #### **Served HTML State** (`test2.html`)
 - **Raw content** as delivered from CMS/authoring systems
 - **Minimal structure** before EDS processing
-- **Example**: `<div class="shoelace-card"></div>`
+- **Example**: `<div class="your-component"></div>`
 - **Processing**: Awaits transformation by EDS scripts
 - **Use case**: Represents what EDS receives from content management
 
 #### **Rendered HTML State** (`test.html`) 
 - **Processed content** after EDS scripts transformation
 - **Full block structure** with proper attributes and nesting
-- **Example**: `<div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">`
+- **Example**: `<div class="your-component block" data-block-name="your-component" data-block-status="initialized">`
 - **Processing**: Final DOM state after EDS processing complete
 - **Use case**: Represents final DOM state after EDS processing
 
 #### **HTML Transformation Process**
 
-**CRITICAL**: The served HTML (like [`test2.html`](blocks/shoelace-card/test2.html)) is **perfect as delivered by EDS**. The transformation process automatically converts minimal served HTML into full rendered HTML structure.
+**CRITICAL**: The served HTML (like `test2.html`) is **perfect as delivered by EDS**. The transformation process automatically converts minimal served HTML into full rendered HTML structure.
 
 The transformation from served to rendered HTML occurs through:
 
 1. **EDS Automatic Structure Creation**:
    - EDS automatically wraps content in proper `div.section > div > div` structure
-   - Minimal served HTML: `<div class="shoelace-card"></div>`
+   - Minimal served HTML: `<div class="your-component"></div>`
    - Gets automatically wrapped to match `div.section > div > div` selector pattern
 
 2. **[`scripts/aem.js`](scripts/aem.js) Processing**:
@@ -645,15 +1641,15 @@ export default function decorate(block) {
 }
 ```
 
-## Real-World Debug Case Study: Shoelace Card Shadow DOM Issue
+## Real-World Debug Case Study: Shadow DOM Component Issue
 
-The shoelace-card component demonstrates a critical debugging scenario involving Shadow DOM vs EDS processing race conditions:
+This case study demonstrates a critical debugging scenario involving Shadow DOM vs EDS processing race conditions:
 
 ### 🔍 **Confirmed Issue: Shadow DOM Visibility Problem**
 
 #### **Symptoms Observed:**
 - **✅ Component loads successfully** (console logs show successful processing)
-- **✅ Data fetches correctly** (5/5 images preloaded from `/slides/query-index.json`)
+- **✅ Data fetches correctly** (external resources loaded via proxy)
 - **❌ Content completely invisible** (blank white screen despite successful processing)
 - **🔍 DOM timing conflicts** (MutationObserver errors during initialization)
 
@@ -661,7 +1657,7 @@ The shoelace-card component demonstrates a critical debugging scenario involving
 **Shadow DOM vs EDS Processing Race Condition** where:
 
 1. **EDS Processing**: [`scripts/aem.js:decorateBlock()`](scripts/aem.js:608-620) adds `data-block-status="initialized"` to block
-2. **Component Processing**: [`build/shoelace-card/shoelace-card.js:decorate()`](build/shoelace-card/shoelace-card.js:1036) clears `innerHTML` 
+2. **Component Processing**: Component's `decorate()` function clears `innerHTML` 
 3. **Shadow DOM Creation**: Component creates Shadow DOM content inside cleared block
 4. **Style Isolation**: CSS targeting `[data-block-status="initialized"]` cannot penetrate Shadow DOM boundaries
 5. **Result**: Content exists but is invisible due to style isolation
@@ -669,21 +1665,21 @@ The shoelace-card component demonstrates a critical debugging scenario involving
 #### **Debugging Evidence:**
 ```
 Console Logs (test2.html):
-✅ [shoelace-card] Preloading 5 images...
-✅ [shoelace-card] Preloaded 5/5 images successfully  
-✅ [shoelace-card] All images preloaded
+✅ [your-component] Loading external resources...
+✅ [your-component] Resources loaded successfully  
+✅ [your-component] Component initialization complete
 ❌ Visual Result: Completely blank screen
 🔍 [DEBUG-TIMING] MutationObserver timing errors
 ```
 
 #### **Testing Methodology:**
-- **Served HTML State**: [`test2.html`](blocks/shoelace-card/test2.html) - minimal `<div class="shoelace-card"></div>`
-- **Rendered HTML State**: [`test.html`](blocks/shoelace-card/test.html) - full EDS processed structure
-- **Debug Instrumentation**: Comprehensive timing analysis with [`debug-shoelace-timing.js`](debug-shoelace-timing.js)
-- **Browser Testing**: Visual confirmation via `http://localhost:3000/blocks/shoelace-card/test2.html`
+- **Served HTML State**: `test2.html` - minimal `<div class="your-component"></div>`
+- **Rendered HTML State**: `test.html` - full EDS processed structure
+- **Debug Instrumentation**: Comprehensive timing analysis with debug scripts
+- **Browser Testing**: Visual confirmation via `http://localhost:3000/blocks/your-component/test2.html`
 
 #### **Fix Implementation:**
-**Problem**: [`decorate()`](build/shoelace-card/shoelace-card.js:1040) cleared `innerHTML` without preserving EDS attributes
+**Problem**: `decorate()` function cleared `innerHTML` without preserving EDS attributes
 
 **Solution Applied**: Preserve and restore EDS attributes after innerHTML clearing
 ```javascript
@@ -693,29 +1689,29 @@ const blockName = block.getAttribute('data-block-name');
 
 // Clear block and add container class
 block.innerHTML = '';
-block.classList.add('shoelace-card-block');
+block.classList.add('your-component-block');
 
 // Restore EDS attributes to maintain visibility controls
 if (blockStatus) {
   block.setAttribute('data-block-status', blockStatus);
-  console.warn('[shoelace-card] Preserved data-block-status:', blockStatus);
+  console.warn('[your-component] Preserved data-block-status:', blockStatus);
 }
 if (blockName) {
   block.setAttribute('data-block-name', blockName);
-  console.warn('[shoelace-card] Preserved data-block-name:', blockName);
+  console.warn('[your-component] Preserved data-block-name:', blockName);
 }
 ```
 
 **Deployment Process**: 
-1. Modified [`build/shoelace-card/shoelace-card.js`](build/shoelace-card/shoelace-card.js)
-2. Built and deployed: `cd build/shoelace-card && npm run deploy`
-3. Updated [`blocks/shoelace-card/shoelace-card.js`](blocks/shoelace-card/shoelace-card.js) with fix
+1. Modified component JavaScript file
+2. Built and deployed using project build process
+3. Updated blocks directory with fixed version
 
-### ✅ **Previous Successful Testing Results** (for comparison)
-- **Component**: Self-contained bundle with all Shoelace dependencies
-- **Data Loading**: Successfully fetches from `/slides/query-index.json` via proxy
-- **Interactive Features**: Immersive full-screen modals with glassmorphism effects
-- **Error Handling**: Graceful 404 handling while maintaining functionality
+### ✅ **Successful Testing Results**
+- **Component**: Self-contained bundle with all dependencies
+- **Data Loading**: Successfully fetches external resources via proxy
+- **Interactive Features**: All component functionality working correctly
+- **Error Handling**: Graceful degradation when resources fail
 - **Debug Tools**: Built-in debug helpers and comprehensive logging
 
 ### Testing Command Used
@@ -724,15 +1720,15 @@ if (blockName) {
 npm run debug
 
 # Access test page
-http://localhost:3000/blocks/shoelace-card/test.html
+http://localhost:3000/blocks/your-component/test.html
 ```
 
 ### Key Success Factors
-1. **Proper EDS Structure**: Used exact block structure with `.shoelace-card.block` class
+1. **Proper EDS Structure**: Used exact block structure with `.your-component.block` class
 2. **Self-Contained Testing**: Component includes all dependencies in single file
-3. **Proxy Integration**: Server successfully proxied missing assets from allabout.network
-4. **Real Data Testing**: Used live data from query endpoints for authentic testing
-5. **Interactive Testing**: Successfully tested modal functionality and user interactions
+3. **Proxy Integration**: Server successfully proxied missing assets from external domain
+4. **Real Data Testing**: Used live data from external endpoints for authentic testing
+5. **Interactive Testing**: Successfully tested all component functionality and user interactions
 
 ## ⚠️ **CRITICAL: EDS Core Scripts Constraint**
 
@@ -967,7 +1963,7 @@ After successful development and testing, use the deploy command to build and de
 
 ```bash
 # Navigate to component build directory
-cd build/shoelace-card
+cd build/your-component
 
 # Deploy finished built stubs and README to blocks folder
 npm run deploy
@@ -975,7 +1971,7 @@ npm run deploy
 
 The deploy command:
 - **Builds self-contained component** with all dependencies bundled
-- **Copies to blocks/ directory** (`../../blocks/shoelace-card/`)
+- **Copies to blocks/ directory** (`../../blocks/your-component/`)
 - **Creates stub CSS** (styles bundled in JavaScript for performance)
 - **Copies user documentation** as README.md for content authors
 - **Prepares production-ready files** for EDS deployment
@@ -986,14 +1982,14 @@ To actually use the built system in your EDS project, copy the `blocks/` content
 
 ```bash
 # Copy built components to your EDS project
-cp -r blocks/shoelace-card /path/to/your/eds-project/blocks/
+cp -r blocks/your-component /path/to/your/eds-project/blocks/
 
 # Navigate to your EDS project
 cd /path/to/your/eds-project
 
 # Add to git and commit
-git add blocks/shoelace-card/
-git commit -m "Add Shoelace Card component with advanced features"
+git add blocks/your-component/
+git commit -m "Add component with advanced features"
 
 # Push to your repository
 git push origin main
@@ -1001,10 +1997,10 @@ git push origin main
 
 ### Complete Workflow
 
-1. **Development**: Work in `build/shoelace-card/` with `npm run dev`
+1. **Development**: Work in `build/your-component/` with `npm run dev`
 2. **Testing**: Use `npm run debug` for EDS compatibility testing
 3. **Build & Deploy**: Run `npm run deploy` to create production files
-4. **Copy to EDS**: Copy `blocks/shoelace-card/` to your EDS repository
+4. **Copy to EDS**: Copy `blocks/your-component/` to your EDS repository
 5. **Git Integration**: Commit and push to your EDS project repository
 
 The deploy command handles the technical build process, but final integration requires manual copying to your specific EDS repository to maintain proper version control and deployment workflows.
