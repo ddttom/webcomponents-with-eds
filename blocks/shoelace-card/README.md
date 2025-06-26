@@ -11,14 +11,14 @@ To use the Shoelace Card block in your EDS project, create a block with the foll
 ### Example Table Structure
 
 | shoelace-card |
-| :---- |
+| :------------ |
 
 This will display cards using data from `/slides/query-index.json`.
 
 ### Custom Data Source
 
-| shoelace-card |
-| :---- |
+| shoelace-card              |
+| :------------------------- |
 | /products/query-index.json |
 
 ### Content Organization Structure
@@ -39,13 +39,14 @@ Organize your content in a folder structure:
 
 ### Query Index Spreadsheet Structure
 
-Create `query-index.xlsx` with these columns:
+Create `index` sheet with these columns, and publish, or use automatic publishing as documented in https://allabout.network/blogs/ddt/integrations/building-headless-applications-with-edge-delivery-services
 
-| path | title | description | image | buttonText |
-|------|-------|-------------|-------|------------|
-| /slides/slide-1 | Amazing Product | Discover incredible features | /slides/media/image1.jpg | Learn More |
-| /slides/slide-2 | Customer Success | Real stories from customers | /slides/media/image2.jpg | Read Stories |
-| /slides/slide-3 | Get Started | Begin your journey today | /slides/media/image3.jpg | Start Now |
+
+| path            | title            | description                  | image                    | buttonText   |
+| --------------- | ---------------- | ---------------------------- | ------------------------ | ------------ |
+| /slides/slide-1 | Amazing Product  | Discover incredible features | /slides/media/image1.jpg | Learn More   |
+| /slides/slide-2 | Customer Success | Real stories from customers  | /slides/media/image2.jpg | Read Stories |
+| /slides/slide-3 | Get Started      | Begin your journey today     | /slides/media/image3.jpg | Start Now    |
 
 ## Variations
 
@@ -61,18 +62,18 @@ The Shoelace Card block supports different content types and use cases:
 ### Variation Examples
 
 **Product Showcase**:
-| shoelace-card |
-| :---- |
+| shoelace-card              |
+| :------------------------- |
 | /products/query-index.json |
 
 **Team Profiles**:
-| shoelace-card |
-| :---- |
+| shoelace-card          |
+| :--------------------- |
 | /team/query-index.json |
 
 **Case Studies**:
-| shoelace-card |
-| :---- |
+| shoelace-card                  |
+| :----------------------------- |
 | /case-studies/query-index.json |
 
 ## Configuration Options
