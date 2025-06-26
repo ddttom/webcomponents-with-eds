@@ -33,6 +33,94 @@ The server will start on `http://localhost:3000` and serve files from the projec
 
 ## Server Architecture
 
+## Build vs Blocks Directory Decision Guide
+
+> **📋 Architecture Reference**: For comprehensive details on the dual-directory architecture, see [build_blocks_clarification.md](for-ai/build_blocks_clarification.md).
+
+### Component Complexity Assessment
+
+Before creating a new component, assess its complexity to choose the appropriate development approach:
+
+#### **Simple Components** → Direct `/blocks/` Development
+**Use When:**
+- ✅ Pure JavaScript/CSS (no external dependencies)
+- ✅ Simple state management or no state
+- ✅ Standard EDS patterns sufficient
+- ✅ No build process needed
+
+**Examples:** Basic cards, simple forms, text blocks, static content
+
+```bash
+# Simple component workflow
+blocks/simple-card/
+├── simple-card.js      # Direct development
+├── simple-card.css     # Direct development  
+├── test.html           # EDS testing
+└── README.md
+```
+
+#### **Complex Components** → `/build/` Development → `/blocks/` Deployment
+**Use When:**
+- ✅ External dependencies (libraries, frameworks)
+- ✅ Build process required (bundling, transpilation)
+- ✅ Advanced state management
+- ✅ Complex interactions or animations
+- ✅ Design system integration (Shoelace, Material, etc.)
+
+**Examples:** Data visualization, rich UI components, external library integrations
+
+```bash
+# Complex component workflow
+build/complex-card/          # Development workspace
+├── index.html              # Development testing
+├── package.json            # Dependencies & build scripts
+├── vite.config.js          # Build configuration
+├── complex-card.js         # Source code
+└── complex-card.css        # Source styles
+
+# After npm run deploy:
+blocks/complex-card/         # Production deployment
+├── test.html               # EDS testing
+├── complex-card.js         # Bundled output
+├── complex-card.css        # Stub CSS (styles bundled in JS)
+└── README.md               # User documentation
+```
+
+### **Decision Flowchart**
+
+```
+New Component → Complexity Assessment
+                       ↓
+              Does it need external libraries?
+                    ↙        ↘
+                   Yes        No
+                    ↓         ↓
+               /build/    More than 5
+               approach  interactive elements?
+                           ↙        ↘
+                          Yes        No
+                           ↓         ↓
+                      /build/   /blocks/
+                      approach  approach
+```
+
+### **Development Workflow Selection**
+
+```bash
+# Simple Component Workflow
+1. Create in blocks/component-name/
+2. Develop directly (component-name.js, component-name.css)
+3. Test with: npm run debug → localhost:3000/blocks/component-name/test.html
+4. Deploy: Copy to your EDS project directly
+
+# Complex Component Workflow  
+1. Create in build/component-name/
+2. Develop with modern tooling (npm run dev → localhost:5174)
+3. Build & bundle: npm run deploy
+4. Test EDS compatibility: npm run debug → localhost:3000/blocks/component-name/test.html
+5. Deploy: Copy blocks/component-name/ to your EDS project
+```
+
 ## HTML File Naming in EDS Testing
 
 ### `test.html` vs `index.html` Distinction
@@ -108,9 +196,14 @@ The server implements a **local-first, proxy-fallback** architecture:
 project-root/
 ├── server.js              # Main server file
 ├── package.json           # Contains "debug" script
-└── blocks/                # Your EDS blocks
+├── build/                 # Complex component development
+│   └── component-name/
+│       ├── index.html     # Development testing
+│       ├── package.json   # Dependencies & build scripts
+│       └── component-name.js
+└── blocks/                # EDS blocks (simple + deployed complex)
     └── block-name/
-        ├── test.html       # Test files for blocks
+        ├── test.html       # EDS testing files
         ├── block-name.js   # Block JavaScript
         └── block-name.css  # Block styles
 ```
@@ -236,17 +329,7 @@ When local file doesn't exist:
 3. **Binary/Text Handling**: Appropriately handles different content types
 4. **Error Handling**: Returns 404 if both local and proxy fail
 
-### Request Flow
-
-```
-Request → Local File Check → Serve Local File
-    ↓ (if not found)
-Proxy Request → Remote Server → Serve Proxied Content
-    ↓ (if proxy fails)
-Return 404 Error Page
-```
-
-## Logging and Debugging
+### Request Logging
 
 The server provides comprehensive logging:
 
@@ -265,234 +348,28 @@ Proxying request to: https://allabout.network/missing-file.json
 ✅ Successfully proxied: /missing-file.json
 ```
 
-## Error Handling
-
-### Local File Errors
-
-- **File Not Found**: Automatically falls back to proxy
-- **Read Errors**: Logs error and attempts proxy fallback
-- **Permission Errors**: Gracefully handled with error logging
-
-### Proxy Errors
-
-- **Network Errors**: Returns 404 with helpful error page
-- **DNS Resolution**: Handles domain resolution failures
-- **HTTP Errors**: Logs detailed error information
-
-### 404 Error Page
-
-When both local and proxy fail, returns a helpful error page:
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>404 Not Found</title>
-  </head>
-  <body>
-    <h1>404 Not Found</h1>
-    <p>The requested resource <code>/path</code> was not found locally 
-    or on the proxy server.</p>
-    <p>Attempted proxy URL: <code>https://allabout.network/path</code></p>
-  </body>
-</html>
-```
-
-## Performance Considerations
-
-### Caching Headers
-
-All responses include:
-```javascript
-'Cache-Control': 'no-cache'
-```
-
-This ensures you always see the latest changes during development.
-
-### CORS Headers
-
-Proxy responses include comprehensive CORS headers:
-```javascript
-'Access-Control-Allow-Origin': '*'
-'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
-'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-```
-
-## Security Notes
-
-### Development Only
-
-This server is designed for **development use only**:
-
-- No authentication or authorization
-- Permissive CORS headers
-- No rate limiting
-- Detailed error logging
-
-**Do not use in production environments.**
-
-### Safe Defaults
-
-- Only serves files from project directory
-- No directory traversal vulnerabilities
-- Proper MIME type detection
-- Graceful error handling
-
-## Troubleshooting
-
-### Common Issues
-
-**Server won't start:**
-```bash
-# Check if port is in use
-lsof -i :3000
-
-# Kill existing process
-pkill -f "node server.js"
-
-# Restart server
-npm run debug
-```
-
-**Files not loading:**
-- Check file paths are relative to project root
-- Verify file permissions
-- Check server logs for detailed error messages
-
-**Proxy not working:**
-- Verify internet connection
-- Check proxy URL configuration
-- Review network logs in browser dev tools
-
-**Block not working in EDS but works locally:**
-- Verify test.html uses EDS block structure (`.block-name.block` with data attributes)
-- Check JavaScript selector targets `.block-name.block` not `.block-name-block`
-- Ensure content is wrapped in nested `<div><div>content</div></div>` structure
-- Use semantic HTML elements (`<p>`, `<h2>`, etc.) for content
-- Add debug logging to block JavaScript to trace execution
-
-**Modal/overlay blocks not appearing:**
-- Check browser console for JavaScript errors
-- Verify localStorage isn't preventing display (clear with `localStorage.clear()`)
-- Ensure CSS is loading correctly
-- Check that block content extraction logic handles EDS nested structure
-
-### Debug Mode
-
-The server runs with comprehensive logging enabled. Monitor the terminal output to understand request flow and identify issues.
-
-## Integration with EDS
-
-### Block Testing Workflow
-
-1. **Create Block Structure**:
-   ```
-   blocks/my-block/
-   ├── my-block.js
-   ├── my-block.css
-   ├── README.md
-   └── test.html
-   ```
-
-2. **Start Development Server**:
-   ```bash
-   npm run debug
-   ```
-
-3. **Test Block**:
-   - Navigate to `http://localhost:3000/blocks/my-block/test.html`
-   - Make changes to JS/CSS files
-   - Refresh browser to see changes
-
-4. **Proxy Integration**:
-   - Missing assets automatically load from remote server
-   - Test with real content and dependencies
-
-### EDS-Specific Features
-
-- **Automatic Block Loading**: Test files can import block JavaScript modules
-- **CSS Loading**: Block stylesheets load automatically
-- **Asset Proxying**: Missing icons, fonts, and images load from remote server
-- **Query Index Access**: Can test with real query-index.json data
-
-### Real-World Example: Floating Alert Block
-
-The floating-alert block demonstrates the importance of using correct EDS structure in test files:
-
-#### Correct EDS Structure (test.html):
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floating Alert Test - EDS Structure</title>
-    <link rel="stylesheet" href="floating-alert.css">
-</head>
-<body>
-    <div class="floating-alert block" data-block-name="floating-alert" data-block-status="initialized">
-        <div>
-            <div>
-                <p>🎉 Welcome! Please review our <a href="#privacy">updated privacy policy</a>.</p>
-            </div>
-        </div>
-    </div>
-
-    <script type="module">
-        import decorate from './floating-alert.js';
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const block = document.querySelector('.floating-alert.block');
-            if (block) {
-                decorate(block);
-            }
-        });
-    </script>
-</body>
-</html>
-```
-
-#### Why This Structure Matters:
-
-1. **Content Extraction**: Block JavaScript expects nested `<div><div><p>content</p></div></div>` structure
-2. **CSS Targeting**: Styles target `.floating-alert.block` not `.floating-alert-block`
-3. **Data Attributes**: EDS adds `data-block-name` and `data-block-status` attributes
-4. **Semantic HTML**: Content uses proper HTML elements (`<p>`, `<a>`) not plain text
-
-#### Critical: Only One Correct Structure
-
-**There is only one correct way to structure test files - they must exactly replicate EDS structure.**
-
-```html
-<!-- ❌ WRONG: Any structure that differs from EDS -->
-<div class="floating-alert-block">
-    Welcome! Please review our updated privacy policy.
-</div>
-
-<!-- ❌ WRONG: Missing data attributes -->
-<div class="floating-alert block">
-    <div><div>Content</div></div>
-</div>
-
-<!-- ❌ WRONG: Missing nested wrapper divs -->
-<div class="floating-alert block" data-block-name="floating-alert" data-block-status="initialized">
-    <p>Content</p>
-</div>
-
-<!-- ✅ CORRECT: Exact EDS structure replication -->
-<div class="floating-alert block" data-block-name="floating-alert" data-block-status="initialized">
-    <div>
-        <div>
-            <p>Welcome! Please review our <a href="#privacy">updated privacy policy</a>.</p>
-        </div>
-    </div>
-</div>
-```
-
-**The test structure must be identical to EDS structure.** Any deviation will cause blocks to behave differently between test and production environments, defeating the purpose of local testing.
-
 ## Best Practices
+
+### **Component Architecture Decision Making**
+
+> **📋 Detailed Guide**: See [build_blocks_clarification.md](for-ai/build_blocks_clarification.md) for complete architecture explanation.
+
+#### **When to Use `/build/` Approach**
+```bash
+# Complex components need modern tooling
+cd build/shoelace-card
+npm install          # Install dependencies
+npm run dev         # Hot reload development
+npm run deploy      # Bundle and deploy to blocks/
+```
+
+#### **When to Use `/blocks/` Approach**
+```bash
+# Simple components work directly
+cd blocks/simple-card
+# Edit .js and .css files directly
+# Test immediately with npm run debug
+```
 
 ### Creating EDS-Compatible Test Files
 
@@ -541,76 +418,123 @@ The floating-alert block demonstrates the importance of using correct EDS struct
    - **Semantic Content**: Use proper HTML elements (`<p>`, `<h2>`, `<a>`, etc.)
    - **JavaScript Selector**: Target `.block-name.block` (not `.block-name-block`)
 
-3. **Common Block Content Patterns**:
+3. **Testing Verification**:
+   - Block appears correctly on page
+   - JavaScript executes without errors
+   - CSS applies properly
+   - Interactive elements function as expected
+   - **EDS structure is identical to production expectations**
 
-```html
-<!-- Simple text block -->
-<div class="text block" data-block-name="text" data-block-status="initialized">
-    <div>
-        <div>
-            <p>This is a paragraph of text content.</p>
-        </div>
-    </div>
-</div>
+### **Performance Optimization**
 
-<!-- Block with links -->
-<div class="alert block" data-block-name="alert" data-block-status="initialized">
-    <div>
-        <div>
-            <p>Important notice! Please read our <a href="#policy">updated policy</a>.</p>
-        </div>
-    </div>
-</div>
+#### **Server-Level Optimizations**
+- Zero external dependencies for maximum speed
+- Built-in Node.js modules only
+- Minimal memory footprint
+- Efficient proxy caching
 
-<!-- Block with multiple content elements -->
-<div class="card block" data-block-name="card" data-block-status="initialized">
-    <div>
-        <div>
-            <h2>Card Title</h2>
-            <p>Card description text.</p>
-            <p><a href="#link">Learn more</a></p>
-        </div>
-    </div>
-</div>
+#### **Development Workflow Optimizations**
+- **Hot reload** for rapid iteration (build/ directories)
+- **Immediate testing** for quick validation (blocks/ directories)
+- **Smart proxying** for external resource access
+- **Clear logging** for debugging efficiency
+
+### **Security Considerations**
+
+#### **Development Only Usage**
+- No authentication required (development environment)
+- Permissive CORS headers for testing
+- No rate limiting (local development)
+- Detailed error logging enabled
+
+#### **Safe File Serving**
+- Project directory restriction only
+- No directory traversal vulnerabilities
+- Proper MIME type detection
+- Graceful error handling
+
+### **Troubleshooting Guide**
+
+#### **Common Development Issues**
+
+**Port conflicts:**
+```bash
+# Check what's using port 3000
+lsof -i :3000
+
+# Kill conflicting processes
+pkill -f "node server.js"
 ```
 
-#### Test File Organization Template
+**File not found errors:**
+- Verify file paths are relative to project root
+- Check file permissions and accessibility
+- Ensure correct file naming (`test.html` for EDS)
+- Monitor server logs for detailed error information
 
-```html
-<!-- Include block-specific styles -->
-<link rel="stylesheet" href="block-name.css">
+**Build vs Blocks confusion:**
+- Use `index.html` in `/build/` directories
+- Use `test.html` in `/blocks/` directories
+- Match environment to file type
+- Reference [build_blocks_clarification.md](for-ai/build_blocks_clarification.md) for guidance
 
-<!-- Create EDS-compatible block structure -->
-<div class="block-name block" data-block-name="block-name" data-block-status="initialized">
-    <div>
-        <div>
-            <!-- Block content using semantic HTML -->
-        </div>
-    </div>
-</div>
+**EDS structure issues:**
+- Ensure `.block` class usage
+- Check data attributes are present
+- Verify nested div wrapper structure
+- Use semantic HTML elements for content
 
-<!-- Import and initialize block with EDS selector -->
-<script type="module">
-  import decorate from './block-name.js';
-  document.addEventListener('DOMContentLoaded', () => {
-    const block = document.querySelector('.block-name.block');
-    if (block) {
-      decorate(block);
-    }
-  });
-</script>
+## Integration with Build Process
+
+### **Automated Component Deployment**
+
+For components developed in `/build/` directories:
+
+```bash
+# Development cycle
+cd build/my-component
+npm run dev              # Development with hot reload
+npm run deploy          # Build and copy to blocks/
+
+# Testing cycle  
+cd ../../               # Return to project root
+npm run debug          # Start EDS testing server
+# Test at: http://localhost:3000/blocks/my-component/test.html
 ```
 
-### Development Workflow
+### **Manual Component Development**
 
-1. **Start with test.html**: Create isolated test environment
-2. **Develop incrementally**: Make small changes and test frequently
-3. **Use browser dev tools**: Monitor network requests and console output
-4. **Test responsive design**: Use browser responsive mode
-5. **Validate accessibility**: Test with screen readers and keyboard navigation
+For simple components in `/blocks/` directories:
+
+```bash
+# Direct development
+cd blocks/my-component
+# Edit .js, .css files directly
+npm run debug          # Test immediately
+# Test at: http://localhost:3000/blocks/my-component/test.html
+```
+
+### **CI/CD Integration**
+
+```bash
+# Validate all components
+npm run validate       # Check code quality
+npm run security      # Security audit
+npm run debug         # Test server functionality
+```
 
 ## Conclusion
 
-This development server provides a lightweight, efficient environment specifically designed to improve AI assistant workflows when testing EDS blocks and components. Its local-first approach with proxy fallback ensures AI assistants can develop in isolation while still accessing remote dependencies when needed.
+This development server provides a simple, effective way to test EDS blocks locally while maintaining compatibility with the EDS architecture. Its local-first approach with proxy fallback ensures AI assistants can develop in isolation while still accessing remote dependencies when needed.
 
 The server's simplicity aligns with EDS principles of minimal tooling and maximum performance, while its clear logging and immediate feedback mechanisms make it an ideal development companion for AI assistants building high-quality, performant web components. The comprehensive error reporting and consistent patterns enable AI assistants to work more effectively and produce reliable results.
+
+### **Key Benefits for AI-Assisted Development**
+
+- **Unified Environment**: AI sees code, content, and data in one place
+- **Immediate Feedback**: Save and refresh for instant results
+- **Complete Context**: No system switching required for development
+- **Flexible Architecture**: Support for both simple and complex components
+- **Clear Documentation**: Comprehensive guides for all development scenarios
+
+> **📋 Next Steps**: For advanced component architecture decisions, consult [build_blocks_clarification.md](for-ai/build_blocks_clarification.md) for complete guidance on the dual-directory development system.

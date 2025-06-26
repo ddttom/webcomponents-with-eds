@@ -1,177 +1,29 @@
-# AEM Edge Delivery Services (EDS) Architecture and Block Instrumentation Testing Guide
+# EDS Architecture and Testing Guide
 
-## Table of Contents
+## 🚨 **DEEP DEBUGGING POLICY NOTICE**
 
-1. [EDS System Architecture](#eds-system-architecture)
-2. [AEM.js Bootstrap Process](#aemjs-bootstrap-process)
-3. [Block Loading Mechanism](#block-loading-mechanism)
-4. [Dynamic Injection System](#dynamic-injection-system)
-5. [Testing Strategy for Instrumented Blocks](#testing-strategy-for-instrumented-blocks)
-6. [Step-by-Step Testing Workflow](#step-by-step-testing-workflow)
-7. [Technical Rationale](#technical-rationale)
-8. [Best Practices](#best-practices)
+> **📋 Policy Requirement**: The advanced debugging techniques described in this document (file replacement, instrumentation, core file modifications) require **explicit user request** per the [debugging policy](debug.md#deep-debugging-request-policy). 
+>
+> **⚠️ DO NOT PROCEED** with file replacement operations, instrumentation setup, or advanced testing workflows without explicit approval from the user.
+>
+> See [debug.md](debug.md) for complete policy details and standard debugging approaches that do not require approval.
 
-## EDS System Architecture
+---
 
-### Overview
+## Overview
 
-Adobe Experience Manager (AEM) Edge Delivery Services is a composable content management architecture that delivers high-performance web experiences. The system is built around a modular block-based architecture where content and functionality are organized into discrete, reusable components.
+The EDS (Edge Delivery Services) block architecture employs a sophisticated dynamic loading system that presents unique challenges for advanced performance testing and instrumentation. This guide examines the system's architecture and provides tested strategies for comprehensive block analysis while maintaining code integrity.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    EDS Architecture Overview                     │
-├─────────────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌──────────┐ │
-│  │   AEM.js    │  │ Scripts.js  │  │ Delayed.js  │  │  Blocks  │ │
-│  │             │  │             │  │             │  │          │ │
-│  │ • Bootstrap │  │ • Page Load │  │ • Lazy Load │  │ • Dynamic│ │
-│  │ • Core Utils│  │ • Decoration│  │ • Analytics │  │ • Modular│ │
-│  │ • Block Mgmt│  │ • Sections  │  │ • 3rd Party │  │ • Themed │ │
-│  │ • RUM       │  │ • Eager/Lazy│  │ • Deferred  │  │ • Scoped │ │
-│  └─────────────┘  └─────────────┘  └─────────────┘  └──────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-```
+**Prerequisites for this guide:**
+- ✅ Explicit user request received for advanced debugging
+- ✅ Understanding of [standard debugging approaches](debug.md#standard-debugging-workflow)
+- ✅ Familiarity with EDS block structure and constraints
 
-### Core Components
+## EDS Block Loading Architecture
 
-#### 1. AEM.js - Foundation Layer
-- **Bootstrap Functions**: System initialization and configuration
-- **Utility Functions**: DOM manipulation, CSS/JS loading, metadata handling
-- **Block Management**: Block discovery, loading, and decoration
-- **RUM Integration**: Real User Monitoring and performance tracking
+### Processing Pipeline
 
-#### 2. Scripts.js - Application Layer
-- **Page Orchestration**: Controls the page loading sequence
-- **Content Decoration**: Applies styling and behavior to content
-- **Section Management**: Handles section-based content organization
-- **Performance Optimization**: Eager/lazy loading strategies
-
-#### 3. Delayed.js - Enhancement Layer
-- **Progressive Enhancement**: Non-critical functionality loading
-- **Third-party Integration**: Analytics, tracking, and external services
-- **Performance Optimization**: Deferred loading to improve initial page load
-
-#### 4. Blocks - Component Layer
-- **Modular Components**: Self-contained functionality units
-- **Dynamic Loading**: On-demand component loading
-- **Theming Support**: Consistent styling across components
-- **Scoped Behavior**: Isolated component logic
-
-## AEM.js Bootstrap Process
-
-### Initialization Sequence
-
-The EDS system follows a precise initialization sequence orchestrated by [`scripts/aem.js`](scripts/aem.js):
-
-```javascript
-// 1. System Setup
-function setup() {
-  window.hlx = window.hlx || {};
-  window.hlx.RUM_MASK_URL = 'full';
-  window.hlx.RUM_MANUAL_ENHANCE = true;
-  window.hlx.codeBasePath = '';
-  window.hlx.lighthouse = new URLSearchParams(window.location.search).get('lighthouse') === 'on';
-
-  // Determine code base path from script location
-  const scriptEl = document.querySelector('script[src$="/scripts/scripts.js"]');
-  if (scriptEl) {
-    [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split('/scripts/scripts.js');
-  }
-}
-
-// 2. RUM Initialization
-function sampleRUM(checkpoint, data) {
-  // Real User Monitoring setup and data collection
-  // Performance tracking and analytics
-}
-
-// 3. Auto-initialization
-function init() {
-  setup();
-  sampleRUM();
-}
-
-// Bootstrap the system
-init();
-```
-
-### Key Bootstrap Functions
-
-#### 1. [`setup()`](scripts/aem.js:132)
-- Establishes global `window.hlx` namespace
-- Configures RUM (Real User Monitoring) settings
-- Determines the code base path for dynamic imports
-- Sets up lighthouse integration for performance testing
-
-#### 2. [`sampleRUM()`](scripts/aem.js:14)
-- Initializes performance monitoring
-- Sets up error tracking and reporting
-- Configures data collection endpoints
-- Establishes sampling rates for analytics
-
-#### 3. [`init()`](scripts/aem.js:154)
-- Orchestrates the bootstrap sequence
-- Triggers initial RUM data collection
-- Prepares the system for content loading
-
-## Block Loading Mechanism
-
-### Dynamic Block Discovery and Loading
-
-The EDS system uses a sophisticated block loading mechanism that dynamically discovers and loads components based on CSS classes in the HTML:
-
-```javascript
-// Block decoration process in aem.js
-function decorateBlock(block) {
-  const shortBlockName = block.classList[0];
-  if (shortBlockName) {
-    block.classList.add('block');
-    block.dataset.blockName = shortBlockName;
-    block.dataset.blockStatus = 'initialized';
-    wrapTextNodes(block);
-    const blockWrapper = block.parentElement;
-    blockWrapper.classList.add(`${shortBlockName}-wrapper`);
-    const section = block.closest('.section');
-    if (section) section.classList.add(`${shortBlockName}-container`);
-  }
-}
-
-// Dynamic block loading
-async function loadBlock(block) {
-  const status = block.dataset.blockStatus;
-  if (status !== 'loading' && status !== 'loaded') {
-    block.dataset.blockStatus = 'loading';
-    const { blockName } = block.dataset;
-    try {
-      // Load CSS and JS for the block
-      const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`);
-      const decorationComplete = new Promise((resolve) => {
-        (async () => {
-          try {
-            // Dynamic import of block JavaScript
-            const mod = await import(
-              `${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.js`
-            );
-            if (mod.default) {
-              await mod.default(block);
-            }
-          } catch (error) {
-            console.log(`failed to load module for ${blockName}`, error);
-          }
-          resolve();
-        })();
-      });
-      await Promise.all([cssLoaded, decorationComplete]);
-    } catch (error) {
-      console.log(`failed to load block ${blockName}`, error);
-    }
-    block.dataset.blockStatus = 'loaded';
-  }
-  return block;
-}
-```
-
-### Block Loading Sequence
+The EDS block loading system follows a specific sequence:
 
 1. **HTML Parsing**: The system scans the DOM for elements with block classes
 2. **Block Decoration**: Adds metadata and wrapper elements
@@ -237,6 +89,8 @@ import { instrumentedDecorate } from './columns-instrumented.js';
 
 ## Testing Strategy for Instrumented Blocks
 
+> **📋 Policy Reminder**: File replacement operations require explicit user request. Ensure approval has been obtained before proceeding with this section.
+
 ### The File Replacement Approach
 
 Given the constraints of the dynamic injection system, the most effective testing strategy is **temporary file replacement**:
@@ -252,6 +106,8 @@ Replace the original block file with the instrumented version during testing, th
 4. **Clean Restoration**: Original code integrity maintained through version control
 
 ### Implementation Strategy
+
+> **⚠️ Advanced Operation**: This requires explicit user approval per debugging policy.
 
 ```bash
 # 1. Backup original file
@@ -272,6 +128,8 @@ rm blocks/columns/columns-original-backup.js
 
 ## Step-by-Step Testing Workflow
 
+> **📋 Policy Gate**: Verify explicit user request approval before proceeding with this workflow.
+
 ### Phase 1: Preparation
 
 #### 1. Create Instrumented Block Version
@@ -282,8 +140,9 @@ ls blocks/columns/columns-instrumented.js
 
 #### 2. Verify Server is Running
 ```bash
-# Start the development server
-PORT=3001 node server.js
+# Start the development server (standardized port)
+npm run debug
+# Server runs at: http://localhost:3000
 ```
 
 #### 3. Backup Original File
@@ -303,7 +162,7 @@ cp blocks/columns/columns-instrumented.js blocks/columns/columns.js
 #### 5. Execute Test
 ```bash
 # Open browser to test page
-# http://localhost:3001/eds-test-instrumented.html
+# http://localhost:3000/eds-test-instrumented.html
 ```
 
 #### 6. Collect Performance Data
@@ -448,6 +307,8 @@ trap 'git restore blocks/columns/columns.js' EXIT
 
 ### Testing Workflow Automation
 
+> **📋 Policy Note**: Automated scripts still require explicit user approval for file replacement operations.
+
 #### 1. **Scripted Testing**
 ```bash
 #!/bin/bash
@@ -467,6 +328,7 @@ cp "$INSTRUMENTED_FILE" "$ORIGINAL_FILE"
 
 # Run tests
 echo "Running instrumented tests..."
+echo "Open: http://localhost:3000/eds-test-instrumented.html"
 # Add your test commands here
 
 # Restore original
@@ -551,6 +413,8 @@ fi
 
 ## Advanced Testing Scenarios
 
+> **📋 Policy Reminder**: All advanced testing scenarios require explicit user approval.
+
 ### Multi-Block Testing
 
 #### 1. **Sequential Block Testing**
@@ -608,6 +472,8 @@ if (performanceImpact.loadTime > thresholds.maxLoadTimeIncrease) {
 
 The EDS architecture's dynamic block loading system requires a specific testing approach for instrumented code. The file replacement strategy provides the most effective method for testing instrumented blocks while maintaining code integrity and system functionality.
 
+> **📋 Policy Compliance**: Remember that all techniques in this guide require explicit user request approval per the [debugging policy](debug.md#deep-debugging-request-policy).
+
 ### Key Takeaways
 
 1. **EDS Dynamic Loading**: The system's ES6 import-based block loading creates constraints that require creative testing solutions
@@ -615,6 +481,7 @@ The EDS architecture's dynamic block loading system requires a specific testing 
 3. **Automation is Essential**: Scripted workflows ensure consistent testing and reliable restoration
 4. **Performance Monitoring**: Comprehensive instrumentation provides valuable insights into block performance
 5. **Code Integrity**: Proper backup and restoration procedures maintain code quality and version control integrity
+6. **Policy Compliance**: All advanced debugging operations must follow the explicit request requirement
 
 ### Success Metrics
 
@@ -623,5 +490,13 @@ The EDS architecture's dynamic block loading system requires a specific testing 
 - **✅ Performance Data Collected**: Comprehensive metrics captured during execution
 - **✅ File Integrity Maintained**: Original files restored without modification
 - **✅ Testing Workflow Established**: Repeatable process for future block testing
+- **✅ Policy Compliance**: All operations conducted with proper approval
 
-This approach enables comprehensive performance analysis of EDS blocks while respecting the system's architecture and maintaining development workflow integrity.
+This approach enables comprehensive performance analysis of EDS blocks while respecting the system's architecture, maintaining development workflow integrity, and following proper debugging policies.
+
+---
+
+**Related Documentation:**
+- [debug.md](debug.md) - Complete debugging policy and standard approaches
+- [Instrumentation - How it works.md](Instrumentation%20-%20How%20it%20works.md) - Technical details of the instrumentation system
+- [block-architecture-standards.md](block-architecture-standards.md) - Development architecture guidelines

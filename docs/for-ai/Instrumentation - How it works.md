@@ -1,8 +1,29 @@
 # How the JavaScript Performance Instrumentation System Works
 
+## 🚨 **ADVANCED DEBUGGING POLICY NOTICE**
+
+> **📋 Critical Requirement**: JavaScript performance instrumentation described in this document constitutes **advanced debugging that requires explicit user request** per the [debugging policy](debug.md#deep-debugging-request-policy).
+>
+> **⚠️ DO NOT IMPLEMENT** instrumentation workflows, create instrumented files, or deploy performance monitoring without explicit approval from the user.
+>
+> **This document covers:**
+> - File replacement operations (require approval)
+> - EDS core file instrumentation (require approval)  
+> - Advanced performance monitoring (require approval)
+> - Production-level debugging tools (require approval)
+>
+> See [debug.md](debug.md) for standard debugging approaches that do not require approval.
+
+---
+
 ## Overview
 
 This document provides a comprehensive technical explanation of the JavaScript performance instrumentation system implemented for the EDS (Edge Delivery Services) application. The system captures detailed performance metrics, function call traces, execution timing data, variable scope analysis, memory usage patterns, and program flow information during runtime execution.
+
+**Prerequisites for implementation:**
+- ✅ **Explicit user request received** for advanced debugging/instrumentation
+- ✅ Understanding of [standard debugging approaches](debug.md#standard-debugging-workflow)
+- ✅ Familiarity with [file replacement requirements](debug.md#file-replacement-testing-strategy)
 
 ## Architecture
 
@@ -25,18 +46,23 @@ This document provides a comprehensive technical explanation of the JavaScript p
 
 ### File Structure
 
+> **📋 Policy Note**: Creating instrumented files requires explicit user approval.
+
 ```
 scripts/
 ├── instrumentation.js           # Core instrumentation framework
-├── aem-instrumented.js         # Instrumented AEM functions
-├── scripts-instrumented.js     # Instrumented main application
-└── delayed-instrumented.js     # Instrumented delayed functionality
+├── aem-instrumented.js         # Instrumented AEM functions (development version)
+├── scripts-instrumented.js     # Instrumented main application (development version)
+└── delayed-instrumented.js     # Instrumented delayed functionality (development version)
 
 blocks/columns/
-└── columns-instrumented.js     # Instrumented block functions
+├── columns.js                  # Original block file (temporarily replaced during testing)
+└── columns-instrumented.js     # Instrumented version (copied over original for testing)
 
 eds-test-instrumented.html      # Test page with instrumentation
 ```
+
+**Important**: The `-instrumented.js` files are development versions that temporarily **replace** the original files during testing. EDS always loads the standard filenames (`columns.js`, `aem.js`, etc.), so instrumented versions must be copied over the originals and then restored.
 
 ## Core Instrumentation Framework
 
@@ -64,6 +90,8 @@ class PerformanceInstrumentation {
 ```
 
 ### Function Instrumentation Process
+
+> **⚠️ Advanced Operation**: Function instrumentation requires explicit user approval per debugging policy.
 
 #### 1. Function Wrapping
 
@@ -320,9 +348,15 @@ serializeDOMElement(element) {
 
 ## Instrumented File Implementation
 
-### AEM Core Functions
+> **📋 Policy Reminder**: Creating instrumented files requires explicit user approval per debugging policy.
 
-The [`scripts/aem-instrumented.js`](scripts/aem-instrumented.js) file wraps all AEM core functions:
+### File Replacement Strategy for Instrumentation
+
+**Critical Understanding**: EDS dynamic loading requires exact filenames. Instrumented files are created as development versions that **temporarily replace** the original files during testing.
+
+#### AEM Core Functions
+
+The instrumented AEM functions are created in [`scripts/aem-instrumented.js`](scripts/aem-instrumented.js):
 
 ```javascript
 // Original function implementation
@@ -339,15 +373,28 @@ const sampleRUM = instrumentation.instrumentFunction(
 export { sampleRUM, /* other functions */ };
 ```
 
-### Main Application Scripts
+**Testing Process:**
+```bash
+# 1. Backup original
+cp scripts/aem.js scripts/aem-backup.js
 
-The [`scripts/scripts-instrumented.js`](scripts/scripts-instrumented.js) file instruments the main application flow:
+# 2. Replace with instrumented version
+cp scripts/aem-instrumented.js scripts/aem.js
+
+# 3. Test (EDS loads scripts/aem.js with instrumentation)
+# 4. Restore original
+cp scripts/aem-backup.js scripts/aem.js
+```
+
+#### Main Application Scripts
+
+The main application instrumentation is created in [`scripts/scripts-instrumented.js`](scripts/scripts-instrumented.js):
 
 ```javascript
-// Import instrumented AEM functions
+// Import instrumented AEM functions (when aem.js is replaced)
 import {
   buildBlock, loadHeader, decorateButtons, /* ... */
-} from './aem-instrumented.js';
+} from './aem.js';  // Still imports from standard filename
 
 // Instrument local functions
 const buildHeroBlock = instrumentation.instrumentFunction(
@@ -362,7 +409,7 @@ const loadPage = instrumentation.instrumentFunction(
 loadPage();
 ```
 
-### Block-Level Instrumentation
+#### Block-Level Instrumentation
 
 Individual blocks like [`blocks/columns/columns-instrumented.js`](blocks/columns/columns-instrumented.js):
 
@@ -378,6 +425,19 @@ const decorate = instrumentation.instrumentFunction(
 );
 
 export default decorate;
+```
+
+**Block Testing Process:**
+```bash
+# 1. Backup original block
+cp blocks/columns/columns.js blocks/columns/columns-backup.js
+
+# 2. Replace with instrumented version  
+cp blocks/columns/columns-instrumented.js blocks/columns/columns.js
+
+# 3. Test (EDS loads blocks/columns/columns.js with instrumentation)
+# 4. Restore original
+cp blocks/columns/columns-backup.js blocks/columns/columns.js
 ```
 
 ## Performance Impact Mitigation
@@ -498,45 +558,104 @@ const mod = await import(`/blocks/${blockName}/${blockName}.js`);
 
 ### AEM Integration
 
-Seamless integration with AEM's block loading system:
+Seamless integration with AEM's block loading system through file replacement:
 
 ```javascript
 // Block loading with instrumentation
 async function loadBlock(block) {
   const { blockName } = block.dataset;
-  try {
-    // Load instrumented version if available
-    const mod = await import(`/blocks/${blockName}/${blockName}-instrumented.js`);
-    if (mod.default) {
-      await mod.default(block); // Instrumented function execution
-    }
-  } catch (error) {
-    // Fallback to original
-    const mod = await import(`/blocks/${blockName}/${blockName}.js`);
-    // ...
+  
+  // EDS always loads the standard filename
+  const mod = await import(`/blocks/${blockName}/${blockName}.js`);
+  
+  // During testing, this file contains instrumented code
+  // (copied from blocks/blockName/blockName-instrumented.js)
+  if (mod.default) {
+    await mod.default(block); // Executes instrumented or original function
   }
 }
 ```
 
+**Key Points:**
+- EDS dynamic imports always use standard filenames (`blocks/columns/columns.js`)
+- Instrumentation works by temporarily replacing these standard files
+- No changes to EDS core loading logic required
+- Original files must be restored after testing
+
 ### Server-Side Considerations
 
-The Node.js server handles both original and instrumented files:
+The Node.js server serves standard filenames, which may contain instrumented code during testing:
 
 ```javascript
-// Server serves instrumented files when requested
-app.get('/scripts/aem-instrumented.js', (req, res) => {
-  res.sendFile(path.join(__dirname, 'scripts/aem-instrumented.js'));
+// Server serves standard files (may be temporarily replaced with instrumented versions)
+app.get('/scripts/aem.js', (req, res) => {
+  // During testing, this may be the instrumented version
+  res.sendFile(path.join(__dirname, 'scripts/aem.js'));
+});
+
+app.get('/blocks/:blockName/:blockName.js', (req, res) => {
+  const { blockName } = req.params;
+  // During testing, this may be the instrumented version  
+  res.sendFile(path.join(__dirname, 'blocks', blockName, `${blockName}.js`));
 });
 ```
 
+**File Replacement Workflow:**
+1. Server continues serving standard filenames
+2. During testing, standard files are temporarily replaced with instrumented versions
+3. EDS loads instrumented code through normal pathways
+4. Original files are restored after testing
+
 ## Usage and Deployment
 
-### Development Mode
+> **📋 Policy Gate**: Verify explicit user approval before implementing any deployment procedures.
 
-1. **Load Instrumented Page**: Access `eds-test-instrumented.html`
-2. **Monitor Console**: Watch for instrumentation messages
-3. **Generate Reports**: Use `window.getInstrumentationReport()`
-4. **Export Data**: Use `window.exportInstrumentationData()`
+### Development Mode - File Replacement Workflow
+
+1. **Create Instrumented Versions**: Develop `-instrumented.js` files with performance monitoring
+2. **Backup Originals**: `cp scripts/aem.js scripts/aem-backup.js`
+3. **Replace Files**: `cp scripts/aem-instrumented.js scripts/aem.js`
+4. **Load Test Page**: Access `eds-test-instrumented.html` at `http://localhost:3000`
+5. **Monitor Console**: Watch for instrumentation messages
+6. **Generate Reports**: Use `window.getInstrumentationReport()`
+7. **Export Data**: Use `window.exportInstrumentationData()`
+8. **Restore Originals**: `cp scripts/aem-backup.js scripts/aem.js`
+
+### Complete Testing Workflow
+
+```bash
+#!/bin/bash
+# Instrumentation testing workflow
+
+echo "🔧 Starting instrumentation testing..."
+
+# Backup original files
+cp scripts/aem.js scripts/aem-backup.js
+cp scripts/scripts.js scripts/scripts-backup.js
+cp blocks/columns/columns.js blocks/columns/columns-backup.js
+
+# Deploy instrumented versions
+cp scripts/aem-instrumented.js scripts/aem.js
+cp scripts/scripts-instrumented.js scripts/scripts.js  
+cp blocks/columns/columns-instrumented.js blocks/columns/columns.js
+
+echo "✅ Instrumented files deployed"
+echo "🌐 Test at: http://localhost:3000/eds-test-instrumented.html"
+echo "📊 Use browser console: window.getInstrumentationReport()"
+echo ""
+echo "Press Enter when testing is complete..."
+read -r
+
+# Restore original files
+cp scripts/aem-backup.js scripts/aem.js
+cp scripts/scripts-backup.js scripts/scripts.js
+cp blocks/columns/columns-backup.js blocks/columns/columns.js
+
+# Clean up backups
+rm scripts/aem-backup.js scripts/scripts-backup.js blocks/columns/columns-backup.js
+
+echo "✅ Original files restored, instrumentation testing complete"
+```
 
 ### Production Considerations
 
@@ -546,6 +665,8 @@ app.get('/scripts/aem-instrumented.js', (req, res) => {
 4. **Storage Limits**: Implement data rotation for long-running pages
 
 ## Advanced Features
+
+> **⚠️ Advanced Operations**: All advanced features require explicit user approval.
 
 ### Custom Metrics
 
@@ -605,6 +726,40 @@ if (this.performanceAlerts && this.performanceAlerts.has(functionName)) {
 
 ## Conclusion
 
+> **📋 Policy Compliance**: All instrumentation implementation requires explicit user request approval per the [debugging policy](debug.md#deep-debugging-request-policy).
+
 This instrumentation system provides comprehensive visibility into JavaScript application performance with minimal impact on execution. The modular design allows for selective instrumentation, detailed analysis, and easy integration with existing EDS applications. The system captures all major performance indicators while maintaining the simplicity and performance focus required by modern web applications.
 
 The implementation demonstrates how to effectively monitor complex JavaScript applications without disrupting their core functionality, providing valuable insights for performance optimization and debugging.
+
+### Key Implementation Requirements
+
+1. **Policy Compliance**: Explicit user approval required before implementation
+2. **File Replacement Strategy**: Use copy/restore workflow, not permanent file renaming
+3. **Backup Procedures**: Always backup original files before replacement
+4. **Standard Filenames**: EDS loads standard names - instrumented code replaces temporarily
+5. **Mandatory Restoration**: Original files must be restored after testing
+6. **Performance Impact**: Monitor overhead and maintain acceptable performance
+7. **Data Security**: Ensure no sensitive information in performance exports
+8. **Integration**: Maintain full compatibility with EDS architecture
+9. **Documentation**: Complete audit trail of all instrumentation activities
+
+### File Replacement vs Rename Strategy
+
+**❌ INCORRECT (File Renaming):**
+- Creating permanently named `aem-instrumented.js` files
+- Expecting EDS to load instrumented filenames directly
+- Modifying EDS import paths
+
+**✅ CORRECT (File Replacement):**
+- Creating `-instrumented.js` development versions
+- Temporarily copying over standard filenames during testing
+- EDS loads standard filenames containing instrumented code
+- Restoring original files after testing
+
+---
+
+**Related Documentation:**
+- [debug.md](debug.md) - Complete debugging policy and approval requirements
+- [EDS-Architecture-and-Testing-Guide.md](EDS-Architecture-and-Testing-Guide.md) - File replacement testing strategies
+- [block-architecture-standards.md](block-architecture-standards.md) - Standard development approaches
