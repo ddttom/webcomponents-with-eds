@@ -136,6 +136,18 @@ async function handleRequest(req, res) {
   // eslint-disable-next-line no-console
   console.log(`Request: ${req.method} ${url}`);
 
+  // Handle Chrome DevTools specific requests gracefully
+  if (url.includes('/.well-known/appspecific/') || 
+      url.includes('/chrome-devtools/') ||
+      url.includes('/__vscode_') ||
+      url.includes('/favicon.ico')) {
+    // Return 204 No Content for DevTools requests to avoid proxy errors
+    console.log(`🔧 Skipping DevTools/system request: ${url}`);
+    res.writeHead(204, { 'Content-Type': 'text/plain' });
+    res.end();
+    return;
+  }
+
   // Try to serve local file first
   if (await fileExists(filePath)) {
     // eslint-disable-next-line no-console
@@ -179,6 +191,8 @@ server.listen(PORT, () => {
   console.log(`🔗 Proxying missing files to: ${PROXY_HOST}`);
   // eslint-disable-next-line no-console
   console.log(`📄 Main page: http://localhost:${PORT}/server.html`);
+  // eslint-disable-next-line no-console
+  console.log(`🔧 DevTools requests will be handled gracefully`);
 });
 
 // Graceful shutdown
