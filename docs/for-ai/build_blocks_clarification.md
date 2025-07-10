@@ -1,5 +1,7 @@
 # Build vs Blocks Directory Structure
 
+**Related Documentation:** [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [EDS Architecture Standards](eds-architecture-standards.md) | [Design Philosophy Guide](design-philosophy-guide.md) | [Build Component Template](build-component-template.md)
+
 ## Overview
 
 The repository uses a **dual-directory architecture** that separates development from deployment-ready files:
@@ -351,3 +353,86 @@ cd blocks/my-component                     # Edit directly
 ```
 
 This architecture ensures that developers have modern tools while EDS projects get optimized, self-contained components that work reliably in production.
+
+## See Also
+
+### Core Architecture & Implementation
+- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Detailed implementation guide for build-based components with external dependencies
+- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS dual-directory architecture
+- **[Build Component Template](build-component-template.md)** - Template and scaffolding for creating new build-based EDS components
+
+### Development Guides
+- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks (direct-edit approach)
+- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions and file structure
+- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+
+### Development Environment & Tools
+- **[Server README](server-README.md)** - Development server setup and configuration for both build-based and direct-edit workflows
+- **[Debug Guide](debug.md)** - Comprehensive debugging strategies for both build-based and direct-edit components
+- **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration for complex EDS blocks
+- **[Deployment Strategies](deployment-strategies.md)** - Best practices for deploying both types of EDS blocks to production
+
+### Testing & Quality Assurance
+- **[Testing Strategies](testing-strategies.md)** - Testing approaches for both build-based and direct-edit components
+- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
+- **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing both build-based and direct-edit components
+- **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for both development approaches
+
+### Advanced Topics
+- **[Web Components with EDS](web-components-with-eds.md)** - Integrating modern web components within both architectural approaches
+- **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for both build-based and direct-edit development
+- **[CSS Patterns](css-patterns.md)** - Common CSS patterns and styling approaches for both development types
+- **[Block Examples](block-examples.md)** - Real-world examples of both build-based and direct-edit implementations
+
+## Next Steps
+
+### For New EDS Developers
+1. **Understand the dual architecture** by reading this guide thoroughly to grasp when to use each approach
+2. **Start with simple components** using the direct-edit approach in `/blocks/` following [Raw EDS Blocks Guide](raw-eds-blocks-guide.md)
+3. **Learn the standards** from [Block Architecture Standards](block-architecture-standards.md) and [EDS Architecture Standards](eds-architecture-standards.md)
+4. **Practice the decision logic** by creating a few simple components before attempting build-based development
+5. **Set up your environment** using [Server README](server-README.md) for proper development workflow
+
+### For Experienced Developers
+1. **Master the decision matrix** to quickly determine which approach is appropriate for each component
+2. **Explore build-based development** with [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) when external dependencies are needed
+3. **Understand the build process** by implementing the Vite configuration and deployment automation
+4. **Create reusable templates** using [Build Component Template](build-component-template.md) for consistent development
+5. **Optimize workflows** by understanding both development patterns and their trade-offs
+
+### For Architects & Technical Leads
+1. **Establish team guidelines** for when to use build-based vs. direct-edit approaches
+2. **Create project standards** that incorporate both architectural patterns appropriately
+3. **Design component libraries** that leverage the strengths of each approach
+4. **Plan development workflows** that support both patterns efficiently
+5. **Document decision criteria** for your team using the guidelines in this document
+
+### For DevOps & Build Engineers
+1. **Understand both deployment patterns** to create appropriate CI/CD pipelines
+2. **Set up build environments** that support the dual-directory architecture
+3. **Implement automated testing** for both build-based and direct-edit components
+4. **Create deployment automation** that handles both types of components correctly
+5. **Monitor build processes** and optimize for both development patterns
+
+### For QA Engineers & Testers
+1. **Learn both testing approaches** for build-based and direct-edit components
+2. **Understand the file transformation process** to test components effectively
+3. **Create test scenarios** that cover both development patterns
+4. **Validate deployment processes** for both types of components
+5. **Test integration workflows** from development to production for both approaches
+
+### For Project Managers & Team Leads
+1. **Understand the complexity trade-offs** between build-based and direct-edit approaches
+2. **Plan project timelines** accounting for the different development patterns
+3. **Allocate resources** appropriately based on component complexity requirements
+4. **Communicate architectural decisions** to stakeholders using the decision matrix
+5. **Track component inventory** to understand the distribution of build-based vs. direct-edit components
+
+### For Content Authors & Editors
+1. **Understand that both approaches** produce the same end-user experience in EDS
+2. **Learn the documentation patterns** for both types of components
+3. **Use component examples** regardless of the underlying development approach
+4. **Provide feedback** on component usability for both development patterns
+5. **Collaborate with developers** by understanding the architectural constraints and benefits

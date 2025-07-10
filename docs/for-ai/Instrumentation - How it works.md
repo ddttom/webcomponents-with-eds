@@ -1,5 +1,7 @@
 # How the JavaScript Performance Instrumentation System Works
 
+**Related Documentation:** [Debug Guide](debug.md) | [EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md) | [Block Architecture Standards](block-architecture-standards.md) | [EDS Native Testing Standards](eds-native-testing-standards.md)
+
 ## 🚨 **ADVANCED DEBUGGING POLICY NOTICE**
 
 > **📋 Critical Requirement**: JavaScript performance instrumentation described in this document constitutes **advanced debugging that requires explicit user request** per the [debugging policy](debug.md#deep-debugging-request-policy).
@@ -759,7 +761,85 @@ The implementation demonstrates how to effectively monitor complex JavaScript ap
 
 ---
 
-**Related Documentation:**
-- [debug.md](debug.md) - Complete debugging policy and approval requirements
-- [EDS-Architecture-and-Testing-Guide.md](EDS-Architecture-and-Testing-Guide.md) - File replacement testing strategies
-- [block-architecture-standards.md](block-architecture-standards.md) - Standard development approaches
+## See Also
+
+### Core Testing & Debugging
+- **[Debug Guide](debug.md)** - Complete debugging policy and approval requirements for advanced debugging operations
+- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - File replacement testing strategies and advanced testing workflows
+- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
+- **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches for EDS blocks including unit tests and integration testing
+
+### Architecture & Development Standards
+- **[Block Architecture Standards](block-architecture-standards.md)** - Standard development approaches and comprehensive standards for EDS block development
+- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+
+### Implementation & Development
+- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
+- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
+- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+
+### Development Environment & Tools
+- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development
+- **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
+- **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
+- **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration
+
+### Advanced Topics
+- **[Investigation](investigation.md)** - Advanced investigation techniques and analysis methods
+- **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
+- **[Error Handling Patterns](error-handling-patterns.md)** - Comprehensive error handling strategies for EDS blocks
+- **[Block Examples](block-examples.md)** - Real-world examples of successful EDS block implementations
+
+## Next Steps
+
+### For Performance Engineers & Analysts
+1. **Master the policy requirements** by understanding when explicit approval is required for instrumentation
+2. **Study the file replacement workflow** for safely deploying instrumented versions of EDS components
+3. **Learn the instrumentation architecture** including function wrapping, data collection, and metrics storage
+4. **Practice with non-critical components** before attempting instrumentation of core EDS files
+5. **Implement automated testing scripts** following the patterns shown in this guide
+
+### For QA Engineers & Testers
+1. **Understand the advanced debugging policy** and when instrumentation requires explicit approval
+2. **Master the backup and restoration procedures** for maintaining code integrity during testing
+3. **Learn to interpret performance metrics** captured by the instrumentation system
+4. **Create comprehensive test scenarios** that validate both functionality and performance impact
+5. **Develop monitoring strategies** for tracking instrumentation overhead and system impact
+
+### For DevOps & Build Engineers
+1. **Understand the file replacement constraints** imposed by EDS dynamic loading architecture
+2. **Implement CI/CD pipelines** that support the instrumentation testing workflow
+3. **Create automated backup and restoration** procedures for safe instrumentation deployment
+4. **Set up monitoring** for performance impact and system health during instrumented testing
+5. **Design recovery procedures** for handling instrumentation failures and file corruption
+
+### For Senior Developers & Architects
+1. **Master the technical architecture** of the instrumentation system and its integration with EDS
+2. **Understand the performance impact** of instrumentation on application execution and memory usage
+3. **Design custom metrics** and extend the instrumentation system for specific monitoring needs
+4. **Create team guidelines** for when to request instrumentation approval and how to use the system safely
+5. **Establish governance processes** for managing instrumented testing workflows and data security
+
+### For Team Leads & Project Managers
+1. **Understand the approval requirements** for advanced debugging and instrumentation operations
+2. **Plan testing timelines** that account for the file replacement workflow and restoration procedures
+3. **Establish approval processes** for team members requesting advanced instrumentation capabilities
+4. **Monitor the impact** of instrumentation testing on development velocity and system stability
+5. **Create documentation standards** for recording instrumentation results and performance insights
+
+### For Security & Compliance Teams
+1. **Review the data collection mechanisms** to ensure compliance with privacy and security requirements
+2. **Understand the file replacement workflow** and its implications for code integrity and audit trails
+3. **Establish data handling procedures** for performance metrics and instrumentation exports
+4. **Create security guidelines** for instrumentation deployment and data storage
+5. **Monitor access controls** for advanced debugging capabilities and instrumentation tools
+
+### For AI Assistants & Automation
+1. **Understand the explicit approval requirement** for all instrumentation operations described in this guide
+2. **Master the standard debugging approaches** that can be used without special approval
+3. **Learn to identify** when advanced instrumentation is necessary vs. standard performance monitoring
+4. **Implement safety checks** for file replacement operations and backup procedures
+5. **Create clear documentation** that helps users understand when to request instrumentation approval

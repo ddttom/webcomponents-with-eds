@@ -1,10 +1,14 @@
 # Creating Complex EDS Blocks
 ## The Build-Enhanced Approach
 
+**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [EDS Overview](eds.md) | [Debug Guide](debug.md)
+
 This guide demonstrates how to create sophisticated EDS blocks that use **external libraries**, **modern tooling**, and **advanced features** while maintaining **EDS compatibility** and **safe DOM manipulation**.
 
 # Creating Complex EDS Blocks
 ## The Build-Enhanced Approach
+
+**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [EDS Overview](eds.md) | [Debug Guide](debug.md)
 
 This guide demonstrates how to create sophisticated EDS blocks that use **external libraries**, **modern tooling**, and **advanced features** while maintaining **EDS compatibility** and **safe DOM manipulation**.
 
@@ -1458,3 +1462,72 @@ Complex EDS blocks provide sophisticated functionality while maintaining EDS com
 6. **Automated deployment** streamlining the build-to-blocks workflow
 
 This approach enables modern development workflows while respecting EDS principles of self-contained, performant components.
+
+## See Also
+
+### Essential Foundation
+- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
+- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies
+- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+
+### Development & Testing
+- **[Debug Guide](debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios
+- **[Testing Strategies](testing-strategies.md)** - Testing approaches for EDS blocks including unit tests and integration testing
+- **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
+- **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
+
+### Advanced Implementation
+- **[Web Components with EDS](web-components-with-eds.md)** - Integrating modern web components within the EDS framework
+- **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
+- **[CSS Patterns](css-patterns.md)** - Common CSS patterns and styling approaches for EDS blocks
+- **[Block Examples](block-examples.md)** - Real-world examples of successful EDS block implementations
+
+### Build & Deployment
+- **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration for complex EDS blocks
+- **[Deployment Strategies](deployment-strategies.md)** - Best practices for deploying complex EDS blocks to production
+- **[CI/CD Integration](ci-cd-integration.md)** - Integrating complex EDS block builds into continuous integration pipelines
+
+## Next Steps
+
+### For Developers New to Complex EDS Blocks
+1. **Master the fundamentals** by first completing the [Raw EDS Blocks Guide](raw-eds-blocks-guide.md)
+2. **Understand EDS constraints** by thoroughly reading the [EDS Overview](eds.md) and [Block Architecture Standards](block-architecture-standards.md)
+3. **Set up your first build environment** following the setup instructions in this guide
+4. **Start with a simple external library** (like Shoelace) before attempting more complex integrations
+5. **Practice the dual-directory workflow** to understand development vs. deployment phases
+
+### For Experienced EDS Developers
+1. **Evaluate the trade-offs** between simple blocks and complex blocks for each use case
+2. **Master the build process** by implementing the Vite configuration and deployment automation
+3. **Optimize bundle sizes** using the techniques described in the bundle optimization section
+4. **Implement comprehensive error handling** following the patterns shown in the advanced examples
+5. **Explore advanced external libraries** like charting libraries, design systems, or data visualization tools
+
+### For Architects & Technical Leads
+1. **Establish build standards** for your team using this guide as a foundation
+2. **Create reusable build configurations** that can be shared across multiple complex blocks
+3. **Design testing strategies** that cover both development and EDS integration phases
+4. **Plan performance budgets** for complex blocks to maintain EDS's performance advantages
+5. **Document decision criteria** for when to use complex vs. simple block approaches
+
+### For DevOps & Build Engineers
+1. **Set up CI/CD pipelines** that handle the dual-directory build and deployment process
+2. **Implement automated testing** for both development and EDS integration phases
+3. **Create deployment automation** that handles the build → blocks directory workflow
+4. **Monitor bundle sizes** and performance impact of complex blocks in production
+5. **Establish rollback procedures** for complex block deployments
+
+### For Performance Engineers
+1. **Analyze bundle impact** on Core Web Vitals and EDS performance scores
+2. **Implement lazy loading strategies** for complex blocks that aren't immediately visible
+3. **Optimize external library usage** by tree-shaking and selective imports
+4. **Monitor real-user performance** impact of complex blocks in production
+5. **Create performance budgets** and alerts for complex block deployments
+
+### For QA & Testing Teams
+1. **Understand the dual testing approach** (development vs. EDS integration)
+2. **Create test scenarios** that cover both simple and complex block functionality
+3. **Validate EDS compatibility** using the test.html files and EDS debug server
+4. **Test error handling** and graceful degradation scenarios
+5. **Verify accessibility** of complex blocks with external library components

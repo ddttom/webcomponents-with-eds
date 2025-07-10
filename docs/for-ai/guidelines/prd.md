@@ -1,8 +1,12 @@
 # EDS Application Product Requirements Document
 
+*Related: [Tech Stack](tech-stack.md) | [App Flow](app-flow.md) | [Security Checklist](security-checklist.md)*
+
 ## Project Overview
 
 This document outlines the requirements for building a modern web application using Adobe Edge Delivery Services (EDS) architecture. The project prioritises simplicity, performance, and maintainability over complex frameworks and build processes.
+
+*See also: [EDS Overview](../eds.md) for foundational concepts | [Design Philosophy Guide](../design-philosophy-guide.md) for EDS principles*</search>
 
 **Platform:** Adobe Edge Delivery Services  
 **Architecture:** Helix/Franklin  
@@ -350,3 +354,25 @@ This document outlines the requirements for building a modern web application us
 This EDS application represents a strategic approach to modern web development, emphasising simplicity and performance while leveraging Adobe's Edge Delivery Services platform. By focusing on content-first development and minimal complexity, the project aims to deliver exceptional user experiences while maintaining developer productivity.
 
 The success of this project depends on maintaining focus on core EDS principles: performance, simplicity, and user-centric design. Through careful implementation and continuous improvement, this application will establish a foundation for sustainable growth and innovation within the EDS ecosystem.
+
+---
+
+## See Also
+
+### Core EDS Foundation & Planning
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Design Philosophy Guide](../design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+- **[Tech Stack](tech-stack.md)** - Technology stack decisions and implementation approach outlined in this PRD
+- **[App Flow](app-flow.md)** - Application flow and user journey implementation based on these requirements
+
+### Implementation Guidelines & Standards
+- **[Frontend Guidelines](frontend-guidelines.md)** - Frontend development standards that support the technical requirements
+- **[Backend Structure](backend-structure.md)** - Backend architecture that enables the performance and scalability goals
+- **[Block Architecture Standards](../block-architecture-standards.md)** - Block development standards for the modular architecture
+- **[Security Checklist](security-checklist.md)** - Security requirements and implementation guidelines
+
+### Development & Testing
+- **[Server README](../server-README.md)** - Development environment setup supporting the implementation approach
+- **[EDS Native Testing Standards](../eds-native-testing-standards.md)** - Testing standards that meet the quality requirements
+- **[Debug Guide](../debug.md)** - Debugging approaches for maintaining code quality standards
+- **[Performance Optimization](../performance-optimization.md)** - Performance optimization techniques for meeting Core Web Vitals targets

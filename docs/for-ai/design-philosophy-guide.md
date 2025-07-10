@@ -1,6 +1,8 @@
 # EDS Component Design Philosophy
 ## Bridging Simplicity and Sophistication
 
+**Related Documentation:** [EDS Overview](eds.md) | [EDS Architecture Standards](eds-architecture-standards.md) | [Build Blocks Clarification](build_blocks_clarification.md) | [Block Architecture Standards](block-architecture-standards.md)
+
 ### The Fundamental Tension
 
 Adobe Edge Delivery Services (EDS) champions a philosophy of **radical simplicity**:
@@ -462,3 +464,86 @@ The goal isn't to avoid complexity - it's to **choose complexity consciously** a
 ---
 
 *This philosophy evolves with experience. Contribute feedback and learnings to keep it relevant and practical.*
+
+## See Also
+
+### Core Philosophy & Architecture
+- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and when to use each approach
+- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions and file structure
+
+### Implementation Guides
+- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for implementing the simple/EDS-native pattern
+- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Detailed implementation guide for the build-enhanced pattern with external dependencies
+- **[Build Component Template](build-component-template.md)** - Template and scaffolding for creating new build-based EDS components
+- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+
+### Development & Testing
+- **[Debug Guide](debug.md)** - Comprehensive debugging strategies for both simple and complex EDS blocks
+- **[Testing Strategies](testing-strategies.md)** - Testing approaches for both architectural patterns
+- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
+- **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing both simple and complex EDS blocks
+
+### Development Environment & Tools
+- **[Server README](server-README.md)** - Development server setup and configuration for both development patterns
+- **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for both architectural approaches
+- **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration for complex EDS blocks
+- **[Deployment Strategies](deployment-strategies.md)** - Best practices for deploying both types of EDS blocks to production
+
+### Advanced Topics & Patterns
+- **[Web Components with EDS](web-components-with-eds.md)** - Integrating modern web components within both architectural patterns
+- **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for both simple and complex EDS development
+- **[CSS Patterns](css-patterns.md)** - Common CSS patterns and styling approaches for both development types
+- **[Error Handling Patterns](error-handling-patterns.md)** - Comprehensive error handling strategies for both architectural patterns
+
+## Next Steps
+
+### For New EDS Developers
+1. **Internalize the philosophy** by understanding the tension between simplicity and sophistication
+2. **Learn the constraints** by studying the EDS fixed block names and dual-directory architecture
+3. **Start with simple patterns** using [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) to understand EDS-native development
+4. **Practice decision-making** by implementing several simple components before attempting complex ones
+5. **Study the standards** in [Block Architecture Standards](block-architecture-standards.md) and [EDS Architecture Standards](eds-architecture-standards.md)
+
+### For Experienced Developers
+1. **Master the decision framework** for choosing between simple and complex patterns
+2. **Understand the trade-offs** deeply by implementing both patterns and measuring their impact
+3. **Develop architectural judgment** by practicing the conscious complexity principle
+4. **Create team guidelines** based on the patterns and principles outlined in this guide
+5. **Contribute to the philosophy** by documenting your experiences and learnings
+
+### For Architects & Technical Leads
+1. **Establish team decision criteria** using the architectural decision framework from this guide
+2. **Create component strategy** that balances simplicity and sophistication based on business needs
+3. **Design governance processes** that ensure complexity is chosen consciously, not accidentally
+4. **Plan evolution strategies** for migrating between simple and complex patterns as requirements change
+5. **Monitor architectural health** by tracking the ratio of simple vs. complex components and their maintenance costs
+
+### For Product Managers & Stakeholders
+1. **Understand the cost implications** of choosing complex patterns for component development
+2. **Learn to evaluate trade-offs** between development speed, maintenance costs, and user experience
+3. **Appreciate the philosophy** of conscious complexity and how it affects project timelines and budgets
+4. **Support architectural decisions** by understanding the long-term implications of complexity choices
+5. **Plan feature requirements** with awareness of how they map to simple vs. complex implementation patterns
+
+### For QA Engineers & Testers
+1. **Understand both testing approaches** for simple EDS-native and complex build-enhanced components
+2. **Learn the dual proxy architecture** to effectively test complex components during development
+3. **Master the served vs. rendered HTML concept** to create comprehensive test scenarios
+4. **Develop testing strategies** that validate both the enhancement and fallback behaviors
+5. **Create quality gates** that ensure components meet the quality standards regardless of complexity
+
+### For DevOps & Build Engineers
+1. **Understand the dual-directory workflow** to create appropriate CI/CD pipelines for both patterns
+2. **Set up build environments** that support the conscious complexity approach
+3. **Implement monitoring** for both simple and complex components to track their performance impact
+4. **Create deployment automation** that handles both architectural patterns correctly
+5. **Plan infrastructure** that supports the evolution from simple to complex patterns
+
+### For UI/UX Designers
+1. **Understand the constraints** of EDS fixed block names and how they affect component design
+2. **Learn the capabilities** of both simple and complex patterns to design appropriate experiences
+3. **Consider the philosophy** of enhancement over replacement when designing component interactions
+4. **Collaborate effectively** with developers by understanding the trade-offs between design ambition and implementation complexity
+5. **Design for graceful degradation** ensuring components work even when enhancement fails

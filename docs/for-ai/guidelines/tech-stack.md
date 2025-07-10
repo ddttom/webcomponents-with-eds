@@ -1,8 +1,12 @@
 # EDS Application Technology Stack Document
 
+*Related: [EDS Overview](../eds.md) | [Frontend Guidelines](frontend-guidelines.md) | [Backend Structure](backend-structure.md)*
+
 ## Stack Overview
 
 This document outlines the technology stack for Edge Delivery Services (EDS) applications, using a deliberately minimal approach focused on web standards, performance, and maintainability. This approach reduces complexity while maximising reliability and development speed.
+
+*See also: [Design Philosophy Guide](../design-philosophy-guide.md) for EDS principles | [Block Architecture Standards](../block-architecture-standards.md) for development standards*</search>
 
 **Core Philosophy**: Simple JavaScript with limited dependencies, prioritising native web technologies over frameworks.
 
@@ -546,3 +550,25 @@ export default function decorate(block) {
 This EDS application technology stack reflects a deliberate choice to prioritise simplicity, performance, and maintainability over complexity. This approach enables rapid development while maintaining high-quality user experiences within the Adobe Edge Delivery Services ecosystem.
 
 By focusing on web standards and minimal dependencies, the stack provides a solid foundation for future growth while reducing technical debt and maintenance overhead. The integration with Adobe EDS ensures excellent performance and scalability out-of-the-box.
+
+---
+
+## See Also
+
+### Core EDS Architecture & Development
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Frontend Guidelines](frontend-guidelines.md)** - Coding standards and best practices for EDS frontend development
+- **[Backend Structure](backend-structure.md)** - EDS backend architecture and serverless implementation patterns
+- **[Design Philosophy Guide](../design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture
+
+### Development Standards & Implementation
+- **[Block Architecture Standards](../block-architecture-standards.md)** - Comprehensive standards for EDS block development
+- **[Raw EDS Blocks Guide](../raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks
+- **[Complex EDS Blocks Guide](../complex-eds-blocks-guide.md)** - Advanced block development with build tools
+- **[Server README](../server-README.md)** - Development server setup and configuration
+
+### Quality Assurance & Security
+- **[Security Checklist](security-checklist.md)** - Security best practices and compliance requirements
+- **[EDS Native Testing Standards](../eds-native-testing-standards.md)** - Testing standards for EDS components
+- **[Debug Guide](../debug.md)** - Complete debugging policy and approval requirements
+- **[Performance Optimization](../performance-optimization.md)** - Techniques for optimizing EDS performance

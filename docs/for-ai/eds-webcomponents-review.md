@@ -1,7 +1,11 @@
 # Repository Review: Web Components with Adobe Edge Delivery Services
 ## A Deep Dive into Modern EDS Development
 
+*Related: [Build Blocks Clarification](build_blocks_clarification.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Design Philosophy Guide](design-philosophy-guide.md)*
+
 *An in-depth analysis of a repository that successfully bridges the gap between Adobe EDS simplicity and modern web component development*
+
+*See also: [EDS Overview](eds.md) for foundational concepts | [Block Architecture Standards](block-architecture-standards.md) for development standards*
 
 ---
 
@@ -454,6 +458,91 @@ This repository represents **exemplary modern web development** that successfull
 **Final Verdict:** This is a **production-ready framework** that other teams should strongly consider for EDS projects requiring modern web components. It provides clear patterns for scaling from simple components to sophisticated applications while maintaining EDS compatibility throughout.
 
 The repository successfully demonstrates that you don't have to choose between EDS simplicity and modern development capabilities - with the right architecture, you can have both.
+
+---
+
+## See Also
+
+### Core Architecture & Development Patterns
+- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows analyzed in this review
+- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
+- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+- **[Build Component Template](build-component-template.md)** - Template for advanced build components with external dependencies
+
+### EDS Foundation & Standards
+- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
+- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
+
+### Development Environment & Tools
+- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
+- **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
+- **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration
+
+### Testing & Quality Assurance
+- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[Debug Guide](debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
+- **[Investigation](investigation.md)** - Advanced investigation techniques and analysis methods
+- **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
+
+### Advanced Topics & Reference Materials
+- **[EDS Appendix](eds-appendix.md)** - Comprehensive development reference guide with patterns and best practices
+- **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
+- **[Error Handling Patterns](error-handling-patterns.md)** - Comprehensive error handling strategies for EDS blocks
+- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+
+## Next Steps
+
+### For Architects & Technical Leaders
+1. **Evaluate the dual-directory approach** for your EDS projects and determine if the hybrid architecture meets your team's needs
+2. **Assess the complexity trade-offs** between simple EDS blocks and build-enhanced components for your specific use cases
+3. **Plan implementation strategies** that start with simple components and evolve to complex when external dependencies add clear value
+4. **Establish governance processes** for deciding when to use build processes vs vanilla JavaScript approaches
+5. **Create team guidelines** based on the architectural patterns and decision matrices outlined in this review
+
+### For Frontend Developers & Component Authors
+1. **Study the dual-directory architecture** to understand how to balance EDS simplicity with modern development workflows
+2. **Learn the configuration-driven development patterns** demonstrated in the Shoelace Card component for maintainable code
+3. **Master the EDS structure compliance** techniques that maintain technical compatibility while enabling sophisticated functionality
+4. **Implement the build system patterns** using Vite configuration and automated deployment workflows
+5. **Apply the code quality standards** including CSS naming conventions and JavaScript patterns for professional development
+
+### For DevOps & Build Engineers
+1. **Understand the zero-config deployment workflow** and how it integrates build processes with EDS compatibility
+2. **Implement the build system architecture** using Vite for bundling external dependencies into EDS-compatible components
+3. **Set up automated deployment pipelines** that can handle both simple and complex component development workflows
+4. **Configure development environments** that support the local-first, proxy-fallback architecture for AI-assisted development
+5. **Establish monitoring and performance tracking** for build-enhanced components to ensure they meet EDS performance standards
+
+### For QA Engineers & Test Specialists
+1. **Learn the EDS structure validation patterns** that ensure components work correctly in both development and production environments
+2. **Understand the testing requirements** for build-enhanced components including bundle size monitoring and performance validation
+3. **Implement comprehensive test suites** that cover both simple vanilla JavaScript and complex build-enhanced components
+4. **Create testing workflows** that validate the deployment process from build directory to blocks directory
+5. **Establish quality gates** that ensure build components maintain EDS compatibility and performance standards
+
+### For Team Leads & Project Managers
+1. **Understand the implementation strategy** for adopting the dual-directory approach in existing EDS projects
+2. **Plan development timelines** that account for the complexity evaluation process and potential migration from simple to complex patterns
+3. **Establish team training programs** that help developers understand when to use each approach and how to maintain quality standards
+4. **Monitor the balance** between EDS simplicity and modern development capabilities to ensure the approach serves project goals
+5. **Create decision frameworks** that help teams choose the right development pattern for each component based on requirements
+
+### For Security & Compliance Teams
+1. **Review the build process security** including dependency management, bundling strategies, and deployment procedures
+2. **Assess the external dependency implications** of build-enhanced components and ensure they meet organizational security standards
+3. **Establish approval processes** for components that require external libraries and build processes
+4. **Monitor the security implications** of the dual-directory architecture and automated deployment workflows
+5. **Create security guidelines** that balance the benefits of modern development with EDS security requirements
+
+### For AI Assistants & Automation
+1. **Master the dual-directory architecture** and understand how to make appropriate complexity decisions for different component types
+2. **Learn the build-enhanced development patterns** including Vite configuration, dependency bundling, and automated deployment
+3. **Understand the EDS compliance requirements** that must be maintained regardless of development approach complexity
+4. **Implement the code quality standards** demonstrated in the review for creating maintainable and professional components
+5. **Apply the architectural decision frameworks** to help users choose between simple and complex development approaches based on their specific requirements
 
 ---
 

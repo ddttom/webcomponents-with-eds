@@ -1,10 +1,14 @@
 # Creating Raw EDS Blocks
 ## The Simple, EDS-Native Approach
 
+**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [EDS Overview](eds.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Debug Guide](debug.md)
+
 This guide demonstrates how to create effective EDS blocks using **vanilla JavaScript**, **minimal dependencies**, and **additive enhancement** patterns that preserve content and follow EDS philosophy.
 
 # Creating Raw EDS Blocks
 ## The Simple, EDS-Native Approach
+
+**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [EDS Overview](eds.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Debug Guide](debug.md)
 
 This guide demonstrates how to create effective EDS blocks using **vanilla JavaScript**, **minimal dependencies**, and **additive enhancement** patterns that preserve content and follow EDS philosophy.
 
@@ -780,3 +784,45 @@ Raw EDS blocks follow the **enhancement pattern**:
 5. **Handle** errors gracefully
 
 This approach maintains EDS's philosophy of simplicity while providing rich, interactive experiences that work reliably across all environments.
+
+## See Also
+
+### Architecture & Standards
+- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
+- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+
+### Advanced Development
+- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Building sophisticated blocks with build tools, external dependencies, and advanced patterns
+- **[Web Components with EDS](web-components-with-eds.md)** - Integrating modern web components within the EDS framework
+- **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
+
+### Testing & Debugging
+- **[Debug Guide](debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios
+- **[Testing Strategies](testing-strategies.md)** - Testing approaches for EDS blocks including unit tests and integration testing
+- **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
+
+### Implementation Examples
+- **[Block Examples](block-examples.md)** - Real-world examples of successful EDS block implementations
+- **[CSS Patterns](css-patterns.md)** - Common CSS patterns and styling approaches for EDS blocks
+- **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
+
+## Next Steps
+
+### For New EDS Developers
+1. **Start with [EDS Overview](eds.md)** to understand the fundamental concepts and architecture
+2. **Review [Block Architecture Standards](block-architecture-standards.md)** for essential development guidelines
+3. **Follow this guide** to create your first simple block using the highlight-text example
+4. **Practice with [Block Examples](block-examples.md)** to see more implementation patterns
+
+### For Experienced Developers
+1. **Master the enhancement patterns** shown in this guide's advanced counter example
+2. **Explore [Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** for build tool integration and advanced features
+3. **Implement [Performance Optimization](performance-optimization.md)** techniques in your blocks
+4. **Contribute to [Testing Strategies](testing-strategies.md)** by developing comprehensive test suites
+
+### For Architects & Team Leads
+1. **Establish team standards** using [Block Architecture Standards](block-architecture-standards.md) as a foundation
+2. **Plan complex implementations** with guidance from [Complex EDS Blocks Guide](complex-eds-blocks-guide.md)
+3. **Design testing strategies** following [Testing Strategies](testing-strategies.md) recommendations
+4. **Monitor performance** using [Performance Optimization](performance-optimization.md) metrics and techniques

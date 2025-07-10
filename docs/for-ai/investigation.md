@@ -1,8 +1,12 @@
 # Performance Instrumentation Investigation Report
 
+*Related: [Instrumentation Guide](Instrumentation%20-%20How%20it%20works.md) | [Debug Guide](debug.md) | [EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)*
+
 ## Executive Summary
 
 This investigation implemented comprehensive instrumentation for the EDS (Edge Delivery Services) JavaScript application to capture detailed performance metrics, function call traces, execution timing data, variable scope analysis, memory usage patterns, and program flow information during runtime execution.
+
+*See also: [Server README](server-README.md) for development server setup | [Performance Optimization](performance-optimization.md) for optimization techniques*
 
 ## Test Environment
 
@@ -158,3 +162,88 @@ The performance instrumentation system successfully provided comprehensive visib
 4. **Integrate with CI/CD** for automated performance monitoring
 
 The investigation demonstrates that comprehensive performance monitoring can be achieved in EDS applications through careful instrumentation design and proper integration with the existing dynamic loading architecture.
+
+---
+
+## See Also
+
+### Core Testing & Performance Analysis
+- **[Instrumentation Guide](Instrumentation%20-%20How%20it%20works.md)** - Technical details of the instrumentation system and performance monitoring techniques
+- **[Debug Guide](debug.md)** - Complete debugging policy and approval requirements for advanced debugging operations
+- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
+
+### Development Environment & Tools
+- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
+- **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
+- **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration
+
+### Architecture & Development Standards
+- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
+- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+
+### Implementation & Development
+- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
+- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
+- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Build Component Template](build-component-template.md)** - Template for advanced build components with external dependencies
+
+### Advanced Topics & Patterns
+- **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
+- **[Error Handling Patterns](error-handling-patterns.md)** - Comprehensive error handling strategies for EDS blocks
+- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches for EDS blocks including unit tests and integration testing
+
+## Next Steps
+
+### For Performance Engineers & Analysts
+1. **Study the instrumentation findings** and understand the performance characteristics of EDS applications under load
+2. **Implement the recommended optimizations** including batched async operations and performance budgets
+3. **Expand the instrumentation coverage** to include additional EDS lifecycle events and custom metrics
+4. **Create automated performance monitoring** that can detect regressions and performance issues in CI/CD pipelines
+5. **Develop performance baselines** using the metrics collected in this investigation as reference points
+
+### For QA Engineers & Test Specialists
+1. **Learn the file replacement workflow** for safely deploying instrumented versions during testing
+2. **Understand the performance metrics** and how to interpret timing data, memory usage, and function call traces
+3. **Implement automated performance testing** that uses instrumentation to validate application performance
+4. **Create test scenarios** that can reproduce the conditions observed in this investigation
+5. **Establish performance acceptance criteria** based on the baseline metrics collected
+
+### For DevOps & Build Engineers
+1. **Understand the server setup requirements** for performance testing including proxy configuration and file serving
+2. **Implement CI/CD integration** for automated performance monitoring and regression detection
+3. **Create deployment procedures** for instrumented testing that maintain system integrity
+4. **Set up monitoring infrastructure** that can capture and analyze performance data from instrumented applications
+5. **Establish backup and recovery procedures** for the file replacement workflow used in performance testing
+
+### For Frontend Developers & Component Authors
+1. **Analyze the performance findings** to understand how EDS block decoration and loading affects application performance
+2. **Implement the optimization recommendations** including async operation batching and memory management improvements
+3. **Learn from the error handling patterns** observed during external module loading failures
+4. **Create performance-aware components** that consider the timing and memory usage patterns identified
+5. **Establish development practices** that prevent the performance issues identified in this investigation
+
+### For System Administrators & Infrastructure Teams
+1. **Understand the resource loading patterns** and how they affect server performance and network utilization
+2. **Configure monitoring systems** that can track the performance metrics identified in this investigation
+3. **Implement capacity planning** based on the memory usage and timing data collected
+4. **Set up alerting** for performance thresholds that exceed the baselines established in this investigation
+5. **Create maintenance procedures** for performance monitoring infrastructure and instrumentation systems
+
+### For Security & Compliance Teams
+1. **Review the instrumentation approach** to ensure it meets security and privacy requirements for performance monitoring
+2. **Assess the data collection methods** and ensure they comply with organizational data handling policies
+3. **Establish approval processes** for performance instrumentation that may collect sensitive application data
+4. **Monitor the security implications** of the file replacement workflow used for instrumented testing
+5. **Create security guidelines** for performance monitoring and instrumentation in production environments
+
+### For AI Assistants & Automation
+1. **Master the instrumentation techniques** demonstrated in this investigation for comprehensive performance analysis
+2. **Understand the file replacement workflow** and how to safely implement instrumented testing without affecting production
+3. **Learn to interpret performance metrics** including timing data, memory usage patterns, and function call traces
+4. **Implement automated analysis** that can identify performance issues and optimization opportunities
+5. **Create comprehensive reports** that help teams understand application performance characteristics and improvement opportunities

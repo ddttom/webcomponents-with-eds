@@ -1,8 +1,12 @@
 # EDS Security Checklist
 
+*Related: [Backend Structure](backend-structure.md) | [Tech Stack](tech-stack.md) | [Frontend Guidelines](frontend-guidelines.md)*
+
 ## Overview
 
 This security checklist provides comprehensive guidelines for securing Edge Delivery Services (EDS) applications across all components - from content management to user interactions. The checklist follows industry best practices and addresses common vulnerabilities in web applications.
+
+*See also: [EDS Overview](../eds.md) for foundational concepts | [Debug Guide](../debug.md) for secure debugging practices*</search>
 
 ## Authentication and Authorisation
 
@@ -646,3 +650,25 @@ Security is an ongoing process that requires continuous attention, regular testi
 - Implement defense-in-depth security strategies
 - Monitor security metrics and incident response effectiveness
 - Stay informed about EDS-specific security considerations and updates
+
+---
+
+## See Also
+
+### Core EDS Architecture & Security
+- **[Backend Structure](backend-structure.md)** - EDS backend architecture and serverless security implementation
+- **[Tech Stack](tech-stack.md)** - Technology stack security considerations and dependency management
+- **[Frontend Guidelines](frontend-guidelines.md)** - Frontend security patterns and secure coding practices
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture
+
+### Development Security & Standards
+- **[Debug Guide](../debug.md)** - Secure debugging practices and approval requirements
+- **[Block Architecture Standards](../block-architecture-standards.md)** - Security considerations in block development
+- **[Server README](../server-README.md)** - Development server security configuration
+- **[EDS Native Testing Standards](../eds-native-testing-standards.md)** - Security testing for EDS components
+
+### Project Management & Compliance
+- **[App Flow](app-flow.md)** - Application flow security considerations and user journey protection
+- **[PRD](prd.md)** - Security requirements and compliance standards for EDS projects
+- **[Performance Optimization](../performance-optimization.md)** - Security implications of performance optimizations
+- **[Browser Compatibility](../browser-compatibility.md)** - Cross-browser security considerations

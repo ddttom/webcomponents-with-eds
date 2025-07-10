@@ -1,731 +1,672 @@
-# EDS Backend Structure
+# Backend Structure Guidelines
 
-## Architecture Overview
+*Related: [Tech Stack Guidelines](tech-stack.md) | [Security Checklist](security-checklist.md) | [App Flow Guidelines](app-flow.md)*
 
-Edge Delivery Services (EDS) applications follow a serverless, content-driven architecture that eliminates traditional backend complexity while providing excellent performance and scalability.
+## Overview
 
-**Core Philosophy**: Content as code, minimal server infrastructure, automatic scaling, and performance optimisation.
+This document outlines backend structure guidelines for EDS (Edge Delivery Services) projects, focusing on server-side architecture, API design, and data management that complements EDS frontend development.
 
-## Adobe Edge Delivery Services Architecture
+*See also: [Design Philosophy Guide](../design-philosophy-guide.md) for EDS principles | [Performance Optimization](../performance-optimization.md) for optimization techniques*
 
-### Content Processing Pipeline
+## Server Architecture
 
-**Google Docs → Static Generation**
-```
-Google Docs → Drive API → Content Parser → Static Generator → CDN
-```
+### Node.js Development Server
 
-**Processing Steps**:
-1. Content authors create documents in Google Docs
-2. Adobe EDS monitors Google Drive for changes
-3. Content parser extracts structure and metadata
-4. Static generator creates optimised HTML, CSS, and JavaScript
-5. Generated files deploy to global CDN
+For EDS development, use a simple Node.js server with proxy capabilities:
 
-### Serverless Functions
-
-**Built-in EDS Functions**
-- Content transformation and rendering
-- Image optimisation and resizing
-- Search index generation
-- Performance monitoring
-
-**Custom Functions** (when needed)
-- Form processing and validation
-- API integrations
-- Custom data processing
-- Analytics event handling
-
-## Content Management System
-
-### Google Docs Integration
-
-**Document Structure**
-```
-Document Title
-==============
-
-| BlockName     | Configuration |
-|---------------|---------------|
-| hero          | dark, center  |
-| Text content  | More content  |
-
-| columns       |               |
-|---------------|---------------|
-| Column 1      | Column 2      |
-| Content here  | Content here  |
-```
-
-**Metadata Management**
-```
-Document Properties (via Google Docs):
-- Title: Page title
-- Description: Meta description
-- Keywords: SEO keywords
-- Author: Content author
-- Date: Publication date
-```
-
-### Content Processing
-
-**Automatic Processing**
-- Document changes trigger processing
-- HTML generation from Google Docs structure
-- CSS optimisation and minification
-- JavaScript bundling and tree-shaking
-- Image compression and format conversion
-
-**Query Index Generation**
-```json
-{
-  "total": 150,
-  "offset": 0,
-  "limit": 500,
-  "data": [
-    {
-      "path": "/blog/understanding-performance",
-      "title": "Understanding Web Performance",
-      "description": "A comprehensive guide to web performance",
-      "image": "/media/performance-hero.jpg",
-      "author": "Content Author",
-      "date": "2024-01-15",
-      "tags": ["performance", "web", "optimization"]
-    }
-  ]
-}
-```
-
-## API Architecture
-
-### RESTful Endpoints
-
-**Content APIs**
-- `GET /query-index.json` - Search and filter content
-- `GET /sitemap.xml` - Site structure for search engines
-- `GET /robots.txt` - Search engine directives
-- `GET /manifest.json` - Progressive Web App manifest
-
-**Dynamic Content APIs**
-- `GET /api/search?q={query}` - Full-text search
-- `GET /api/content/{path}` - Dynamic content loading
-- `GET /api/analytics` - Performance metrics
-- `POST /api/forms/{form-id}` - Form submission handling
-
-### GraphQL Implementation (Optional)
-
-**Schema Definition**
-```graphql
-type Page {
-  id: ID!
-  path: String!
-  title: String!
-  description: String
-  author: String
-  date: String
-  content: String
-  blocks: [Block!]!
-}
-
-type Block {
-  type: String!
-  configuration: JSON
-  content: JSON
-}
-
-type Query {
-  page(path: String!): Page
-  pages(limit: Int, offset: Int): [Page!]!
-  search(query: String!): [Page!]!
-}
-```
-
-## Data Storage Strategy
-
-### File-Based Storage
-
-**Static Content**
-```
-/content/
-├── blog/
-│   ├── article-1.md
-│   ├── article-2.md
-│   └── index.md
-├── pages/
-│   ├── about.md
-│   ├── contact.md
-│   └── index.md
-└── assets/
-    ├── images/
-    ├── documents/
-    └── media/
-```
-
-**Generated Assets**
-```
-/dist/
-├── index.html
-├── blog/
-│   ├── article-1.html
-│   └── article-2.html
-├── styles/
-│   ├── critical.css
-│   └── non-critical.css
-├── scripts/
-│   ├── main.js
-│   └── blocks/
-└── assets/
-    ├── images/
-    └── media/
-```
-
-### Database Alternatives
-
-**Query Index System**
-- JSON files for searchable content
-- Generated automatically from content
-- Cached at CDN edge locations
-- Updated on content publication
-
-**Configuration Storage**
 ```javascript
-// config/site.js
-export default {
-  site: {
-    title: 'Your Site Title',
-    description: 'Your site description',
-    author: 'Your Name',
-    url: 'https://your-domain.com'
-  },
-  analytics: {
-    googleAnalytics: 'GA-XXXXXXXXX',
-    googleTagManager: 'GTM-XXXXXXX'
-  },
-  performance: {
-    maxImageWidth: 1200,
-    imageQuality: 85,
-    lazyLoading: true
-  }
-};
-```
+// server.js - Development server
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const { URL } = require('url');
 
-## Development Server
+const PORT = process.env.PORT || 3000;
+const PROXY_HOST = process.env.PROXY_HOST || 'https://allabout.network';
 
-### Local Development Architecture
-
-**Server Implementation**
-```javascript
-// server.js
-import { createServer } from 'http';
-import { readFile, access } from 'fs/promises';
-import { join, extname } from 'path';
-
-const server = createServer(async (req, res) => {
-  const filePath = join(process.cwd(), req.url);
+const server = http.createServer(async (req, res) => {
+  const filePath = path.join(process.cwd(), req.url);
   
-  // Try to serve local file first
-  if (await serveLocalFile(filePath, res)) {
-    return;
+  // Serve local files first
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    serveLocalFile(filePath, res);
+  } else {
+    // Proxy to external server
+    proxyRequest(req, res);
   }
-  
-  // Fallback to remote proxy
-  await proxyToRemote(req, res);
+});
+
+server.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
 ```
 
-**Key Features**
-- Zero external dependencies
-- Local-first serving with remote fallback
-- Automatic MIME type detection
-- CORS headers for cross-origin requests
-- Comprehensive error logging
+### API Design Principles
 
-### Request Handling
+Follow RESTful API design with EDS-compatible patterns:
 
-**File Serving Logic**
 ```javascript
-async function serveLocalFile(filePath, res) {
-  try {
-    await access(filePath);
-    const content = await readFile(filePath);
-    const contentType = getMimeType(filePath);
-    
-    res.writeHead(200, {
-      'Content-Type': contentType,
-      'Cache-Control': 'no-cache',
-      'Access-Control-Allow-Origin': '*'
-    });
-    res.end(content);
-    return true;
-  } catch {
-    return false;
-  }
-}
-```
-
-**Proxy Implementation**
-```javascript
-async function proxyToRemote(req, res) {
-  try {
-    const proxyUrl = `${PROXY_HOST}${req.url}`;
-    const response = await fetch(proxyUrl);
-    
-    res.writeHead(response.status, {
-      'Content-Type': response.headers.get('content-type') || 'text/html',
-      'Cache-Control': response.headers.get('cache-control') || 'no-cache'
-    });
-    
-    const body = await response.text();
-    res.end(body);
-  } catch (error) {
-    res.writeHead(500, { 'Content-Type': 'text/plain' });
-    res.end('Proxy error');
-  }
-}
-```
-
-## Performance Optimisation
-
-### Caching Strategy
-
-**Multi-Level Caching**
-```
-Browser Cache → CDN Cache → Origin Cache → Source Data
-```
-
-**Cache Configuration**
-```javascript
-// Cache policies
-const cacheConfig = {
-  static: {
-    maxAge: '1year',
-    immutable: true
+// api/routes/content.js
+export const contentRoutes = {
+  // GET /api/content - List content
+  async list(req, res) {
+    try {
+      const { limit = 10, offset = 0, type } = req.query;
+      const content = await contentService.list({ limit, offset, type });
+      
+      res.json({
+        data: content.items,
+        total: content.total,
+        offset: parseInt(offset),
+        limit: parseInt(limit)
+      });
+    } catch (error) {
+      handleError(error, res);
+    }
   },
-  dynamic: {
-    maxAge: '1hour',
-    revalidate: true
-  },
-  api: {
-    maxAge: '5minutes',
-    staleWhileRevalidate: true
+
+  // GET /api/content/:id - Get specific content
+  async get(req, res) {
+    try {
+      const { id } = req.params;
+      const content = await contentService.get(id);
+      
+      if (!content) {
+        return res.status(404).json({ error: 'Content not found' });
+      }
+      
+      res.json({ data: content });
+    } catch (error) {
+      handleError(error, res);
+    }
   }
 };
 ```
 
-### Content Delivery Network
+### Data Layer
 
-**Global Distribution**
-- Edge locations worldwide
-- Automatic failover
-- Performance monitoring
-- Real-time analytics
+Implement clean data access patterns:
 
-**Edge Computing**
 ```javascript
-// Edge function example
-export default async function handler(request) {
-  const url = new URL(request.url);
+// services/content-service.js
+class ContentService {
+  constructor(dataStore) {
+    this.dataStore = dataStore;
+  }
+
+  async list(options = {}) {
+    const { limit = 10, offset = 0, type } = options;
+    
+    const query = {
+      limit: Math.min(limit, 100), // Cap at 100
+      offset: Math.max(offset, 0)
+    };
+    
+    if (type) {
+      query.type = type;
+    }
+    
+    return await this.dataStore.query('content', query);
+  }
+
+  async get(id) {
+    if (!id) {
+      throw new Error('Content ID is required');
+    }
+    
+    return await this.dataStore.findById('content', id);
+  }
+
+  async create(data) {
+    const validation = this.validateContent(data);
+    if (!validation.valid) {
+      throw new Error(`Invalid content: ${validation.errors.join(', ')}`);
+    }
+    
+    return await this.dataStore.create('content', {
+      ...data,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+  }
+
+  validateContent(data) {
+    const errors = [];
+    
+    if (!data.title || data.title.trim().length === 0) {
+      errors.push('Title is required');
+    }
+    
+    if (!data.type || !['page', 'post', 'fragment'].includes(data.type)) {
+      errors.push('Valid type is required (page, post, fragment)');
+    }
+    
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+}
+```
+
+## Configuration Management
+
+### Environment Configuration
+
+Use environment variables for configuration:
+
+```javascript
+// config/environment.js
+export const config = {
+  port: process.env.PORT || 3000,
+  nodeEnv: process.env.NODE_ENV || 'development',
   
-  // Personalisation at edge
-  if (url.pathname === '/personalised') {
-    return new Response(await generatePersonalised(request));
+  // Database
+  database: {
+    url: process.env.DATABASE_URL || 'sqlite:./data/app.db',
+    maxConnections: parseInt(process.env.DB_MAX_CONNECTIONS) || 10
+  },
+  
+  // External services
+  proxy: {
+    host: process.env.PROXY_HOST || 'https://allabout.network',
+    timeout: parseInt(process.env.PROXY_TIMEOUT) || 5000
+  },
+  
+  // Security
+  security: {
+    corsOrigins: process.env.CORS_ORIGINS?.split(',') || ['http://localhost:3000'],
+    rateLimitWindow: parseInt(process.env.RATE_LIMIT_WINDOW) || 900000, // 15 minutes
+    rateLimitMax: parseInt(process.env.RATE_LIMIT_MAX) || 100
+  }
+};
+
+// Validation
+function validateConfig() {
+  const required = ['DATABASE_URL'];
+  const missing = required.filter(key => !process.env[key]);
+  
+  if (missing.length > 0) {
+    throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
+  }
+}
+
+if (config.nodeEnv === 'production') {
+  validateConfig();
+}
+```
+
+### Application Configuration
+
+Structure application configuration clearly:
+
+```javascript
+// config/app.js
+export const appConfig = {
+  // Content management
+  content: {
+    maxFileSize: 10 * 1024 * 1024, // 10MB
+    allowedTypes: ['image/jpeg', 'image/png', 'image/webp'],
+    uploadPath: './uploads',
+    cacheDuration: 3600 // 1 hour
+  },
+  
+  // API settings
+  api: {
+    version: 'v1',
+    prefix: '/api',
+    defaultPageSize: 20,
+    maxPageSize: 100
+  },
+  
+  // Logging
+  logging: {
+    level: process.env.LOG_LEVEL || 'info',
+    format: process.env.LOG_FORMAT || 'json',
+    file: process.env.LOG_FILE || './logs/app.log'
+  }
+};
+```
+
+## Error Handling
+
+### Centralized Error Handling
+
+Implement consistent error handling:
+
+```javascript
+// middleware/error-handler.js
+export class AppError extends Error {
+  constructor(message, statusCode = 500, code = 'INTERNAL_ERROR') {
+    super(message);
+    this.statusCode = statusCode;
+    this.code = code;
+    this.isOperational = true;
+    
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+export function errorHandler(error, req, res, next) {
+  let { statusCode = 500, message, code } = error;
+  
+  // Log error
+  console.error('Error:', {
+    message: error.message,
+    stack: error.stack,
+    url: req.url,
+    method: req.method,
+    timestamp: new Date().toISOString()
+  });
+  
+  // Don't leak error details in production
+  if (process.env.NODE_ENV === 'production' && !error.isOperational) {
+    message = 'Internal server error';
+    code = 'INTERNAL_ERROR';
   }
   
-  // Default handling
-  return fetch(request);
+  res.status(statusCode).json({
+    error: {
+      message,
+      code,
+      timestamp: new Date().toISOString()
+    }
+  });
 }
+
+// Usage in routes
+export function handleError(error, res) {
+  if (error.name === 'ValidationError') {
+    throw new AppError(error.message, 400, 'VALIDATION_ERROR');
+  }
+  
+  if (error.name === 'NotFoundError') {
+    throw new AppError('Resource not found', 404, 'NOT_FOUND');
+  }
+  
+  throw error;
+}
+```
+
+### Async Error Handling
+
+Handle async errors properly:
+
+```javascript
+// utils/async-handler.js
+export function asyncHandler(fn) {
+  return (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
+}
+
+// Usage in routes
+app.get('/api/content', asyncHandler(async (req, res) => {
+  const content = await contentService.list(req.query);
+  res.json(content);
+}));
 ```
 
 ## Security Implementation
 
-### Content Security Policy
-
-**CSP Headers**
-```javascript
-const cspPolicy = {
-  'default-src': ["'self'"],
-  'script-src': ["'self'", "'unsafe-inline'", "https://www.google-analytics.com"],
-  'style-src': ["'self'", "'unsafe-inline'"],
-  'img-src': ["'self'", "data:", "https:"],
-  'font-src': ["'self'", "https:"],
-  'connect-src': ["'self'", "https://www.google-analytics.com"]
-};
-```
-
 ### Input Validation
 
-**Form Processing**
-```javascript
-function validateInput(data) {
-  const schema = {
-    email: { type: 'email', required: true },
-    name: { type: 'string', required: true, maxLength: 100 },
-    message: { type: 'string', required: true, maxLength: 1000 }
-  };
-  
-  return validate(data, schema);
-}
+Implement comprehensive input validation:
 
-function sanitiseInput(input) {
-  return input
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;');
+```javascript
+// middleware/validation.js
+import { body, param, query, validationResult } from 'express-validator';
+
+export const validateContent = [
+  body('title')
+    .trim()
+    .isLength({ min: 1, max: 200 })
+    .withMessage('Title must be 1-200 characters'),
+  
+  body('type')
+    .isIn(['page', 'post', 'fragment'])
+    .withMessage('Type must be page, post, or fragment'),
+  
+  body('content')
+    .optional()
+    .isLength({ max: 50000 })
+    .withMessage('Content must be less than 50,000 characters'),
+  
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new AppError(
+        'Validation failed',
+        400,
+        'VALIDATION_ERROR',
+        errors.array()
+      );
+    }
+    next();
+  }
+];
+
+export const validateId = [
+  param('id')
+    .isUUID()
+    .withMessage('Invalid ID format'),
+  
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new AppError('Invalid ID', 400, 'INVALID_ID');
+    }
+    next();
+  }
+];
+```
+
+### Rate Limiting
+
+Implement rate limiting for API protection:
+
+```javascript
+// middleware/rate-limit.js
+import rateLimit from 'express-rate-limit';
+
+export const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: {
+    error: {
+      message: 'Too many requests, please try again later',
+      code: 'RATE_LIMIT_EXCEEDED'
+    }
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+export const strictLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10, // Stricter limit for sensitive endpoints
+  message: {
+    error: {
+      message: 'Too many requests for this endpoint',
+      code: 'RATE_LIMIT_EXCEEDED'
+    }
+  }
+});
+```
+
+## Data Management
+
+### Database Abstraction
+
+Create a clean database abstraction layer:
+
+```javascript
+// data/database.js
+export class Database {
+  constructor(config) {
+    this.config = config;
+    this.connection = null;
+  }
+
+  async connect() {
+    // Implementation depends on database choice
+    // SQLite, PostgreSQL, etc.
+  }
+
+  async query(table, options = {}) {
+    const { limit = 20, offset = 0, where = {}, orderBy } = options;
+    
+    // Build and execute query
+    // Return standardized format
+    return {
+      items: [], // Query results
+      total: 0,  // Total count
+      limit,
+      offset
+    };
+  }
+
+  async findById(table, id) {
+    // Find single record by ID
+  }
+
+  async create(table, data) {
+    // Create new record
+  }
+
+  async update(table, id, data) {
+    // Update existing record
+  }
+
+  async delete(table, id) {
+    // Delete record
+  }
+
+  async close() {
+    // Close database connection
+  }
 }
 ```
 
-### Authentication (When Required)
+### Caching Strategy
 
-**JWT Implementation**
+Implement efficient caching:
+
 ```javascript
-function generateToken(user) {
-  return jwt.sign(
-    { userId: user.id, email: user.email },
-    process.env.JWT_SECRET,
-    { expiresIn: '1h' }
-  );
-}
+// services/cache-service.js
+export class CacheService {
+  constructor() {
+    this.cache = new Map();
+    this.ttl = new Map();
+  }
 
-function verifyToken(token) {
-  try {
-    return jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    throw new Error('Invalid token');
+  set(key, value, ttlSeconds = 3600) {
+    this.cache.set(key, value);
+    this.ttl.set(key, Date.now() + (ttlSeconds * 1000));
+  }
+
+  get(key) {
+    const expiry = this.ttl.get(key);
+    
+    if (!expiry || Date.now() > expiry) {
+      this.cache.delete(key);
+      this.ttl.delete(key);
+      return null;
+    }
+    
+    return this.cache.get(key);
+  }
+
+  delete(key) {
+    this.cache.delete(key);
+    this.ttl.delete(key);
+  }
+
+  clear() {
+    this.cache.clear();
+    this.ttl.clear();
+  }
+
+  // Wrapper for async operations
+  async getOrSet(key, asyncFn, ttlSeconds = 3600) {
+    let value = this.get(key);
+    
+    if (value === null) {
+      value = await asyncFn();
+      this.set(key, value, ttlSeconds);
+    }
+    
+    return value;
   }
 }
 ```
 
 ## Monitoring and Logging
 
-### Performance Monitoring
+### Structured Logging
 
-**Core Web Vitals Tracking**
+Implement structured logging:
+
 ```javascript
-// Real User Monitoring
-function trackWebVitals() {
-  import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-    getCLS(sendToAnalytics);
-    getFID(sendToAnalytics);
-    getFCP(sendToAnalytics);
-    getLCP(sendToAnalytics);
-    getTTFB(sendToAnalytics);
-  });
-}
-
-function sendToAnalytics(metric) {
-  const { name, value, id } = metric;
-  
-  // Send to analytics service
-  fetch('/api/analytics', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ metric: name, value, id })
-  });
-}
-```
-
-### Error Tracking
-
-**Centralised Error Handling**
-```javascript
-// Global error handler
-window.addEventListener('error', (event) => {
-  logError({
-    message: event.error?.message || 'Unknown error',
-    stack: event.error?.stack,
-    filename: event.filename,
-    line: event.lineno,
-    column: event.colno
-  });
-});
-
-// Promise rejection handler
-window.addEventListener('unhandledrejection', (event) => {
-  logError({
-    message: event.reason?.message || 'Unhandled promise rejection',
-    stack: event.reason?.stack,
-    type: 'unhandled-promise'
-  });
-});
-```
-
-## EDS-Specific Backend Features
-
-### Block Processing
-
-**Block Recognition**
-```javascript
-function processBlocks(content) {
-  const blocks = [];
-  const tables = content.querySelectorAll('table');
-  
-  tables.forEach(table => {
-    const firstRow = table.querySelector('tr');
-    const blockName = firstRow.querySelector('td').textContent.trim();
-    
-    blocks.push({
-      name: blockName,
-      element: table,
-      config: parseBlockConfig(table)
-    });
-  });
-  
-  return blocks;
-}
-```
-
-**Content Transformation**
-```javascript
-function transformContent(doc) {
-  const blocks = processBlocks(doc);
-  const html = [];
-  
-  blocks.forEach(block => {
-    const blockHtml = generateBlockHtml(block);
-    html.push(blockHtml);
-  });
-  
-  return html.join('\n');
-}
-```
-
-### Image Processing
-
-**Automatic Optimisation**
-```javascript
-function optimiseImage(imagePath) {
-  return {
-    webp: generateWebP(imagePath),
-    avif: generateAVIF(imagePath),
-    fallback: generateJPEG(imagePath),
-    responsive: generateResponsiveImages(imagePath)
-  };
-}
-```
-
-## Deployment Pipeline
-
-### Continuous Integration
-
-**GitHub Actions Workflow**
-```yaml
-name: Deploy to EDS
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-      - name: Install dependencies
-        run: npm ci
-      - name: Run tests
-        run: npm test
-      - name: Deploy to EDS
-        run: npm run deploy
-```
-
-### Environment Management
-
-**Configuration by Environment**
-```javascript
-// config/environments.js
-export default {
-  development: {
-    apiUrl: 'http://localhost:3000',
-    debug: true,
-    analytics: false
-  },
-  staging: {
-    apiUrl: 'https://staging.your-domain.com',
-    debug: false,
-    analytics: true
-  },
-  production: {
-    apiUrl: 'https://your-domain.com',
-    debug: false,
-    analytics: true
+// utils/logger.js
+export class Logger {
+  constructor(config) {
+    this.level = config.level || 'info';
+    this.format = config.format || 'json';
   }
-};
-```
 
-## API Documentation
-
-### OpenAPI Specification
-
-**API Schema**
-```yaml
-openapi: 3.0.0
-info:
-  title: EDS Application API
-  version: 1.0.0
-  description: Content and search API
-
-paths:
-  /query-index.json:
-    get:
-      summary: Search content
-      parameters:
-        - name: q
-          in: query
-          schema:
-            type: string
-        - name: limit
-          in: query
-          schema:
-            type: integer
-            default: 10
-      responses:
-        '200':
-          description: Search results
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  total:
-                    type: integer
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Page'
-```
-
-### Rate Limiting
-
-**Request Throttling**
-```javascript
-const rateLimit = {
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP'
-};
-
-function applyRateLimit(req, res, next) {
-  const key = req.ip;
-  const current = rateLimitStore.get(key) || 0;
-  
-  if (current >= rateLimit.max) {
-    return res.status(429).json({ error: rateLimit.message });
+  log(level, message, meta = {}) {
+    if (!this.shouldLog(level)) return;
+    
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      level,
+      message,
+      ...meta
+    };
+    
+    if (this.format === 'json') {
+      console.log(JSON.stringify(logEntry));
+    } else {
+      console.log(`[${logEntry.timestamp}] ${level.toUpperCase()}: ${message}`);
+    }
   }
-  
-  rateLimitStore.set(key, current + 1);
-  next();
-}
-```
 
-## Scalability Considerations
+  info(message, meta) { this.log('info', message, meta); }
+  warn(message, meta) { this.log('warn', message, meta); }
+  error(message, meta) { this.log('error', message, meta); }
+  debug(message, meta) { this.log('debug', message, meta); }
 
-### Load Balancing
-
-**CDN Distribution**
-- Global edge locations
-- Automatic failover
-- Traffic routing optimisation
-- Performance monitoring
-
-**Database Scaling**
-- File-based storage scales with CDN
-- No database connection limits
-- Distributed content delivery
-- Automatic backup and replication
-
-### Performance Budgets
-
-**Resource Limits**
-```javascript
-const performanceBudgets = {
-  javascript: '150KB',
-  css: '50KB',
-  images: '500KB',
-  totalPageWeight: '1MB',
-  timeToInteractive: '3s'
-};
-```
-
-## Integration Patterns
-
-### Third-Party Services
-
-**Analytics Integration**
-```javascript
-// Google Analytics 4
-function initAnalytics() {
-  gtag('config', 'GA_MEASUREMENT_ID', {
-    page_title: document.title,
-    page_location: window.location.href
-  });
-}
-
-// Custom events
-function trackEvent(action, category, label, value) {
-  gtag('event', action, {
-    event_category: category,
-    event_label: label,
-    value: value
-  });
-}
-```
-
-**Form Integration**
-```javascript
-// Form submission handling
-async function handleFormSubmission(formData) {
-  try {
-    const response = await fetch('/api/forms/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
-    
-    if (!response.ok) throw new Error('Submission failed');
-    
-    return await response.json();
-  } catch (error) {
-    console.error('Form submission error:', error);
-    throw error;
+  shouldLog(level) {
+    const levels = { error: 0, warn: 1, info: 2, debug: 3 };
+    return levels[level] <= levels[this.level];
   }
 }
 ```
 
-## EDS Best Practices
+### Health Checks
 
-### Content Architecture
+Implement health check endpoints:
 
-**Document Structure**
-- Use consistent table layouts for blocks
-- Implement proper heading hierarchy
-- Include metadata for SEO
-- Follow accessibility guidelines
+```javascript
+// routes/health.js
+export const healthRoutes = {
+  async check(req, res) {
+    const health = {
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      version: process.env.npm_package_version || '1.0.0',
+      uptime: process.uptime(),
+      checks: {}
+    };
 
-**Block Organization**
-- Create reusable block components
-- Implement configuration through CSS classes
-- Use semantic HTML structures
-- Document block usage patterns
+    // Database check
+    try {
+      await database.query('SELECT 1');
+      health.checks.database = 'healthy';
+    } catch (error) {
+      health.checks.database = 'unhealthy';
+      health.status = 'unhealthy';
+    }
 
-### Performance Optimization
+    // External service check
+    try {
+      const response = await fetch(config.proxy.host, { 
+        method: 'HEAD',
+        timeout: 5000 
+      });
+      health.checks.proxy = response.ok ? 'healthy' : 'unhealthy';
+    } catch (error) {
+      health.checks.proxy = 'unhealthy';
+    }
 
-**Content Delivery**
-- Use EDS automatic image optimization
-- Implement lazy loading strategies
-- Minimize JavaScript bundle size
-- Optimize CSS delivery
+    const statusCode = health.status === 'healthy' ? 200 : 503;
+    res.status(statusCode).json(health);
+  }
+};
+```
 
-**Monitoring**
-- Track Core Web Vitals
-- Monitor error rates
-- Analyze user behavior
-- Set performance budgets
+---
 
-## Conclusion
+## See Also
 
-The EDS backend structure leverages modern serverless architecture to deliver exceptional performance and scalability. By using Adobe Edge Delivery Services and focusing on content-driven development, the system maintains simplicity while providing enterprise-grade capabilities.
+### Core Guidelines & Architecture
+- **[Tech Stack Guidelines](tech-stack.md)** - Technology selection and implementation guidelines for EDS projects
+- **[Security Checklist](security-checklist.md)** - Comprehensive security requirements and implementation guidelines
+- **[App Flow Guidelines](app-flow.md)** - Application flow and user journey design patterns
+- **[Frontend Guidelines](frontend-guidelines.md)** - Frontend development standards and best practices
 
-This architecture supports rapid development cycles, automatic scaling, and excellent performance characteristics while minimising operational overhead and maintenance requirements. The integration with Google Docs provides a familiar content management experience while the EDS platform handles all technical complexity behind the scenes.
+### EDS Foundation & Development
+- **[Design Philosophy Guide](../design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Server README](../server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Performance Optimization](../performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
+
+### Development Standards & Patterns
+- **[Block Architecture Standards](../block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
+- **[EDS Architecture Standards](../eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[JavaScript Patterns](../javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
+- **[Error Handling Patterns](../error-handling-patterns.md)** - Comprehensive error handling strategies for EDS blocks
+
+### Testing & Quality Assurance
+- **[EDS Native Testing Standards](../eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
+- **[EDS Architecture and Testing Guide](../EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[Debug Guide](../debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
+- **[Investigation](../investigation.md)** - Advanced investigation techniques and analysis methods
+
+### Advanced Topics & Reference Materials
+- **[EDS Appendix](../eds-appendix.md)** - Comprehensive development reference guide with patterns and best practices
+- **[Instrumentation Guide](../Instrumentation%20-%20How%20it%20works.md)** - Advanced instrumentation techniques and performance monitoring
+- **[Browser Compatibility](../browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
+- **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
+
+## Next Steps
+
+### For Backend Developers & API Engineers
+1. **Master the server architecture patterns** including Node.js development server setup and proxy configuration for EDS development
+2. **Implement the API design principles** following RESTful patterns and EDS-compatible data structures for seamless frontend integration
+3. **Apply the data layer patterns** including clean service architecture, validation, and database abstraction for maintainable backend code
+4. **Follow security implementation guidelines** including input validation, rate limiting, and error handling for secure API development
+5. **Establish monitoring and logging practices** using structured logging and health checks for reliable backend services
+
+### For DevOps & Infrastructure Engineers
+1. **Understand the configuration management patterns** including environment variables and application configuration for scalable deployments
+2. **Implement the error handling strategies** including centralized error handling and async error management for robust applications
+3. **Set up monitoring infrastructure** that supports the structured logging and health check patterns outlined
+4. **Configure security measures** including rate limiting, input validation, and secure configuration management
+5. **Create deployment procedures** that maintain the backend structure guidelines in production environments
+
+### For QA Engineers & Test Specialists
+1. **Learn the error handling patterns** to create comprehensive test scenarios that validate backend resilience and error recovery
+2. **Understand the API design principles** to create effective integration tests that validate backend-frontend communication
+3. **Test the security implementations** including input validation, rate limiting, and error handling for comprehensive security validation
+4. **Validate the monitoring and logging** to ensure proper observability and debugging capabilities in backend services
+5. **Create automated testing workflows** that can validate adherence to the backend structure guidelines
+
+### For Team Leads & Project Managers
+1. **Understand the backend architecture patterns** and how they support EDS development workflows and team productivity
+2. **Plan development timelines** that account for proper backend structure implementation including security and monitoring
+3. **Establish development standards** based on the comprehensive backend guidelines for consistent team practices
+4. **Monitor code quality metrics** using the guidelines as benchmarks for backend development practices
+5. **Create governance processes** that ensure ongoing compliance with backend structure and security standards
+
+### For Security & Compliance Teams
+1. **Review the security implementation patterns** including input validation, rate limiting, and error handling for comprehensive security coverage
+2. **Assess the configuration management approach** to ensure secure handling of environment variables and sensitive configuration
+3. **Evaluate the logging and monitoring strategies** to ensure they meet security and compliance requirements for audit trails
+4. **Establish security guidelines** that complement the backend structure practices outlined in this document
+5. **Monitor compliance** with the documented security practices and ensure they align with organizational security policies
+
+### For System Administrators & Infrastructure Teams
+1. **Understand the server architecture requirements** including Node.js setup, proxy configuration, and database management
+2. **Configure monitoring systems** that support the structured logging and health check patterns outlined
+3. **Implement the caching strategies** and database abstraction patterns for optimal backend performance
+4. **Set up security infrastructure** including rate limiting, input validation, and secure configuration management
+5. **Create maintenance procedures** for backend services, monitoring infrastructure, and security updates
+
+### For AI Assistants & Automation
+1. **Master the backend structure patterns** for creating well-architected backend services that support EDS development
+2. **Understand the API design principles** and data management patterns for generating consistent and maintainable backend code
+3. **Apply the security and error handling guidelines** when creating or reviewing backend code for EDS projects
+4. **Follow the monitoring and logging standards** to create observable and debuggable backend services
+5. **Implement the configuration management patterns** for creating scalable and maintainable backend applications

@@ -2,6 +2,11 @@
 
 > **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](../style-guide.md)
 
+> **📚 Related Documentation**: 
+> - [`eds.md`](eds.md) - Complete EDS development guide and foundational concepts
+> - [`design-philosophy-guide.md`](design-philosophy-guide.md) - Framework for choosing development approaches
+> - [`build_blocks_clarification.md`](build_blocks_clarification.md) - Dual-directory architecture explanation
+
 > **🏗️ Architecture Distinction**: This document covers **two distinct development approaches**:
 > - **Simple Blocks** (outside `/build/` directories): Follow EDS core philosophy of simple JavaScript, no dependencies, no build steps
 > - **Complex Components** (inside `/build/` directories): May use build processes, external dependencies, and modern tooling
@@ -1866,3 +1871,44 @@ The dual-pattern approach (EDS-Native and External-Library-Enhanced) provides fl
 5. **Optimize for AI**: Local-first development enables meaningful AI assistance throughout the process
 
 By implementing these standards, development teams can create robust, accessible, and maintainable EDS blocks that provide excellent user experiences across all devices and use cases.
+
+---
+
+## See Also
+
+### Architecture and Design
+- [`eds.md`](eds.md) - Complete EDS development guide with foundational concepts and transformation pipeline
+- [`design-philosophy-guide.md`](design-philosophy-guide.md) - Framework for choosing between simple and complex approaches
+- [`build_blocks_clarification.md`](build_blocks_clarification.md) - Detailed explanation of dual-directory architecture (/build/ vs /blocks/)
+- [`eds-architecture-standards.md`](eds-architecture-standards.md) - EDS-native development standards focusing on simplicity
+
+### Implementation Guides
+- [`raw-eds-blocks-guide.md`](raw-eds-blocks-guide.md) - Simple, EDS-native component development patterns
+- [`complex-eds-blocks-guide.md`](complex-eds-blocks-guide.md) - Build-enhanced approach for sophisticated components
+- [`build-component-template.md`](build-component-template.md) - Template and scaffolding for advanced components
+
+### Testing and Debugging
+- [`eds-native-testing-standards.md`](eds-native-testing-standards.md) - Testing standards for EDS-Native pattern components
+- [`debug.md`](debug.md) - Debugging policies and troubleshooting procedures
+- [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md) - Advanced debugging strategies
+
+### Development Environment
+- [`server-README.md`](server-README.md) - Development server setup and local testing workflows
+
+## Next Steps
+
+### For New Developers
+1. **Start with foundations** → Read [`eds.md`](eds.md) for comprehensive EDS understanding
+2. **Choose your approach** → Use [`design-philosophy-guide.md`](design-philosophy-guide.md) to select simple vs complex patterns
+3. **Set up environment** → Follow [`server-README.md`](server-README.md) for local development setup
+4. **Begin implementation** → Choose [`raw-eds-blocks-guide.md`](raw-eds-blocks-guide.md) or [`complex-eds-blocks-guide.md`](complex-eds-blocks-guide.md)
+
+### For Experienced Developers
+1. **Review architecture decisions** → Study [`build_blocks_clarification.md`](build_blocks_clarification.md) for dual-directory patterns
+2. **Implement testing** → Follow [`eds-native-testing-standards.md`](eds-native-testing-standards.md) for quality assurance
+3. **Handle issues** → Use [`debug.md`](debug.md) for troubleshooting workflows
+
+### For Architects and Technical Leads
+1. **Establish standards** → Implement the patterns defined in this document across your team
+2. **Plan component strategy** → Use [`design-philosophy-guide.md`](design-philosophy-guide.md) for architectural decisions
+3. **Set up advanced debugging** → Review [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md) for comprehensive analysis tools

@@ -1,5 +1,7 @@
 # Block Debugging Guide for AI Assistants
 
+**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [EDS Overview](eds.md)
+
 ## 🚨 **DEEP DEBUGGING POLICY NOTICE**
 
 > **📋 Policy Requirement**: The advanced debugging techniques described in this document (file replacement, instrumentation, core file modifications) require **explicit user request** per the [debugging policy](debug.md#deep-debugging-request-policy). 
@@ -691,3 +693,73 @@ Before proceeding with any deep debugging activities that involve EDS core file 
 **HTML File Naming = Use correct file type for environment**
 
 This policy ensures safe, intentional debugging while maintaining EDS core integrity and project stability. Always restore EDS core files to their original state after debugging sessions and use the appropriate HTML file naming convention for each environment.
+
+## See Also
+
+### Essential Development Guides
+- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
+- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies
+- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools, external dependencies, and sophisticated patterns
+- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+
+### Testing & Quality Assurance
+- **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches for EDS blocks including unit tests and integration testing
+- **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
+- **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
+- **[Accessibility Testing](accessibility-testing.md)** - Testing EDS blocks for accessibility compliance and best practices
+
+### Development Tools & Workflows
+- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration for complex EDS blocks
+- **[Deployment Strategies](deployment-strategies.md)** - Best practices for deploying EDS blocks to production
+- **[CI/CD Integration](ci-cd-integration.md)** - Integrating EDS block development into continuous integration pipelines
+
+### Implementation Examples
+- **[Block Examples](block-examples.md)** - Real-world examples of successful EDS block implementations
+- **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
+- **[CSS Patterns](css-patterns.md)** - Common CSS patterns and styling approaches for EDS blocks
+- **[Error Handling Patterns](error-handling-patterns.md)** - Comprehensive error handling strategies for EDS blocks
+
+## Next Steps
+
+### For New EDS Developers
+1. **Master the basics** by completing the [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) before attempting debugging
+2. **Understand EDS architecture** through the [EDS Overview](eds.md) to grasp the system you're debugging
+3. **Learn the standards** from [Block Architecture Standards](block-architecture-standards.md) to debug more effectively
+4. **Practice standard debugging** techniques before requesting deep debugging operations
+5. **Set up your development environment** following [Project Structure](project-structure.md) guidelines
+
+### For Experienced Developers
+1. **Master the file replacement workflow** for testing instrumented versions of blocks
+2. **Implement comprehensive error handling** using the patterns shown in this guide
+3. **Set up performance monitoring** to identify bottlenecks and optimization opportunities
+4. **Create debugging utilities** that can be reused across multiple block projects
+5. **Explore advanced debugging** with [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) techniques
+
+### For QA Engineers & Testers
+1. **Understand the dual testing approach** (development vs. EDS integration testing)
+2. **Master browser DevTools** for comprehensive block testing and validation
+3. **Create systematic test scenarios** covering all debugging checklist items
+4. **Implement automated testing** following [Testing Strategies](testing-strategies.md) recommendations
+5. **Develop performance benchmarks** for consistent quality assurance
+
+### For DevOps & Build Engineers
+1. **Set up debugging-friendly CI/CD pipelines** that support file replacement workflows
+2. **Implement automated performance monitoring** for production EDS blocks
+3. **Create debugging environments** that mirror production EDS setups
+4. **Establish rollback procedures** for debugging sessions that affect production
+5. **Monitor system health** during debugging operations to prevent service disruption
+
+### For Technical Leads & Architects
+1. **Establish debugging policies** for your team based on the guidelines in this document
+2. **Create debugging standards** that balance thoroughness with safety
+3. **Design debugging workflows** that integrate with your development lifecycle
+4. **Plan debugging infrastructure** including test environments and monitoring tools
+5. **Train team members** on safe debugging practices and file replacement procedures
+
+### For AI Assistants & Automation
+1. **Understand the debugging request policy** and when to ask for explicit permission
+2. **Master standard debugging techniques** that don't require special approval
+3. **Learn to identify** when deep debugging is necessary vs. standard approaches
+4. **Implement safety checks** for file replacement and core file modification operations
+5. **Create debugging documentation** that helps users understand when to request advanced debugging

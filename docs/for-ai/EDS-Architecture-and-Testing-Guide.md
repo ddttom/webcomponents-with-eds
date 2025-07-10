@@ -1,5 +1,7 @@
 # EDS Architecture and Testing Guide
 
+**Related Documentation:** [Debug Guide](debug.md) | [Instrumentation - How it works](Instrumentation%20-%20How%20it%20works.md) | [Block Architecture Standards](block-architecture-standards.md) | [EDS Native Testing Standards](eds-native-testing-standards.md)
+
 ## 🚨 **DEEP DEBUGGING POLICY NOTICE**
 
 > **📋 Policy Requirement**: The advanced debugging techniques described in this document (file replacement, instrumentation, core file modifications) require **explicit user request** per the [debugging policy](debug.md#deep-debugging-request-policy). 
@@ -496,7 +498,78 @@ This approach enables comprehensive performance analysis of EDS blocks while res
 
 ---
 
-**Related Documentation:**
-- [debug.md](debug.md) - Complete debugging policy and standard approaches
-- [Instrumentation - How it works.md](Instrumentation%20-%20How%20it%20works.md) - Technical details of the instrumentation system
-- [block-architecture-standards.md](block-architecture-standards.md) - Development architecture guidelines
+## See Also
+
+### Core Testing & Debugging
+- **[Debug Guide](debug.md)** - Complete debugging policy and standard approaches that do not require approval
+- **[Instrumentation - How it works](Instrumentation%20-%20How%20it%20works.md)** - Technical details of the instrumentation system and performance monitoring
+- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
+- **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches for EDS blocks including unit tests and integration testing
+
+### Architecture & Development Standards
+- **[Block Architecture Standards](block-architecture-standards.md)** - Development architecture guidelines and comprehensive standards for EDS block development
+- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+
+### Implementation Guides
+- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
+- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
+- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+
+### Development Environment & Tools
+- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development
+- **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
+- **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
+- **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration
+
+### Advanced Topics
+- **[Investigation](investigation.md)** - Advanced investigation techniques and analysis methods
+- **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
+- **[Error Handling Patterns](error-handling-patterns.md)** - Comprehensive error handling strategies for EDS blocks
+- **[Block Examples](block-examples.md)** - Real-world examples of successful EDS block implementations
+
+## Next Steps
+
+### For QA Engineers & Testers
+1. **Master the debugging policy** by understanding when explicit approval is required for advanced testing
+2. **Learn standard debugging approaches** from [Debug Guide](debug.md) before attempting advanced techniques
+3. **Understand the file replacement workflow** for testing instrumented versions of blocks safely
+4. **Practice the testing phases** (preparation, execution, restoration) with non-critical components first
+5. **Implement automated testing scripts** following the patterns shown in this guide
+
+### For Performance Engineers
+1. **Study the instrumentation system** through [Instrumentation - How it works](Instrumentation%20-%20How%20it%20works.md)
+2. **Master the performance testing guidelines** including baseline measurements and threshold validation
+3. **Implement comprehensive monitoring** using the performance testing scenarios outlined here
+4. **Create automated performance comparison** scripts for regression testing
+5. **Establish performance budgets** based on the overhead metrics documented in this guide
+
+### For DevOps & Build Engineers
+1. **Understand the EDS dynamic loading constraints** to create appropriate CI/CD pipelines
+2. **Implement the file replacement workflow** in automated testing environments
+3. **Create backup and restoration procedures** that maintain code integrity during testing
+4. **Set up monitoring** for the performance impact of instrumented testing
+5. **Design recovery procedures** for handling testing failures and file corruption
+
+### For Senior Developers & Architects
+1. **Master the technical rationale** behind the file replacement approach vs. alternative methods
+2. **Understand the EDS architecture constraints** that necessitate this testing approach
+3. **Design testing strategies** that balance comprehensive analysis with system integrity
+4. **Create team guidelines** for when to request advanced debugging approval
+5. **Establish governance processes** for managing instrumented testing workflows
+
+### For Team Leads & Project Managers
+1. **Understand the policy requirements** for advanced debugging and testing operations
+2. **Plan testing timelines** that account for the approval process and file replacement workflows
+3. **Establish approval processes** for team members requesting advanced debugging capabilities
+4. **Monitor testing impact** on development velocity and code quality
+5. **Create documentation standards** for recording testing results and decisions
+
+### For AI Assistants & Automation
+1. **Understand the explicit approval requirement** for all advanced debugging operations in this guide
+2. **Master the standard debugging approaches** that can be used without special approval
+3. **Learn to identify** when advanced testing techniques are necessary vs. standard approaches
+4. **Implement safety checks** for file replacement operations and backup procedures
+5. **Create clear documentation** that helps users understand when to request advanced debugging approval
