@@ -53,11 +53,11 @@ Architecture Understanding: block-architecture-standards.md
 Advanced Implementation:
     ├─ Complex Components → complex-eds-blocks-guide.md
     ├─ Templates → build-component-template.md
-    └─ Architecture → build_blocks_clarification.md
+    └─ Architecture → build-blocks-clarification.md
     ↓ (Sophisticated Development)
-Advanced Testing: EDS-Architecture-and-Testing-Guide.md
+Advanced Testing: eds-architecture-and-testing-guide.md
     ↓ (Comprehensive Analysis)
-Performance Optimization: Instrumentation - How it works.md
+Performance Optimization: instrumentation-how-it-works.md
 ```
 
 ### Architect/Technical Lead Journey Flow
@@ -68,11 +68,11 @@ Strategic Overview: index.md
     ↓ (Complete Landscape)
 Decision Framework: design-philosophy-guide.md
     ↓ (Approach Selection)
-System Architecture: build_blocks_clarification.md
+System Architecture: build-blocks-clarification.md
     ↓ (System Design)
 Implementation Standards: block-architecture-standards.md
     ↓ (Team Patterns)
-Performance Analysis: Instrumentation - How it works.md
+Performance Analysis: instrumentation-how-it-works.md
     ↓ (Monitoring Strategy)
 Team Guidelines: guidelines/ directory documents
 ```
@@ -86,7 +86,7 @@ Central Document: eds.md (Foundational Concepts)
 ┌─────────────────────────────────────────────────────────┐
 │ block-architecture-standards.md ←→ eds-architecture-standards.md │
 │              ↕                              ↕          │
-│ design-philosophy-guide.md   ←→ build_blocks_clarification.md   │
+│ design-philosophy-guide.md   ←→ build-blocks-clarification.md   │
 └─────────────────────────────────────────────────────────┘
     ↓ ↑ (Cross-Cluster Connections)
 Implementation Guides Cluster
@@ -102,19 +102,19 @@ Complex Path: complex-eds-blocks-guide.md
     ↓ ↑ (Template Integration)
 Template Path: build-component-template.md
     ↓ ↑ (Architecture Context)
-Architecture Context: build_blocks_clarification.md
+Architecture Context: build-blocks-clarification.md
     ↓ ↑ (Cross-Cluster Connections)
 Architecture & Standards Cluster
 ```
 
-**Flow Description**: Implementation guides provide progressive complexity paths. Users can start with simple components in [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md), advance to complex components in [`complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md), utilize templates from [`build-component-template.md`](implementation/build-component-template.md), and understand architecture through [`build_blocks_clarification.md`](implementation/build_blocks_clarification.md).
+**Flow Description**: Implementation guides provide progressive complexity paths. Users can start with simple components in [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md), advance to complex components in [`complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md), utilize templates from [`build-component-template.md`](implementation/build-component-template.md), and understand architecture through [`build-blocks-clarification.md`](implementation/build-blocks-clarification.md).
 
 ### Testing & Debugging Cluster Flow
 ```
 Entry Point: debug.md (Core Troubleshooting)
     ↓ ↑ (Bidirectional Flow)
 ┌─────────────────────────────────────────────────────────┐
-│ EDS-Architecture-and-Testing-Guide.md ←→ Instrumentation - How it works.md │
+│ eds-architecture-and-testing-guide.md ←→ instrumentation-how-it-works.md │
 │              ↕                              ↕          │
 │ eds-native-testing-standards.md    ←→ investigation.md  │
 └─────────────────────────────────────────────────────────┘
@@ -122,7 +122,7 @@ Entry Point: debug.md (Core Troubleshooting)
 Implementation Guides Cluster
 ```
 
-**Flow Description**: Testing and debugging provides comprehensive troubleshooting pathways. [`debug.md`](debug.md) serves as the central troubleshooting hub, connecting to advanced analysis in [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md), performance monitoring in [`Instrumentation - How it works.md`](Instrumentation - How it works.md), testing standards in [`eds-native-testing-standards.md`](implementation/eds-native-testing-standards.md), and investigation reports in [`investigation.md`](investigation.md).
+**Flow Description**: Testing and debugging provides comprehensive troubleshooting pathways. [`debug.md`](debug.md) serves as the central troubleshooting hub, connecting to advanced analysis in [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md), performance monitoring in [`instrumentation-how-it-works.md`](instrumentation-how-it-works.md), testing standards in [`eds-native-testing-standards.md`](implementation/eds-native-testing-standards.md), and investigation reports in [`investigation.md`](investigation.md).
 
 ## Navigation Decision Trees
 
@@ -146,7 +146,7 @@ Question: Need templates?
     ↓
 Question: Need testing?
     ├─ Basic → eds-native-testing-standards.md
-    └─ Advanced → EDS-Architecture-and-Testing-Guide.md
+    └─ Advanced → eds-architecture-and-testing-guide.md
     ↓
 Question: Having issues?
     ├─ Yes → debug.md
@@ -164,7 +164,7 @@ Question: What's your role?
     ↓
 Question: What's your focus?
     ├─ Simple Components → eds-architecture-standards.md
-    ├─ Complex Components → build_blocks_clarification.md
+    ├─ Complex Components → build-blocks-clarification.md
     └─ Both → block-architecture-standards.md
     ↓
 Question: Need implementation guidance?
@@ -172,7 +172,7 @@ Question: Need implementation guidance?
     └─ No → Continue with architecture study
     ↓
 Question: Need performance analysis?
-    ├─ Yes → Instrumentation - How it works.md
+    ├─ Yes → instrumentation-how-it-works.md
     └─ No → Architecture understanding complete
 ```
 
@@ -187,7 +187,7 @@ raw-eds-blocks-guide.md ←→ complex-eds-blocks-guide.md
     ↕         ↕
 eds-native-testing-standards.md ←→ debug.md
     ↕         ↕
-server-README.md ←→ build_blocks_clarification.md
+server-README.md ←→ build-blocks-clarification.md
 ```
 
 ### Progressive Learning Pathways
@@ -199,7 +199,7 @@ Advanced Pathway:
 index.md → getting-started-guide.md → block-architecture-standards.md → complex-eds-blocks-guide.md → build-component-template.md
 
 Troubleshooting Pathway:
-Any document → debug.md → EDS-Architecture-and-Testing-Guide.md → Instrumentation - How it works.md
+Any document → debug.md → eds-architecture-and-testing-guide.md → instrumentation-how-it-works.md
 ```
 
 ## Navigation Optimization Strategies
@@ -269,10 +269,10 @@ All User Types → getting-started-guide.md
 Role-Specific Paths:
 ├─ New Developer → eds.md → raw-eds-blocks-guide.md
 ├─ Experienced → block-architecture-standards.md → complex-eds-blocks-guide.md
-└─ Architect → design-philosophy-guide.md → build_blocks_clarification.md
+└─ Architect → design-philosophy-guide.md → build-blocks-clarification.md
     ↓
 Common Convergence Points:
-├─ Testing → eds-native-testing-standards.md OR EDS-Architecture-and-Testing-Guide.md
+├─ Testing → eds-native-testing-standards.md OR eds-architecture-and-testing-guide.md
 ├─ Debugging → debug.md
 └─ Reference → eds-appendix.md OR eds-webcomponents-review.md
 ```

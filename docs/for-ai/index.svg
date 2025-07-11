@@ -28,7 +28,7 @@
         <text x="200" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11"
             fill="white">eds-architecture-standards.md</text>
         <text x="200" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="11"
-            fill="white">build_blocks_clarification.md</text>
+            fill="white">build-blocks-clarification.md</text>
     </g>
 
     <!-- Implementation Guides Layer -->
@@ -44,7 +44,7 @@
         <text x="550" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="11"
             fill="white">build-component-template.md</text>
         <text x="550" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11"
-            fill="white">style-guide.md</text>
+            fill="white">guidelines/style-guide.md</text>
     </g>
 
     <!-- Testing and Debugging Layer -->
@@ -58,9 +58,9 @@
         <text x="900" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="11"
             fill="white">eds-native-testing-standards.md</text>
         <text x="900" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="11"
-            fill="white">EDS-Architecture-and-Testing-Guide.md</text>
+            fill="white">eds-architecture-and-testing-guide.md</text>
         <text x="900" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11"
-            fill="white">Instrumentation - How it works.md</text>
+            fill="white">instrumentation-how-it-works.md</text>
         <text x="900" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="11"
             fill="white">investigation.md</text>
     </g>

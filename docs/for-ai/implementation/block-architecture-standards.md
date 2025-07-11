@@ -34,12 +34,12 @@
 - **Problem-Solving**: Use Ctrl+F to search for specific topics or error messages
 - **Cross-References**: Follow the "See Also" and "Next Steps" sections for related documentation
 
-> **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](../style-guide.md)
+> **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](../guidelines/style-guide.md)
 
 > **📚 Related Documentation**: 
 > - [`eds.md`](../eds.md) - Complete EDS development guide and foundational concepts
 > - [`design-philosophy-guide.md`](design-philosophy-guide.md) - Framework for choosing development approaches
-> - [`build_blocks_clarification.md`](build_blocks_clarification.md) - Dual-directory architecture explanation
+> - [`build-blocks-clarification.md`](build-blocks-clarification.md) - Dual-directory architecture explanation
 > - [`getting-started-guide.md`](../getting-started-guide.md) - Quick reference for progressive learning paths
 
 > **🏗️ Architecture Distinction**: This document covers **two distinct development approaches**:
@@ -1982,7 +1982,7 @@ By implementing these standards, development teams can create robust, accessible
 ### Architecture and Design
 - [`eds.md`](eds.md) - Complete EDS development guide with foundational concepts and transformation pipeline
 - [`design-philosophy-guide.md`](design-philosophy-guide.md) - Framework for choosing between simple and complex approaches
-- [`build_blocks_clarification.md`](build_blocks_clarification.md) - Detailed explanation of dual-directory architecture (/build/ vs /blocks/)
+- [`build-blocks-clarification.md`](build-blocks-clarification.md) - Detailed explanation of dual-directory architecture (/build/ vs /blocks/)
 - [`eds-architecture-standards.md`](eds-architecture-standards.md) - EDS-native development standards focusing on simplicity
 
 ### Implementation Guides
@@ -1993,7 +1993,7 @@ By implementing these standards, development teams can create robust, accessible
 ### Testing and Debugging
 - [`eds-native-testing-standards.md`](eds-native-testing-standards.md) - Testing standards for EDS-Native pattern components
 - [`debug.md`](debug.md) - Debugging policies and troubleshooting procedures
-- [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md) - Advanced debugging strategies
+- [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md) - Advanced debugging strategies
 
 ### Development Environment
 - [`server-README.md`](server-README.md) - Development server setup and local testing workflows
@@ -2007,11 +2007,11 @@ By implementing these standards, development teams can create robust, accessible
 4. **Begin implementation** → Choose [`raw-eds-blocks-guide.md`](raw-eds-blocks-guide.md) or [`complex-eds-blocks-guide.md`](complex-eds-blocks-guide.md)
 
 ### For Experienced Developers
-1. **Review architecture decisions** → Study [`build_blocks_clarification.md`](build_blocks_clarification.md) for dual-directory patterns
+1. **Review architecture decisions** → Study [`build-blocks-clarification.md`](build-blocks-clarification.md) for dual-directory patterns
 2. **Implement testing** → Follow [`eds-native-testing-standards.md`](eds-native-testing-standards.md) for quality assurance
 3. **Handle issues** → Use [`debug.md`](debug.md) for troubleshooting workflows
 
 ### For Architects and Technical Leads
 1. **Establish standards** → Implement the patterns defined in this document across your team
 2. **Plan component strategy** → Use [`design-philosophy-guide.md`](design-philosophy-guide.md) for architectural decisions
-3. **Set up advanced debugging** → Review [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md) for comprehensive analysis tools
+3. **Set up advanced debugging** → Review [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md) for comprehensive analysis tools

@@ -1,7 +1,7 @@
 # Repository Review: Web Components with Adobe Edge Delivery Services
 ## A Deep Dive into Modern EDS Development
 
-*Related: [Build Blocks Clarification](implementation/build_blocks_clarification.md) | [Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md) | [Design Philosophy Guide](implementation/design-philosophy-guide.md)*
+*Related: [Build Blocks Clarification](implementation/build-blocks-clarification.md) | [Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md) | [Design Philosophy Guide](implementation/design-philosophy-guide.md)*
 
 *An in-depth analysis of a repository that successfully bridges the gap between Adobe EDS simplicity and modern web component development*
 
@@ -464,7 +464,7 @@ The repository successfully demonstrates that you don't have to choose between E
 ## See Also
 
 ### Core Architecture & Development Patterns
-- **[Build Blocks Clarification](implementation/build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows analyzed in this review
+- **[Build Blocks Clarification](implementation/build-blocks-clarification.md)** - Understanding the dual-directory architecture and development workflows analyzed in this review
 - **[Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
 - **[Design Philosophy Guide](implementation/design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
 - **[Build Component Template](implementation/build-component-template.md)** - Template for advanced build components with external dependencies
@@ -482,7 +482,7 @@ The repository successfully demonstrates that you don't have to choose between E
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration
 
 ### Testing & Quality Assurance
-- **[EDS Architecture and Testing Guide](testing/EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[EDS Architecture and Testing Guide](testing/eds-architecture-and-testing-guide.md)** - Advanced testing workflows and file replacement strategies
 - **[Debug Guide](testing/debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
 - **[Investigation](testing/investigation.md)** - Advanced investigation techniques and analysis methods
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations

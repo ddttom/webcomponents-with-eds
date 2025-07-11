@@ -367,7 +367,7 @@ This architecture ensures that developers have modern tools while EDS projects g
 - **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions and file structure
 - **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
-- **[CSS Naming Convention Style Guide](../style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
+- **[CSS Naming Convention Style Guide](../guidelines/style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Development Environment & Tools
 - **[Server README](../../server-README.md)** - Development server setup and configuration for both build-based and direct-edit workflows

@@ -87,7 +87,7 @@ The `docs/for-ai/` directory contains a **professional-grade development framewo
 | **New Developers**                                                | **Experienced Developers**                                                       | **Architects & Tech Leads**                                                                  |
 | ----------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | [`eds.md`](docs/for-ai/eds.md) - Complete EDS guide (1,937 lines) | [`block-architecture-standards.md`](docs/for-ai/block-architecture-standards.md) | [`design-philosophy-guide.md`](docs/for-ai/design-philosophy-guide.md)                       |
-| [`raw-eds-blocks-guide.md`](docs/for-ai/raw-eds-blocks-guide.md)  | [`complex-eds-blocks-guide.md`](docs/for-ai/complex-eds-blocks-guide.md)         | [`EDS-Architecture-and-Testing-Guide.md`](docs/for-ai/EDS-Architecture-and-Testing-Guide.md) |
+| [`raw-eds-blocks-guide.md`](docs/for-ai/raw-eds-blocks-guide.md)  | [`complex-eds-blocks-guide.md`](docs/for-ai/complex-eds-blocks-guide.md)         | [`eds-architecture-and-testing-guide.md`](docs/for-ai/eds-architecture-and-testing-guide.md) |
 | [`server-README.md`](docs/server-README.md)                       | [`eds-native-testing-standards.md`](docs/for-ai/eds-native-testing-standards.md) | [`eds-webcomponents-review.md`](docs/for-ai/eds-webcomponents-review.md)                     |
 
 ### 📋 Project Management Suite
@@ -101,7 +101,7 @@ The `docs/for-ai/` directory contains a **professional-grade development framewo
 
 - **[`debug.md`](docs/for-ai/debug.md)** - Debugging policies and procedures
 - **[`eds-native-testing-standards.md`](docs/for-ai/eds-native-testing-standards.md)** - Testing frameworks
-- **[`Instrumentation - How it works.md`](docs/for-ai/Instrumentation%20-%20How%20it%20works.md)** - Performance monitoring
+- **[`instrumentation-how-it-works.md`](docs/for-ai/instrumentation-how-it-works.md)** - Performance monitoring
 - **[`investigation.md`](docs/for-ai/investigation.md)** - Performance analysis reports
 
 **📍 Start Here:** [`docs/for-ai/index.md`](docs/for-ai/index.md) - Complete navigation hub with 48+ cross-references

@@ -24,7 +24,7 @@ This index provides structured access to all documentation within the `docs/for-
 ### Development Patterns
 - **Simple Components** → [`implementation/raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md)
 - **Complex Components** → [`implementation/complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md)
-- **Architecture Decisions** → [`implementation/build_blocks_clarification.md`](implementation/build_blocks_clarification.md)
+- **Architecture Decisions** → [`implementation/build-blocks-clarification.md`](implementation/build-blocks-clarification.md)
 
 ---
 
@@ -68,7 +68,7 @@ This index provides structured access to all documentation within the `docs/for-
   - Component complexity assessment criteria
   - Target: Technical leads and architects
 
-- **[`implementation/build_blocks_clarification.md`](implementation/build_blocks_clarification.md)**
+- **[`implementation/build-blocks-clarification.md`](implementation/build-blocks-clarification.md)**
   - Dual-directory architecture explanation (/build/ vs /blocks/)
   - Development workflow selection criteria
   - Build vs deployment environment clarification
@@ -100,13 +100,13 @@ This index provides structured access to all documentation within the `docs/for-
   - Target: All developers, essential for debugging workflows
 
 ### Advanced Debugging and Instrumentation
-- **[`testing/EDS-Architecture-and-Testing-Guide.md`](testing/EDS-Architecture-and-Testing-Guide.md)**
+- **[`testing/eds-architecture-and-testing-guide.md`](testing/eds-architecture-and-testing-guide.md)**
   - Advanced debugging strategies and file replacement workflows
   - Performance instrumentation and monitoring techniques
   - Requires explicit user approval for core file modifications
   - Target: Senior developers and system architects
 
-- **[`testing/Instrumentation - How it works.md`](testing/Instrumentation%20-%20How%20it%20works.md)**
+- **[`testing/instrumentation-how-it-works.md`](testing/instrumentation-how-it-works.md)**
   - Technical details of performance monitoring system
   - Function call tracking and execution timing
   - Memory usage analysis and optimization
@@ -215,7 +215,7 @@ This index provides structured access to all documentation within the `docs/for-
 
 ### For Architects and Technical Leads
 1. [`implementation/design-philosophy-guide.md`](implementation/design-philosophy-guide.md) - Design decisions
-2. [`testing/EDS-Architecture-and-Testing-Guide.md`](testing/EDS-Architecture-and-Testing-Guide.md) - Advanced debugging
+2. [`testing/eds-architecture-and-testing-guide.md`](testing/eds-architecture-and-testing-guide.md) - Advanced debugging
 3. [`eds-webcomponents-review.md`](eds-webcomponents-review.md) - Architecture analysis
 4. [`guidelines/backend-structure.md`](guidelines/backend-structure.md) - System architecture
 
@@ -232,7 +232,7 @@ This index provides structured access to all documentation within the `docs/for-
 ### Planning Phase
 - [`guidelines/prd.md`](guidelines/prd.md) - Requirements and objectives
 - [`implementation/design-philosophy-guide.md`](implementation/design-philosophy-guide.md) - Approach selection
-- [`implementation/build_blocks_clarification.md`](implementation/build_blocks_clarification.md) - Architecture decisions
+- [`implementation/build-blocks-clarification.md`](implementation/build-blocks-clarification.md) - Architecture decisions
 
 ### Development Phase
 - [`implementation/block-architecture-standards.md`](implementation/block-architecture-standards.md) - Standards and patterns
@@ -242,7 +242,7 @@ This index provides structured access to all documentation within the `docs/for-
 ### Testing Phase
 - [`testing/eds-native-testing-standards.md`](testing/eds-native-testing-standards.md) - Testing standards
 - [`testing/debug.md`](testing/debug.md) - Debugging procedures
-- [`testing/Instrumentation - How it works.md`](testing/Instrumentation%20-%20How%20it%20works.md) - Performance analysis
+- [`testing/instrumentation-how-it-works.md`](testing/instrumentation-how-it-works.md) - Performance analysis
 
 ### Deployment Phase
 - [`guidelines/backend-structure.md`](guidelines/backend-structure.md) - Deployment architecture

@@ -1,6 +1,6 @@
 # How the JavaScript Performance Instrumentation System Works
 
-**Related Documentation:** [Debug Guide](debug.md) | [EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md) | [Block Architecture Standards](../implementation/block-architecture-standards.md) | [EDS Native Testing Standards](eds-native-testing-standards.md)
+**Related Documentation:** [Debug Guide](debug.md) | [EDS Architecture and Testing Guide](eds-architecture-and-testing-guide.md) | [Block Architecture Standards](../implementation/block-architecture-standards.md) | [EDS Native Testing Standards](eds-native-testing-standards.md)
 
 ## 🚨 **ADVANCED DEBUGGING POLICY NOTICE**
 
@@ -765,7 +765,7 @@ The implementation demonstrates how to effectively monitor complex JavaScript ap
 
 ### Core Testing & Debugging
 - **[Debug Guide](debug.md)** - Complete debugging policy and approval requirements for advanced debugging operations
-- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - File replacement testing strategies and advanced testing workflows
+- **[EDS Architecture and Testing Guide](eds-architecture-and-testing-guide.md)** - File replacement testing strategies and advanced testing workflows
 - **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
 - **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches for EDS blocks including unit tests and integration testing
 
@@ -778,7 +778,7 @@ The implementation demonstrates how to effectively monitor complex JavaScript ap
 ### Implementation & Development
 - **[Raw EDS Blocks Guide](../implementation/raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
 - **[Complex EDS Blocks Guide](../implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
-- **[Build Blocks Clarification](../implementation/build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Build Blocks Clarification](../implementation/build-blocks-clarification.md)** - Understanding the dual-directory architecture and development workflows
 - **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
 ### Development Environment & Tools

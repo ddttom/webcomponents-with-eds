@@ -1,6 +1,6 @@
 # EDS Architecture and Testing Guide
 
-**Related Documentation:** [Debug Guide](debug.md) | [Instrumentation - How it works](Instrumentation%20-%20How%20it%20works.md) | [Block Architecture Standards](../implementation/block-architecture-standards.md) | [EDS Native Testing Standards](eds-native-testing-standards.md)
+**Related Documentation:** [Debug Guide](debug.md) | [instrumentation-how-it-works](instrumentation-how-it-works.md) | [Block Architecture Standards](../implementation/block-architecture-standards.md) | [EDS Native Testing Standards](eds-native-testing-standards.md)
 
 ## 🚨 **DEEP DEBUGGING POLICY NOTICE**
 
@@ -502,7 +502,7 @@ This approach enables comprehensive performance analysis of EDS blocks while res
 
 ### Core Testing & Debugging
 - **[Debug Guide](debug.md)** - Complete debugging policy and standard approaches that do not require approval
-- **[Instrumentation - How it works](Instrumentation%20-%20How%20it%20works.md)** - Technical details of the instrumentation system and performance monitoring
+- **[instrumentation-how-it-works](instrumentation-how-it-works.md)** - Technical details of the instrumentation system and performance monitoring
 - **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
 - **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches for EDS blocks including unit tests and integration testing
 
@@ -515,7 +515,7 @@ This approach enables comprehensive performance analysis of EDS blocks while res
 ### Implementation Guides
 - **[Raw EDS Blocks Guide](../implementation/raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
 - **[Complex EDS Blocks Guide](../implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
-- **[Build Blocks Clarification](../implementation/build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Build Blocks Clarification](../implementation/build-blocks-clarification.md)** - Understanding the dual-directory architecture and development workflows
 - **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
 ### Development Environment & Tools
@@ -540,7 +540,7 @@ This approach enables comprehensive performance analysis of EDS blocks while res
 5. **Implement automated testing scripts** following the patterns shown in this guide
 
 ### For Performance Engineers
-1. **Study the instrumentation system** through [Instrumentation - How it works](Instrumentation%20-%20How%20it%20works.md)
+1. **Study the instrumentation system** through [instrumentation-how-it-works](instrumentation-how-it-works.md)
 2. **Master the performance testing guidelines** including baseline measurements and threshold validation
 3. **Implement comprehensive monitoring** using the performance testing scenarios outlined here
 4. **Create automated performance comparison** scripts for regression testing

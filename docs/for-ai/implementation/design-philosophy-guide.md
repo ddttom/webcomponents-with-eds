@@ -1,7 +1,7 @@
 # EDS Component Design Philosophy
 ## Bridging Simplicity and Sophistication
 
-**Related Documentation:** [EDS Overview](../eds.md) | [EDS Architecture Standards](eds-architecture-standards.md) | [Build Blocks Clarification](build_blocks_clarification.md) | [Block Architecture Standards](block-architecture-standards.md)
+**Related Documentation:** [EDS Overview](../eds.md) | [EDS Architecture Standards](eds-architecture-standards.md) | [Build Blocks Clarification](build-blocks-clarification.md) | [Block Architecture Standards](block-architecture-standards.md)
 
 ### The Fundamental Tension
 
@@ -119,7 +119,7 @@ EDS **automatically and dynamically**:
 
 ### **Why the Dual-Directory Architecture Exists**
 
-This constraint is precisely why the dual-directory approach is necessary (see [Build Blocks Clarification](build_blocks_clarification.md) for detailed implementation guidance):
+This constraint is precisely why the dual-directory approach is necessary (see [Build Blocks Clarification](build-blocks-clarification.md) for detailed implementation guidance):
 
 ```
 HTML: <div class="shoelace-card">           ← Fixed class name
@@ -337,7 +337,7 @@ proxy: {
 - ✅ Export `decorate` function as default
 - ✅ Accept block element as parameter
 - ✅ Maintain EDS attributes (`data-block-name`, `data-block-status`)
-- ✅ Follow CSS naming conventions (`.block-name.block`) - see [CSS Naming Convention Style Guide](../style-guide.md)
+- ✅ Follow CSS naming conventions (`.block-name.block`) - see [CSS Naming Convention Style Guide](../guidelines/style-guide.md)
 - ✅ Include comprehensive error handling
 
 **User Experience Requirements:**
@@ -470,9 +470,9 @@ The goal isn't to avoid complexity - it's to **choose complexity consciously** a
 ### Core Philosophy & Architecture
 - **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
-- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and when to use each approach
+- **[Build Blocks Clarification](build-blocks-clarification.md)** - Understanding the dual-directory architecture and when to use each approach
 - **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions and file structure
-- **[CSS Naming Convention Style Guide](../style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
+- **[CSS Naming Convention Style Guide](../guidelines/style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Implementation Guides
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for implementing the simple/EDS-native pattern

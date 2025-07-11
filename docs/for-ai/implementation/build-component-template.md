@@ -1,6 +1,6 @@
 # [Component Name] - Advanced Build Component
 
-*Related: [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Build Blocks Clarification](build_blocks_clarification.md) | [Block Architecture Standards](block-architecture-standards.md)*
+*Related: [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Build Blocks Clarification](build-blocks-clarification.md) | [Block Architecture Standards](block-architecture-standards.md)*
 
 > **⚙️ Build Component Notice**: This component uses a build process and external dependencies, which differs from the core EDS philosophy of simple JavaScript. Build components are designed for complex functionality that requires sophisticated tooling while maintaining EDS compatibility.
 
@@ -79,7 +79,7 @@ This separation allows for sophisticated development workflows while maintaining
 
 ### Core Development & Architecture
 - **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Comprehensive guide for advanced block development with build tools and external dependencies
-- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Build Blocks Clarification](build-blocks-clarification.md)** - Understanding the dual-directory architecture and development workflows
 - **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
 - **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
 
@@ -91,9 +91,9 @@ This separation allows for sophisticated development workflows while maintaining
 
 ### Testing & Quality Assurance
 - **[EDS Native Testing Standards](../testing/eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
-- **[EDS Architecture and Testing Guide](../testing/EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[EDS Architecture and Testing Guide](../testing/eds-architecture-and-testing-guide.md)** - Advanced testing workflows and file replacement strategies
 - **[Debug Guide](../testing/debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
-- **[Instrumentation Guide](../testing/Instrumentation%20-%20How%20it%20works.md)** - Advanced instrumentation techniques and performance monitoring
+- **[Instrumentation Guide](../testing/instrumentation-how-it-works.md)** - Advanced instrumentation techniques and performance monitoring
 
 ### Advanced Topics & Patterns
 - **[Investigation](../testing/investigation.md)** - Advanced investigation techniques and analysis methods for complex components

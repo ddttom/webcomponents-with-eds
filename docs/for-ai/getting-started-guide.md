@@ -30,9 +30,9 @@ This guide provides streamlined entry points into the comprehensive EDS document
 **Learning Path**:
 1. **Strategic Overview** → [`index.md`](index.md) - Complete project landscape (10 min)
 2. **Decision Framework** → [`design-philosophy-guide.md`](implementation/design-philosophy-guide.md) - Choosing development approaches (30 min)
-3. **System Architecture** → [`build_blocks_clarification.md`](implementation/build_blocks_clarification.md) - Dual-directory architecture (20 min)
+3. **System Architecture** → [`build-blocks-clarification.md`](implementation/build-blocks-clarification.md) - Dual-directory architecture (20 min)
 4. **Implementation Standards** → [`block-architecture-standards.md`](implementation/block-architecture-standards.md) - Team development patterns (60 min)
-5. **Performance Analysis** → [`Instrumentation - How it works.md`](Instrumentation - How it works.md) - Monitoring and optimization (30 min)
+5. **Performance Analysis** → [`instrumentation-how-it-works.md`](instrumentation-how-it-works.md) - Monitoring and optimization (30 min)
 
 ## Quick Start by Component Type
 
@@ -48,14 +48,14 @@ This guide provides streamlined entry points into the comprehensive EDS document
 **Recommended Path**:
 - [`complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md) - Build-enhanced development
 - [`build-component-template.md`](implementation/build-component-template.md) - Template-based development
-- [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md) - Advanced testing strategies
+- [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md) - Advanced testing strategies
 
 ### Performance-Critical Components
 **Best for**: High-traffic components, complex animations, data-heavy displays
 **Recommended Path**:
 - [`block-architecture-standards.md`](implementation/block-architecture-standards.md) - Performance optimization patterns
-- [`Instrumentation - How it works.md`](Instrumentation - How it works.md) - Performance monitoring
-- [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md) - Comprehensive analysis
+- [`instrumentation-how-it-works.md`](instrumentation-how-it-works.md) - Performance monitoring
+- [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md) - Comprehensive analysis
 
 ## Common Scenarios & Quick Solutions
 
@@ -81,7 +81,7 @@ This guide provides streamlined entry points into the comprehensive EDS document
 → [`build-component-template.md`](implementation/build-component-template.md) - Template-based development
 
 ### "I need advanced testing and performance analysis"
-→ [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md) - Comprehensive testing strategies
+→ [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md) - Comprehensive testing strategies
 
 ## Progressive Learning Recommendations
 
@@ -97,12 +97,12 @@ This guide provides streamlined entry points into the comprehensive EDS document
 
 ### Week 3: Advanced Techniques
 - Master [`build-component-template.md`](implementation/build-component-template.md) for rapid development
-- Learn performance optimization with [`Instrumentation - How it works.md`](Instrumentation - How it works.md)
-- Practice troubleshooting with [`debug.md`](debug.md) and [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md)
+- Learn performance optimization with [`instrumentation-how-it-works.md`](instrumentation-how-it-works.md)
+- Practice troubleshooting with [`debug.md`](debug.md) and [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md)
 
 ### Week 4: Architecture & Leadership
 - Study [`design-philosophy-guide.md`](implementation/design-philosophy-guide.md) for decision-making frameworks
-- Understand system design with [`build_blocks_clarification.md`](implementation/build_blocks_clarification.md)
+- Understand system design with [`build-blocks-clarification.md`](implementation/build-blocks-clarification.md)
 - Review [`eds-appendix.md`](eds-appendix.md) and [`eds-webcomponents-review.md`](eds-webcomponents-review.md) for comprehensive context
 
 ## Navigation Tips
@@ -134,12 +134,12 @@ This guide provides streamlined entry points into the comprehensive EDS document
 ### Testing & Debugging
 - [`eds-native-testing-standards.md`](implementation/eds-native-testing-standards.md) - Testing standards
 - [`debug.md`](debug.md) - Troubleshooting procedures
-- [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md) - Advanced analysis
+- [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md) - Advanced analysis
 
 ### Architecture & Design
 - [`design-philosophy-guide.md`](implementation/design-philosophy-guide.md) - Decision frameworks
-- [`build_blocks_clarification.md`](implementation/build_blocks_clarification.md) - System architecture
-- [`Instrumentation - How it works.md`](Instrumentation - How it works.md) - Performance monitoring
+- [`build-blocks-clarification.md`](implementation/build-blocks-clarification.md) - System architecture
+- [`instrumentation-how-it-works.md`](instrumentation-how-it-works.md) - Performance monitoring
 
 ---
 

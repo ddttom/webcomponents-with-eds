@@ -579,8 +579,8 @@ The focus on minimal dependencies and pure JavaScript ensures components remain 
 - **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
 - **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
-- **[Build Blocks Clarification](build_blocks_clarification.md)** - Clarification on EDS block architecture and implementation approaches
-- **[CSS Naming Convention Style Guide](../style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
+- **[Build Blocks Clarification](build-blocks-clarification.md)** - Clarification on EDS block architecture and implementation approaches
+- **[CSS Naming Convention Style Guide](../guidelines/style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Implementation Guides
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies

@@ -109,7 +109,7 @@ function validateInput(input) {
 
 ## CSS Guidelines
 
-*Related: [CSS Naming Convention Style Guide](../style-guide.md) for comprehensive CSS naming standards and EDS-specific conventions*
+*Related: [CSS Naming Convention Style Guide](style-guide.md) for comprehensive CSS naming standards and EDS-specific conventions*
 
 ### Design System Integration
 
@@ -544,12 +544,12 @@ export function createResponsiveImage(config) {
 - **[Block Architecture Standards](../block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
 - **[EDS Architecture Standards](../eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
 - **[Design Philosophy Guide](../design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
-- **[CSS Naming Convention Style Guide](../style-guide.md)** - Comprehensive CSS naming standards and conventions for EDS block development
+- **[CSS Naming Convention Style Guide](style-guide.md)** - Comprehensive CSS naming standards and conventions for EDS block development
 
 ### Implementation Guides & Patterns
 - **[Raw EDS Blocks Guide](../raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
 - **[Complex EDS Blocks Guide](../complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
-- **[Build Blocks Clarification](../build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Build Blocks Clarification](../build-blocks-clarification.md)** - Understanding the dual-directory architecture and development workflows
 - **[Build Component Template](../build-component-template.md)** - Template for advanced build components with external dependencies
 
 ### Development Environment & Tools
@@ -559,14 +559,14 @@ export function createResponsiveImage(config) {
 - **[JavaScript Patterns](../javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
 
 ### Testing & Quality Assurance
-- **[EDS Architecture and Testing Guide](../EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[EDS Architecture and Testing Guide](../eds-architecture-and-testing-guide.md)** - Advanced testing workflows and file replacement strategies
 - **[Debug Guide](../debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
 - **[Investigation](../investigation.md)** - Advanced investigation techniques and analysis methods
 - **[Error Handling Patterns](../error-handling-patterns.md)** - Comprehensive error handling strategies for EDS blocks
 
 ### Advanced Topics & Reference Materials
 - **[EDS Appendix](../eds-appendix.md)** - Comprehensive development reference guide with patterns and best practices
-- **[Instrumentation Guide](../Instrumentation%20-%20How%20it%20works.md)** - Advanced instrumentation techniques and performance monitoring
+- **[Instrumentation Guide](../instrumentation-how-it-works.md)** - Advanced instrumentation techniques and performance monitoring
 - **[Browser Compatibility](../browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 

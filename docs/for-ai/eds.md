@@ -2,7 +2,7 @@
 
 **Related Documentation:** [Block Architecture Standards](implementation/block-architecture-standards.md) | [Raw EDS Blocks Guide](implementation/raw-eds-blocks-guide.md) | [Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md) | [Project Structure](project-structure.md)
 
-> **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](../style-guide.md)
+> **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](../guidelines/style-guide.md)
 
 # The Developer, Architect or AI Guide to Edge Delivery Services (EDS): From Document to Website
 
@@ -37,7 +37,7 @@ Before diving into EDS, it's important to understand its core development philos
 
 These requirements enable EDS to achieve perfect Core Web Vitals scores (100/100/100/100) by eliminating the overhead traditionally associated with modern web development. This approach is increasingly rare but remarkably effective—letting developers focus on solving real problems rather than managing toolchains.
 
-> **📁 Important Architecture Note**: The simple JavaScript philosophy described above applies to **files outside the `/build/` directory**. Files within `/build/` directories are for complex components that require build processes and may use external dependencies. This separation allows for both simple blocks (no build) and advanced components (with build systems) to coexist in the same project. For detailed explanation of this dual-directory architecture, see [Build Blocks Clarification](implementation/build_blocks_clarification.md).
+> **📁 Important Architecture Note**: The simple JavaScript philosophy described above applies to **files outside the `/build/` directory**. Files within `/build/` directories are for complex components that require build processes and may use external dependencies. This separation allows for both simple blocks (no build) and advanced components (with build systems) to coexist in the same project. For detailed explanation of this dual-directory architecture, see [Build Blocks Clarification](implementation/build-blocks-clarification.md).
 
 ## The Document Transformation Journey
 
@@ -745,7 +745,7 @@ This icon system exemplifies EDS's philosophy of adapting to how authors natural
 
 ## Styling Rules
 
-Never apply styling to elements with -container suffix in their class names (e.g. blockname-container, section-container). All styling should be applied to either the -wrapper or the block class itself. This rule is crucial because in EDS (for detailed CSS standards and naming conventions, see [CSS Naming Convention Style Guide](style-guide.md)):
+Never apply styling to elements with -container suffix in their class names (e.g. blockname-container, section-container). All styling should be applied to either the -wrapper or the block class itself. This rule is crucial because in EDS (for detailed CSS standards and naming conventions, see [CSS Naming Convention Style Guide](guidelines/style-guide.md)):
 
 Container elements (.block-name-container) are structural elements that should never receive styling  Wrapper elements (.block-name-wrapper) are the appropriate place for layout and positioning styles. Block elements (.block-name) are for block-specific styling
 

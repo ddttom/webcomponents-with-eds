@@ -1,6 +1,6 @@
 # Performance Instrumentation Investigation Report
 
-*Related: [Instrumentation Guide](Instrumentation%20-%20How%20it%20works.md) | [Debug Guide](debug.md) | [EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)*
+*Related: [Instrumentation Guide](instrumentation-how-it-works.md) | [Debug Guide](debug.md) | [EDS Architecture and Testing Guide](eds-architecture-and-testing-guide.md)*
 
 ## Executive Summary
 
@@ -168,9 +168,9 @@ The investigation demonstrates that comprehensive performance monitoring can be 
 ## See Also
 
 ### Core Testing & Performance Analysis
-- **[Instrumentation Guide](Instrumentation%20-%20How%20it%20works.md)** - Technical details of the instrumentation system and performance monitoring techniques
+- **[Instrumentation Guide](instrumentation-how-it-works.md)** - Technical details of the instrumentation system and performance monitoring techniques
 - **[Debug Guide](debug.md)** - Complete debugging policy and approval requirements for advanced debugging operations
-- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[EDS Architecture and Testing Guide](eds-architecture-and-testing-guide.md)** - Advanced testing workflows and file replacement strategies
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 
 ### Development Environment & Tools
@@ -188,7 +188,7 @@ The investigation demonstrates that comprehensive performance monitoring can be 
 ### Implementation & Development
 - **[Raw EDS Blocks Guide](../implementation/raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
 - **[Complex EDS Blocks Guide](../implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
-- **[Build Blocks Clarification](../implementation/build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Build Blocks Clarification](../implementation/build-blocks-clarification.md)** - Understanding the dual-directory architecture and development workflows
 - **[Build Component Template](../implementation/build-component-template.md)** - Template for advanced build components with external dependencies
 
 ### Advanced Topics & Patterns

@@ -1,6 +1,6 @@
 # AI text for EDS-Native Pattern Testing Standards
 
-*Related: [EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md) | [Block Architecture Standards](../implementation/block-architecture-standards.md) | [Debug Guide](debug.md)*
+*Related: [EDS Architecture and Testing Guide](eds-architecture-and-testing-guide.md) | [Block Architecture Standards](../implementation/block-architecture-standards.md) | [Debug Guide](debug.md)*
 
 ## Overview
 
@@ -10,7 +10,7 @@ This document defines testing standards specifically for EDS-Native pattern comp
 
 ## Pattern Characteristics
 
-*Related: [Build Blocks Clarification](../implementation/build_blocks_clarification.md) for dual-directory architecture | [Design Philosophy Guide](../implementation/design-philosophy-guide.md) for EDS principles*
+*Related: [Build Blocks Clarification](../implementation/build-blocks-clarification.md) for dual-directory architecture | [Design Philosophy Guide](../implementation/design-philosophy-guide.md) for EDS principles*
 
 - **Direct Implementation**: Components live directly in `/blocks/{component-name}/`
 - **No Build Process**: Files are used as-is without bundling
@@ -311,7 +311,7 @@ node server.js
 
 ## Testing Requirements
 
-*Related: [Debug Guide](debug.md) for debugging approaches | [Instrumentation Guide](Instrumentation%20-%20How%20it%20works.md) for advanced testing techniques*
+*Related: [Debug Guide](debug.md) for debugging approaches | [Instrumentation Guide](instrumentation-how-it-works.md) for advanced testing techniques*
 
 ### 1. Component Initialization Testing
 
@@ -605,9 +605,9 @@ testFramework.runAll();
 ## See Also
 
 ### Core Testing & Architecture
-- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies for comprehensive EDS testing
+- **[EDS Architecture and Testing Guide](eds-architecture-and-testing-guide.md)** - Advanced testing workflows and file replacement strategies for comprehensive EDS testing
 - **[Debug Guide](debug.md)** - Complete debugging policy and approval requirements for advanced debugging operations
-- **[Instrumentation Guide](Instrumentation%20-%20How%20it%20works.md)** - Advanced instrumentation techniques and performance monitoring for EDS components
+- **[Instrumentation Guide](instrumentation-how-it-works.md)** - Advanced instrumentation techniques and performance monitoring for EDS components
 - **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches including unit tests and integration testing
 
 ### Development Standards & Patterns
@@ -619,7 +619,7 @@ testFramework.runAll();
 ### EDS Foundation & Philosophy
 - **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[Design Philosophy Guide](../implementation/design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
-- **[Build Blocks Clarification](../implementation/build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Build Blocks Clarification](../implementation/build-blocks-clarification.md)** - Understanding the dual-directory architecture and development workflows
 - **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
 ### Development Environment & Tools

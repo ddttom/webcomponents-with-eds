@@ -1,6 +1,6 @@
 # EDS Development Server Guide
 
-*Related: [EDS Overview](eds.md) | [Debug Guide](debug.md) | [EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)*
+*Related: [EDS Overview](eds.md) | [Debug Guide](debug.md) | [EDS Architecture and Testing Guide](eds-architecture-and-testing-guide.md)*
 
 ## Overview
 
@@ -265,7 +265,7 @@ The server supports comprehensive testing:
 ### Core Development & Testing
 - **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[Debug Guide](debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
-- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[EDS Architecture and Testing Guide](eds-architecture-and-testing-guide.md)** - Advanced testing workflows and file replacement strategies
 - **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
 
 ### Block Development & Architecture
@@ -276,12 +276,12 @@ The server supports comprehensive testing:
 
 ### Development Philosophy & Patterns
 - **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
-- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Build Blocks Clarification](build-blocks-clarification.md)** - Understanding the dual-directory architecture and development workflows
 - **[Build Component Template](build-component-template.md)** - Template for advanced build components with external dependencies
 - **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
 
 ### Advanced Topics & Tools
-- **[Instrumentation Guide](Instrumentation%20-%20How%20it%20works.md)** - Advanced instrumentation techniques and performance monitoring
+- **[Instrumentation Guide](instrumentation-how-it-works.md)** - Advanced instrumentation techniques and performance monitoring
 - **[Investigation](investigation.md)** - Advanced investigation techniques and analysis methods
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations

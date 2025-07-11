@@ -610,13 +610,13 @@ export const healthRoutes = {
 
 ### Testing & Quality Assurance
 - **[EDS Native Testing Standards](../eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
-- **[EDS Architecture and Testing Guide](../EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[EDS Architecture and Testing Guide](../eds-architecture-and-testing-guide.md)** - Advanced testing workflows and file replacement strategies
 - **[Debug Guide](../debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
 - **[Investigation](../investigation.md)** - Advanced investigation techniques and analysis methods
 
 ### Advanced Topics & Reference Materials
 - **[EDS Appendix](../eds-appendix.md)** - Comprehensive development reference guide with patterns and best practices
-- **[Instrumentation Guide](../Instrumentation%20-%20How%20it%20works.md)** - Advanced instrumentation techniques and performance monitoring
+- **[Instrumentation Guide](../instrumentation-how-it-works.md)** - Advanced instrumentation techniques and performance monitoring
 - **[Browser Compatibility](../browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
