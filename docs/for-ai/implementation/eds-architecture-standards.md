@@ -1,6 +1,6 @@
 # EDS Architecture Standards Guide
 
-**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [EDS Overview](eds.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [Design Philosophy Guide](design-philosophy-guide.md)
+**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [EDS Overview](../eds.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [Design Philosophy Guide](design-philosophy-guide.md)
 
 ## Executive Summary
 
@@ -577,25 +577,25 @@ The focus on minimal dependencies and pure JavaScript ensures components remain 
 
 ### Core Architecture & Standards
 - **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
-- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
 - **[Build Blocks Clarification](build_blocks_clarification.md)** - Clarification on EDS block architecture and implementation approaches
-- **[CSS Naming Convention Style Guide](style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
+- **[CSS Naming Convention Style Guide](../style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Implementation Guides
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies
 - **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools, external dependencies, and sophisticated patterns
 - **[Build Component Template](build-component-template.md)** - Template and scaffolding for creating new EDS components
-- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
 ### Testing & Quality Assurance
-- **[Debug Guide](debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios
-- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
+- **[Debug Guide](../testing/debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios
+- **[EDS Native Testing Standards](../testing/eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
 - **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches for EDS blocks including unit tests and integration testing
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 
 ### Development Environment & Tools
-- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development
+- **[Server README](../../server-README.md)** - Development server setup and configuration for EDS block development
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Accessibility Testing](accessibility-testing.md)** - Testing EDS blocks for accessibility compliance and best practices
 - **[CSS Patterns](css-patterns.md)** - Common CSS patterns and styling approaches for EDS blocks
@@ -609,11 +609,11 @@ The focus on minimal dependencies and pure JavaScript ensures components remain 
 ## Next Steps
 
 ### For New EDS Developers
-1. **Start with fundamentals** by reading the [EDS Overview](eds.md) to understand the platform architecture
+1. **Start with fundamentals** by reading the [EDS Overview](../eds.md) to understand the platform architecture
 2. **Learn the standards** from [Block Architecture Standards](block-architecture-standards.md) for essential development guidelines
 3. **Understand the philosophy** through [Design Philosophy Guide](design-philosophy-guide.md) to grasp EDS principles
 4. **Practice with simple blocks** using the [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) following these architecture standards
-5. **Set up your environment** using [Server README](server-README.md) for proper development workflow
+5. **Set up your environment** using [Server README](../../server-README.md) for proper development workflow
 
 ### For Experienced Developers
 1. **Master the EDS-native patterns** shown in this guide's implementation examples
@@ -625,7 +625,7 @@ The focus on minimal dependencies and pure JavaScript ensures components remain 
 ### For Architects & Technical Leads
 1. **Establish team standards** using this guide as the foundation for your development practices
 2. **Create component libraries** following the architecture patterns and standards defined here
-3. **Design testing strategies** incorporating [EDS Native Testing Standards](eds-native-testing-standards.md) and [Testing Strategies](testing-strategies.md)
+3. **Design testing strategies** incorporating [EDS Native Testing Standards](../testing/eds-native-testing-standards.md) and [Testing Strategies](testing-strategies.md)
 4. **Plan performance budgets** based on the performance standards and optimization techniques
 5. **Document architectural decisions** using the patterns and principles outlined in this guide
 
@@ -634,7 +634,7 @@ The focus on minimal dependencies and pure JavaScript ensures components remain 
 2. **Master the validation checklists** provided in this guide for comprehensive quality assurance
 3. **Implement accessibility testing** following the accessibility standards and [Accessibility Testing](accessibility-testing.md) guidelines
 4. **Create performance benchmarks** based on the performance standards defined here
-5. **Develop debugging skills** using [Debug Guide](debug.md) for effective issue resolution
+5. **Develop debugging skills** using [Debug Guide](../testing/debug.md) for effective issue resolution
 
 ### For DevOps & Build Engineers
 1. **Understand the no-build philosophy** of EDS-native components for proper CI/CD pipeline design

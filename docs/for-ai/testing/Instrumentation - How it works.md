@@ -1,6 +1,6 @@
 # How the JavaScript Performance Instrumentation System Works
 
-**Related Documentation:** [Debug Guide](debug.md) | [EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md) | [Block Architecture Standards](block-architecture-standards.md) | [EDS Native Testing Standards](eds-native-testing-standards.md)
+**Related Documentation:** [Debug Guide](debug.md) | [EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md) | [Block Architecture Standards](../implementation/block-architecture-standards.md) | [EDS Native Testing Standards](eds-native-testing-standards.md)
 
 ## 🚨 **ADVANCED DEBUGGING POLICY NOTICE**
 
@@ -770,19 +770,19 @@ The implementation demonstrates how to effectively monitor complex JavaScript ap
 - **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches for EDS blocks including unit tests and integration testing
 
 ### Architecture & Development Standards
-- **[Block Architecture Standards](block-architecture-standards.md)** - Standard development approaches and comprehensive standards for EDS block development
-- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
-- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
-- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+- **[Block Architecture Standards](../implementation/block-architecture-standards.md)** - Standard development approaches and comprehensive standards for EDS block development
+- **[EDS Architecture Standards](../implementation/eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Design Philosophy Guide](../implementation/design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
 
 ### Implementation & Development
-- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
-- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
-- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
-- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[Raw EDS Blocks Guide](../implementation/raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
+- **[Complex EDS Blocks Guide](../implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
+- **[Build Blocks Clarification](../implementation/build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
 ### Development Environment & Tools
-- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development
+- **[Server README](../../server-README.md)** - Development server setup and configuration for EDS block development
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration

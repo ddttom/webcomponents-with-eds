@@ -1,14 +1,14 @@
 # Creating Complex EDS Blocks
 ## The Build-Enhanced Approach
 
-**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [EDS Overview](eds.md) | [Debug Guide](debug.md)
+**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [EDS Overview](../eds.md) | [Debug Guide](../testing/debug.md)
 
 This guide demonstrates how to create sophisticated EDS blocks that use **external libraries**, **modern tooling**, and **advanced features** while maintaining **EDS compatibility** and **safe DOM manipulation**.
 
 # Creating Complex EDS Blocks
 ## The Build-Enhanced Approach
 
-**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [EDS Overview](eds.md) | [Debug Guide](debug.md)
+**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [EDS Overview](../eds.md) | [Debug Guide](../testing/debug.md)
 
 This guide demonstrates how to create sophisticated EDS blocks that use **external libraries**, **modern tooling**, and **advanced features** while maintaining **EDS compatibility** and **safe DOM manipulation**.
 
@@ -1468,12 +1468,12 @@ This approach enables modern development workflows while respecting EDS principl
 ### Essential Foundation
 - **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies
-- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
-- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
-- **[CSS Naming Convention Style Guide](style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[CSS Naming Convention Style Guide](../style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Development & Testing
-- **[Debug Guide](debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios
+- **[Debug Guide](../testing/debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios
 - **[Testing Strategies](testing-strategies.md)** - Testing approaches for EDS blocks including unit tests and integration testing
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
@@ -1493,7 +1493,7 @@ This approach enables modern development workflows while respecting EDS principl
 
 ### For Developers New to Complex EDS Blocks
 1. **Master the fundamentals** by first completing the [Raw EDS Blocks Guide](raw-eds-blocks-guide.md)
-2. **Understand EDS constraints** by thoroughly reading the [EDS Overview](eds.md) and [Block Architecture Standards](block-architecture-standards.md)
+2. **Understand EDS constraints** by thoroughly reading the [EDS Overview](../eds.md) and [Block Architecture Standards](block-architecture-standards.md)
 3. **Set up your first build environment** following the setup instructions in this guide
 4. **Start with a simple external library** (like Shoelace) before attempting more complex integrations
 5. **Practice the dual-directory workflow** to understand development vs. deployment phases

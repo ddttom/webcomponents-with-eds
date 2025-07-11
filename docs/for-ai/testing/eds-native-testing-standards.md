@@ -1,16 +1,16 @@
 # AI text for EDS-Native Pattern Testing Standards
 
-*Related: [EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md) | [Block Architecture Standards](block-architecture-standards.md) | [Debug Guide](debug.md)*
+*Related: [EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md) | [Block Architecture Standards](../implementation/block-architecture-standards.md) | [Debug Guide](debug.md)*
 
 ## Overview
 
 This document defines testing standards specifically for EDS-Native pattern components like [`floating-alert`](../blocks/floating-alert/test.html). These components use direct implementation without build processes and focus on simplicity and performance.
 
-*See also: [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) for creating simple EDS blocks | [EDS Architecture Standards](eds-architecture-standards.md) for architectural patterns*
+*See also: [Raw EDS Blocks Guide](../implementation/raw-eds-blocks-guide.md) for creating simple EDS blocks | [EDS Architecture Standards](../implementation/eds-architecture-standards.md) for architectural patterns*
 
 ## Pattern Characteristics
 
-*Related: [Build Blocks Clarification](build_blocks_clarification.md) for dual-directory architecture | [Design Philosophy Guide](design-philosophy-guide.md) for EDS principles*
+*Related: [Build Blocks Clarification](../implementation/build_blocks_clarification.md) for dual-directory architecture | [Design Philosophy Guide](../implementation/design-philosophy-guide.md) for EDS principles*
 
 - **Direct Implementation**: Components live directly in `/blocks/{component-name}/`
 - **No Build Process**: Files are used as-is without bundling
@@ -196,7 +196,7 @@ This document defines testing standards specifically for EDS-Native pattern comp
 
 ## EDS Native Style Integration
 
-*Related: [EDS Overview](eds.md) for style system architecture | [Server README](server-README.md) for development server setup*
+*Related: [EDS Overview](../eds.md) for style system architecture | [Server README](../../server-README.md) for development server setup*
 
 ### Using Native EDS Styles
 
@@ -611,19 +611,19 @@ testFramework.runAll();
 - **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches including unit tests and integration testing
 
 ### Development Standards & Patterns
-- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
-- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards specifically for EDS-native block development
-- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
-- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
+- **[Block Architecture Standards](../implementation/block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
+- **[EDS Architecture Standards](../implementation/eds-architecture-standards.md)** - Architectural patterns and standards specifically for EDS-native block development
+- **[Raw EDS Blocks Guide](../implementation/raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
+- **[Complex EDS Blocks Guide](../implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
 
 ### EDS Foundation & Philosophy
-- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
-- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
-- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
-- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Design Philosophy Guide](../implementation/design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+- **[Build Blocks Clarification](../implementation/build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
 ### Development Environment & Tools
-- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Server README](../../server-README.md)** - Development server setup and configuration for EDS block development and testing
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration

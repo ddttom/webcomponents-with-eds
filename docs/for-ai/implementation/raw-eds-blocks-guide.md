@@ -1,14 +1,14 @@
 # Creating Raw EDS Blocks
 ## The Simple, EDS-Native Approach
 
-**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [EDS Overview](eds.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Debug Guide](debug.md)
+**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [EDS Overview](../eds.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Debug Guide](../testing/debug.md)
 
 This guide demonstrates how to create effective EDS blocks using **vanilla JavaScript**, **minimal dependencies**, and **additive enhancement** patterns that preserve content and follow EDS philosophy.
 
 # Creating Raw EDS Blocks
 ## The Simple, EDS-Native Approach
 
-**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [EDS Overview](eds.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Debug Guide](debug.md)
+**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [EDS Overview](../eds.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Debug Guide](../testing/debug.md)
 
 This guide demonstrates how to create effective EDS blocks using **vanilla JavaScript**, **minimal dependencies**, and **additive enhancement** patterns that preserve content and follow EDS philosophy.
 
@@ -789,9 +789,9 @@ This approach maintains EDS's philosophy of simplicity while providing rich, int
 
 ### Architecture & Standards
 - **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
-- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
-- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
-- **[CSS Naming Convention Style Guide](style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[CSS Naming Convention Style Guide](../style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Advanced Development
 - **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Building sophisticated blocks with build tools, external dependencies, and advanced patterns
@@ -799,7 +799,7 @@ This approach maintains EDS's philosophy of simplicity while providing rich, int
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 
 ### Testing & Debugging
-- **[Debug Guide](debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios
+- **[Debug Guide](../testing/debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios
 - **[Testing Strategies](testing-strategies.md)** - Testing approaches for EDS blocks including unit tests and integration testing
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 
@@ -811,7 +811,7 @@ This approach maintains EDS's philosophy of simplicity while providing rich, int
 ## Next Steps
 
 ### For New EDS Developers
-1. **Start with [EDS Overview](eds.md)** to understand the fundamental concepts and architecture
+1. **Start with [EDS Overview](../eds.md)** to understand the fundamental concepts and architecture
 2. **Review [Block Architecture Standards](block-architecture-standards.md)** for essential development guidelines
 3. **Follow this guide** to create your first simple block using the highlight-text example
 4. **Practice with [Block Examples](block-examples.md)** to see more implementation patterns

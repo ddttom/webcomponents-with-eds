@@ -1,6 +1,6 @@
 # Adobe Edge Delivery Services - Full Guide for Devs, Architects and AI
 
-**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Project Structure](project-structure.md)
+**Related Documentation:** [Block Architecture Standards](implementation/block-architecture-standards.md) | [Raw EDS Blocks Guide](implementation/raw-eds-blocks-guide.md) | [Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md) | [Project Structure](project-structure.md)
 
 > **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](../style-guide.md)
 
@@ -26,7 +26,7 @@ As a developer working with EDS, understanding this philosophy is crucial—your
 
 ### Development Requirements and Constraints
 
-Before diving into EDS, it's important to understand its core development philosophy and constraints. These aren't limitations but deliberate design choices that promote simplicity, performance, and maintainability (see [Design Philosophy Guide](design-philosophy-guide.md) for detailed architectural principles):
+Before diving into EDS, it's important to understand its core development philosophy and constraints. These aren't limitations but deliberate design choices that promote simplicity, performance, and maintainability (see [Design Philosophy Guide](implementation/design-philosophy-guide.md) for detailed architectural principles):
 
 - **Modern JavaScript without TypeScript**: EDS relies on vanilla JavaScript, avoiding transpilation complexity
 - **Pure CSS without preprocessors**: Direct CSS keeps things simple and performant
@@ -37,7 +37,7 @@ Before diving into EDS, it's important to understand its core development philos
 
 These requirements enable EDS to achieve perfect Core Web Vitals scores (100/100/100/100) by eliminating the overhead traditionally associated with modern web development. This approach is increasingly rare but remarkably effective—letting developers focus on solving real problems rather than managing toolchains.
 
-> **📁 Important Architecture Note**: The simple JavaScript philosophy described above applies to **files outside the `/build/` directory**. Files within `/build/` directories are for complex components that require build processes and may use external dependencies. This separation allows for both simple blocks (no build) and advanced components (with build systems) to coexist in the same project. For detailed explanation of this dual-directory architecture, see [Build Blocks Clarification](build_blocks_clarification.md).
+> **📁 Important Architecture Note**: The simple JavaScript philosophy described above applies to **files outside the `/build/` directory**. Files within `/build/` directories are for complex components that require build processes and may use external dependencies. This separation allows for both simple blocks (no build) and advanced components (with build systems) to coexist in the same project. For detailed explanation of this dual-directory architecture, see [Build Blocks Clarification](implementation/build_blocks_clarification.md).
 
 ## The Document Transformation Journey
 
@@ -753,7 +753,7 @@ In our current CSS file.
 
 ### Block Development in Code
 
-Each block corresponds to a specific folder and files in your project structure (for comprehensive standards and conventions, see [Block Architecture Standards](block-architecture-standards.md)):
+Each block corresponds to a specific folder and files in your project structure (for comprehensive standards and conventions, see [Block Architecture Standards](implementation/block-architecture-standards.md)):
 
 ```
 /blocks/{blockname}/
@@ -1041,7 +1041,7 @@ This prevents ESLint errors while maintaining the ability to use console logging
 
 ## Common Implementation Challenges and Solutions
 
-Teams developing with EDS often encounter similar challenges. Here are practical solutions to common problems (for comprehensive debugging strategies, see [Debug Guide](debug.md)):
+Teams developing with EDS often encounter similar challenges. Here are practical solutions to common problems (for comprehensive debugging strategies, see [Debug Guide](testing/debug.md)):
 
 ### Challenge: Analytics Implementation
 
@@ -1939,13 +1939,13 @@ By following these principles, you'll create websites that achieve the rare comb
 ## See Also
 
 ### Essential Development Guides
-- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
-- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies
-- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools, external dependencies, and sophisticated patterns
+- **[Block Architecture Standards](implementation/block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
+- **[Raw EDS Blocks Guide](implementation/raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies
+- **[Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools, external dependencies, and sophisticated patterns
 - **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
 ### Implementation & Testing
-- **[Debug Guide](debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios
+- **[Debug Guide](testing/debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios
 - **[Testing Strategies](testing-strategies.md)** - Testing approaches for EDS blocks including unit tests and integration testing
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
@@ -1966,21 +1966,21 @@ By following these principles, you'll create websites that achieve the rare comb
 ### For New EDS Developers
 1. **Master the fundamentals** by thoroughly understanding this comprehensive guide
 2. **Set up your development environment** following [Project Structure](project-structure.md) guidelines
-3. **Create your first simple block** using the [Raw EDS Blocks Guide](raw-eds-blocks-guide.md)
-4. **Learn the standards** by studying [Block Architecture Standards](block-architecture-standards.md)
+3. **Create your first simple block** using the [Raw EDS Blocks Guide](implementation/raw-eds-blocks-guide.md)
+4. **Learn the standards** by studying [Block Architecture Standards](implementation/block-architecture-standards.md)
 5. **Practice with examples** from [Block Examples](block-examples.md) to see different implementation patterns
 
 ### For Experienced Web Developers
 1. **Understand the paradigm shift** from traditional CMS to document-first development
 2. **Master the enhancement patterns** shown in the advanced examples throughout this guide
-3. **Explore complex implementations** with [Complex EDS Blocks Guide](complex-eds-blocks-guide.md)
+3. **Explore complex implementations** with [Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md)
 4. **Implement performance optimizations** using [Performance Optimization](performance-optimization.md) techniques
 5. **Contribute to testing strategies** by developing comprehensive test suites following [Testing Strategies](testing-strategies.md)
 
 ### For Architects & Technical Leads
-1. **Establish team development standards** using [Block Architecture Standards](block-architecture-standards.md) as a foundation
+1. **Establish team development standards** using [Block Architecture Standards](implementation/block-architecture-standards.md) as a foundation
 2. **Plan project structure** following [Project Structure](project-structure.md) recommendations
-3. **Design testing and debugging workflows** using [Debug Guide](debug.md) and [Testing Strategies](testing-strategies.md)
+3. **Design testing and debugging workflows** using [Debug Guide](testing/debug.md) and [Testing Strategies](testing-strategies.md)
 4. **Create performance monitoring strategies** with [Performance Optimization](performance-optimization.md) metrics
 5. **Develop content authoring guidelines** for your team using [Content Authoring Guide](content-authoring-guide.md)
 

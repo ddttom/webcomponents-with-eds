@@ -9,73 +9,62 @@ This index provides structured access to all documentation within the `docs/for-
 
 ### Essential Starting Points
 - **New to EDS?** → Start with [`eds.md`](eds.md) - Complete developer guide
-- **Building Components?** → See [Architecture Standards](#architecture-and-design-philosophy)
-- **Testing Components?** → Check [Testing and Debugging](#testing-and-debugging)
-- **Need Examples?** → Browse [Implementation Guides](#implementation-guides)
+- **Building Components?** → See [Implementation Guides](#-implementation-guides)
+- **Testing Components?** → Check [Testing and Debugging](#-testing-and-debugging)
+- **Need Examples?** → Browse [Implementation Guides](#-implementation-guides)
 
 ### Development Patterns
-- **Simple Components** → [`raw-eds-blocks-guide.md`](raw-eds-blocks-guide.md)
-- **Complex Components** → [`complex-eds-blocks-guide.md`](complex-eds-blocks-guide.md)
-- **Architecture Decisions** → [`build_blocks_clarification.md`](build_blocks_clarification.md)
+- **Simple Components** → [`implementation/raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md)
+- **Complex Components** → [`implementation/complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md)
+- **Architecture Decisions** → [`implementation/build_blocks_clarification.md`](implementation/build_blocks_clarification.md)
 
 ---
 
-## 🏗️ Architecture and Design Philosophy
-
-### Core Architecture Documents
-- **[`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md)**
-  - Advanced debugging strategies and file replacement workflows
-  - Performance instrumentation and monitoring techniques
-  - Requires explicit user approval for core file modifications
-  - Target: Senior developers and system architects
-
-- **[`block-architecture-standards.md`](block-architecture-standards.md)**
-  - Comprehensive dual-pattern architecture (EDS-Native vs Build-Enhanced)
-  - File naming conventions and quality standards
-  - Component complexity assessment guidelines
-  - Target: All developers working with EDS blocks
-
-- **[`eds-architecture-standards.md`](eds-architecture-standards.md)**
-  - EDS-native development standards focusing on simplicity
-  - Performance optimization and FOUC elimination
-  - Vanilla JavaScript best practices
-  - Target: Developers building simple, performant components
-
-### Design Philosophy and Decision Making
-- **[`design-philosophy-guide.md`](design-philosophy-guide.md)**
-  - Framework for choosing between simple and complex approaches
-  - Balancing simplicity with sophistication
-  - Component complexity assessment criteria
-  - Target: Technical leads and architects
-
-- **[`build_blocks_clarification.md`](build_blocks_clarification.md)**
-  - Dual-directory architecture explanation (/build/ vs /blocks/)
-  - Development workflow selection criteria
-  - Build vs deployment environment clarification
-  - Target: All developers, especially those new to the project structure
-
----
-
-## 💻 Implementation Guides
+## 🔧 Implementation Guides
 
 ### Component Development Patterns
-- **[`raw-eds-blocks-guide.md`](raw-eds-blocks-guide.md)**
+- **[`implementation/raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md)**
   - Simple, EDS-native component development
   - Vanilla JavaScript and minimal dependencies
   - Additive enhancement patterns
   - Target: Developers building lightweight components
 
-- **[`complex-eds-blocks-guide.md`](complex-eds-blocks-guide.md)**
+- **[`implementation/complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md)**
   - Build-enhanced approach for sophisticated components
   - External library integration (Shoelace, Chart.js, etc.)
   - Modern development workflows with build processes
   - Target: Developers building advanced UI components
 
-- **[`build-component-template.md`](build-component-template.md)**
+- **[`implementation/build-component-template.md`](implementation/build-component-template.md)**
   - Template and scaffolding for advanced build components
   - Vite configuration and deployment automation
   - Integration with external design systems
   - Target: Developers creating complex, library-dependent components
+
+### Architecture and Design Philosophy
+- **[`implementation/block-architecture-standards.md`](implementation/block-architecture-standards.md)**
+  - Comprehensive dual-pattern architecture (EDS-Native vs Build-Enhanced)
+  - File naming conventions and quality standards
+  - Component complexity assessment guidelines
+  - Target: All developers working with EDS blocks
+
+- **[`implementation/eds-architecture-standards.md`](implementation/eds-architecture-standards.md)**
+  - EDS-native development standards focusing on simplicity
+  - Performance optimization and FOUC elimination
+  - Vanilla JavaScript best practices
+  - Target: Developers building simple, performant components
+
+- **[`implementation/design-philosophy-guide.md`](implementation/design-philosophy-guide.md)**
+  - Framework for choosing between simple and complex approaches
+  - Balancing simplicity with sophistication
+  - Component complexity assessment criteria
+  - Target: Technical leads and architects
+
+- **[`implementation/build_blocks_clarification.md`](implementation/build_blocks_clarification.md)**
+  - Dual-directory architecture explanation (/build/ vs /blocks/)
+  - Development workflow selection criteria
+  - Build vs deployment environment clarification
+  - Target: All developers, especially those new to the project structure
 
 ### Comprehensive Development Guide
 - **[`eds.md`](eds.md)**
@@ -90,26 +79,32 @@ This index provides structured access to all documentation within the `docs/for-
 ## 🧪 Testing and Debugging
 
 ### Testing Standards and Frameworks
-- **[`eds-native-testing-standards.md`](eds-native-testing-standards.md)**
+- **[`testing/eds-native-testing-standards.md`](testing/eds-native-testing-standards.md)**
   - Testing standards for EDS-Native pattern components
   - Test file structure and EDS integration patterns
   - Accessibility, performance, and cross-browser testing
   - Target: Developers implementing testing for simple components
 
-- **[`debug.md`](debug.md)**
+- **[`testing/debug.md`](testing/debug.md)**
   - Debugging policies and standard approaches
   - File replacement workflows and safety protocols
   - Error handling and troubleshooting procedures
   - Target: All developers, essential for debugging workflows
 
 ### Advanced Debugging and Instrumentation
-- **[`Instrumentation - How it works.md`](Instrumentation%20-%20How%20it%20works.md)**
+- **[`testing/EDS-Architecture-and-Testing-Guide.md`](testing/EDS-Architecture-and-Testing-Guide.md)**
+  - Advanced debugging strategies and file replacement workflows
+  - Performance instrumentation and monitoring techniques
+  - Requires explicit user approval for core file modifications
+  - Target: Senior developers and system architects
+
+- **[`testing/Instrumentation - How it works.md`](testing/Instrumentation%20-%20How%20it%20works.md)**
   - Technical details of performance monitoring system
   - Function call tracking and execution timing
   - Memory usage analysis and optimization
   - Target: Performance engineers and senior developers
 
-- **[`investigation.md`](investigation.md)**
+- **[`testing/investigation.md`](testing/investigation.md)**
   - Performance instrumentation investigation report
   - Comprehensive testing environment analysis
   - Server setup and file replacement workflows
@@ -133,7 +128,7 @@ This index provides structured access to all documentation within the `docs/for-
   - Target: Architects and senior developers
 
 ### Development Environment
-- **[`server-README.md`](server-README.md)**
+- **[`../server-README.md`](../server-README.md)**
   - Development server documentation and configuration
   - Local development workflow and proxy setup
   - File serving strategies and testing approaches
@@ -187,19 +182,19 @@ This index provides structured access to all documentation within the `docs/for-
 
 ### For New Developers
 1. [`eds.md`](eds.md) - Start here for comprehensive overview
-2. [`raw-eds-blocks-guide.md`](raw-eds-blocks-guide.md) - Simple component development
-3. [`server-README.md`](server-README.md) - Local development setup
+2. [`implementation/raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md) - Simple component development
+3. [`../server-README.md`](../server-README.md) - Local development setup
 4. [`guidelines/frontend-guidelines.md`](guidelines/frontend-guidelines.md) - Coding standards
 
 ### For Experienced Developers
-1. [`block-architecture-standards.md`](block-architecture-standards.md) - Architecture patterns
-2. [`complex-eds-blocks-guide.md`](complex-eds-blocks-guide.md) - Advanced components
-3. [`eds-native-testing-standards.md`](eds-native-testing-standards.md) - Testing frameworks
-4. [`debug.md`](debug.md) - Debugging workflows
+1. [`implementation/block-architecture-standards.md`](implementation/block-architecture-standards.md) - Architecture patterns
+2. [`implementation/complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md) - Advanced components
+3. [`testing/eds-native-testing-standards.md`](testing/eds-native-testing-standards.md) - Testing frameworks
+4. [`testing/debug.md`](testing/debug.md) - Debugging workflows
 
 ### For Architects and Technical Leads
-1. [`design-philosophy-guide.md`](design-philosophy-guide.md) - Design decisions
-2. [`EDS-Architecture-and-Testing-Guide.md`](EDS-Architecture-and-Testing-Guide.md) - Advanced debugging
+1. [`implementation/design-philosophy-guide.md`](implementation/design-philosophy-guide.md) - Design decisions
+2. [`testing/EDS-Architecture-and-Testing-Guide.md`](testing/EDS-Architecture-and-Testing-Guide.md) - Advanced debugging
 3. [`eds-webcomponents-review.md`](eds-webcomponents-review.md) - Architecture analysis
 4. [`guidelines/backend-structure.md`](guidelines/backend-structure.md) - System architecture
 
@@ -215,42 +210,39 @@ This index provides structured access to all documentation within the `docs/for-
 
 ### Planning Phase
 - [`guidelines/prd.md`](guidelines/prd.md) - Requirements and objectives
-- [`design-philosophy-guide.md`](design-philosophy-guide.md) - Approach selection
-- [`build_blocks_clarification.md`](build_blocks_clarification.md) - Architecture decisions
+- [`implementation/design-philosophy-guide.md`](implementation/design-philosophy-guide.md) - Approach selection
+- [`implementation/build_blocks_clarification.md`](implementation/build_blocks_clarification.md) - Architecture decisions
 
 ### Development Phase
-- [`block-architecture-standards.md`](block-architecture-standards.md) - Standards and patterns
-- [`raw-eds-blocks-guide.md`](raw-eds-blocks-guide.md) OR [`complex-eds-blocks-guide.md`](complex-eds-blocks-guide.md) - Implementation
-- [`server-README.md`](server-README.md) - Local development
+- [`implementation/block-architecture-standards.md`](implementation/block-architecture-standards.md) - Standards and patterns
+- [`implementation/raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md) OR [`implementation/complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md) - Implementation
+- [`../server-README.md`](../server-README.md) - Local development
 
 ### Testing Phase
-- [`eds-native-testing-standards.md`](eds-native-testing-standards.md) - Testing standards
-- [`debug.md`](debug.md) - Debugging procedures
-- [`Instrumentation - How it works.md`](Instrumentation%20-%20How%20it%20works.md) - Performance analysis
+- [`testing/eds-native-testing-standards.md`](testing/eds-native-testing-standards.md) - Testing standards
+- [`testing/debug.md`](testing/debug.md) - Debugging procedures
+- [`testing/Instrumentation - How it works.md`](testing/Instrumentation%20-%20How%20it%20works.md) - Performance analysis
 
 ### Deployment Phase
 - [`guidelines/backend-structure.md`](guidelines/backend-structure.md) - Deployment architecture
 - [`guidelines/security-checklist.md`](guidelines/security-checklist.md) - Security validation
-- [`investigation.md`](investigation.md) - Performance verification
+- [`testing/investigation.md`](testing/investigation.md) - Performance verification
 
 ---
 
 ## 🏷️ Documentation Categories
 
-### **Architecture & Standards** (7 documents)
-Core architectural patterns, design philosophy, and development standards
+### **Implementation Guides** (7 documents)
+Component development patterns, architecture standards, and practical implementation guides
 
-### **Implementation Guides** (4 documents)
-Practical guides for building components and applications
-
-### **Testing & Debugging** (4 documents)
+### **Testing & Debugging** (5 documents)
 Testing frameworks, debugging procedures, and performance analysis
-
-### **Reference Materials** (3 documents)
-Comprehensive references and detailed analysis documents
 
 ### **Project Guidelines** (6 documents)
 Project management, requirements, and organizational standards
+
+### **Reference Materials** (3 documents)
+Comprehensive references and detailed analysis documents
 
 ---
 
@@ -285,15 +277,15 @@ Project management, requirements, and organizational standards
 
 ### **For AI Assistants**
 1. Read [`eds.md`](eds.md) for comprehensive EDS understanding
-2. Review [`block-architecture-standards.md`](block-architecture-standards.md) for development patterns
+2. Review [`implementation/block-architecture-standards.md`](implementation/block-architecture-standards.md) for development patterns
 3. Reference [`guidelines/frontend-guidelines.md`](guidelines/frontend-guidelines.md) for coding standards
-4. Use [`debug.md`](debug.md) for troubleshooting workflows
+4. Use [`testing/debug.md`](testing/debug.md) for troubleshooting workflows
 
 ### **For Human Developers**
 1. Start with [`eds.md`](eds.md) for complete overview
 2. Choose implementation guide based on component complexity
-3. Set up local environment using [`server-README.md`](server-README.md)
-4. Follow testing standards from [`eds-native-testing-standards.md`](eds-native-testing-standards.md)
+3. Set up local environment using [`../server-README.md`](../server-README.md)
+4. Follow testing standards from [`testing/eds-native-testing-standards.md`](testing/eds-native-testing-standards.md)
 
 ### **For Project Teams**
 1. Review [`guidelines/prd.md`](guidelines/prd.md) for project scope

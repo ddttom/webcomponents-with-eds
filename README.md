@@ -1,496 +1,277 @@
 # Web Components with Adobe Edge Delivery Services
 
-> **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](docs/style-guide.md)
+**A comprehensive development framework for building sophisticated EDS components with simple, dependency-free JavaScript**
 
-A comprehensive development framework for building high-performance web components with Adobe Edge Delivery Services (EDS). This project provides advanced components, development infrastructure, and build automation for creating sophisticated EDS blocks with modern web technologies.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)](https://nodejs.org/)
+[![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-success)](package.json)
+
+## 🎯 Project Philosophy
+
+This framework demonstrates that **sophisticated web development doesn't require complex tooling**. Built entirely with vanilla JavaScript and zero external dependencies, it provides enterprise-level capabilities through simple, maintainable code.
+
+**Core Principles:**
+- ✅ **Zero Dependencies** - Pure Node.js built-ins only
+- ✅ **Simple Architecture** - Direct file editing, no compilation required
+- ✅ **Sophisticated Results** - Advanced UI components and comprehensive documentation
+- ✅ **EDS Native** - Purpose-built for Adobe Edge Delivery Services
+- ✅ **AI-Friendly** - Extensive documentation designed for AI assistant development
 
 ## 🚀 Quick Start
 
-### For EDS Integration
 ```bash
-# Clone the repository
+# Clone and start developing immediately
 git clone https://github.com/ddttom/webcomponents-with-eds.git
 cd webcomponents-with-eds
+node server.js
 
-# Copy blocks to your EDS project
-cp -r blocks/* /path/to/your/eds-project/blocks/
-
-# Commit to your EDS repository
-cd /path/to/your/eds-project
-git add blocks/
-git commit -m "Add web components from webcomponents-with-eds"
-git push
+# Server running at http://localhost:3000
+# No npm install required - zero dependencies!
 ```
 
-### For Development
-```bash
-# Install dependencies
-npm install
-
-# Start EDS development server
-npm run debug  # http://localhost:3000
-
-# Or start standalone development
-cd build/shoelace-card && npm run dev  # http://localhost:5174
-```
-
-## 🏗️ Project Architecture
+## 📁 Project Architecture
 
 ```
 webcomponents-with-eds/
-├── .github/                   # GitHub templates and workflows
-├── blocks/                    # EDS-ready components
-│   ├── counter/              # Interactive counter component
-│   │   ├── counter.css       # Component styles
-│   │   ├── counter.js        # Component logic
-│   │   ├── example.md        # Usage examples
-│   │   └── README.md         # Component documentation
-│   ├── shoelace/             # Shoelace design system integration
-│   │   ├── shoelace.css      # Integration styles
-│   │   ├── shoelace.js       # Integration logic
-│   │   └── README.md         # Integration documentation
-│   └── shoelace-card/        # Advanced glassmorphism card component
-│       ├── shoelace-card.css # Stub CSS (styles bundled in JS)
-│       ├── shoelace-card.js  # Self-contained component bundle
-│       ├── example.md        # Usage examples
-│       ├── test.html         # Test page
-│       └── README.md         # Component documentation
-├── build/                    # Standalone build environments
-│   └── shoelace-card/        # Vite-based development setup
-│       ├── deploy.js         # Deployment script
-│       ├── DEV-README.md     # Development documentation
-│       ├── index.html        # Development test page
-│       ├── package.json      # Build dependencies and scripts
-│       ├── shoelace-card.css # Source styles
-│       ├── shoelace-card.js  # Source component
-│       ├── shoelace-card-stub.css # Stub CSS for deployment
-│       ├── USER-README.md    # User documentation
-│       └── vite.config.js    # Vite build configuration
-├── docs/                     # Comprehensive documentation
-│   ├── server-README.md      # Development server guide
-│   └── for-ai/              # AI assistant development guidelines
-├── scripts/                  # Build automation and utilities
-│   ├── aem.js               # EDS integration utilities
-│   ├── build-component.js   # Component build automation
-│   ├── delayed.js           # Delayed loading utilities
-│   └── scripts.js           # Core EDS scripts
-├── styles/                   # Global EDS styles
-│   ├── fonts.css            # Font definitions
-│   ├── lazy-styles.css      # Lazy-loaded styles
-│   └── styles.css           # Main stylesheet
-├── server.js                 # Zero-dependency development server
-├── server.html              # Development server interface
-├── shoelace-card-blog.md    # Advanced implementation guide
-├── favicon.ico              # Site favicon
-├── eslint.config.js         # ESLint configuration
-├── package.json             # Project dependencies and scripts
-├── CODE_OF_CONDUCT.md       # Community guidelines
-├── CONTRIBUTING.md          # Contribution guidelines
-├── LICENSE                  # MIT license
-└── SECURITY.md              # Security policy
+├── 📄 server.js                  # Development server (150 lines, zero deps)
+├── 📄 server.html                # Server documentation and testing interface
+├── 🧱 blocks/                    # EDS-ready components (deployment target)
+│   ├── shoelace-card/            # Advanced glassmorphism component
+│   ├── simple-table/             # Vanilla JS data table
+│   └── text-formatter/           # Basic text processing
+├── 🔧 build/                     # Development workspace (when needed)
+│   └── shoelace-card/            # Build environment for complex components
+└── 📚 docs/                      # Comprehensive development framework
+    ├── server-README.md          # Development server guide
+    └── for-ai/                   # 24+ document development framework ⭐
+        ├── 📖 index.md           # Navigation hub (48+ cross-references)
+        ├── 📋 guidelines/        # Project management & architecture
+        ├── 🔧 implementation/   # Component development guides
+        └── 🧪 testing/          # Testing, debugging & performance
 ```
 
-### **📁 Architecture Philosophy**
+## 🏗️ Development Approaches
 
-> **Important**: This project demonstrates **two complementary development approaches**:
-> 
-> - **`/blocks/` Directory**: Contains EDS-native components following the core philosophy of simple JavaScript, no dependencies, and no build steps
-> - **`/build/` Directory**: Contains complex components that use build processes, external dependencies, and modern tooling when sophisticated functionality is required
-> 
-> Both approaches are valid and designed to coexist, allowing developers to choose the right tool for each component's complexity and requirements.
+### Simple Components (Recommended Starting Point)
+**Direct editing in `/blocks/` - No build process needed**
 
-## 🧩 Advanced Components
+```javascript
+// blocks/text-formatter/text-formatter.js
+export default function decorate(block) {
+  const button = block.querySelector('button');
+  button.addEventListener('click', () => {
+    block.classList.toggle('active');
+  });
+}
+```
 
-### Shoelace Card Component
-**A sophisticated glassmorphism card component with advanced features:**
+### Advanced Components (When You Need External Libraries)
+**Development in `/build/` with automatic deployment**
 
-- **Advanced Glassmorphism Effects**: Multi-layer backdrop blur with sophisticated shadow systems
-- **Immersive Modal System**: Full-screen content display with background imagery integration
-- **Self-Contained Architecture**: Bundled component with all Shoelace dependencies included
-- **Standalone Build System**: Vite-based development with hot reload and proxy support
-- **EDS Compatibility**: Exported decorate function for seamless integration
-- **Performance Optimized**: Minimal runtime overhead with efficient DOM manipulation
-- **✅ Live Tested**: Successfully tested with real data, modal functionality, and proxy integration
+```javascript
+// build/shoelace-card/shoelace-card.js
+import { SlCard, SlButton } from '@shoelace-style/shoelace';
+
+export default function decorate(block) {
+  // Modern JavaScript with external dependencies
+  // Bundled into self-contained blocks/ output
+}
+```
+
+## 🎓 Comprehensive Documentation Framework
+
+The `docs/for-ai/` directory contains a **professional-grade development framework** with 24+ documents totaling over 5,000 lines:
+
+### 📊 Documentation by Audience
+
+| **New Developers**                                                | **Experienced Developers**                                                       | **Architects & Tech Leads**                                                                  |
+| ----------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [`eds.md`](docs/for-ai/eds.md) - Complete EDS guide (1,937 lines) | [`block-architecture-standards.md`](docs/for-ai/block-architecture-standards.md) | [`design-philosophy-guide.md`](docs/for-ai/design-philosophy-guide.md)                       |
+| [`raw-eds-blocks-guide.md`](docs/for-ai/raw-eds-blocks-guide.md)  | [`complex-eds-blocks-guide.md`](docs/for-ai/complex-eds-blocks-guide.md)         | [`EDS-Architecture-and-Testing-Guide.md`](docs/for-ai/EDS-Architecture-and-Testing-Guide.md) |
+| [`server-README.md`](docs/server-README.md)                       | [`eds-native-testing-standards.md`](docs/for-ai/eds-native-testing-standards.md) | [`eds-webcomponents-review.md`](docs/for-ai/eds-webcomponents-review.md)                     |
+
+### 📋 Project Management Suite
+
+| **Product Requirements**                                            | **Technical Standards**                                                   | **Security & Compliance**                                               |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [`prd.md`](docs/for-ai/guidelines/prd.md) - Complete PRD            | [`tech-stack.md`](docs/for-ai/guidelines/tech-stack.md)                   | [`security-checklist.md`](docs/for-ai/guidelines/security-checklist.md) |
+| [`app-flow.md`](docs/for-ai/guidelines/app-flow.md) - User journeys | [`frontend-guidelines.md`](docs/for-ai/guidelines/frontend-guidelines.md) | [`backend-structure.md`](docs/for-ai/guidelines/backend-structure.md)   |
+
+### 🧪 Testing & Quality Assurance
+
+- **[`debug.md`](docs/for-ai/debug.md)** - Debugging policies and procedures
+- **[`eds-native-testing-standards.md`](docs/for-ai/eds-native-testing-standards.md)** - Testing frameworks
+- **[`Instrumentation - How it works.md`](docs/for-ai/Instrumentation%20-%20How%20it%20works.md)** - Performance monitoring
+- **[`investigation.md`](docs/for-ai/investigation.md)** - Performance analysis reports
+
+**📍 Start Here:** [`docs/for-ai/index.md`](docs/for-ai/index.md) - Complete navigation hub with 48+ cross-references
+
+## 🛠️ Development Server Features
+
+**Simple but Powerful** - 150 lines of pure Node.js providing:
 
 ```bash
-# Standalone development
-cd build/shoelace-card && npm run dev
-
-# Build and deploy to EDS
-cd build/shoelace-card && npm run deploy
-
-# Copy to your EDS project and commit
-cp -r blocks/shoelace-card /path/to/your/eds-project/blocks/
-cd /path/to/your/eds-project && git add blocks/ && git commit -m "Add Shoelace Card component" && git push
+🚀 Server running at http://localhost:3000
+📁 Serving files from: /current/directory
+🔗 Proxying missing files to: https://allabout.network
+📄 Main page: http://localhost:3000/server.html
 ```
 
-### Shoelace Integration
-**Complete integration layer for Shoelace Design System:**
+### Key Capabilities
+- **Local-first serving** - Your files take priority
+- **Intelligent proxy fallback** - Missing files served from live EDS site
+- **Real-time development** - No build process for simple components
+- **Comprehensive logging** - Track file requests and proxy behavior
+- **Zero configuration** - Works out of the box
 
-- Progressive enhancement with Shoelace web components
-- Custom styling support and theming
-- Performance optimized loading
-- EDS-compatible implementation
-
-### Counter Component
-**Interactive counter demonstrating modern EDS patterns:**
-
-- Vanilla JavaScript implementation
-- Accessible keyboard navigation
-- Event-driven architecture
-- State management patterns
-
-## 🤖 AI-Assisted EDS Development
-
-### The Challenge with Traditional EDS Workflows
-
-Adobe Edge Delivery Services delivers exceptional performance and fast development cycles. However, the traditional development workflow creates barriers for AI assistance. The multi-system approach - coordinating between code repositories, Google Docs, SharePoint, and deployment branches - works well for human developers but creates an impossible situation for AI assistants.
-
-When you ask an AI to help debug your EDS block, it struggles because:
-- **It can't access your Google Docs or SharePoint content**
-- **It can't correlate branch changes with document updates**
-- **It can't test code against real data from multiple sources**
-- **It lacks context about the complete development environment**
-
-This fragmentation means developers miss out on AI's ability to accelerate development, catch bugs early, and suggest architectural improvements.
-
-### The Solution: Local-First Development
-
-This framework transforms EDS development into an AI-friendly environment through a unified local-first approach. Instead of splitting workflows across multiple systems, everything runs locally where AI assistants can participate meaningfully.
-
-**Key Benefits:**
-- **Unified Environment**: AI sees code, content, and data in one place
-- **Real-time Feedback**: Instant testing and debugging without system switching
-- **Intelligent Assistance**: AI can suggest improvements with full context
-- **Immediate Changes**: Save and refresh - no build delays or deployment waits
-
-### How It Works
-
-The development server implements a **local-first, proxy-fallback architecture**:
-
-1. **Local Priority**: Serves your development files first
-2. **Smart Proxying**: Fetches missing assets from production/staging
-3. **Unified Testing**: Test blocks with real data without system juggling
-4. **AI Visibility**: Complete transparency for AI assistants
-
-This approach maintains all the benefits of EDS (branches, documents, deployment) while enabling AI to participate effectively in your development process.
-
-### AI-Friendly Development Features
-
-**Immediate Feedback Loop:**
-- Save a file and refresh your browser - changes appear instantly
-- No build process, deployment wait, or document synchronization delays
-- AI assistants can test suggestions and see results immediately
-
-**Complete Context Visibility:**
-- Work on code and content together in one environment
-- Test edge cases without switching between systems
-- Debug with full context available to both you and AI
-- Server logs show exactly what's happening with each request
-
-**Intelligent Development Assistance:**
-- AI can analyze code, test changes, and provide suggestions with full context
-- Catch accessibility issues and performance problems in real-time
-- Get architectural recommendations based on complete project visibility
-- Debug problems as they happen with AI seeing the same environment you do
-
-**Unified Resource Management:**
-- Local files take priority for active development
-- Production/staging assets automatically proxied when needed
-- Choose your data source (staging or production) without configuration changes
-- Maintain version control workflow while enabling AI collaboration
-
-## 🛠️ Development Infrastructure
-
-### Zero-Dependency Development Server
-**Advanced Node.js server for EDS development:**
+### Advanced Development Workflow
 
 ```bash
-npm run debug  # Start on http://localhost:3000
+# For complex components with dependencies
+cd build/my-component/
+npm install shoelace-design-system
+# Develop with modern tooling
+
+npm run build    # Bundle dependencies
+npm run deploy   # Copy to blocks/my-component/
+
+# Result: Self-contained EDS component with zero external dependencies
 ```
 
-**Features:**
-- **Local-first, proxy-fallback architecture**
-- **EDS block structure validation**
-- **Automatic asset proxying to remote servers**
-- **Comprehensive MIME type support**
-- **Real-time error reporting and debugging**
+## 🎨 Component Examples
 
-### EDS Testing Framework
-**Proper EDS block structure testing:**
+### 🃏 Shoelace Card Component
+**Advanced glassmorphism design with animations**
+- External Shoelace Design System integration
+- Bundled into self-contained EDS block
+- Sophisticated styling with CSS custom properties
+- Modern JavaScript with async/await patterns
 
-```html
-<!-- Required EDS Structure -->
-<div class="component-name block" data-block-name="component-name" data-block-status="initialized">
-    <div>
-        <div>
-            <p>Content goes here</p>
-        </div>
-    </div>
-</div>
-```
+### 📊 Simple Table Component  
+**Vanilla JavaScript data processing**
+- Pure JavaScript, no external dependencies
+- Responsive design with CSS Grid
+- Accessible markup and keyboard navigation
+- Direct editing workflow
 
-### Build Automation System
-**NPX-powered build and deployment:**
+### ✍️ Text Formatter Component
+**Basic text processing and formatting**
+- Minimal JavaScript for text transformations
+- Educational example for EDS development
+- Clear, readable code structure
 
-```bash
-# Build and deploy components
-cd build/shoelace-card && npm run deploy
+## 🤖 AI Assistant Integration
 
-# Development workflows
-npm run debug     # EDS testing environment
-npm run serve     # Basic HTTP server
-npm run validate  # Code quality checks
-```
+This framework is **specifically designed for AI-assisted development**:
 
-## 📦 Multi-Environment Support
+### 📖 AI-Ready Documentation
+- **Comprehensive context** - 5,000+ lines of development guidelines
+- **Cross-referenced structure** - 48+ bidirectional links between documents
+- **Audience-targeted guidance** - Specific instructions for different developer types
+- **Implementation patterns** - Real-world examples and best practices
 
-### Standalone Development
-```bash
-cd build/shoelace-card
-npm run dev  # Vite dev server with hot reload
-```
+### 🔧 AI Development Workflow
+1. **Reference [`docs/for-ai/index.md`](docs/for-ai/index.md)** for comprehensive navigation
+2. **Follow audience-specific guides** based on experience level
+3. **Use documented patterns** for consistent code generation
+4. **Leverage testing standards** for quality assurance
 
-### EDS Integration Testing
-```bash
-npm run debug  # Node.js server with EDS structure validation
-```
+### 🎯 AI Prompt Engineering
+The documentation includes specific guidance for:
+- **Code generation patterns** for EDS components
+- **Testing strategy implementation** for quality assurance
+- **Performance optimization techniques** for Core Web Vitals
+- **Accessibility implementation** for inclusive design
 
-### Production Deployment
-```bash
-# Using package script (recommended)
-cd build/shoelace-card && npm run deploy
-# Builds self-contained component and copies to blocks/ directory
-```
+## 🔥 Advanced Features
 
-## 🚀 Deployment Workflow
+### Dual-Directory Architecture
+- **`/build/`** - Development workspace for complex components
+- **`/blocks/`** - EDS-ready deployment target
+- **Automatic deployment** - Build process copies optimized files
 
-### Deploy Command
-The `npm run deploy` command builds finished components and deploys stubs and README to the blocks folder:
+### Performance Optimization
+- **Core Web Vitals focus** - Documented optimization strategies
+- **Lazy loading patterns** - Efficient resource management
+- **Bundle optimization** - Self-contained components with minimal footprint
 
-```bash
-cd build/shoelace-card
-npm run deploy
-```
+### Enterprise-Level Documentation
+- **24+ comprehensive guides** covering all aspects of development
+- **Cross-reference mapping** for easy navigation
+- **Quality standards** with documented best practices
+- **Security guidelines** and compliance checklists
 
-This command:
-- **Builds self-contained component** with all dependencies bundled
-- **Copies to blocks/ directory** for EDS compatibility
-- **Creates stub CSS** (styles bundled in JavaScript)
-- **Copies documentation** for content authors
+## 📊 Project Statistics
 
-### EDS Integration
-To use the built system in your EDS project, copy the `blocks/` contents to your repository:
+| Metric                    | Value                           |
+| ------------------------- | ------------------------------- |
+| **Total Documentation**   | 24+ files, 5,000+ lines         |
+| **Cross-References**      | 48+ bidirectional links         |
+| **Code Complexity**       | 150 lines (server.js)           |
+| **External Dependencies** | 0 (zero)                        |
+| **Component Examples**    | 3 (simple to advanced)          |
+| **Development Patterns**  | 2 (direct-edit, build-enhanced) |
 
-```bash
-# Copy built components to your EDS project
-cp -r blocks/* /path/to/your/eds-project/blocks/
+## 🚀 Getting Started Paths
 
-# Navigate to your EDS project
-cd /path/to/your/eds-project
+### 👨‍💻 **For Developers**
+1. Start with [`docs/for-ai/eds.md`](docs/for-ai/eds.md) - Comprehensive EDS guide
+2. Follow [`docs/for-ai/raw-eds-blocks-guide.md`](docs/for-ai/raw-eds-blocks-guide.md) for simple components
+3. Progress to [`docs/for-ai/complex-eds-blocks-guide.md`](docs/for-ai/complex-eds-blocks-guide.md) for advanced features
 
-# Commit and push to git
-git add blocks/
-git commit -m "Add web components with advanced features"
-git push origin main
-```
+### 🏗️ **For Architects**
+1. Review [`docs/for-ai/design-philosophy-guide.md`](docs/for-ai/design-philosophy-guide.md)
+2. Study [`docs/for-ai/block-architecture-standards.md`](docs/for-ai/block-architecture-standards.md)
+3. Analyze [`docs/for-ai/eds-webcomponents-review.md`](docs/for-ai/eds-webcomponents-review.md)
 
-The deploy command handles the build process, but final integration requires copying to your EDS repository and committing the changes.
+### 📋 **For Project Managers**
+1. Begin with [`docs/for-ai/guidelines/prd.md`](docs/for-ai/guidelines/prd.md)
+2. Review [`docs/for-ai/guidelines/tech-stack.md`](docs/for-ai/guidelines/tech-stack.md)
+3. Implement [`docs/for-ai/guidelines/security-checklist.md`](docs/for-ai/guidelines/security-checklist.md)
 
-## 🧪 Testing & Quality Assurance
+### 🤖 **For AI Assistants**
+1. **Essential:** [`docs/for-ai/index.md`](docs/for-ai/index.md) - Complete navigation and context
+2. **Code Generation:** [`docs/for-ai/block-architecture-standards.md`](docs/for-ai/block-architecture-standards.md)
+3. **Quality Standards:** [`docs/for-ai/guidelines/frontend-guidelines.md`](docs/for-ai/guidelines/frontend-guidelines.md)
 
-### EDS Compatibility Testing
-- **Proper block structure validation**
-- **EDS environment replication**
-- **Component isolation testing**
-- **Performance monitoring**
+## 🏆 Why This Framework?
 
-### Development Scripts
-```bash
-npm run lint          # ESLint with automatic fixes
-npm run lint:md       # Markdown linting
-npm run hint          # Webhint analysis
-npm run security      # Security audit
-npm run validate      # Complete quality check
-```
+### ✅ **Proven Philosophy**
+- **Simple tools, sophisticated results** - Vanilla JavaScript creating advanced UI
+- **Zero dependencies** - No npm vulnerabilities or update fatigue
+- **Direct development** - Edit files, see changes immediately
 
-## 📚 Comprehensive Documentation
+### ✅ **Enterprise Ready**
+- **Comprehensive documentation** - Professional-grade development guides
+- **Security focused** - Built-in security guidelines and best practices
+- **Performance optimized** - Core Web Vitals and accessibility standards
 
-### Developer Resources
-- **[Development Server Guide](docs/server-README.md)** - Complete server documentation
-- **[Shoelace Card Implementation](shoelace-card-blog.md)** - Advanced component guide
-- **[AI Assistant Guidelines](docs/for-ai/)** - Development standards and patterns
+### ✅ **AI Optimized**
+- **Extensive context** - 5,000+ lines of development guidance
+- **Pattern-based** - Consistent, reusable development patterns
+- **Well-documented** - Clear examples and implementation details
 
-### Component Documentation
-- **[Counter Component](blocks/counter/README.md)** - Basic interactive component
-- **[Shoelace Integration](blocks/shoelace/README.md)** - Design system integration
-- **[Shoelace Card](blocks/shoelace-card/README.md)** - Advanced card component
+## 📞 Support & Resources
 
-## 🎯 Design Principles
-
-### Technical Excellence
-- **Modern JavaScript (ES modules)** without TypeScript complexity
-- **Pure CSS** without preprocessors
-- **Zero heavy frameworks** - focus on web standards
-- **Performance first** - optimized for Core Web Vitals
-- **Security hardened** - CSP compliant implementations
-
-### Development Quality
-- **Comprehensive testing** for functionality and accessibility
-- **Error boundaries** with graceful fallbacks
-- **Clean architecture** with configuration-driven design
-- **Standalone capabilities** with exported decorate functions
-- **Build tool integration** without warnings or conflicts
-
-### User Experience
-- **Visual excellence** with premium glassmorphism effects
-- **Smooth interactions** with sophisticated animation systems
-- **Responsive design** optimized for all devices
-- **Accessibility first** with comprehensive ARIA support
-
-## 🔧 Advanced Features
-
-### Component Build System
-```bash
-# Vite-based standalone development
-cd build/shoelace-card && npm run dev
-
-# Build and deploy to blocks directory
-cd build/shoelace-card && npm run deploy
-```
-
-### Development Server Features
-- **Automatic proxy fallback** to remote assets
-- **EDS structure validation** and error reporting
-- **Hot reload support** for rapid development
-- **Comprehensive logging** for debugging
-- **CORS support** for cross-origin development
-
-### NPX Command Workflows
-```bash
-# Development server
-npm run debug
-
-# Component builds
-cd build/shoelace-card && npm run deploy
-
-# Quality assurance
-npm run validate
-
-# Security auditing
-npm run security
-```
-
-## File Naming Conventions
-
-### HTML Files Quick Reference
-
-This project uses two distinct HTML file naming patterns for different environments:
-
-| File         | Location              | Purpose     | Auto-loaded   | Usage                   |
-| ------------ | --------------------- | ----------- | ------------- | ----------------------- |
-| `index.html` | `build/` directories  | Development | ✅ Yes (Vite)  | Component building      |
-| `test.html`  | `blocks/` directories | EDS Testing | ❌ No (Manual) | EDS environment testing |
-
-### Quick Usage Guide
-
-```bash
-# Development (auto-loads index.html)
-cd build/component-name
-npm run dev  # → http://localhost:5174/ (serves index.html)
-
-# EDS Testing (explicit test.html request)
-npm run debug  # → http://localhost:3000/blocks/component-name/test.html
-```
-
-### Why Two Different Files?
-
-- **`index.html`**: Expected by modern build tools (Vite, webpack) for auto-loading
-- **`test.html`**: Explicit naming for EDS testing, allows multiple test scenarios
-
-### Developer Quick Start
-
-1. **Build components** in `build/` directories using `index.html`
-2. **Deploy with** `npm run deploy` (creates `test.html` in `blocks/`)
-3. **Test in EDS** using the deployed `test.html` files
-
-This naming pattern ensures smooth integration with both development tools and EDS testing while maintaining clear environment separation.
-
-> **Note**: This is intentional architecture, not a naming inconsistency. Each environment uses the appropriate file naming convention for its tools and workflows.
-
-## 📋 Prerequisites
-
-- **Node.js 18+** (for built-in fetch and ES modules)
-- **Modern Browser** with ES module support
-- **Adobe Edge Delivery Services** project setup
-- **Understanding of EDS block architecture**
-
-## 🚀 Performance Standards
-
-- **Lighthouse Performance Score**: 90+
-- **First Contentful Paint**: < 1.5s
-- **Largest Contentful Paint**: < 2.5s
-- **Cumulative Layout Shift**: < 0.1
-- **Zero external dependencies** for core functionality
-
-## 🤝 Contributing
-
-We welcome contributions that align with our principles of simplicity, performance, and modern web standards.
-
-### Quick Contribution Steps
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-component`
-3. Follow our development guidelines
-4. Test with both standalone and EDS environments
-5. Submit a pull request with comprehensive documentation
-
-### Development Guidelines
-- Use vanilla JavaScript (ES6+) only
-- Maintain EDS block structure compatibility
-- Include comprehensive documentation
-- Ensure accessibility compliance
-- Follow performance standards
-- Add proper testing
-
-## 📚 Additional Resources
-
-- **[Contributing Guidelines](CONTRIBUTING.md)** - Detailed contribution process
-- **[Code of Conduct](CODE_OF_CONDUCT.md)** - Community guidelines
-- **[Security Policy](SECURITY.md)** - Security reporting and policies
-- **[Original Blog Post](https://allabout.network/blogs/ddt/integrations/using-web-components-in-adobe-edge-delivery-services-blocks)** - Implementation background
-
-## 🔒 Security & Compliance
-
-- **CSP compliant** implementations
-- **Security audit** integration with npm audit
-- **Vulnerability reporting** through GitHub Security Advisories
-- **Safe defaults** with no directory traversal risks
+- **📋 Issues:** [GitHub Issues](https://github.com/ddttom/webcomponents-with-eds/issues)
+- **💬 Discussions:** [GitHub Discussions](https://github.com/ddttom/webcomponents-with-eds/discussions)
+- **📚 Documentation:** [Complete Framework](docs/for-ai/index.md)
+- **📧 Contact:** tom.cranstoun@gmail.com
+- **🌐 Blog:** [Original Implementation Post](https://allabout.network/blogs/ddt/integrations/using-web-components-in-adobe-edge-delivery-services-blocks)
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
-
-**Tom Cranstoun**
-- Email: tom.cranstoun@gmail.com
-- GitHub: [@ddttom](https://github.com/ddttom)
-- Blog: [Using Web Components in Adobe Edge Delivery Services](https://allabout.network/blogs/ddt/integrations/using-web-components-in-adobe-edge-delivery-services-blocks)
+MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- Adobe Edge Delivery Services team for the excellent platform
-- Shoelace Design System for outstanding web components
-- The web components community for inspiration and best practices
-- AI assistant developers who benefit from our comprehensive documentation
-
-## 📞 Support
-
-- **Issues**: [GitHub Issues](https://github.com/ddttom/webcomponents-with-eds/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/ddttom/webcomponents-with-eds/discussions)
-- **Documentation**: [Comprehensive Docs](docs/)
-- **Email**: tom.cranstoun@gmail.com
+- **Adobe Edge Delivery Services** team for the excellent platform
+- **Shoelace Design System** for outstanding web components
+- **AI development community** for inspiration and feedback
+- **Simple JavaScript philosophy** advocates
 
 ---
 
-**Ready to build sophisticated EDS components?** This framework provides everything you need - from basic components to advanced glassmorphism effects, complete with development infrastructure, build automation, and comprehensive testing capabilities. Start with our development server and explore the advanced Shoelace Card component to see the full potential of modern EDS development.
+**Ready to build sophisticated EDS components with simple tools?** This framework proves that zero dependencies doesn't mean zero capabilities. Start with our comprehensive documentation and join the simple-but-powerful development revolution.
+
+**🎯 Perfect for developers who believe that elegance comes from simplicity, not complexity.**

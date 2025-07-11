@@ -1,6 +1,6 @@
 # Block Debugging Guide for AI Assistants
 
-**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [EDS Overview](eds.md)
+**Related Documentation:** [Block Architecture Standards](../implementation/block-architecture-standards.md) | [Raw EDS Blocks Guide](../implementation/raw-eds-blocks-guide.md) | [Complex EDS Blocks Guide](../implementation/complex-eds-blocks-guide.md) | [EDS Overview](../eds.md)
 
 ## 🚨 **DEEP DEBUGGING POLICY NOTICE**
 
@@ -697,10 +697,10 @@ This policy ensures safe, intentional debugging while maintaining EDS core integ
 ## See Also
 
 ### Essential Development Guides
-- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
-- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies
-- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools, external dependencies, and sophisticated patterns
-- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Block Architecture Standards](../implementation/block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions, file structure, and coding patterns
+- **[Raw EDS Blocks Guide](../implementation/raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies
+- **[Complex EDS Blocks Guide](../implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools, external dependencies, and sophisticated patterns
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 
 ### Testing & Quality Assurance
 - **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches for EDS blocks including unit tests and integration testing
@@ -709,7 +709,7 @@ This policy ensures safe, intentional debugging while maintaining EDS core integ
 - **[Accessibility Testing](accessibility-testing.md)** - Testing EDS blocks for accessibility compliance and best practices
 
 ### Development Tools & Workflows
-- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration for complex EDS blocks
 - **[Deployment Strategies](deployment-strategies.md)** - Best practices for deploying EDS blocks to production
 - **[CI/CD Integration](ci-cd-integration.md)** - Integrating EDS block development into continuous integration pipelines
@@ -723,18 +723,18 @@ This policy ensures safe, intentional debugging while maintaining EDS core integ
 ## Next Steps
 
 ### For New EDS Developers
-1. **Master the basics** by completing the [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) before attempting debugging
-2. **Understand EDS architecture** through the [EDS Overview](eds.md) to grasp the system you're debugging
-3. **Learn the standards** from [Block Architecture Standards](block-architecture-standards.md) to debug more effectively
+1. **Master the basics** by completing the [Raw EDS Blocks Guide](../implementation/raw-eds-blocks-guide.md) before attempting debugging
+2. **Understand EDS architecture** through the [EDS Overview](../eds.md) to grasp the system you're debugging
+3. **Learn the standards** from [Block Architecture Standards](../implementation/block-architecture-standards.md) to debug more effectively
 4. **Practice standard debugging** techniques before requesting deep debugging operations
-5. **Set up your development environment** following [Project Structure](project-structure.md) guidelines
+5. **Set up your development environment** following [Project Structure](../project-structure.md) guidelines
 
 ### For Experienced Developers
 1. **Master the file replacement workflow** for testing instrumented versions of blocks
 2. **Implement comprehensive error handling** using the patterns shown in this guide
 3. **Set up performance monitoring** to identify bottlenecks and optimization opportunities
 4. **Create debugging utilities** that can be reused across multiple block projects
-5. **Explore advanced debugging** with [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) techniques
+5. **Explore advanced debugging** with [Complex EDS Blocks Guide](../implementation/complex-eds-blocks-guide.md) techniques
 
 ### For QA Engineers & Testers
 1. **Understand the dual testing approach** (development vs. EDS integration testing)

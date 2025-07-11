@@ -6,7 +6,7 @@
 
 This investigation implemented comprehensive instrumentation for the EDS (Edge Delivery Services) JavaScript application to capture detailed performance metrics, function call traces, execution timing data, variable scope analysis, memory usage patterns, and program flow information during runtime execution.
 
-*See also: [Server README](server-README.md) for development server setup | [Performance Optimization](performance-optimization.md) for optimization techniques*
+*See also: [Server README](../../server-README.md) for development server setup | [Performance Optimization](performance-optimization.md) for optimization techniques*
 
 ## Test Environment
 
@@ -174,27 +174,27 @@ The investigation demonstrates that comprehensive performance monitoring can be 
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 
 ### Development Environment & Tools
-- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Server README](../../server-README.md)** - Development server setup and configuration for EDS block development and testing
 - **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration
 
 ### Architecture & Development Standards
-- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
-- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
-- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
-- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Block Architecture Standards](../implementation/block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
+- **[EDS Architecture Standards](../implementation/eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[Design Philosophy Guide](../implementation/design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
 
 ### Implementation & Development
-- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
-- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
-- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
-- **[Build Component Template](build-component-template.md)** - Template for advanced build components with external dependencies
+- **[Raw EDS Blocks Guide](../implementation/raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
+- **[Complex EDS Blocks Guide](../implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
+- **[Build Blocks Clarification](../implementation/build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Build Component Template](../implementation/build-component-template.md)** - Template for advanced build components with external dependencies
 
 ### Advanced Topics & Patterns
 - **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
 - **[Error Handling Patterns](error-handling-patterns.md)** - Comprehensive error handling strategies for EDS blocks
-- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 - **[Testing Strategies](testing-strategies.md)** - Comprehensive testing approaches for EDS blocks including unit tests and integration testing
 
 ## Next Steps

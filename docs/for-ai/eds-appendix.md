@@ -1,12 +1,12 @@
 # Adobe Edge Delivery Services (EDS) Development Reference Guide
 
-*Related: [EDS Overview](eds.md) | [Block Architecture Standards](block-architecture-standards.md) | [Design Philosophy Guide](design-philosophy-guide.md)*
+*Related: [EDS Overview](eds.md) | [Block Architecture Standards](implementation/block-architecture-standards.md) | [Design Philosophy Guide](implementation/design-philosophy-guide.md)*
 
 ## Introduction
 
 To ensure effective and efficient development within the EDS environment, it is essential to adhere to established best practices. These practices encompass a wide range of considerations, including document structuring, content optimization, metadata utilization, and adherence to platform-specific requirements.
 
-*See also: [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) for implementation examples | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) for advanced patterns*
+*See also: [Raw EDS Blocks Guide](implementation/raw-eds-blocks-guide.md) for implementation examples | [Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md) for advanced patterns*
 
 **Document Structuring:** Clear and logical organization of content is paramount. Utilize headings, subheadings, and consistent formatting to enhance readability and navigation. Consider the target audience and their information needs when structuring documents.
 
@@ -28,7 +28,7 @@ By following these best practices, developers can create high-quality, user-cent
 
 ## Configuration and Structure
 
-*Related: [EDS Architecture Standards](eds-architecture-standards.md) for architectural patterns | [JavaScript Patterns](javascript-patterns.md) for reusable patterns*
+*Related: [EDS Architecture Standards](implementation/eds-architecture-standards.md) for architectural patterns | [JavaScript Patterns](javascript-patterns.md) for reusable patterns*
 
 ### Configuration Constants Pattern
 
@@ -419,31 +419,31 @@ This approach allows authors to specify variations in the document (e.g., `Block
 
 ### Core EDS Foundation & Architecture
 - **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
-- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
-- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
-- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+- **[Block Architecture Standards](implementation/block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
+- **[EDS Architecture Standards](implementation/eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[Design Philosophy Guide](implementation/design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
 - **[CSS Naming Convention Style Guide](style-guide.md)** - Comprehensive CSS naming standards and conventions for EDS block development
 
 ### Implementation Guides & Patterns
-- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
-- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
-- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
-- **[Build Component Template](build-component-template.md)** - Template for advanced build components with external dependencies
+- **[Raw EDS Blocks Guide](implementation/raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
+- **[Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
+- **[Build Blocks Clarification](implementation/build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows
+- **[Build Component Template](implementation/build-component-template.md)** - Template for advanced build components with external dependencies
 
 ### Development Environment & Tools
-- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Server README](../server-README.md)** - Development server setup and configuration for EDS block development and testing
 - **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
 - **[Error Handling Patterns](error-handling-patterns.md)** - Comprehensive error handling strategies for EDS blocks
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 
 ### Testing & Quality Assurance
-- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
-- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
-- **[Debug Guide](debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
-- **[Investigation](investigation.md)** - Advanced investigation techniques and analysis methods
+- **[EDS Native Testing Standards](testing/eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
+- **[EDS Architecture and Testing Guide](testing/EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[Debug Guide](testing/debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
+- **[Investigation](testing/investigation.md)** - Advanced investigation techniques and analysis methods
 
 ### Advanced Topics & Specialized Guides
-- **[Instrumentation Guide](Instrumentation%20-%20How%20it%20works.md)** - Advanced instrumentation techniques and performance monitoring
+- **[Instrumentation Guide](testing/Instrumentation%20-%20How%20it%20works.md)** - Advanced instrumentation techniques and performance monitoring
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration
 - **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions

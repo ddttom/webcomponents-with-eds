@@ -365,19 +365,19 @@ This architecture ensures that developers have modern tools while EDS projects g
 ### Development Guides
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks (direct-edit approach)
 - **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions and file structure
-- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
-- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
-- **[CSS Naming Convention Style Guide](style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[CSS Naming Convention Style Guide](../style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Development Environment & Tools
-- **[Server README](server-README.md)** - Development server setup and configuration for both build-based and direct-edit workflows
-- **[Debug Guide](debug.md)** - Comprehensive debugging strategies for both build-based and direct-edit components
+- **[Server README](../../server-README.md)** - Development server setup and configuration for both build-based and direct-edit workflows
+- **[Debug Guide](../testing/debug.md)** - Comprehensive debugging strategies for both build-based and direct-edit components
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration for complex EDS blocks
 - **[Deployment Strategies](deployment-strategies.md)** - Best practices for deploying both types of EDS blocks to production
 
 ### Testing & Quality Assurance
 - **[Testing Strategies](testing-strategies.md)** - Testing approaches for both build-based and direct-edit components
-- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
+- **[EDS Native Testing Standards](../testing/eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing both build-based and direct-edit components
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for both development approaches
 
@@ -394,7 +394,7 @@ This architecture ensures that developers have modern tools while EDS projects g
 2. **Start with simple components** using the direct-edit approach in `/blocks/` following [Raw EDS Blocks Guide](raw-eds-blocks-guide.md)
 3. **Learn the standards** from [Block Architecture Standards](block-architecture-standards.md) and [EDS Architecture Standards](eds-architecture-standards.md)
 4. **Practice the decision logic** by creating a few simple components before attempting build-based development
-5. **Set up your environment** using [Server README](server-README.md) for proper development workflow
+5. **Set up your environment** using [Server README](../../server-README.md) for proper development workflow
 
 ### For Experienced Developers
 1. **Master the decision matrix** to quickly determine which approach is appropriate for each component

@@ -4,7 +4,7 @@
 
 > **⚙️ Build Component Notice**: This component uses a build process and external dependencies, which differs from the core EDS philosophy of simple JavaScript. Build components are designed for complex functionality that requires sophisticated tooling while maintaining EDS compatibility.
 
-*See also: [Design Philosophy Guide](design-philosophy-guide.md) for EDS principles | [Server README](server-README.md) for development setup*
+*See also: [Design Philosophy Guide](design-philosophy-guide.md) for EDS principles | [Server README](../../server-README.md) for development setup*
 
 ## Development Workflow
 
@@ -84,19 +84,19 @@ This separation allows for sophisticated development workflows while maintaining
 - **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
 
 ### Development Environment & Tools
-- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development and testing
-- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[Server README](../../server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks as an alternative approach
 
 ### Testing & Quality Assurance
-- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
-- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
-- **[Debug Guide](debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
-- **[Instrumentation Guide](Instrumentation%20-%20How%20it%20works.md)** - Advanced instrumentation techniques and performance monitoring
+- **[EDS Native Testing Standards](../testing/eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
+- **[EDS Architecture and Testing Guide](../testing/EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[Debug Guide](../testing/debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
+- **[Instrumentation Guide](../testing/Instrumentation%20-%20How%20it%20works.md)** - Advanced instrumentation techniques and performance monitoring
 
 ### Advanced Topics & Patterns
-- **[Investigation](investigation.md)** - Advanced investigation techniques and analysis methods for complex components
+- **[Investigation](../testing/investigation.md)** - Advanced investigation techniques and analysis methods for complex components
 - **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
 - **[Error Handling Patterns](error-handling-patterns.md)** - Comprehensive error handling strategies for build components
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing build component performance and loading

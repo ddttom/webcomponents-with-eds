@@ -1,12 +1,12 @@
 # CSS Naming Convention Style Guide
 
-*Related: [Frontend Guidelines](guidelines/frontend-guidelines.md) | [EDS Appendix](eds-appendix.md) | [Block Architecture Standards](block-architecture-standards.md)*
+*Related: [Frontend Guidelines](guidelines/frontend-guidelines.md) | [EDS Appendix](eds-appendix.md) | [Block Architecture Standards](implementation/block-architecture-standards.md)*
 
 ## Overview
 
 This style guide establishes consistent CSS selector naming conventions for EDS (Edge Delivery Services) blocks and components. Following these conventions ensures maintainable, predictable, and conflict-free styling across all components.
 
-*See also: [Design Philosophy Guide](design-philosophy-guide.md) for EDS principles | [EDS Architecture Standards](eds-architecture-standards.md) for architectural patterns*
+*See also: [Design Philosophy Guide](implementation/design-philosophy-guide.md) for EDS principles | [EDS Architecture Standards](implementation/eds-architecture-standards.md) for architectural patterns*
 
 ## Core Principles
 
@@ -377,24 +377,24 @@ For questions or clarifications about these conventions, refer to the component 
 ### Core Development Standards & Guidelines
 - **[Frontend Guidelines](guidelines/frontend-guidelines.md)** - Comprehensive frontend development standards including CSS best practices and component styling
 - **[EDS Appendix](eds-appendix.md)** - Complete development reference guide with CSS patterns, naming conventions, and best practices
-- **[Block Architecture Standards](block-architecture-standards.md)** - Architectural standards for EDS block development and component structure
-- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture and styling decisions
+- **[Block Architecture Standards](implementation/block-architecture-standards.md)** - Architectural standards for EDS block development and component structure
+- **[Design Philosophy Guide](implementation/design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture and styling decisions
 
 ### EDS Foundation & Architecture
 - **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
-- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
-- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks with proper CSS structure
-- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools while maintaining CSS standards
+- **[EDS Architecture Standards](implementation/eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[Raw EDS Blocks Guide](implementation/raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks with proper CSS structure
+- **[Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools while maintaining CSS standards
 
 ### Implementation & Development
-- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding dual-directory architecture and CSS organization
-- **[Build Component Template](build-component-template.md)** - Template for advanced components with CSS naming standards
-- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing standards including CSS structure validation
-- **[Server README](server-README.md)** - Development server setup for CSS and component development
+- **[Build Blocks Clarification](implementation/build_blocks_clarification.md)** - Understanding dual-directory architecture and CSS organization
+- **[Build Component Template](implementation/build-component-template.md)** - Template for advanced components with CSS naming standards
+- **[EDS Native Testing Standards](testing/eds-native-testing-standards.md)** - Testing standards including CSS structure validation
+- **[Server README](../server-README.md)** - Development server setup for CSS and component development
 
 ### Advanced Topics & Quality Assurance
-- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - Advanced testing including CSS validation and structure testing
-- **[Debug Guide](debug.md)** - Debugging CSS issues and component styling problems
+- **[EDS Architecture and Testing Guide](testing/EDS-Architecture-and-Testing-Guide.md)** - Advanced testing including CSS validation and structure testing
+- **[Debug Guide](testing/debug.md)** - Debugging CSS issues and component styling problems
 - **[Performance Optimization](performance-optimization.md)** - CSS performance optimization and efficient styling techniques
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring CSS compatibility across browsers and devices
 

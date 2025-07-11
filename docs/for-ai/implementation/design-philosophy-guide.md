@@ -1,11 +1,11 @@
 # EDS Component Design Philosophy
 ## Bridging Simplicity and Sophistication
 
-**Related Documentation:** [EDS Overview](eds.md) | [EDS Architecture Standards](eds-architecture-standards.md) | [Build Blocks Clarification](build_blocks_clarification.md) | [Block Architecture Standards](block-architecture-standards.md)
+**Related Documentation:** [EDS Overview](../eds.md) | [EDS Architecture Standards](eds-architecture-standards.md) | [Build Blocks Clarification](build_blocks_clarification.md) | [Block Architecture Standards](block-architecture-standards.md)
 
 ### The Fundamental Tension
 
-Adobe Edge Delivery Services (EDS) champions a philosophy of **radical simplicity** (see [EDS Overview](eds.md) for comprehensive implementation examples):
+Adobe Edge Delivery Services (EDS) champions a philosophy of **radical simplicity** (see [EDS Overview](../eds.md) for comprehensive implementation examples):
 - Vanilla JavaScript with minimal dependencies
 - Direct DOM manipulation
 - Performance-first architecture
@@ -337,7 +337,7 @@ proxy: {
 - ✅ Export `decorate` function as default
 - ✅ Accept block element as parameter
 - ✅ Maintain EDS attributes (`data-block-name`, `data-block-status`)
-- ✅ Follow CSS naming conventions (`.block-name.block`) - see [CSS Naming Convention Style Guide](style-guide.md)
+- ✅ Follow CSS naming conventions (`.block-name.block`) - see [CSS Naming Convention Style Guide](../style-guide.md)
 - ✅ Include comprehensive error handling
 
 **User Experience Requirements:**
@@ -468,26 +468,26 @@ The goal isn't to avoid complexity - it's to **choose complexity consciously** a
 ## See Also
 
 ### Core Philosophy & Architecture
-- **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
+- **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
 - **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and when to use each approach
 - **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions and file structure
-- **[CSS Naming Convention Style Guide](style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
+- **[CSS Naming Convention Style Guide](../style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Implementation Guides
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for implementing the simple/EDS-native pattern
 - **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Detailed implementation guide for the build-enhanced pattern with external dependencies
 - **[Build Component Template](build-component-template.md)** - Template and scaffolding for creating new build-based EDS components
-- **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
 ### Development & Testing
-- **[Debug Guide](debug.md)** - Comprehensive debugging strategies for both simple and complex EDS blocks
+- **[Debug Guide](../testing/debug.md)** - Comprehensive debugging strategies for both simple and complex EDS blocks
 - **[Testing Strategies](testing-strategies.md)** - Testing approaches for both architectural patterns
-- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
+- **[EDS Native Testing Standards](../testing/eds-native-testing-standards.md)** - Testing approaches specifically designed for EDS-native components
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing both simple and complex EDS blocks
 
 ### Development Environment & Tools
-- **[Server README](server-README.md)** - Development server setup and configuration for both development patterns
+- **[Server README](../../server-README.md)** - Development server setup and configuration for both development patterns
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for both architectural approaches
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration for complex EDS blocks
 - **[Deployment Strategies](deployment-strategies.md)** - Best practices for deploying both types of EDS blocks to production

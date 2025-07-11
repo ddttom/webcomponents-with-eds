@@ -1,11 +1,11 @@
 # Repository Review: Web Components with Adobe Edge Delivery Services
 ## A Deep Dive into Modern EDS Development
 
-*Related: [Build Blocks Clarification](build_blocks_clarification.md) | [Complex EDS Blocks Guide](complex-eds-blocks-guide.md) | [Design Philosophy Guide](design-philosophy-guide.md)*
+*Related: [Build Blocks Clarification](implementation/build_blocks_clarification.md) | [Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md) | [Design Philosophy Guide](implementation/design-philosophy-guide.md)*
 
 *An in-depth analysis of a repository that successfully bridges the gap between Adobe EDS simplicity and modern web component development*
 
-*See also: [EDS Overview](eds.md) for foundational concepts | [Block Architecture Standards](block-architecture-standards.md) for development standards*
+*See also: [EDS Overview](eds.md) for foundational concepts | [Block Architecture Standards](implementation/block-architecture-standards.md) for development standards*
 
 ---
 
@@ -464,27 +464,27 @@ The repository successfully demonstrates that you don't have to choose between E
 ## See Also
 
 ### Core Architecture & Development Patterns
-- **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows analyzed in this review
-- **[Complex EDS Blocks Guide](complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
-- **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
-- **[Build Component Template](build-component-template.md)** - Template for advanced build components with external dependencies
+- **[Build Blocks Clarification](implementation/build_blocks_clarification.md)** - Understanding the dual-directory architecture and development workflows analyzed in this review
+- **[Complex EDS Blocks Guide](implementation/complex-eds-blocks-guide.md)** - Advanced block development with build tools and external dependencies
+- **[Design Philosophy Guide](implementation/design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+- **[Build Component Template](implementation/build-component-template.md)** - Template for advanced build components with external dependencies
 
 ### EDS Foundation & Standards
 - **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
-- **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
-- **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
-- **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
+- **[Block Architecture Standards](implementation/block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
+- **[EDS Architecture Standards](implementation/eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
+- **[Raw EDS Blocks Guide](implementation/raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
 
 ### Development Environment & Tools
-- **[Server README](server-README.md)** - Development server setup and configuration for EDS block development and testing
-- **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
+- **[Server README](../server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[EDS Native Testing Standards](testing/eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration
 
 ### Testing & Quality Assurance
-- **[EDS Architecture and Testing Guide](EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
-- **[Debug Guide](debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
-- **[Investigation](investigation.md)** - Advanced investigation techniques and analysis methods
+- **[EDS Architecture and Testing Guide](testing/EDS-Architecture-and-Testing-Guide.md)** - Advanced testing workflows and file replacement strategies
+- **[Debug Guide](testing/debug.md)** - Complete debugging policy and approval requirements for development troubleshooting
+- **[Investigation](testing/investigation.md)** - Advanced investigation techniques and analysis methods
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 
 ### Advanced Topics & Reference Materials
