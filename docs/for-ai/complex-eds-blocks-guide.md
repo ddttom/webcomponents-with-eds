@@ -1470,6 +1470,7 @@ This approach enables modern development workflows while respecting EDS principl
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies
 - **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[Project Structure](project-structure.md)** - Understanding the overall EDS project organization and file conventions
+- **[CSS Naming Convention Style Guide](style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Development & Testing
 - **[Debug Guide](debug.md)** - Comprehensive debugging strategies for EDS blocks and common troubleshooting scenarios

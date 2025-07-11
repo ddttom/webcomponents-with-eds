@@ -5,7 +5,7 @@
 
 ### The Fundamental Tension
 
-Adobe Edge Delivery Services (EDS) champions a philosophy of **radical simplicity**:
+Adobe Edge Delivery Services (EDS) champions a philosophy of **radical simplicity** (see [EDS Overview](eds.md) for comprehensive implementation examples):
 - Vanilla JavaScript with minimal dependencies
 - Direct DOM manipulation
 - Performance-first architecture
@@ -19,7 +19,7 @@ But modern web development demands **sophisticated capabilities**:
 
 This guide establishes a **conscious architectural approach** that respects both needs.
 
-## **Critical EDS Concept: Served vs Rendered HTML** 📄
+## **Critical EDS Concept: Served vs Rendered HTML** 📄 {#served-vs-rendered-html}
 
 ### **Understanding EDS HTML Transformation**
 
@@ -74,7 +74,7 @@ Some complex blocks include both test files to validate different scenarios:
 - Validates EDS processing works correctly
 - Catches edge cases in content extraction
 
-## **Critical EDS Constraint: Fixed Block Names** 🔒
+## **Critical EDS Constraint: Fixed Block Names** 🔒 {#fixed-block-names}
 
 ### **Understanding EDS Dynamic Loading**
 
@@ -119,7 +119,7 @@ EDS **automatically and dynamically**:
 
 ### **Why the Dual-Directory Architecture Exists**
 
-This constraint is precisely why the dual-directory approach is necessary:
+This constraint is precisely why the dual-directory approach is necessary (see [Build Blocks Clarification](build_blocks_clarification.md) for detailed implementation guidance):
 
 ```
 HTML: <div class="shoelace-card">           ← Fixed class name
@@ -136,7 +136,7 @@ Deploy: /blocks/shoelace-card/            ← EDS requirements
 
 The build process acts as a "translator" between flexible development and rigid deployment requirements.
 
-## Core Principles
+## Core Principles {#core-principles}
 
 ### 1. **Conscious Complexity**
 > Never drift into complexity - choose it deliberately.
@@ -202,7 +202,7 @@ export default async function decorate(block) {
 }
 ```
 
-## Architectural Decision Framework
+## Architectural Decision Framework {#architectural-decision-framework}
 
 ### When to Choose Simple (EDS-Native) Pattern
 
@@ -259,7 +259,7 @@ export default function decorate(block) {
 }
 ```
 
-## Implementation Patterns
+## Implementation Patterns {#implementation-patterns}
 
 ### Pattern 1: EDS-Native (Simple)
 ```
@@ -337,7 +337,7 @@ proxy: {
 - ✅ Export `decorate` function as default
 - ✅ Accept block element as parameter
 - ✅ Maintain EDS attributes (`data-block-name`, `data-block-status`)
-- ✅ Follow CSS naming conventions (`.block-name.block`)
+- ✅ Follow CSS naming conventions (`.block-name.block`) - see [CSS Naming Convention Style Guide](style-guide.md)
 - ✅ Include comprehensive error handling
 
 **User Experience Requirements:**
@@ -472,6 +472,7 @@ The goal isn't to avoid complexity - it's to **choose complexity consciously** a
 - **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
 - **[Build Blocks Clarification](build_blocks_clarification.md)** - Understanding the dual-directory architecture and when to use each approach
 - **[Block Architecture Standards](block-architecture-standards.md)** - Comprehensive standards for EDS block development including naming conventions and file structure
+- **[CSS Naming Convention Style Guide](style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Implementation Guides
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for implementing the simple/EDS-native pattern

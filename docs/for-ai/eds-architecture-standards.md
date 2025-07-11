@@ -8,24 +8,43 @@ This document, created for an AI assistant,  establishes architectural patterns 
 
 ## Architecture Overview
 
-```mermaid
-graph TD
-    A[New EDS Component] --> B{Complexity Assessment}
-    
-    B --> C[EDS-Native Pattern<br/>Simple Components]
-    
-    C --> E[Common Standards Layer]
-    
-    E --> F[Error Handling]
-    E --> G[Accessibility]
-    E --> H[Performance]
-    E --> I[Testing]
-    
-    F --> J[Implementation]
-    G --> J
-    H --> J
-    I --> J
-```
+**EDS-Native Architecture Decision Flow:**
+
+The EDS-Native architecture follows a streamlined decision-making process focused on simplicity and performance:
+
+1. **Component Initiation**
+   - Begin with a new EDS component requirement
+   - Proceed to evaluate component complexity and requirements
+
+2. **Complexity Assessment Decision Point**
+   - Analyze the component's functional requirements and complexity level
+   - Determine if the component fits the EDS-Native pattern criteria:
+     - Simple or minimal state management needs
+     - Custom styling requirements
+     - Performance-critical applications
+     - Preference for minimal dependencies
+     - No build process requirements
+
+3. **EDS-Native Pattern Selection**
+   - Components meeting the assessment criteria follow the **EDS-Native Pattern for Simple Components**
+   - This pattern emphasizes vanilla JavaScript, direct DOM manipulation, and minimal external dependencies
+   - Focus on lightweight, performant solutions that align with EDS core principles
+
+4. **Common Standards Layer Integration**
+   - All EDS-Native components must implement the unified Common Standards Layer
+   - This layer ensures consistency and quality across all EDS components
+   - Standards apply regardless of component simplicity or complexity
+
+5. **Four Pillars of Standards Implementation**
+   - **Error Handling**: Robust error management with graceful degradation, user-friendly error states, and comprehensive logging
+   - **Accessibility**: Full WCAG 2.1 AA compliance, keyboard navigation support, screen reader compatibility, and inclusive design principles
+   - **Performance**: Optimized loading strategies, efficient DOM manipulation, responsive behavior, and minimal resource consumption
+   - **Testing**: Comprehensive validation procedures, quality assurance protocols, cross-browser compatibility, and accessibility testing
+
+6. **Final Implementation Convergence**
+   - All four standards areas must be satisfied before component completion
+   - Error Handling, Accessibility, Performance, and Testing requirements converge into the final implementation
+   - This ensures every EDS-Native component meets established quality benchmarks while maintaining the platform's simplicity principles
 
 ## EDS-Native Pattern
 
@@ -561,6 +580,7 @@ The focus on minimal dependencies and pure JavaScript ensures components remain 
 - **[EDS Overview](eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
 - **[Build Blocks Clarification](build_blocks_clarification.md)** - Clarification on EDS block architecture and implementation approaches
+- **[CSS Naming Convention Style Guide](style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Implementation Guides
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide to creating simple EDS blocks using vanilla JavaScript and minimal dependencies

@@ -26,7 +26,7 @@ As a developer working with EDS, understanding this philosophy is crucial—your
 
 ### Development Requirements and Constraints
 
-Before diving into EDS, it's important to understand its core development philosophy and constraints. These aren't limitations but deliberate design choices that promote simplicity, performance, and maintainability:
+Before diving into EDS, it's important to understand its core development philosophy and constraints. These aren't limitations but deliberate design choices that promote simplicity, performance, and maintainability (see [Design Philosophy Guide](design-philosophy-guide.md) for detailed architectural principles):
 
 - **Modern JavaScript without TypeScript**: EDS relies on vanilla JavaScript, avoiding transpilation complexity
 - **Pure CSS without preprocessors**: Direct CSS keeps things simple and performant
@@ -37,7 +37,7 @@ Before diving into EDS, it's important to understand its core development philos
 
 These requirements enable EDS to achieve perfect Core Web Vitals scores (100/100/100/100) by eliminating the overhead traditionally associated with modern web development. This approach is increasingly rare but remarkably effective—letting developers focus on solving real problems rather than managing toolchains.
 
-> **📁 Important Architecture Note**: The simple JavaScript philosophy described above applies to **files outside the `/build/` directory**. Files within `/build/` directories are for complex components that require build processes and may use external dependencies. This separation allows for both simple blocks (no build) and advanced components (with build systems) to coexist in the same project.
+> **📁 Important Architecture Note**: The simple JavaScript philosophy described above applies to **files outside the `/build/` directory**. Files within `/build/` directories are for complex components that require build processes and may use external dependencies. This separation allows for both simple blocks (no build) and advanced components (with build systems) to coexist in the same project. For detailed explanation of this dual-directory architecture, see [Build Blocks Clarification](build_blocks_clarification.md).
 
 ## The Document Transformation Journey
 
@@ -745,8 +745,7 @@ This icon system exemplifies EDS's philosophy of adapting to how authors natural
 
 ## Styling Rules
 
-\
-Never apply styling to elements with -container suffix in their class names (e.g. blockname-container, section-container). All styling should be applied to either the -wrapper or the block class itself.  This rule is crucial because in EDS:
+Never apply styling to elements with -container suffix in their class names (e.g. blockname-container, section-container). All styling should be applied to either the -wrapper or the block class itself. This rule is crucial because in EDS (for detailed CSS standards and naming conventions, see [CSS Naming Convention Style Guide](style-guide.md)):
 
 Container elements (.block-name-container) are structural elements that should never receive styling  Wrapper elements (.block-name-wrapper) are the appropriate place for layout and positioning styles. Block elements (.block-name) are for block-specific styling
 
@@ -754,7 +753,7 @@ In our current CSS file.
 
 ### Block Development in Code
 
-Each block corresponds to a specific folder and files in your project structure:
+Each block corresponds to a specific folder and files in your project structure (for comprehensive standards and conventions, see [Block Architecture Standards](block-architecture-standards.md)):
 
 ```
 /blocks/{blockname}/
@@ -884,7 +883,7 @@ To access EDS pages dynamically, you can use the query-index.json file available
 A key challenge in EDS development is how to extend functionality without modifying the core files. Many teams face common requirements that tempt them to directly edit aem.js or scripts.js:
 
 - Analytics tracking: Adding Google Analytics, Adobe Analytics, or other measurement tools
-- Personalization: Implementing user-specific content or A/B testing
+- Personalization: Implementing user-specific content or A/B testing (see [Testing Strategies](testing-strategies.md) for implementation approaches)
 - Cookie acceptance prompts: Meeting regulatory requirements for user consent
 - GDPR/privacy law compliance: Adding privacy controls and notices
 - Dynamic content: Pulling content from third-party APIs or from EDS's query-index.json
@@ -1042,7 +1041,7 @@ This prevents ESLint errors while maintaining the ability to use console logging
 
 ## Common Implementation Challenges and Solutions
 
-Teams developing with EDS often encounter similar challenges. Here are practical solutions to common problems:
+Teams developing with EDS often encounter similar challenges. Here are practical solutions to common problems (for comprehensive debugging strategies, see [Debug Guide](debug.md)):
 
 ### Challenge: Analytics Implementation
 

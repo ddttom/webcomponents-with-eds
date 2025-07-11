@@ -109,6 +109,8 @@ function validateInput(input) {
 
 ## CSS Guidelines
 
+*Related: [CSS Naming Convention Style Guide](../style-guide.md) for comprehensive CSS naming standards and EDS-specific conventions*
+
 ### Design System Integration
 
 Use CSS custom properties for consistent theming:
@@ -542,6 +544,7 @@ export function createResponsiveImage(config) {
 - **[Block Architecture Standards](../block-architecture-standards.md)** - Comprehensive standards for EDS block development and architectural patterns
 - **[EDS Architecture Standards](../eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
 - **[Design Philosophy Guide](../design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
+- **[CSS Naming Convention Style Guide](../style-guide.md)** - Comprehensive CSS naming standards and conventions for EDS block development
 
 ### Implementation Guides & Patterns
 - **[Raw EDS Blocks Guide](../raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
