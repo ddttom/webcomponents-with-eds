@@ -1,11 +1,46 @@
 # EDS Block Architecture Standards Guide
 
+## Quick Start by Experience Level
+
+### 🚀 New to EDS Block Development
+**If you're new to EDS**, start with these beginner-friendly sections:
+1. **[Executive Summary](#executive-summary)** - Overview of the two development approaches (5 min read)
+2. **[Pattern Selection Criteria](#pattern-selection-criteria)** - Choose between Simple vs Complex approaches (10 min read)
+3. **[EDS-Native Pattern (Simple Components)](#eds-native-pattern-simple-components)** - Start here for your first component
+4. **[Common Standards](#common-standards-both-patterns)** - Essential standards that apply to all components
+
+**Recommended Learning Path**: Read the Executive Summary → Choose your pattern → Follow the pattern-specific implementation guide → Apply common standards
+
+### 💻 Experienced Developer
+**If you have development experience but are new to EDS**:
+1. **[Architecture Overview](#architecture-overview)** - Understand the decision-making process
+2. **[Pattern Selection Criteria](#pattern-selection-criteria)** - Quick pattern selection guide
+3. **[JavaScript Architecture Standards](#2-javascript-architecture-standards)** - Core implementation patterns
+4. **[Performance Standards](#5-performance-standards)** - Advanced optimization techniques
+
+### 🏗️ Architect/Technical Lead
+**If you're establishing team standards**:
+1. **[AI-Assisted Development Philosophy](#ai-assisted-development-philosophy)** - Strategic development approach
+2. **[Multi-Component Assembly Architecture](#multi-component-assembly-architecture)** - Complex system design
+3. **[Implementation Timeline](#implementation-timeline)** - Project planning framework
+4. **[Quality Assurance Checklist](#quality-assurance-checklist)** - Team standards and processes
+
+## Document Navigation Guide
+
+**This comprehensive guide (1,982 lines) covers everything from basic component creation to advanced architectural patterns. Use these navigation strategies:**
+
+- **Quick Reference**: Jump directly to specific sections using the Table of Contents
+- **Progressive Learning**: Follow the experience-level paths above for structured learning
+- **Problem-Solving**: Use Ctrl+F to search for specific topics or error messages
+- **Cross-References**: Follow the "See Also" and "Next Steps" sections for related documentation
+
 > **📋 Style Guide**: For CSS naming conventions and standards, see the [CSS Naming Convention Style Guide](../style-guide.md)
 
 > **📚 Related Documentation**: 
-> - [`eds.md`](eds.md) - Complete EDS development guide and foundational concepts
+> - [`eds.md`](../eds.md) - Complete EDS development guide and foundational concepts
 > - [`design-philosophy-guide.md`](design-philosophy-guide.md) - Framework for choosing development approaches
 > - [`build_blocks_clarification.md`](build_blocks_clarification.md) - Dual-directory architecture explanation
+> - [`getting-started-guide.md`](../getting-started-guide.md) - Quick reference for progressive learning paths
 
 > **🏗️ Architecture Distinction**: This document covers **two distinct development approaches**:
 > - **Simple Blocks** (outside `/build/` directories): Follow EDS core philosophy of simple JavaScript, no dependencies, no build steps

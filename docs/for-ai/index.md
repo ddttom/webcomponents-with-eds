@@ -7,11 +7,19 @@ This index provides structured access to all documentation within the `docs/for-
 
 ## 📋 Quick Reference
 
+### 🚀 New to EDS? Start Here!
+- **[`getting-started-guide.md`](getting-started-guide.md)** - **Quick reference for progressive learning paths**
+  - Role-based learning paths (New Developer, Experienced Developer, Architect)
+  - Quick start by component type (Simple, Interactive, Performance-Critical)
+  - Common scenarios and quick solutions
+  - Progressive learning recommendations
+
 ### Essential Starting Points
-- **New to EDS?** → Start with [`eds.md`](eds.md) - Complete developer guide
+- **New to EDS?** → Start with [`getting-started-guide.md`](getting-started-guide.md) then [`eds.md`](eds.md)
 - **Building Components?** → See [Implementation Guides](#-implementation-guides)
 - **Testing Components?** → Check [Testing and Debugging](#-testing-and-debugging)
 - **Need Examples?** → Browse [Implementation Guides](#-implementation-guides)
+- **Navigation Strategy?** → Review [`document-relationship-mapping.md`](document-relationship-mapping.md)
 
 ### Development Patterns
 - **Simple Components** → [`implementation/raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md)
@@ -113,6 +121,19 @@ This index provides structured access to all documentation within the `docs/for-
 ---
 
 ## 📚 Reference Documentation
+
+### Navigation and Cross-Reference Guides
+- **[`document-relationship-mapping.md`](document-relationship-mapping.md)**
+  - Cross-reference analysis and bidirectional link strategy
+  - User journey pathways and navigation flows
+  - Document cluster relationships and strategic cross-references
+  - Target: AI assistants and developers seeking optimal navigation paths
+
+- **[`getting-started-guide.md`](getting-started-guide.md)**
+  - Quick reference for progressive learning paths
+  - Role-based navigation (New Developer, Experienced Developer, Architect)
+  - Scenario-based quick solutions and learning recommendations
+  - Target: All users seeking efficient entry points into the documentation
 
 ### Comprehensive References
 - **[`eds-appendix.md`](eds-appendix.md)**
@@ -276,16 +297,18 @@ Comprehensive references and detailed analysis documents
 ## 🚀 Getting Started Recommendations
 
 ### **For AI Assistants**
-1. Read [`eds.md`](eds.md) for comprehensive EDS understanding
-2. Review [`implementation/block-architecture-standards.md`](implementation/block-architecture-standards.md) for development patterns
-3. Reference [`guidelines/frontend-guidelines.md`](guidelines/frontend-guidelines.md) for coding standards
-4. Use [`testing/debug.md`](testing/debug.md) for troubleshooting workflows
+1. Review [`document-relationship-mapping.md`](document-relationship-mapping.md) for navigation strategy and cross-reference analysis
+2. Use [`getting-started-guide.md`](getting-started-guide.md) for user journey pathways and progressive learning paths
+3. Read [`eds.md`](eds.md) for comprehensive EDS understanding
+4. Reference [`implementation/block-architecture-standards.md`](implementation/block-architecture-standards.md) for development patterns
+5. Use [`testing/debug.md`](testing/debug.md) for troubleshooting workflows
 
 ### **For Human Developers**
-1. Start with [`eds.md`](eds.md) for complete overview
-2. Choose implementation guide based on component complexity
-3. Set up local environment using [`../server-README.md`](../server-README.md)
-4. Follow testing standards from [`testing/eds-native-testing-standards.md`](testing/eds-native-testing-standards.md)
+1. Start with [`getting-started-guide.md`](getting-started-guide.md) for role-based learning paths
+2. Follow with [`eds.md`](eds.md) for complete overview
+3. Choose implementation guide based on component complexity
+4. Set up local environment using [`../server-README.md`](../server-README.md)
+5. Follow testing standards from [`testing/eds-native-testing-standards.md`](testing/eds-native-testing-standards.md)
 
 ### **For Project Teams**
 1. Review [`guidelines/prd.md`](guidelines/prd.md) for project scope
