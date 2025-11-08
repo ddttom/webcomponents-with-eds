@@ -8,7 +8,8 @@
       "Bash(git push)",
       "Bash(npm run lint:js:*)",
       "Bash(npm run lint:css:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

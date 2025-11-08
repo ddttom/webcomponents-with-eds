@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="skillsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="docsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E94B3C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C13929;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="convergenceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7B68EE;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#9370DB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#BA55D3;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#F8F9FA"/>
+
+  <!-- Title -->
+  <text x="600" y="60" font-family="Arial, sans-serif" font-size="36" font-weight="bold" text-anchor="middle" fill="#2C3E50">
+    The Convergence
+  </text>
+  <text x="600" y="95" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#7F8C8D">
+    Skills + Documentation = Complete AI Development
+  </text>
+
+  <!-- Left Circle - Adobe's Skills (10%) -->
+  <circle cx="280" cy="400" r="120" fill="url(#skillsGradient)" opacity="0.9" filter="url(#glow)"/>
+  <text x="280" y="370" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="white">
+    10%
+  </text>
+  <text x="280" y="405" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="white">
+    Adobe's
+  </text>
+  <text x="280" y="430" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="white">
+    EDS Skills
+  </text>
+
+  <!-- Skills Details -->
+  <text x="280" y="550" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#4A90E2" font-weight="bold">
+    Lightweight Orchestration
+  </text>
+  <text x="280" y="575" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#34495E">
+    • Workflow Guides
+  </text>
+  <text x="280" y="595" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#34495E">
+    • Process Orchestrators
+  </text>
+  <text x="280" y="615" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#34495E">
+    • Universal Patterns
+  </text>
+  <text x="280" y="635" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#34495E">
+    • References to Docs
+  </text>
+
+  <!-- Right Circle - docs/for-ai (90%) -->
+  <circle cx="920" cy="400" r="180" fill="url(#docsGradient)" opacity="0.9" filter="url(#glow)"/>
+  <text x="920" y="370" font-family="Arial, sans-serif" font-size="64" font-weight="bold" text-anchor="middle" fill="white">
+    90%
+  </text>
+  <text x="920" y="415" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="white">
+    docs/for-ai
+  </text>
+  <text x="920" y="445" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="white">
+    Implementation Knowledge
+  </text>
+
+  <!-- Docs Details -->
+  <text x="920" y="620" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#E94B3C" font-weight="bold">
+    Comprehensive Foundation
+  </text>
+  <text x="920" y="645" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#34495E">
+    • 25+ Implementation Guides
+  </text>
+  <text x="920" y="665" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#34495E">
+    • Architectural Decisions
+  </text>
+  <text x="920" y="685" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#34495E">
+    • Complete Testing Standards
+  </text>
+  <text x="920" y="705" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#34495E">
+    • Real-world Examples
+  </text>
+
+  <!-- Connection Arrow -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#7B68EE" />
+    </marker>
+  </defs>
+
+  <!-- Flowing connection lines -->
+  <path d="M 400 380 Q 600 330, 740 380" stroke="#7B68EE" stroke-width="3" fill="none" opacity="0.6" marker-end="url(#arrowhead)"/>
+  <path d="M 400 420 Q 600 470, 740 420" stroke="#7B68EE" stroke-width="3" fill="none" opacity="0.6" marker-end="url(#arrowhead)"/>
+
+  <!-- Center Convergence Symbol -->
+  <circle cx="600" cy="400" r="80" fill="url(#convergenceGradient)" opacity="0.95" filter="url(#glow)"/>
+  <text x="600" y="395" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="white">
+    Complete
+  </text>
+  <text x="600" y="420" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">
+    AI System
+  </text>
+
+  <!-- Plus sign between circles -->
+  <text x="480" y="320" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#7B68EE">
+    +
+  </text>
+
+  <!-- Equals sign -->
+  <line x1="550" y1="240" x2="650" y2="240" stroke="#7B68EE" stroke-width="4"/>
+  <line x1="550" y1="260" x2="650" y2="260" stroke="#7B68EE" stroke-width="4"/>
+
+  <!-- Result Box at bottom -->
+  <rect x="300" y="735" width="600" height="50" rx="25" fill="url(#convergenceGradient)" opacity="0.9"/>
+  <text x="600" y="767" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="white">
+    = 100% Effective AI-Assisted EDS Development
+  </text>
+
+  <!-- Decorative connection dots -->
+  <circle cx="400" cy="380" r="5" fill="#7B68EE"/>
+  <circle cx="500" cy="355" r="5" fill="#7B68EE"/>
+  <circle cx="700" cy="355" r="5" fill="#7B68EE"/>
+  <circle cx="740" cy="380" r="5" fill="#7B68EE"/>
+
+  <circle cx="400" cy="420" r="5" fill="#7B68EE"/>
+  <circle cx="500" cy="445" r="5" fill="#7B68EE"/>
+  <circle cx="700" cy="445" r="5" fill="#7B68EE"/>
+  <circle cx="740" cy="420" r="5" fill="#7B68EE"/>
+
+  <!-- Small icons/symbols -->
+  <!-- Skills icon - process flow -->
+  <g transform="translate(280, 250)">
+    <rect x="-30" y="-10" width="60" height="4" rx="2" fill="white" opacity="0.8"/>
+    <circle cx="-35" cy="-8" r="6" fill="white" opacity="0.8"/>
+    <rect x="-30" y="6" width="60" height="4" rx="2" fill="white" opacity="0.8"/>
+    <circle cx="35" cy="8" r="6" fill="white" opacity="0.8"/>
+  </g>
+
+  <!-- Docs icon - book/document -->
+  <g transform="translate(920, 250)">
+    <rect x="-25" y="-15" width="50" height="30" rx="3" fill="white" opacity="0.8"/>
+    <line x1="-15" y1="-5" x2="15" y2="-5" stroke="#E94B3C" stroke-width="2"/>
+    <line x1="-15" y1="2" x2="15" y2="2" stroke="#E94B3C" stroke-width="2"/>
+    <line x1="-15" y1="9" x2="10" y2="9" stroke="#E94B3C" stroke-width="2"/>
+  </g>
+
+  <!-- Repository reference -->
+  <text x="600" y="160" font-family="monospace" font-size="13" text-anchor="middle" fill="#5D6D7E" font-style="italic">
+    webcomponents-with-eds repository
+  </text>
+
+  <!-- Footer note -->
+  <text x="600" y="190" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#95A5A6">
+    Skills orchestrate workflows • Documentation provides implementation knowledge
+  </text>
+</svg>
