@@ -1,0 +1,215 @@
+{
+    "version": "1.0",
+    "description": "Skill activation triggers for Claude Code. Controls when skills automatically suggest or block actions.",
+    "skills": {
+        "skill-developer": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Meta-skill for creating and managing Claude Code skills",
+            "promptTriggers": {
+                "keywords": [
+                    "skill system",
+                    "create skill",
+                    "add skill",
+                    "skill triggers",
+                    "skill rules",
+                    "hook system",
+                    "skill development",
+                    "skill-rules.json"
+                ],
+                "intentPatterns": [
+                    "(how do|how does|explain).*?skill",
+                    "(create|add|modify|build).*?skill",
+                    "skill.*?(work|trigger|activate|system)"
+                ]
+            }
+        },
+        "eds-block-development": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "EDS block development using vanilla JavaScript, Content Driven Development, and block decoration patterns",
+            "promptTriggers": {
+                "keywords": [
+                    "block",
+                    "create block",
+                    "new block",
+                    "block development",
+                    "decorate function",
+                    "block decoration",
+                    "EDS block",
+                    "block structure",
+                    "block content",
+                    "block wrapper"
+                ],
+                "intentPatterns": [
+                    "(create|add|build|make).*?block",
+                    "(modify|update|edit).*?block",
+                    "(how to|how do I).*?block",
+                    "block.*?(work|structure|pattern)"
+                ]
+            },
+            "fileTriggers": {
+                "pathPatterns": [
+                    "blocks/**/*.js",
+                    "blocks/**/*.css"
+                ],
+                "pathExclusions": [
+                    "**/test.html",
+                    "**/test-*.js"
+                ],
+                "contentPatterns": [
+                    "export default function decorate",
+                    "function decorate\\(block\\)",
+                    "\\.block-"
+                ]
+            }
+        },
+        "eds-block-testing": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Testing EDS blocks using test.html files and development server",
+            "promptTriggers": {
+                "keywords": [
+                    "test block",
+                    "testing",
+                    "test.html",
+                    "debug block",
+                    "block testing",
+                    "test file",
+                    "development server"
+                ],
+                "intentPatterns": [
+                    "(test|debug|verify).*?block",
+                    "(how to|how do I).*?test.*?block",
+                    "test.*?file"
+                ]
+            },
+            "fileTriggers": {
+                "pathPatterns": [
+                    "blocks/**/test.html",
+                    "**/test-*.html"
+                ],
+                "contentPatterns": [
+                    "loadBlock\\(",
+                    "sampleRUM\\(",
+                    "from.*aem\\.js"
+                ]
+            }
+        },
+        "eds-performance-debugging": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "medium",
+            "description": "Debugging and performance optimization for EDS blocks including error handling and Core Web Vitals",
+            "promptTriggers": {
+                "keywords": [
+                    "error",
+                    "debug",
+                    "performance",
+                    "slow",
+                    "FOUC",
+                    "Core Web Vitals",
+                    "optimization",
+                    "console.error"
+                ],
+                "intentPatterns": [
+                    "(fix|debug|handle).*?error",
+                    "(improve|optimize).*?performance",
+                    "(eliminate|prevent).*?FOUC"
+                ]
+            },
+            "fileTriggers": {
+                "pathPatterns": [
+                    "blocks/**/*.js",
+                    "scripts/**/*.js"
+                ],
+                "contentPatterns": [
+                    "console\\.error",
+                    "try \\{",
+                    "catch \\(error\\)"
+                ]
+            }
+        },
+        "jupyter-notebook-testing": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Creating and managing Jupyter notebooks for testing EDS blocks with jsdom and JSLab. Use when creating notebooks, testing blocks with ipynb files, using jslab kernel, generating HTML previews, working with testBlock or saveBlockHTML functions, or setting up interactive block testing environments.",
+            "promptTriggers": {
+                "keywords": [
+                    "jupyter",
+                    "notebook",
+                    "ipynb",
+                    "jslab",
+                    "jsdom",
+                    "testBlock",
+                    "saveBlockHTML",
+                    "loadBlockStyles",
+                    "interactive testing",
+                    "notebook testing",
+                    "create notebook",
+                    "test notebook",
+                    "notebook setup",
+                    "kernel",
+                    "tslab",
+                    "virtual DOM",
+                    "HTML preview",
+                    "CSS linking",
+                    "live reload"
+                ],
+                "intentPatterns": [
+                    "(create|add|make|build|setup).*?notebook",
+                    "(test|debug|run).*?notebook",
+                    "(jupyter|ipynb).*?(test|setup|create|use)",
+                    "notebook.*?(block|testing|preview)",
+                    "(how to|how do I).*?test.*?block.*?notebook",
+                    "(generate|create|save).*?(HTML|preview).*?block",
+                    "testBlock|saveBlockHTML|loadBlockStyles",
+                    "jslab.*?(kernel|install|setup)",
+                    "jsdom.*?(setup|environment|virtual DOM)"
+                ]
+            },
+            "fileTriggers": {
+                "pathPatterns": [
+                    "**/*.ipynb",
+                    "test.ipynb",
+                    "**/test-*.ipynb",
+                    "ipynb-tests/**/*"
+                ],
+                "contentPatterns": [
+                    "require\\('jsdom'\\)",
+                    "from 'jsdom'",
+                    "testBlock\\(",
+                    "saveBlockHTML\\(",
+                    "loadBlockStyles\\(",
+                    "JSDOM\\(",
+                    "jslab",
+                    "global\\.document",
+                    "global\\.window"
+                ]
+            }
+        }
+    },
+    "notes": {
+        "enforcement_types": {
+            "suggest": "Skill suggestion appears but doesn't block execution",
+            "block": "Requires skill to be used before proceeding (guardrail)",
+            "warn": "Shows warning but allows proceeding"
+        },
+        "priority_levels": {
+            "critical": "Highest - Always trigger when matched",
+            "high": "Important - Trigger for most matches",
+            "medium": "Moderate - Trigger for clear matches",
+            "low": "Optional - Trigger only for explicit matches"
+        },
+        "customization": {
+            "pathPatterns": "Updated for EDS project: blocks/, scripts/, tools/, build/",
+            "keywords": "Add domain-specific terms relevant to your project",
+            "intentPatterns": "Use regex for flexible user intent matching",
+            "project_type": "Adobe Edge Delivery Services (EDS) - vanilla JavaScript, no React"
+        }
+    }
+}

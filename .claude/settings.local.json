@@ -8,7 +8,22 @@
       "Bash(git push)",
       "Bash(npm run lint:js:*)",
       "Bash(npm run lint:css:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(npx tsc:*)",
+      "Bash(python3:*)",
+      "Bash(./.claude/hooks/skill-activation-prompt.sh)",
+      "Bash(echo:*)",
+      "Bash(MODIFIED_FILES=\"src/test.ts\" ./.claude/hooks/post-tool-use-tracker.sh)",
+      "Bash(/Users/tomcranstoun/Documents/GitHub/webcomponents-with-eds/.claude/hooks/skill-activation-prompt.sh)",
+      "Bash(npm install:*)",
+      "Bash(sed:*)",
+      "Bash([ -d blocks ])",
+      "Bash(test:*)",
+      "Bash(npx tsx:*)",
+      "Bash(CLAUDE_PROJECT_DIR=/Users/tomcranstoun/Documents/GitHub/webcomponents-with-eds cd:*)",
+      "Bash(CLAUDE_PROJECT_DIR=/Users/tomcranstoun/Documents/GitHub/webcomponents-with-eds npx tsx:*)",
+      "Skill(skill-developer)"
     ],
     "deny": [],
     "ask": []

@@ -197,19 +197,27 @@ AI-powered development workflows:
 - **[15+ skills total](.claude/README.md)** - Complete skill catalog
 
 #### 📓 Jupyter Notebook Testing
-**NEW:** Test EDS blocks interactively without a browser:
+**Interactive browser-free testing with instant feedback:**
 ```bash
 # Launch interactive testing environment
 /jupyter-notebook
 
 # Features:
-# - Test blocks in isolated jsdom environment
-# - Generate styled HTML previews
-# - Rapid iteration without page reloads
-# - Support for both simple and complex blocks
+# ✅ Test blocks in isolated jsdom environment (no browser needed)
+# ✅ Generate styled HTML previews with live CSS reload
+# ✅ Rapid iteration without page reloads or build steps
+# ✅ Support for both simple and complex blocks
+# ✅ Helper functions: testBlock(), saveBlockHTML(), loadBlockStyles()
 ```
 
-See [`.claude/skills/jupyter-notebook-testing.md`](.claude/skills/jupyter-notebook-testing.md) for complete guide.
+**Complete Documentation:**
+- **Main Guide:** [`.claude/skills/jupyter-notebook-testing/SKILL.md`](.claude/skills/jupyter-notebook-testing/SKILL.md) (427 lines, follows Anthropic best practices)
+- **Installation:** [INSTALLATION.md](.claude/skills/jupyter-notebook-testing/INSTALLATION.md) - Platform-specific setup for tslab, Jupyter, jsdom
+- **Examples:** [EXAMPLES.md](.claude/skills/jupyter-notebook-testing/EXAMPLES.md) - Content patterns for accordion, tabs, cards, hero, etc.
+- **Advanced:** [ADVANCED_TECHNIQUES.md](.claude/skills/jupyter-notebook-testing/ADVANCED_TECHNIQUES.md) - Performance testing, snapshots, batch testing
+- **Troubleshooting:** [TROUBLESHOOTING.md](.claude/skills/jupyter-notebook-testing/TROUBLESHOOTING.md) - Solutions for common issues
+
+**Key Innovation:** Generated HTML previews link to actual CSS files instead of embedding them - edit CSS and refresh browser for instant updates!
 
 ### 🔧 AI Development Workflow
 1. **Reference [`docs/for-ai/index.md`](docs/for-ai/index.md)** for comprehensive navigation

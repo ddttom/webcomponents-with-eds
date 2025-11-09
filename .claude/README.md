@@ -1,4 +1,4 @@
-# Claude Code Configuration for AllAboutV2
+# Claude Code Configuration for webcomponents-with-eds
 
 This directory contains Claude Code configuration, custom skills, and slash commands tailored for Adobe Edge Delivery Services (EDS) development.
 

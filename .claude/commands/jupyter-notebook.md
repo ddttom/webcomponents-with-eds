@@ -1,10 +1,20 @@
 ---
-description: Create or edit Jupyter notebooks for testing EDS blocks
+description: Create or edit Jupyter notebooks for testing EDS blocks interactively using JSLab kernel, jsdom virtual DOM, and VS Code. Handles notebook creation, test case generation, content structure patterns, HTML preview generation with testBlock and saveBlockHTML functions, and live CSS reload workflow.
 ---
 
 # Jupyter Notebook for EDS Block Testing
 
 You are helping to create or edit Jupyter notebooks for testing Adobe Edge Delivery Services (EDS) blocks interactively.
+
+## When to Use This Command
+
+Use this command when you need to:
+- Create new `.ipynb` notebook files for block testing
+- Edit existing notebooks to add test cases
+- Generate test content for specific blocks
+- Set up notebook structure with proper cells
+- Add helper function calls (testBlock, saveBlockHTML)
+- Create executable examples and documentation
 
 ## Context
 
@@ -14,6 +24,27 @@ The user wants to work with Jupyter notebooks that use:
 - **VS Code Jupyter extension** for notebook editing
 
 Notebooks enable rapid, interactive testing of EDS blocks without servers, deployments, or browser refreshes.
+
+## Related Resources
+
+For comprehensive documentation, see the `jupyter-notebook-testing` skill which includes:
+- **INSTALLATION.md** - Complete setup guide with one-time installation steps for tslab, Jupyter, jsdom, and VS Code extension
+- **EXAMPLES.md** - Block-specific content patterns and testing examples for accordion, tabs, cards, hero, and other blocks
+- **ADVANCED_TECHNIQUES.md** - Performance testing, snapshot testing, batch testing, validation patterns, and advanced workflows
+- **TROUBLESHOOTING.md** - Solutions for kernel issues, module errors, path problems, styling issues, and platform-specific gotchas
+
+This command provides practical notebook creation/editing assistance while the skill provides comprehensive reference documentation.
+
+## Key Innovation: Live CSS Reload
+
+The generated HTML previews link to actual CSS files instead of embedding them:
+- **Edit** `blocks/myblock/myblock.css` in your editor
+- **Refresh** browser → See changes immediately!
+- **No regeneration** needed - no rerunning notebook cells
+- **Small files** - ~2KB vs ~100KB with embedded CSS
+- **Matches production** - same structure as deployed EDS sites
+
+This workflow is much faster than traditional build-based testing.
 
 ## Your Task
 
@@ -270,6 +301,20 @@ function generateContent(numItems) {
 await saveBlockHTML('accordion', generateContent(10));
 ```
 
+## Quick Setup Check
+
+Before starting, verify the environment is ready:
+
+```bash
+# All commands should succeed
+node -v                    # 18+ or 20+
+jupyter kernelspec list    # Should show jslab
+npm list jsdom            # Should show installed
+code --list-extensions    # Should include ms-toolsai.jupyter
+```
+
+If any check fails, see Installation Verification section below.
+
 ## Installation Verification
 
 If the user needs help with setup, provide these steps:
@@ -331,7 +376,7 @@ When creating/editing notebooks:
    - What files will be generated
    - Where to find preview files
 4. **Mention next steps**:
-   - How to edit CSS and see changes
+   - How to edit CSS and see changes (just refresh!)
    - How to test in browser
    - How to share with team
 
@@ -357,28 +402,43 @@ open ipynb-tests/myblock-preview.html
 
 # 6. Edit CSS if needed
 # Edit blocks/myblock/myblock.css
-# Just refresh browser!
+# Just refresh browser - changes appear instantly!
 
 # 7. Edit JS if needed
 # Edit blocks/myblock/myblock.js
-# Rerun notebook cell
+# Rerun notebook cell (Shift+Enter)
 ```
+
+## VS Code Keyboard Shortcuts
+
+Remind users of helpful shortcuts:
+- **Shift+Enter** - Run cell and move to next
+- **Cmd/Ctrl+Enter** - Run cell and stay
+- **A** - Insert cell above
+- **B** - Insert cell below
+- **DD** - Delete cell
+- **M** - Change to Markdown
+- **Y** - Change to Code
 
 ## Key Points to Emphasize
 
 - **Always run Cell 1 first** - sets up the environment
 - **Use `saveBlockHTML()` for styling** - notebook shows raw HTML only
-- **CSS is linked, not embedded** - edit CSS and refresh browser
+- **CSS is linked, not embedded** - edit CSS and refresh browser for instant updates
 - **Works best with vanilla EDS blocks** - Web Components have limitations
 - **Notebooks complement, don't replace** browser testing
 - **Files save to `ipynb-tests/` directory** - relative paths work
 
-## Skill Integration
+## Need More Detail?
 
-When appropriate, suggest using the jupyter-notebook-testing skill:
-```
-For more detailed information about Jupyter notebook testing, you can invoke the jupyter-notebook-testing skill.
-```
+Direct users to specific resources based on their needs:
+
+- **Installation help** → Use jupyter-notebook-testing skill and check INSTALLATION.md for platform-specific instructions
+- **Block patterns** → See EXAMPLES.md for accordion, tabs, cards, hero, columns, forms, and more
+- **Advanced testing** → Check ADVANCED_TECHNIQUES.md for snapshots, batch testing, validation, performance profiling
+- **Troubleshooting** → Consult TROUBLESHOOTING.md for kernel issues, module errors, path problems, and platform-specific solutions
+
+For comprehensive information, invoke the jupyter-notebook-testing skill.
 
 ---
 
