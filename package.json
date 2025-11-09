@@ -43,10 +43,10 @@
   },
   "homepage": "https://github.com/ddttom/webcomponents-with-eds#readme",
   "devDependencies": {
-    "eslint": "^9.2.0",
-    "markdownlint-cli": "^0.39.0",
     "audit-ci": "^6.6.1",
-    "http-server": "^14.1.1"
+    "eslint": "^9.2.0",
+    "http-server": "^14.1.1",
+    "markdownlint-cli": "^0.39.0"
   },
   "engines": {
     "node": ">=18.0.0",
@@ -88,5 +88,8 @@
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/ddttom"
+  },
+  "dependencies": {
+    "jsdom": "^27.1.0"
   }
 }

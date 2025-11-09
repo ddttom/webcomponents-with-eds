@@ -16,12 +16,14 @@ This directory contains Claude Code configuration, custom skills, and slash comm
 │   ├── lint-all.md             # Run all linting checks
 │   ├── check-block.md          # Architecture review of a block
 │   ├── check-security.md       # Security validation
-│   └── review-docs.md          # Navigate EDS documentation
+│   ├── review-docs.md          # Navigate EDS documentation
+│   └── jupyter-notebook.md     # Create/edit Jupyter notebooks for testing
 └── skills/                      # Extended capabilities
     ├── building-blocks/         # Create/modify EDS blocks
     ├── content-driven-development/  # CDD process orchestration
     ├── content-modeling/        # Design author-friendly content models
     ├── testing-blocks/          # Comprehensive block testing
+    ├── jupyter-notebook-testing.md  # Interactive testing with Jupyter
     ├── block-collection-and-party/  # Find reference implementations
     ├── docs-search/             # Search aem.live documentation
     └── [other general skills]   # Canvas design, artifacts, etc.
@@ -53,6 +55,12 @@ The recommended workflow follows Content Driven Development (CDD):
    ```
    /deploy-block my-component
    ```
+
+### For Interactive Testing
+
+- **Create Jupyter notebook**: `/jupyter-notebook`
+- **Test blocks interactively** with instant feedback in VS Code
+- Generate styled HTML previews with live CSS reload
 
 ### For Code Quality
 
@@ -97,6 +105,7 @@ The recommended workflow follows Content Driven Development (CDD):
 
 - **block-collection-and-party**: Find similar blocks for reference
 - **docs-search**: Search official aem.live documentation
+- **jupyter-notebook-testing**: Interactive testing with Jupyter notebooks
 
 ### General Skills
 
@@ -126,6 +135,7 @@ These skills are available but not EDS-specific:
 | `/check-block` | Analyze a block and provide architecture review and improvement suggestions | `/check-block hero` |
 | `/check-security` | Run security checklist validation based on EDS security guidelines | `/check-security` |
 | `/review-docs` | Review and understand the EDS documentation structure in docs/for-AI | `/review-docs` |
+| `/jupyter-notebook` | Create or edit Jupyter notebooks for testing EDS blocks interactively | `/jupyter-notebook` |
 
 ## Documentation
 
