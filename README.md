@@ -41,6 +41,10 @@ webcomponents-with-eds/
 │   └── text-formatter/           # Basic text processing
 ├── 🔧 build/                     # Development workspace (when needed)
 │   └── shoelace-card/            # Build environment for complex components
+├── 🤖 .claude/                   # Claude Code AI integration ⭐
+│   ├── commands/                 # 10+ slash commands for workflows
+│   ├── skills/                   # 15+ specialized AI capabilities
+│   └── README.md                 # Complete Claude Code guide
 └── 📚 docs/                      # Comprehensive development framework
     ├── server-README.md          # Development server guide
     └── for-ai/                   # 24+ document development framework ⭐
@@ -170,11 +174,51 @@ This framework is **specifically designed for AI-assisted development**:
 - **Audience-targeted guidance** - Specific instructions for different developer types
 - **Implementation patterns** - Real-world examples and best practices
 
+### 🎮 Claude Code Integration
+
+The project includes **full Claude Code configuration** in the [`.claude/`](.claude/) directory:
+
+#### ⚡ Slash Commands
+Quick access to common workflows:
+- `/new-block` - Create new EDS blocks with Content Driven Development
+- `/test-block` - Run comprehensive block tests
+- `/jupyter-notebook` - Interactive testing with Jupyter notebooks
+- `/lint-all` - Code quality checks across the project
+- `/check-security` - Security validation and compliance
+- **[10+ commands total](.claude/README.md)** - See full command reference
+
+#### 🧠 Specialized Skills
+AI-powered development workflows:
+- **content-driven-development** - Author-first block creation process
+- **building-blocks** - EDS block implementation patterns
+- **testing-blocks** - Comprehensive testing strategies
+- **jupyter-notebook-testing** - Interactive browser-free testing
+- **docs-search** - Search official aem.live documentation
+- **[15+ skills total](.claude/README.md)** - Complete skill catalog
+
+#### 📓 Jupyter Notebook Testing
+**NEW:** Test EDS blocks interactively without a browser:
+```bash
+# Launch interactive testing environment
+/jupyter-notebook
+
+# Features:
+# - Test blocks in isolated jsdom environment
+# - Generate styled HTML previews
+# - Rapid iteration without page reloads
+# - Support for both simple and complex blocks
+```
+
+See [`.claude/skills/jupyter-notebook-testing.md`](.claude/skills/jupyter-notebook-testing.md) for complete guide.
+
 ### 🔧 AI Development Workflow
 1. **Reference [`docs/for-ai/index.md`](docs/for-ai/index.md)** for comprehensive navigation
-2. **Follow audience-specific guides** based on experience level
-3. **Use documented patterns** for consistent code generation
-4. **Leverage testing standards** for quality assurance
+2. **Use slash commands** for common tasks (e.g., `/new-block my-component`)
+3. **Invoke skills** for specialized workflows (e.g., Content Driven Development)
+4. **Test interactively** with Jupyter notebooks for rapid feedback
+5. **Follow audience-specific guides** based on experience level
+6. **Use documented patterns** for consistent code generation
+7. **Leverage testing standards** for quality assurance
 
 ### 🎯 AI Prompt Engineering
 The documentation includes specific guidance for:
@@ -182,6 +226,7 @@ The documentation includes specific guidance for:
 - **Testing strategy implementation** for quality assurance
 - **Performance optimization techniques** for Core Web Vitals
 - **Accessibility implementation** for inclusive design
+- **Interactive development workflows** with Jupyter notebooks
 
 ## 🔥 Advanced Features
 
@@ -231,8 +276,10 @@ The documentation includes specific guidance for:
 
 ### 🤖 **For AI Assistants**
 1. **Essential:** [`docs/for-ai/index.md`](docs/for-ai/index.md) - Complete navigation and context
-2. **Code Generation:** [`docs/for-ai/block-architecture-standards.md`](docs/for-ai/block-architecture-standards.md)
-3. **Quality Standards:** [`docs/for-ai/guidelines/frontend-guidelines.md`](docs/for-ai/guidelines/frontend-guidelines.md)
+2. **Claude Code Setup:** [`.claude/README.md`](.claude/README.md) - Commands, skills, and workflows
+3. **Code Generation:** [`docs/for-ai/block-architecture-standards.md`](docs/for-ai/block-architecture-standards.md)
+4. **Quality Standards:** [`docs/for-ai/guidelines/frontend-guidelines.md`](docs/for-ai/guidelines/frontend-guidelines.md)
+5. **Interactive Testing:** [`.claude/skills/jupyter-notebook-testing.md`](.claude/skills/jupyter-notebook-testing.md)
 
 ## 🏆 Why This Framework?
 
