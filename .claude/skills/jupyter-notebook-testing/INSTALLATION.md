@@ -1,428 +1,222 @@
-# Jupyter Notebook Testing Installation
+# Jupyter Notebook Testing Installation - Browser Only
 
-Complete installation and setup guide for testing EDS blocks with Jupyter notebooks.
+Setup guide for testing EDS blocks with Jupyter notebooks in the browser.
+
+## Overview
+
+The Jupyter notebook testing system runs **exclusively in the browser** via the ipynb-viewer block on EDS sites. No local installation required!
 
 ## Prerequisites
 
-- Node.js 18+ or 20+ (LTS recommended)
-- Python 3.8+
-- npm or yarn package manager
-- VS Code (optional but recommended)
+To use the notebook testing system, you need:
 
-## One-Time Setup
+- An EDS site with the ipynb-viewer block deployed
+- A modern web browser (Chrome, Firefox, Safari, Edge)
+- The test.ipynb notebook added to your EDS site
 
-### Step 1: Install jsdom
+That's it! No Node.js, Python, or Jupyter installation needed.
 
-Required for virtual DOM in notebooks:
+## Setup
 
-```bash
-# Install as project dependency
-npm install jsdom
+### 1. Deploy ipynb-viewer Block
 
-# Verify installation
-npm list jsdom
+Ensure the ipynb-viewer block is deployed to your EDS site:
+
+```
+blocks/
+└── ipynb-viewer/
+    ├── ipynb-viewer.js
+    ├── ipynb-viewer.css
+    └── README.md
 ```
 
-### Step 2: Install Jupyter
+### 2. Add test.ipynb to Your Site
 
-Choose one method:
+Place the test.ipynb notebook in your site repository:
 
-**Using pip:**
-```bash
-pip3 install jupyter
-
-# Verify
-jupyter --version
+```
+project/
+├── test.ipynb          # Main test notebook
+├── blocks/
+│   └── ipynb-viewer/
+└── scripts/
+    └── ipynb-helpers.js
 ```
 
-**Using conda:**
-```bash
-conda install jupyter
+### 3. Create Page with ipynb-viewer Block
 
-# Verify
-jupyter --version
+In your Google Doc or directly in your EDS page:
+
+```
+| IPynb Viewer |
+|--------------|
+| /test.ipynb  |
 ```
 
-**Using Homebrew (macOS):**
-```bash
-brew install jupyter
+### 4. Open in Browser
 
-# Verify
-jupyter --version
+1. Publish your page
+2. Open the page in your browser
+3. The notebook will be displayed with interactive cells
+
+## File Structure
+
+Your project should have:
+
+```
+project/
+├── test.ipynb                      # Browser-only test notebook
+├── scripts/
+│   └── ipynb-helpers.js           # Helper functions module
+├── blocks/
+│   ├── ipynb-viewer/              # Notebook viewer block
+│   │   ├── ipynb-viewer.js
+│   │   ├── ipynb-viewer.css
+│   │   └── README.md
+│   ├── accordion/                  # Example block to test
+│   │   ├── accordion.js
+│   │   ├── accordion.css
+│   │   └── README.md
+│   └── [other blocks]/
+└── styles/                         # EDS core styles
+    ├── styles.css
+    ├── fonts.css
+    └── lazy-styles.css
 ```
 
-### Step 3: Install TSLab
+## Verify Setup
 
-TSLab provides the JavaScript kernel for Jupyter:
+### Test 1: Page Loads
 
-```bash
-# Install globally
-npm install -g tslab
+Open your EDS page with the ipynb-viewer block:
+- ✅ Notebook cells are visible
+- ✅ Markdown cells are formatted
+- ✅ Code cells have "Run" buttons
 
-# If permission issues, use npx
-npx tslab install --python=python3
+### Test 2: Test a Block
 
-# Or install locally (preferred)
-npm install --save-dev tslab
-npx tslab install --python=python3
+Run any code cell with an import and test:
+
+```javascript
+const { testBlock } = await import('/scripts/ipynb-helpers.js');
+const block = await testBlock('accordion', '<div><div>Q</div><div>A</div></div>');
+return block.outerHTML;
 ```
 
-### Step 4: Register TSLab with Jupyter
+Expected output: Decorated HTML of the accordion block
 
-```bash
-# Register the kernel
-tslab install --python=python3
+### Test 3: Generate Preview
 
-# Verify registration
-jupyter kernelspec list
+Run a preview cell:
+
+```javascript
+const { showPreview } = await import('/scripts/ipynb-helpers.js');
+await showPreview('accordion', '<div><div>Q</div><div>A</div></div>');
+return '✓ Preview overlay opened';
 ```
 
-**Expected output:**
-```
-Available kernels:
-  jslab      /Users/you/.local/share/jupyter/kernels/jslab
-  python3    /Users/you/.local/share/jupyter/kernels/python3
-```
+Expected result:
+- ✅ Full-screen overlay appears on same page
+- ✅ Styled accordion block visible
+- ✅ Close button works
+- ✅ ESC key or backdrop click closes overlay
 
-### Step 5: Install VS Code Jupyter Extension
+## Browser Configuration
 
-**In VS Code:**
-1. Open Extensions (Cmd+Shift+X / Ctrl+Shift+X)
-2. Search for "Jupyter"
-3. Install "Jupyter" by Microsoft
+### Browser Console
 
-**Or via command line:**
-```bash
-code --install-extension ms-toolsai.jupyter
-```
+Open browser console (F12 or Cmd+Option+I) to see:
+- Console.log() output from cells
+- Error messages
+- Debug information
 
-### Step 6: Restart VS Code
+## No Installation Needed!
 
-```bash
-# Command Palette → "Developer: Reload Window"
-# Or restart VS Code completely
-```
+Unlike traditional Jupyter setups, the browser-only approach requires:
 
-## Verify Installation
+- ❌ No Node.js installation
+- ❌ No Python installation
+- ❌ No Jupyter installation
+- ❌ No TSLab/JSLab kernel
+- ❌ No jsdom installation
+- ❌ No VS Code extensions
 
-### Test 1: Check Node.js
+Just deploy the ipynb-viewer block and open notebooks in the browser!
 
-```bash
-node -v
-# Should output: v18.x.x or v20.x.x
-```
+## Development vs End-User
 
-### Test 2: Check Python
+### For Developers
 
-```bash
-python3 --version
-# Should output: Python 3.8.x or higher
-```
+As a developer, you can:
+1. Create/edit .ipynb files locally
+2. Commit to repository
+3. Deploy to EDS site
+4. Test in browser
 
-### Test 3: Check Jupyter
+### For End Users
 
-```bash
-jupyter --version
-# Should output version information
-```
+End users can:
+1. Open EDS pages with notebooks
+2. Read markdown documentation
+3. Click "Run" on code cells
+4. See results inline
+5. Generate popup previews
+6. Learn interactively
 
-### Test 4: Check TSLab
+## Troubleshooting Setup
 
-```bash
-jupyter kernelspec list
-# Should show jslab in the list
-```
+### Notebook Not Displaying
 
-### Test 5: Check jsdom
-
-```bash
-npm list jsdom
-# Should show jsdom installed
-```
-
-### Test 6: Create Test Notebook
-
-In VS Code:
-1. Command Palette → "Jupyter: Create New Blank Notebook"
-2. Select "jslab" kernel
-3. Add cell: `console.log('Hello from Jupyter!')`
-4. Run cell (Shift+Enter)
-5. Should output: `Hello from Jupyter!`
-
-## Project Directory Structure
-
-Create recommended structure:
-
-```bash
-# Create testing directory
-mkdir -p ipynb-tests
-
-# Verify project structure
-tree -L 2 -I node_modules
-
-# Expected:
-# .
-# ├── blocks/
-# │   ├── accordion/
-# │   └── ...
-# ├── styles/
-# │   ├── styles.css
-# │   ├── fonts.css
-# │   └── lazy-styles.css
-# ├── ipynb-tests/         # Generated previews
-# ├── test.ipynb           # Main test notebook
-# ├── package.json
-# └── node_modules/
-```
-
-## Environment Configuration
-
-### package.json
-
-Add jsdom dependency:
-
-```json
-{
-  "dependencies": {
-    "jsdom": "^23.0.0"
-  },
-  "devDependencies": {
-    "tslab": "^1.0.24"
-  }
-}
-```
-
-### .gitignore
-
-Add notebook outputs to `.gitignore`:
-
-```gitignore
-# Jupyter
-.ipynb_checkpoints/
-ipynb-tests/
-
-# Keep test notebook but ignore outputs
-test.ipynb
-!test.ipynb  # Optional: commit the notebook structure
-```
-
-## VS Code Configuration
-
-### Settings for Jupyter
-
-Add to `.vscode/settings.json`:
-
-```json
-{
-  "jupyter.widgetScriptSources": ["jsdelivr.com", "unpkg.com"],
-  "jupyter.interactiveWindow.textEditor.executeSelection": true,
-  "files.associations": {
-    "*.ipynb": "jupyter-notebook"
-  }
-}
-```
-
-## Troubleshooting Installation
-
-### Permission Errors
-
-**Problem:** `EACCES` errors during global install.
+**Problem:** ipynb-viewer block shows error or blank content
 
 **Solution:**
-```bash
-# Option 1: Use npx (no global install)
-npx tslab install --python=python3
+- Verify .ipynb file is valid JSON
+- Check file path in block configuration
+- Ensure file is published to EDS site
+- Check browser console for errors
 
-# Option 2: Fix npm permissions
-mkdir ~/.npm-global
-npm config set prefix ~/.npm-global
-export PATH=~/.npm-global/bin:$PATH
+### Helper Functions Not Working
 
-# Add to ~/.bashrc or ~/.zshrc
-echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
-```
-
-### Python Not Found
-
-**Problem:** `python3: command not found`
+**Problem:** `testBlock is not defined`
 
 **Solution:**
-```bash
-# macOS
-brew install python3
+- Import the helpers in each cell: `const { testBlock } = await import('/scripts/ipynb-helpers.js');`
+- Verify scripts/ipynb-helpers.js exists
+- Check import path is absolute: `/scripts/ipynb-helpers.js`
+- Check browser console for import errors
 
-# Ubuntu/Debian
-sudo apt-get install python3 python3-pip
+### Overlay Not Appearing
 
-# Verify
-which python3
-python3 --version
-```
-
-### Kernel Not Available
-
-**Problem:** "jslab" kernel not showing in VS Code.
+**Problem:** `showPreview()` doesn't show overlay
 
 **Solution:**
-1. Verify registration: `jupyter kernelspec list`
-2. Restart VS Code completely (not just reload)
-3. Check kernel location: `jupyter --paths`
-4. Reinstall kernel: `tslab install --python=python3 --force`
+- Check browser console for JavaScript errors
+- Verify import statement is correct
+- Try a simple test to confirm it works
 
-### Module Import Errors
+### Blocks Not Decorating
 
-**Problem:** `Cannot find module 'jsdom'` in notebook.
+**Problem:** Overlay shows undecorated HTML
 
 **Solution:**
-```bash
-# Verify VS Code opened from project root
-pwd
-
-# Install jsdom if missing
-npm install jsdom
-
-# Check it's in package.json
-cat package.json | grep jsdom
-```
-
-## Platform-Specific Notes
-
-### macOS
-
-```bash
-# Install with Homebrew
-brew install node python3 jupyter
-
-# Install TSLab
-npm install -g tslab
-tslab install --python=python3
-
-# No additional configuration needed
-```
-
-### Windows
-
-```bash
-# Use Node.js installer from nodejs.org
-# Use Python installer from python.org
-
-# Install Jupyter with pip
-pip install jupyter
-
-# Install TSLab
-npm install -g tslab
-tslab install --python=python3
-
-# Use Git Bash or PowerShell
-```
-
-**Windows tips:**
-- Use forward slashes in paths: `./blocks/accordion`
-- Run VS Code as administrator if permission issues
-- Use `python` instead of `python3` if that's your command
-
-### Linux
-
-```bash
-# Ubuntu/Debian
-sudo apt-get update
-sudo apt-get install nodejs npm python3 python3-pip
-
-# Install Jupyter
-pip3 install jupyter
-
-# Install TSLab
-sudo npm install -g tslab
-tslab install --python=python3
-```
-
-## Updating Dependencies
-
-### Update TSLab
-
-```bash
-npm update -g tslab
-tslab install --python=python3 --force
-```
-
-### Update Jupyter
-
-```bash
-pip3 install --upgrade jupyter
-```
-
-### Update jsdom
-
-```bash
-npm update jsdom
-```
-
-## Uninstalling
-
-### Remove TSLab Kernel
-
-```bash
-# Unregister kernel
-jupyter kernelspec uninstall jslab
-
-# Uninstall package
-npm uninstall -g tslab
-```
-
-### Remove Jupyter
-
-```bash
-pip3 uninstall jupyter
-```
-
-### Clean Project
-
-```bash
-# Remove generated files
-rm -rf ipynb-tests/
-rm -rf .ipynb_checkpoints/
-
-# Remove dependencies
-rm -rf node_modules/
-```
-
-## Alternative: Docker Setup
-
-For isolated environment:
-
-```dockerfile
-FROM node:20-alpine
-
-RUN apk add --no-cache python3 py3-pip
-
-RUN pip3 install jupyter
-RUN npm install -g tslab
-RUN tslab install --python=python3
-
-WORKDIR /workspace
-
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--allow-root"]
-```
-
-```bash
-# Build and run
-docker build -t jupyter-eds .
-docker run -p 8888:8888 -v $(pwd):/workspace jupyter-eds
-```
+- Verify block JavaScript file exists: `blocks/blockname/blockname.js`
+- Check block CSS file exists: `blocks/blockname/blockname.css`
+- Check browser console for 404 errors
+- Verify paths are absolute (start with `/`)
 
 ## Next Steps
 
-After installation:
+After setup:
 
-1. ✅ Create first notebook: See main SKILL.md
-2. ✅ Copy setup cell from template
-3. ✅ Test with simple block
-4. ✅ Generate HTML preview
-5. ✅ Start developing!
+1. ✅ Import helpers in each cell with direct ES6 imports
+2. ✅ Test simple blocks with `testBlock()`
+3. ✅ Generate overlay previews with `showPreview()`
+4. ✅ Create your own test scenarios
+5. ✅ Share executable notebooks with users
 
-## Getting Help
+## Resources
 
-- TSLab docs: https://github.com/yunabe/tslab
-- Jupyter docs: https://jupyter.org/documentation
-- jsdom docs: https://github.com/jsdom/jsdom
-- Node.js docs: https://nodejs.org/docs
+- **Main Documentation**: [docs/for-ai/explaining-jupyter.md](../../../docs/for-ai/explaining-jupyter.md)
+- **Examples**: [EXAMPLES.md](EXAMPLES.md)
+- **Skill Guide**: [SKILL.md](SKILL.md)
+- **ipynb-viewer Block**: [blocks/ipynb-viewer/README.md](../../../blocks/ipynb-viewer/README.md)

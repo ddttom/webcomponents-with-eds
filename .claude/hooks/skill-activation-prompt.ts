@@ -8,6 +8,7 @@ interface HookInput {
     cwd: string;
     permission_mode: string;
     prompt: string;
+    modifiedFiles?: string[];
 }
 
 interface PromptTriggers {
@@ -15,11 +16,18 @@ interface PromptTriggers {
     intentPatterns?: string[];
 }
 
+interface FileTriggers {
+    pathPatterns?: string[];
+    pathExclusions?: string[];
+    contentPatterns?: string[];
+}
+
 interface SkillRule {
     type: 'guardrail' | 'domain';
     enforcement: 'block' | 'suggest' | 'warn';
     priority: 'critical' | 'high' | 'medium' | 'low';
     promptTriggers?: PromptTriggers;
+    fileTriggers?: FileTriggers;
 }
 
 interface SkillRules {
@@ -29,7 +37,7 @@ interface SkillRules {
 
 interface MatchedSkill {
     name: string;
-    matchType: 'keyword' | 'intent';
+    matchType: 'keyword' | 'intent' | 'file';
     config: SkillRule;
 }
 
@@ -49,30 +57,56 @@ async function main() {
 
         // Check each skill for matches
         for (const [skillName, config] of Object.entries(rules.skills)) {
-            const triggers = config.promptTriggers;
-            if (!triggers) {
-                continue;
-            }
+            let matched = false;
 
-            // Keyword matching
-            if (triggers.keywords) {
-                const keywordMatch = triggers.keywords.some(kw =>
-                    prompt.includes(kw.toLowerCase())
-                );
-                if (keywordMatch) {
-                    matchedSkills.push({ name: skillName, matchType: 'keyword', config });
-                    continue;
+            // Prompt triggers
+            const promptTriggers = config.promptTriggers;
+            if (promptTriggers) {
+                // Keyword matching
+                if (promptTriggers.keywords) {
+                    const keywordMatch = promptTriggers.keywords.some(kw =>
+                        prompt.includes(kw.toLowerCase())
+                    );
+                    if (keywordMatch) {
+                        matchedSkills.push({ name: skillName, matchType: 'keyword', config });
+                        matched = true;
+                    }
+                }
+
+                // Intent pattern matching
+                if (!matched && promptTriggers.intentPatterns) {
+                    const intentMatch = promptTriggers.intentPatterns.some(pattern => {
+                        const regex = new RegExp(pattern, 'i');
+                        return regex.test(prompt);
+                    });
+                    if (intentMatch) {
+                        matchedSkills.push({ name: skillName, matchType: 'intent', config });
+                        matched = true;
+                    }
                 }
             }
 
-            // Intent pattern matching
-            if (triggers.intentPatterns) {
-                const intentMatch = triggers.intentPatterns.some(pattern => {
-                    const regex = new RegExp(pattern, 'i');
-                    return regex.test(prompt);
-                });
-                if (intentMatch) {
-                    matchedSkills.push({ name: skillName, matchType: 'intent', config });
+            // File triggers
+            if (!matched && config.fileTriggers && data.modifiedFiles && data.modifiedFiles.length > 0) {
+                const fileTriggers = config.fileTriggers;
+
+                if (fileTriggers.pathPatterns) {
+                    const fileMatch = data.modifiedFiles.some(file => {
+                        // Check if file matches any path pattern
+                        return fileTriggers.pathPatterns!.some(pattern => {
+                            // Convert glob pattern to regex
+                            const regexPattern = pattern
+                                .replace(/\*\*/g, '.*')
+                                .replace(/\*/g, '[^/]*')
+                                .replace(/\?/g, '.');
+                            const regex = new RegExp('^' + regexPattern + '$');
+                            return regex.test(file);
+                        });
+                    });
+
+                    if (fileMatch) {
+                        matchedSkills.push({ name: skillName, matchType: 'file', config });
+                    }
                 }
             }
         }
@@ -90,7 +124,7 @@ async function main() {
             const low = matchedSkills.filter(s => s.config.priority === 'low');
 
             if (critical.length > 0) {
-                output += '⚠️ CRITICAL SKILLS (REQUIRED):\n';
+                output += '⚠️  CRITICAL SKILLS (REQUIRED):\n';
                 critical.forEach(s => output += `  → ${s.name}\n`);
                 output += '\n';
             }
