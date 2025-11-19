@@ -531,57 +531,23 @@ function testMemoryLeaks() {
 
 ### Unit Testing Framework
 
-```javascript
-// Simple assertion framework for EDS-Native components
-class EDSTestFramework {
-    constructor() {
-        this.tests = [];
-        this.results = [];
-    }
-    
-    test(name, testFunction) {
-        this.tests.push({ name, testFunction });
-    }
-    
-    async runAll() {
-        for (const test of this.tests) {
-            try {
-                await test.testFunction();
-                this.results.push({ name: test.name, status: 'PASS' });
-                console.log(`✅ ${test.name}`);
-            } catch (error) {
-                this.results.push({ name: test.name, status: 'FAIL', error });
-                console.error(`❌ ${test.name}: ${error.message}`);
-            }
-        }
-        
-        this.printSummary();
-    }
-    
-    printSummary() {
-        const passed = this.results.filter(r => r.status === 'PASS').length;
-        const failed = this.results.filter(r => r.status === 'FAIL').length;
-        
-        console.log(`\n📊 Test Summary: ${passed} passed, ${failed} failed`);
-    }
-}
-
-function assert(condition, message) {
-    if (!condition) {
-        throw new Error(message);
-    }
-}
-```
-
-### Usage Example
+The project provides a reusable testing framework in `/scripts/test-framework.js`.
 
 ```javascript
+import { EDSTestFramework, assert, expect } from '/scripts/test-framework.js';
+
 const testFramework = new EDSTestFramework();
 
-testFramework.test('Component initializes correctly', testComponentInitialization);
-testFramework.test('Error handling works', testErrorHandling);
-testFramework.test('Keyboard navigation works', testKeyboardNavigation);
-testFramework.test('No memory leaks', testMemoryLeaks);
+// Register tests
+testFramework.test('Component initializes correctly', async () => {
+    const block = document.querySelector('.component-name.block');
+    expect(block).toBeTruthy();
+    assert(block.classList.contains('initialized'), 'Block should be initialized');
+});
+
+testFramework.test('Error handling works', async () => {
+    // Test logic...
+});
 
 // Run all tests
 testFramework.runAll();

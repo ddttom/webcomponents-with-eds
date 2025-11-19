@@ -1,5 +1,6 @@
 import { createServer } from 'http';
 import { readFile, access } from 'fs/promises';
+import { watch } from 'fs';
 import { join, extname, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -8,6 +9,21 @@ const __dirname = dirname(__filename);
 
 const PORT = process.env.PORT || 3000;
 const PROXY_HOST = 'https://allabout.network';
+
+// Live Reload Clients
+const clients = new Set();
+
+// Watch for file changes
+watch(__dirname, { recursive: true }, (eventType, filename) => {
+  if (filename && !filename.startsWith('.') && !filename.includes('node_modules')) {
+    // eslint-disable-next-line no-console
+    console.log(`🔄 File changed: ${filename}`);
+    // Notify all clients
+    clients.forEach((client) => {
+      client.res.write(`data: reload\n\n`);
+    });
+  }
+});
 
 // MIME type mapping
 const mimeTypes = {
@@ -40,9 +56,31 @@ async function fileExists(filePath) {
 // Serve local file
 async function serveLocalFile(filePath, res) {
   try {
-    const content = await readFile(filePath);
+    let content = await readFile(filePath);
     const ext = extname(filePath);
     const contentType = mimeTypes[ext] || 'application/octet-stream';
+
+    // Inject Live Reload script into HTML files
+    if (contentType === 'text/html') {
+      const liveReloadScript = `
+        <script>
+          (function() {
+            console.log('🔌 Live Reload connected');
+            const evtSource = new EventSource('/reload');
+            evtSource.onmessage = function(event) {
+              console.log('🔄 Reloading...');
+              window.location.reload();
+            };
+          })();
+        </script>
+      `;
+      const contentStr = content.toString();
+      if (contentStr.includes('</body>')) {
+        content = Buffer.from(contentStr.replace('</body>', `${liveReloadScript}</body>`));
+      } else {
+        content = Buffer.from(contentStr + liveReloadScript);
+      }
+    }
 
     res.writeHead(200, {
       'Content-Type': contentType,
@@ -131,6 +169,24 @@ async function proxyRequest(url, res) {
 // Main request handler
 async function handleRequest(req, res) {
   const url = req.url === '/' ? '/server.html' : req.url;
+
+  // Handle Live Reload SSE endpoint
+  if (url === '/reload') {
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+    });
+    res.write('\n');
+    const client = { res };
+    clients.add(client);
+    
+    req.on('close', () => {
+      clients.delete(client);
+    });
+    return;
+  }
+
   const filePath = join(__dirname, url.startsWith('/') ? url.slice(1) : url);
 
   // eslint-disable-next-line no-console
