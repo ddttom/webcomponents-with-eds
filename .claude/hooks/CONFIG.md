@@ -31,28 +31,12 @@ Create or update `.claude/settings.json` in your project root:
           }
         ]
       }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/stop-prettier-formatter.sh"
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/stop-build-check-enhanced.sh"
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/error-handling-reminder.sh"
-          }
-        ]
-      }
     ]
   }
 }
 ```
+
+**Note:** Only 2 hooks are currently active (UserPromptSubmit and PostToolUse). The configuration above represents the complete active setup.
 
 ### 2. Install Dependencies
 
@@ -197,109 +181,36 @@ Set before starting Claude Code:
 SKIP_ERROR_REMINDER=1 claude-code
 ```
 
-## Hook Execution Order
+## Current Hook Configuration
 
-Stop hooks run in the order specified in `settings.json`:
+The project uses a minimal hook setup with two active hooks:
 
-```json
-"Stop": [
-  {
-    "hooks": [
-      { "command": "...formatter.sh" },    // Runs FIRST
-      { "command": "...build-check.sh" },  // Runs SECOND
-      { "command": "...reminder.sh" }      // Runs THIRD
-    ]
-  }
-]
-```
+### Active Hooks
 
-**Why this order matters:**
-1. Format files first (clean code)
-2. Then check for errors
-3. Finally show reminders
+**1. UserPromptSubmit Hook** - Skill Activation
+- Triggers: When user submits a prompt
+- Purpose: Automatically suggests relevant skills based on prompt content
+- Script: `skill-activation-prompt.sh`
 
-## Selective Hook Enabling
+**2. PostToolUse Hook** - File Change Tracking
+- Triggers: After Edit, MultiEdit, or Write tools
+- Purpose: Tracks modified files for build checking
+- Script: `post-tool-use-tracker.sh`
 
-You don't need all hooks. Choose what works for your project:
+### Why This Minimal Setup?
 
-### Minimal Setup (Skill Activation Only)
+This configuration provides:
+- Automatic skill suggestions when relevant
+- File tracking for potential build validation
+- Low overhead and fast execution
+- Easy to understand and maintain
 
-```json
-{
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/skill-activation-prompt.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+### Adding More Hooks (Optional)
 
-### Build Checking Only (No Formatting)
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|MultiEdit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/post-tool-use-tracker.sh"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/stop-build-check-enhanced.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### Formatting Only (No Build Checking)
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|MultiEdit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/post-tool-use-tracker.sh"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/stop-prettier-formatter.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+You can extend this setup by adding additional hooks as needed. See the customization sections above for examples of:
+- Custom build commands
+- TypeScript configuration
+- Project-specific patterns
 
 ## Cache Management
 

@@ -210,13 +210,13 @@ These attributes control behavior rather than display.
 ### `repo`
 - **Type:** String (GitHub repository URL)
 - **Display:** Not directly displayed
-- **Example:** `"https://github.com/ddttom/allaboutV2"`
+- **Example:** `"https://github.com/ddttom/webcomponents-with-eds"`
 - **Purpose:** Converts relative `.md` links to full GitHub URLs
 - **Where used:** Link resolution in markdown cells
 
 **How it works:**
 - When you write `[guide](docs/help.md)` in a markdown cell
-- The viewer converts it to `https://github.com/ddttom/allaboutV2/blob/main/docs/help.md`
+- The viewer converts it to `https://github.com/ddttom/webcomponents-with-eds/blob/main/docs/help.md`
 - Clicking opens the GitHub markdown overlay
 
 ```json
@@ -231,7 +231,7 @@ These attributes control behavior rather than display.
 - **Type:** String (GitHub repository URL)
 - **Display:** Not directly displayed
 - **Purpose:** Separate repository for help documentation
-- **Fallback:** Uses `repo` if not specified, then defaults to allaboutV2
+- **Fallback:** Uses `repo` if not specified, then defaults to webcomponents-with-eds
 - **Where used:** Help button (❓) in notebook mode overlay
 - **Typical use:** When notebook content is from one repo but help docs are from viewer's repo
 
@@ -239,7 +239,7 @@ These attributes control behavior rather than display.
 {
   "metadata": {
     "repo": "https://github.com/user/project",
-    "help-repo": "https://github.com/ddttom/allaboutV2"
+    "help-repo": "https://github.com/ddttom/webcomponents-with-eds"
   }
 }
 ```
@@ -260,8 +260,8 @@ These attributes control behavior rather than display.
 ```json
 {
   "metadata": {
-    "repo": "https://github.com/ddttom/allaboutV2",
-    "help-repo": "https://github.com/ddttom/allaboutV2",
+    "repo": "https://github.com/ddttom/webcomponents-with-eds",
+    "help-repo": "https://github.com/ddttom/webcomponents-with-eds",
     "github-branch": "claude/github-markdown-viewer-012wJTuNsNumzhbWWraUQWhf"
   }
 }
@@ -289,7 +289,7 @@ These attributes control behavior rather than display.
     "duration": "30 minutes",
     "tags": ["EDS", "blocks", "beginner", "hands-on"],
     "repo": "https://github.com/yourorg/eds-examples",
-    "help-repo": "https://github.com/ddttom/allaboutV2",
+    "help-repo": "https://github.com/ddttom/webcomponents-with-eds",
     "github-branch": "main"
   }
 }
@@ -452,7 +452,7 @@ When your notebook is from one project but uses viewer help docs:
 {
   "metadata": {
     "repo": "https://github.com/myorg/myproject",        // Your content
-    "help-repo": "https://github.com/ddttom/allaboutV2"  // Viewer help
+    "help-repo": "https://github.com/ddttom/webcomponents-with-eds"  // Viewer help
   }
 }
 ```

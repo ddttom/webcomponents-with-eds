@@ -37,8 +37,8 @@ The user wants to create a presentation about: {{prompt}}
     "category": "presentation",
     "difficulty": "beginner",
     "duration": "10 minutes",
-    "repo": "https://github.com/ddttom/allaboutV2",
-    "help-repo": "https://github.com/ddttom/allaboutV2",
+    "repo": "https://github.com/ddttom/webcomponents-with-eds",
+    "help-repo": "https://github.com/ddttom/webcomponents-with-eds",
     "github-branch": "main"
   }
 }

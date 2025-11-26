@@ -405,56 +405,6 @@
                     "**/.ipynb_checkpoints/**"
                 ]
             }
-        },
-        "llms-txt-manager": {
-            "type": "domain",
-            "enforcement": "suggest",
-            "priority": "high",
-            "description": "Managing llms.txt and my-blog.json files for AI content discovery. Handles creation, updating, synchronization with query-index.json. Use when working with llms.txt files, my-blog.json files, blog catalogs, content indexes, or updating site content for AI systems.",
-            "promptTriggers": {
-                "keywords": [
-                    "llms.txt",
-                    "my-blog.json",
-                    "blog catalog",
-                    "content index",
-                    "query-index.json",
-                    "AI content discovery",
-                    "update llms",
-                    "update blog",
-                    "content synchronization",
-                    "llms txt",
-                    "blog json",
-                    "content catalog",
-                    "site index",
-                    "AI index",
-                    "llmstxt",
-                    "llms-txt",
-                    "blog index"
-                ],
-                "intentPatterns": [
-                    "(create|update|edit|modify).*?(llms\\.txt|llmstxt)",
-                    "(create|update|edit|modify).*?my-blog\\.json",
-                    "(update|sync|synchronize).*?(blog|content|catalog|index)",
-                    "llms.*?txt.*?(create|update|manage)",
-                    "(fetch|get|pull).*?query-index",
-                    "(organize|structure).*?(blog|content).*?(catalog|index)",
-                    "(AI|llm).*?(content|index|catalog|discovery)"
-                ]
-            },
-            "fileTriggers": {
-                "pathPatterns": [
-                    "**/llms.txt",
-                    "**/my-blog.json",
-                    "llms.txt",
-                    "my-blog.json"
-                ],
-                "contentPatterns": [
-                    "query-index\\.json",
-                    "## Access Guidelines",
-                    "\"categoryMap\"",
-                    "\"last-updated\""
-                ]
-            }
         }
     },
     "notes": {

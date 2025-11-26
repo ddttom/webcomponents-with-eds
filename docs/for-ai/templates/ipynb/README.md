@@ -1,6 +1,6 @@
 # Jupyter Notebook Templates
 
-This directory contains templates for creating different types of Jupyter notebooks in the AllAboutV2 project.
+This directory contains templates for creating different types of Jupyter notebooks in the webcomponents-with-eds project.
 
 ## ⚠️ Quick Validation Check
 

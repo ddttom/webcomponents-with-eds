@@ -2273,7 +2273,7 @@ function createPagedOverlay(container, cellsContainer, autorun = false, isNotebo
     // Markdown nodes: open in overlay
     if (node.type === 'markdown' && node.path) {
       // Use repoUrl from closure scope (passed to createPagedOverlay)
-      const mdRepoUrl = repoUrl || 'https://github.com/ddttom/allaboutV2';
+      const mdRepoUrl = repoUrl || 'https://github.com/ddttom/webcomponents-with-eds';
       const fullUrl = `${mdRepoUrl}/blob/${branch}/${node.path}`;
 
       // Create extended history context with tree references
@@ -2969,7 +2969,7 @@ function createGitHubMarkdownOverlay(githubUrl, title, helpRepoUrl = null, branc
         // Create node click handler for this overlay's tree
         const handleTreeNodeClick = (node) => {
           if (node.type === 'markdown' && node.path) {
-            const mdRepoUrl = helpRepoUrl || 'https://github.com/ddttom/allaboutV2';
+            const mdRepoUrl = helpRepoUrl || 'https://github.com/ddttom/webcomponents-with-eds';
             const fullUrl = `${mdRepoUrl}/blob/${branch}/${node.path}`;
 
             // Close current overlay and open new one
@@ -3113,13 +3113,13 @@ export default async function decorate(block) {
     block.setAttribute('data-github-branch', githubBranch);
 
     // Set help-repo attribute if available in metadata
-    // Falls back to repo, then to allaboutV2 default
+    // Falls back to repo, then to webcomponents-with-eds default
     if (notebook.metadata?.['help-repo']) {
       block.setAttribute('data-help-repo', notebook.metadata['help-repo']);
     } else if (notebook.metadata?.repo) {
       block.setAttribute('data-help-repo', notebook.metadata.repo);
     } else {
-      block.setAttribute('data-help-repo', 'https://github.com/ddttom/allaboutV2');
+      block.setAttribute('data-help-repo', 'https://github.com/ddttom/webcomponents-with-eds');
     }
 
     // Clear block
@@ -3255,10 +3255,10 @@ export default async function decorate(block) {
     // Note: githubBranch already extracted above at line 2282
 
     // Extract help-repo URL from metadata for help button
-    // Falls back to repo, then to allaboutV2 default
+    // Falls back to repo, then to webcomponents-with-eds default
     const helpRepoUrl = notebook.metadata?.['help-repo'] ||
                         notebook.metadata?.repo ||
-                        'https://github.com/ddttom/allaboutV2';
+                        'https://github.com/ddttom/webcomponents-with-eds';
 
     notebook.cells.forEach(async (cell, index) => {
       let cellElement;

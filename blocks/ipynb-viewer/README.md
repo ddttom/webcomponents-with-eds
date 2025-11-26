@@ -234,8 +234,8 @@ The notebook metadata is displayed in the header section:
   - **When provided:** Markdown links to .md files are automatically converted to full repository URLs
   - **When omitted:** Links render as-is (relative paths remain relative)
   - **Important:** Use markdown link syntax `[text](file.md)`, not inline code `` `file.md` ``
-- `help-repo` - Repository URL for help documentation (e.g., "https://github.com/ddttom/allaboutV2")
-  - **Fallback:** Uses `repo` if not specified, then defaults to allaboutV2
+- `help-repo` - Repository URL for help documentation (e.g., "https://github.com/ddttom/webcomponents-with-eds")
+  - **Fallback:** Uses `repo` if not specified, then defaults to webcomponents-with-eds
   - **Purpose:** Separate repository for help button (❓) documentation
   - **Use case:** When notebook content is from one repo but help docs are from viewer's repo
   - **Help button:** In notebook mode, displays a ❓ button that opens `docs/help.md` from the help-repo
@@ -266,7 +266,7 @@ The notebook metadata is displayed in the header section:
     "tags": ["tutorial", "javascript", "interactive", "beginner"],
     "license": "MIT",
     "repo": "https://github.com/username/repo",
-    "help-repo": "https://github.com/ddttom/allaboutV2",
+    "help-repo": "https://github.com/ddttom/webcomponents-with-eds",
     "github-branch": "main",
     "kernelspec": {
       "display_name": "JavaScript",
@@ -630,7 +630,7 @@ Built-in help documentation accessible anytime via the Help button! The help sys
 
 **Requirements:**
 - Help button appears automatically in notebook mode
-- Uses `help-repo` metadata (falls back to `repo`, then defaults to allaboutV2)
+- Uses `help-repo` metadata (falls back to `repo`, then defaults to webcomponents-with-eds)
 - Expects help file at `docs/help.md` in the repository
 - Uses GitHub Markdown Overlay viewer for display
 

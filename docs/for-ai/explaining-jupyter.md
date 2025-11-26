@@ -655,7 +655,7 @@ Add the block to your Google Doc:
 | /notebooks/test.ipynb |
 ```
 - Combines paged overlay + autorun functionality
-- Built-in help button (❓) opens `docs/help.md` from `help-repo` (or defaults to allaboutV2)
+- Built-in help button (❓) opens `docs/help.md` from `help-repo` (or defaults to webcomponents-with-eds)
 - Complete educational experience with integrated help documentation
 - Perfect for tutorials and interactive demonstrations
 
@@ -1175,7 +1175,7 @@ All EDS blocks can be embedded in presentation markdown cells:
     "author": "Tom Cranstoun",
     "date": "2025-01-19",
     "category": "presentation",
-    "repo": "https://github.com/ddttom/allaboutV2"
+    "repo": "https://github.com/ddttom/webcomponents-with-eds"
   }
 }
 ```

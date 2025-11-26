@@ -577,8 +577,8 @@ Use triple backticks in markdown cells for syntax examples that won't execute:
      - Example: `"repo": "https://github.com/yourorg/yourrepo"`
      - Enables clickable .md file links in notebook cells
    - **`help-repo`**: Separate repository for help documentation
-     - Falls back to `repo` if not specified, then to allaboutV2 default
-     - Example: `"help-repo": "https://github.com/ddttom/allaboutV2"`
+     - Falls back to `repo` if not specified, then to webcomponents-with-eds default
+     - Example: `"help-repo": "https://github.com/ddttom/webcomponents-with-eds"`
    - **`github-branch`**: Specific GitHub branch to use for loading .md files
      - Defaults to `"main"` if not specified
      - Example: `"github-branch": "feature/new-docs"`
@@ -601,7 +601,7 @@ Use triple backticks in markdown cells for syntax examples that won't execute:
        "tags": ["tutorial", "javascript", "notebook", "interactive", "educational"],
        "license": "MIT",
        "repo": "https://github.com/yourorg/yourrepo",
-       "help-repo": "https://github.com/ddttom/allaboutV2",
+       "help-repo": "https://github.com/ddttom/webcomponents-with-eds",
        "github-branch": "main"
      }
    }
