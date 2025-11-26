@@ -372,7 +372,7 @@ The success of this project depends on maintaining focus on core EDS principles:
 - **[Security Checklist](security-checklist.md)** - Security requirements and implementation guidelines
 
 ### Development & Testing
-- **[Server README](../server-README.md)** - Development environment setup supporting the implementation approach
+- **[Server README](../../Server-README.md)** - Development environment setup supporting the implementation approach
 - **[EDS Native Testing Standards](../eds-native-testing-standards.md)** - Testing standards that meet the quality requirements
 - **[Debug Guide](../debug.md)** - Debugging approaches for maintaining code quality standards
 - **[Performance Optimization](../performance-optimization.md)** - Performance optimization techniques for meeting Core Web Vitals targets

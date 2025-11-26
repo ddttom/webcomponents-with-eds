@@ -565,7 +565,7 @@ By focusing on web standards and minimal dependencies, the stack provides a soli
 - **[Block Architecture Standards](../block-architecture-standards.md)** - Comprehensive standards for EDS block development
 - **[Raw EDS Blocks Guide](../raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks
 - **[Complex EDS Blocks Guide](../complex-eds-blocks-guide.md)** - Advanced block development with build tools
-- **[Server README](../server-README.md)** - Development server setup and configuration
+- **[Server README](../../Server-README.md)** - Development server setup and configuration
 
 ### Quality Assurance & Security
 - **[Security Checklist](security-checklist.md)** - Security best practices and compliance requirements

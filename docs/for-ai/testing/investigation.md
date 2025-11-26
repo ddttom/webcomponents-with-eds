@@ -6,7 +6,7 @@
 
 This investigation implemented comprehensive instrumentation for the EDS (Edge Delivery Services) JavaScript application to capture detailed performance metrics, function call traces, execution timing data, variable scope analysis, memory usage patterns, and program flow information during runtime execution.
 
-*See also: [Server README](../../server-README.md) for development server setup | [Performance Optimization](performance-optimization.md) for optimization techniques*
+*See also: [Server README](../../../Server-README.md) for development server setup | [Performance Optimization](performance-optimization.md) for optimization techniques*
 
 ## Test Environment
 
@@ -174,7 +174,7 @@ The investigation demonstrates that comprehensive performance monitoring can be 
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 
 ### Development Environment & Tools
-- **[Server README](../../server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Server README](../../../Server-README.md)** - Development server setup and configuration for EDS block development and testing
 - **[EDS Native Testing Standards](eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration

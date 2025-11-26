@@ -804,6 +804,89 @@ async function generateComponents(block, componentData) {
 </div>
 ```
 
+#### Google Docs Table Structure (CRITICAL)
+
+**How EDS Recognizes and Loads Blocks from Google Docs:**
+
+When authors create tables in Google Docs, the **first row (header row) is the block name** that drives the entire block loading system:
+
+1. **First Row = Block Name**
+   - The header row text (e.g., "overlay", "cards", "hero") identifies the block type
+   - EDS uses this name to dynamically load `/blocks/{name}/{name}.js`
+   - EDS uses this name to dynamically load `/blocks/{name}/{name}.css`
+   - **Without the correct header row, your block will not be recognized**
+
+2. **Subsequent Rows = Block Content**
+   - Row 2, Row 3, etc. contain the actual data for the block
+   - These become `block.children[0]`, `block.children[1]`, etc. in your JavaScript
+   - Your `decorate()` function extracts and processes this content
+
+**Example: How a Google Docs Table Becomes a Block**
+
+Google Docs:
+```
+┌────────────────┐
+│ overlay        │  ← HEADER ROW (block name) - MUST match /blocks/overlay/
+├────────────────┤
+│ Learn More     │  ← Row 2 (button text)
+├────────────────┤
+│ Welcome! ...   │  ← Row 3 (overlay content)
+└────────────────┘
+```
+
+EDS Processing:
+1. Detects header row "overlay"
+2. Loads `/blocks/overlay/overlay.js`
+3. Loads `/blocks/overlay/overlay.css`
+4. Creates HTML structure: `<div class="overlay block">`
+5. Converts rows 2-3 into nested `<div>` elements
+6. Calls your `decorate()` function
+
+HTML Output Before Decoration:
+```html
+<div class="overlay block" data-block-name="overlay" data-block-status="initialized">
+  <div>
+    <div>Learn More</div>
+  </div>
+  <div>
+    <div>Welcome! ...</div>
+  </div>
+</div>
+```
+
+**Common Mistake:**
+
+❌ **WRONG** - Missing or incorrect header row:
+```
+┌────────────────┐
+│ Learn More     │  ← No header row, EDS won't recognize this as a block
+├────────────────┤
+│ Welcome! ...   │
+└────────────────┘
+```
+Result: Table appears as plain content, no CSS/JS loaded, no decoration
+
+❌ **WRONG** - Header row doesn't match directory name:
+```
+┌────────────────┐
+│ Overlay Block  │  ← "Overlay Block" ≠ "overlay" directory
+├────────────────┤
+│ Learn More     │
+└────────────────┘
+```
+Result: EDS looks for `/blocks/overlay-block/` which doesn't exist
+
+✅ **CORRECT** - Header row matches block directory:
+```
+┌────────────────┐
+│ overlay        │  ← Matches /blocks/overlay/ directory
+├────────────────┤
+│ Learn More     │
+└────────────────┘
+```
+
+**Key Takeaway:** The Google Docs table header row is not just documentation - it's the mechanism that triggers your block's CSS and JavaScript to load. Always ensure it matches your block directory name exactly (lowercase, kebab-case).
+
 #### Content Extraction Pattern
 
 ```javascript
@@ -854,7 +937,7 @@ function extractContent(block) {
 <body>
     <div class="test-content">
         <h1>Component Test Page</h1>
-        
+
         <div class="component-name block" data-block-name="component-name" data-block-status="initialized">
             <div>
                 <div>
@@ -866,7 +949,11 @@ function extractContent(block) {
 
     <script type="module">
         import decorate from './component-name.js';
-        
+
+        // CRITICAL: Make body visible (required by EDS global styles)
+        // EDS hides body by default to prevent FOUC - test files must add 'appear' class
+        document.body.classList.add('appear');
+
         document.addEventListener('DOMContentLoaded', () => {
             const blocks = document.querySelectorAll('.component-name.block');
             blocks.forEach(decorate);
@@ -875,6 +962,8 @@ function extractContent(block) {
 </body>
 </html>
 ```
+
+**Important:** The `document.body.classList.add('appear')` line is **required** in test files. EDS global styles (`styles/styles.css`) hide the body by default with `body { display: none; }` to prevent Flash of Unstyled Content (FOUC). The `appear` class makes it visible. In production, EDS automatically adds this class, but test files must add it manually.
 
 ### External-Library-Enhanced Pattern Implementation {#external-library-enhanced-pattern-implementation}
 
@@ -1996,14 +2085,14 @@ By implementing these standards, development teams can create robust, accessible
 - [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md) - Advanced debugging strategies
 
 ### Development Environment
-- [`server-README.md`](server-README.md) - Development server setup and local testing workflows
+- [`../Server-README.md`](../Server-README.md) - Development server setup and local testing workflows
 
 ## Next Steps {#next-steps}
 
 ### For New Developers
 1. **Start with foundations** → Read [`eds.md`](eds.md) for comprehensive EDS understanding
 2. **Choose your approach** → Use [`design-philosophy-guide.md`](design-philosophy-guide.md) to select simple vs complex patterns
-3. **Set up environment** → Follow [`server-README.md`](server-README.md) for local development setup
+3. **Set up environment** → Follow [`../Server-README.md`](../Server-README.md) for local development setup
 4. **Begin implementation** → Choose [`raw-eds-blocks-guide.md`](raw-eds-blocks-guide.md) or [`complex-eds-blocks-guide.md`](complex-eds-blocks-guide.md)
 
 ### For Experienced Developers

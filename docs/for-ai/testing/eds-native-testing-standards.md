@@ -196,7 +196,7 @@ This document defines testing standards specifically for EDS-Native pattern comp
 
 ## EDS Native Style Integration
 
-*Related: [EDS Overview](../eds.md) for style system architecture | [Server README](../../server-README.md) for development server setup*
+*Related: [EDS Overview](../eds.md) for style system architecture | [Server README](../../../Server-README.md) for development server setup*
 
 ### Using Native EDS Styles
 
@@ -531,23 +531,57 @@ function testMemoryLeaks() {
 
 ### Unit Testing Framework
 
-The project provides a reusable testing framework in `/scripts/test-framework.js`.
+```javascript
+// Simple assertion framework for EDS-Native components
+class EDSTestFramework {
+    constructor() {
+        this.tests = [];
+        this.results = [];
+    }
+    
+    test(name, testFunction) {
+        this.tests.push({ name, testFunction });
+    }
+    
+    async runAll() {
+        for (const test of this.tests) {
+            try {
+                await test.testFunction();
+                this.results.push({ name: test.name, status: 'PASS' });
+                console.log(`✅ ${test.name}`);
+            } catch (error) {
+                this.results.push({ name: test.name, status: 'FAIL', error });
+                console.error(`❌ ${test.name}: ${error.message}`);
+            }
+        }
+        
+        this.printSummary();
+    }
+    
+    printSummary() {
+        const passed = this.results.filter(r => r.status === 'PASS').length;
+        const failed = this.results.filter(r => r.status === 'FAIL').length;
+        
+        console.log(`\n📊 Test Summary: ${passed} passed, ${failed} failed`);
+    }
+}
+
+function assert(condition, message) {
+    if (!condition) {
+        throw new Error(message);
+    }
+}
+```
+
+### Usage Example
 
 ```javascript
-import { EDSTestFramework, assert, expect } from '/scripts/test-framework.js';
-
 const testFramework = new EDSTestFramework();
 
-// Register tests
-testFramework.test('Component initializes correctly', async () => {
-    const block = document.querySelector('.component-name.block');
-    expect(block).toBeTruthy();
-    assert(block.classList.contains('initialized'), 'Block should be initialized');
-});
-
-testFramework.test('Error handling works', async () => {
-    // Test logic...
-});
+testFramework.test('Component initializes correctly', testComponentInitialization);
+testFramework.test('Error handling works', testErrorHandling);
+testFramework.test('Keyboard navigation works', testKeyboardNavigation);
+testFramework.test('No memory leaks', testMemoryLeaks);
 
 // Run all tests
 testFramework.runAll();
@@ -589,7 +623,7 @@ testFramework.runAll();
 - **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
 ### Development Environment & Tools
-- **[Server README](../../server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Server README](../../../Server-README.md)** - Development server setup and configuration for EDS block development and testing
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration

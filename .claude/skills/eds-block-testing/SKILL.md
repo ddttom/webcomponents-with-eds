@@ -86,8 +86,8 @@ blocks/your-block/
         <div class="test-section">
             <h2>Test Case 1: Basic Usage</h2>
 
-            <!-- Your block with test content -->
-            <div class="your-block block">
+            <!-- Your block with test content (note: only block name class, .block is added by script) -->
+            <div class="your-block">
                 <div>
                     <div>Title 1</div>
                     <div>Description 1</div>
@@ -102,7 +102,7 @@ blocks/your-block/
         <div class="test-section">
             <h2>Test Case 2: With Images</h2>
 
-            <div class="your-block block">
+            <div class="your-block">
                 <div>
                     <div>
                         <picture>
@@ -127,24 +127,34 @@ blocks/your-block/
         sampleRUM('top');
         window.addEventListener('load', () => sampleRUM('load'));
 
+        // CRITICAL: Add body.appear class FIRST (before loadBlock)
+        // EDS global styles hide body by default to prevent FOUC
+        // This makes the page visible before blocks load
+        document.body.classList.add('appear');
+
         // Load all blocks on the page
-        const blocks = document.querySelectorAll('.block');
+        // Mimic EDS behavior: find by block name, add .block class automatically
+        const blocks = document.querySelectorAll('.your-block');
 
         for (const block of blocks) {
             try {
+                // Add .block class like EDS decorateBlock() does
+                block.classList.add('block');
                 await loadBlock(block);
                 console.log(`✅ Block loaded: ${block.className}`);
             } catch (error) {
                 console.error(`❌ Block failed: ${block.className}`, error);
             }
         }
-
-        // Add body.appear class (EDS pattern)
-        document.body.classList.add('appear');
     </script>
 </body>
 </html>
 ```
+
+**Important Notes:**
+- The `document.body.classList.add('appear')` line is **required** and must be called **before** `loadBlock()`. EDS hides the body by default (`body { display: none; }` in `styles/styles.css`) to prevent Flash of Unstyled Content (FOUC). Adding the `appear` class makes the page visible. In production, EDS adds this automatically, but test files must add it manually.
+- **The `.block` class is automatically added by the script** (line `block.classList.add('block')`) to mimic EDS production behavior. In your HTML, only use the block name class (e.g., `class="your-block"`).
+- This approach ensures test files behave identically to production where EDS's `decorateBlock()` adds the `.block` class automatically.
 
 ---
 
@@ -182,7 +192,7 @@ http://localhost:3000/blocks/your-block/test.html
 ### Basic Two-Column Structure
 
 ```html
-<div class="your-block block">
+<div class="your-block">
     <!-- Row 1 -->
     <div>
         <div>Column 1 Content</div>
@@ -196,12 +206,17 @@ http://localhost:3000/blocks/your-block/test.html
 </div>
 ```
 
-**Important:** This structure matches how EDS creates blocks from Google Docs tables!
+**Important:**
+- This structure matches how EDS creates blocks from Google Docs tables
+- The `.block` class is **automatically added** by EDS's `decorateBlock()` function in production
+- For test files, you can either:
+  - Add `.block` manually: `<div class="your-block block">`
+  - Let your test script add it automatically (recommended - mimics production behavior)
 
 ### With Images
 
 ```html
-<div class="your-block block">
+<div class="your-block">
     <div>
         <div>
             <picture>
@@ -217,7 +232,7 @@ http://localhost:3000/blocks/your-block/test.html
 ### With Links
 
 ```html
-<div class="your-block block">
+<div class="your-block">
     <div>
         <div>
             <a href="https://example.com">Link Text</a>
@@ -230,13 +245,15 @@ http://localhost:3000/blocks/your-block/test.html
 ### With Data Attributes
 
 ```html
-<div class="your-block block"
+<div class="your-block"
      data-layout="grid"
      data-columns="3"
      data-autoplay="true">
     <!-- Block content -->
 </div>
 ```
+
+**Note:** Examples show blocks without the `.block` class. Your test script should add it automatically to mimic EDS production behavior.
 
 ---
 
@@ -412,6 +429,61 @@ Open Chrome DevTools → Network tab to see:
 - Any failed requests (404, 500, etc.)
 
 ### Common Issues and Solutions
+
+#### Issue: Page is Blank or Invisible
+
+**Symptoms:**
+- Page loads but nothing displays
+- Browser shows white/blank screen
+- Console shows no JavaScript errors
+- Elements exist in DOM but aren't visible
+
+**Root Cause:** CSS class name conflicts with EDS reserved names
+
+**Solution:** Never use these class patterns in your CSS or JavaScript:
+- `.{blockname}-container` - EDS adds to parent `<section>` elements
+- `.{blockname}-wrapper` - EDS adds to block parent `<div>` wrappers
+- `.block` - EDS adds to all block elements (avoid styling globally)
+- `.section` - EDS adds to all sections (avoid styling globally)
+- `.button-container` - EDS adds to button parent elements
+- `.default-content-wrapper` - EDS adds to default content wrappers
+
+**Example of the bug:**
+```css
+/* ❌ BAD - Will be applied to parent section, not your modal */
+.overlay-container {
+  position: fixed;
+  z-index: 999;
+  opacity: 0;  /* Makes entire page invisible! */
+}
+
+/* ✅ GOOD - Use different suffix */
+.overlay-backdrop {
+  position: fixed;
+  z-index: 999;
+  opacity: 0;  /* Only affects your backdrop element */
+}
+```
+
+**Why this happens:**
+1. EDS's `decorateBlock()` adds `.{blockname}-container` to parent sections (aem.js:684)
+2. Your CSS targets `.{blockname}-container` for your component
+3. Browser applies your styles to the section instead of your element
+4. Section gets `position: fixed; opacity: 0` making page invisible
+
+**Other global classes that can cause issues:**
+```css
+/* ❌ DANGER - These affect ALL blocks/sections if styled incorrectly */
+.block { position: fixed; }           /* Breaks ALL blocks */
+.section { display: none; }           /* Hides ALL sections */
+.button-container { overflow: hidden; } /* Breaks ALL buttons */
+```
+
+**How to debug:**
+1. Open browser console
+2. Run: `document.querySelector('section').className`
+3. If you see `{blockname}-container` in the class list, rename your CSS classes
+4. Check if styling global classes like `.block` or `.section` with layout properties
 
 #### Issue: Block CSS Not Loading
 

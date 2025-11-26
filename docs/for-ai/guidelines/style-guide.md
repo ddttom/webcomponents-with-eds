@@ -390,7 +390,7 @@ For questions or clarifications about these conventions, refer to the component 
 - **[Build Blocks Clarification](implementation/build-blocks-clarification.md)** - Understanding dual-directory architecture and CSS organization
 - **[Build Component Template](implementation/build-component-template.md)** - Template for advanced components with CSS naming standards
 - **[EDS Native Testing Standards](testing/eds-native-testing-standards.md)** - Testing standards including CSS structure validation
-- **[Server README](../server-README.md)** - Development server setup for CSS and component development
+- **[Server README](../../Server-README.md)** - Development server setup for CSS and component development
 
 ### Advanced Topics & Quality Assurance
 - **[EDS Architecture and Testing Guide](testing/eds-architecture-and-testing-guide.md)** - Advanced testing including CSS validation and structure testing

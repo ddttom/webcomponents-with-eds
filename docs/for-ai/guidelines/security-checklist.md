@@ -664,7 +664,7 @@ Security is an ongoing process that requires continuous attention, regular testi
 ### Development Security & Standards
 - **[Debug Guide](../debug.md)** - Secure debugging practices and approval requirements
 - **[Block Architecture Standards](../block-architecture-standards.md)** - Security considerations in block development
-- **[Server README](../server-README.md)** - Development server security configuration
+- **[Server README](../../Server-README.md)** - Development server security configuration
 - **[EDS Native Testing Standards](../eds-native-testing-standards.md)** - Security testing for EDS components
 
 ### Project Management & Compliance

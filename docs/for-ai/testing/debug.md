@@ -134,6 +134,8 @@ This guide provides step-by-step instructions for AI assistants to debug and tes
    http://localhost:3000/blocks/your-block-name/test.html
    ```
 
+never adjust server.js when debugging, as it is a readonly artefact.
+
 ## EDS Block Structure
 
 EDS blocks follow a specific structure that must be replicated exactly in test files:
@@ -433,6 +435,103 @@ document.addEventListener('DOMContentLoaded', () => {
 - **Bundle Analysis**: Check for unused code and large dependencies
 
 ## Common Debugging Scenarios
+
+### Blank Page / Nothing Visible
+
+**Symptom:** Page appears completely blank despite:
+- No JavaScript errors in console
+- Elements exist in DOM (verified via Elements tab)
+- JavaScript executes successfully
+- Decoration function completes
+
+**Root Cause:** EDS global styles hide body by default
+
+EDS uses a visibility pattern to prevent FOUC (Flash of Unstyled Content):
+
+```css
+/* In styles/styles.css */
+body {
+  display: none;  /* Hidden by default */
+}
+
+body.appear {
+  display: block;  /* Only visible with this class */
+}
+```
+
+**Diagnostic Steps:**
+
+1. **Check body visibility:**
+```javascript
+console.log('Body classes:', document.body.className);
+console.log('Body display:', getComputedStyle(document.body).display);
+// Should show: display: "block" (if visible)
+// If shows "none", body.appear class is missing
+```
+
+2. **Check if elements exist:**
+```javascript
+const button = document.querySelector('.your-button');
+console.log('Button exists:', !!button);
+console.log('Button visible:', button && getComputedStyle(button).display !== 'none');
+```
+
+3. **Force visibility (debugging only):**
+```javascript
+document.body.classList.add('appear');
+// Page should now be visible if this was the issue
+```
+
+**Solution for Test Files:**
+
+Add `appear` class in your test.html:
+
+```javascript
+<script type="module">
+  import decorate from './your-block.js';
+
+  // CRITICAL: Make body visible (required by EDS global styles)
+  document.body.classList.add('appear');
+
+  // Then proceed with decoration
+  document.addEventListener('DOMContentLoaded', () => {
+    const blocks = document.querySelectorAll('.your-block');
+    blocks.forEach(decorate);
+  });
+</script>
+```
+
+**Production vs Test:**
+- **Production:** EDS automatically adds `appear` class when page loads
+- **Test files:** Must add `appear` class manually
+- **Purpose:** Prevents FOUC by hiding page until fully decorated
+
+**Related Issue:** Buttons/Elements Not Styled
+
+If elements are visible but unstyled:
+
+1. **Verify global styles load:**
+```html
+<!-- In test.html head -->
+<link rel="stylesheet" href="/styles/styles.css">
+<link rel="stylesheet" href="your-block.css">
+```
+
+2. **Check button inheritance:**
+```javascript
+const button = document.querySelector('button');
+const styles = getComputedStyle(button);
+console.log('Button background:', styles.backgroundColor);
+console.log('Button padding:', styles.padding);
+// Should show styled values, not defaults
+```
+
+3. **Verify CSS variables:**
+```javascript
+const root = getComputedStyle(document.documentElement);
+console.log('--link-color:', root.getPropertyValue('--link-color'));
+console.log('--background-color:', root.getPropertyValue('--background-color'));
+```
 
 ### Block Not Initializing
 ```javascript

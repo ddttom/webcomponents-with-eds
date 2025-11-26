@@ -489,6 +489,77 @@ export default function decorate(block) {
 
 ## Common Issues and Solutions
 
+### Issue: Blank Page / Block Not Visible
+
+**Symptoms:**
+- Console shows no errors
+- JavaScript executes successfully
+- Elements are in the DOM
+- But page appears completely blank
+
+**Root Cause:** EDS global styles hide `<body>` by default
+
+**Solution:**
+
+EDS uses a visibility pattern where the body is hidden until content is ready:
+
+```css
+/* In styles/styles.css */
+body {
+  display: none;  /* Hidden by default */
+}
+
+body.appear {
+  display: block;  /* Only visible with this class */
+}
+```
+
+**Fix for test files:**
+
+```javascript
+// Add to test.html or test-debug.html
+<script type="module">
+  import decorate from './your-block.js';
+
+  // CRITICAL: Make body visible (required by EDS global styles)
+  document.body.classList.add('appear');
+
+  // Then proceed with decoration
+  document.addEventListener('DOMContentLoaded', () => {
+    const blocks = document.querySelectorAll('.your-block');
+    blocks.forEach(decorate);
+  });
+</script>
+```
+
+**Debugging Steps:**
+
+1. **Check if elements exist:**
+   ```javascript
+   console.log('Button in DOM:', document.querySelector('.your-button'));
+   ```
+
+2. **Check computed styles:**
+   - Open DevTools → Elements tab
+   - Inspect the element
+   - Check Computed styles for `display: none` or `visibility: hidden`
+
+3. **Check body visibility:**
+   ```javascript
+   console.log('Body classes:', document.body.className);
+   console.log('Body computed display:', getComputedStyle(document.body).display);
+   ```
+
+4. **Force visibility (debugging):**
+   ```javascript
+   document.body.classList.add('appear');
+   ```
+
+**Production Notes:**
+- In production, EDS automatically adds `appear` class when page loads
+- Test files need to add it manually
+- This pattern prevents FOUC (Flash of Unstyled Content)
+
 ### Issue: Block Not Rendering
 
 **Check:**
@@ -516,6 +587,51 @@ export default function decorate(block) {
   }
 }
 ```
+
+### Issue: Buttons Not Styled
+
+**Symptoms:**
+- Buttons exist in DOM but look unstyled
+- No background color, borders, or padding
+
+**Root Cause:** Global button styles not loading or not being applied
+
+**Solution:**
+
+1. **Verify global styles load:**
+   ```html
+   <!-- In test.html -->
+   <link rel="stylesheet" href="/styles/styles.css">
+   ```
+
+2. **Check button inherits global styles:**
+   ```css
+   /* Global styles define button appearance */
+   button {
+     display: inline-block;
+     padding: 5px 30px;
+     background-color: var(--link-color);
+     color: var(--background-color);
+     border-radius: 30px;
+     /* ... */
+   }
+   ```
+
+3. **Add fallback styles if needed:**
+   ```css
+   /* In your-block.css - only if global styles fail */
+   .your-block button {
+     display: inline-block;
+     padding: 10px 30px;
+     background-color: #0066cc;
+     color: white;
+     border: none;
+     border-radius: 30px;
+     cursor: pointer;
+   }
+   ```
+
+**Best Practice:** Rely on global styles, only add block-specific overrides
 
 ### Issue: CSS Not Loading
 

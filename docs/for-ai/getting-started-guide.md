@@ -11,7 +11,7 @@ This guide provides streamlined entry points into the comprehensive EDS document
 **Learning Path**:
 1. **Overview** → [`index.md`](index.md) - Complete navigation and project overview (5 min)
 2. **Foundation** → [`eds.md`](eds.md) - Core EDS concepts and architecture (45 min)
-3. **Environment** → [`server-README.md`](../server-README.md) - Local development setup (30 min)
+3. **Environment** → [`../Server-README.md`](../../Server-README.md) - Local development setup (30 min)
 4. **First Component** → [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md) - Simple component development (60 min)
 5. **Quality Assurance** → [`eds-native-testing-standards.md`](implementation/eds-native-testing-standards.md) - Testing your component (30 min)
 
@@ -69,7 +69,7 @@ This guide provides streamlined entry points into the comprehensive EDS document
 → [`debug.md`](debug.md) - Comprehensive troubleshooting procedures
 
 ### "I need to set up my development environment"
-→ [`server-README.md`](../server-README.md) - Complete environment setup guide
+→ [`../Server-README.md`](../../Server-README.md) - Complete environment setup guide
 
 ### "I want to understand the overall EDS architecture"
 → [`eds.md`](eds.md) - Foundational concepts and comprehensive overview
@@ -88,7 +88,7 @@ This guide provides streamlined entry points into the comprehensive EDS document
 ### Week 1: Foundation
 - Complete the "New to EDS" learning path
 - Build 2-3 simple components using [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md)
-- Set up local development environment with [`server-README.md`](../server-README.md)
+- Set up local development environment with [`../Server-README.md`](../../Server-README.md)
 
 ### Week 2: Intermediate Skills
 - Study [`block-architecture-standards.md`](implementation/block-architecture-standards.md) for comprehensive patterns

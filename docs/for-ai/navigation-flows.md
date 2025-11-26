@@ -29,7 +29,7 @@ Entry Point: getting-started-guide.md
     ↓ (Role Selection: New to EDS)
 Foundation: index.md → eds.md
     ↓ (Core Concepts)
-Environment Setup: server-README.md
+Environment Setup: ../Server-README.md
     ↓ (Local Development)
 Implementation Choice:
     ├─ Simple Components → raw-eds-blocks-guide.md
@@ -187,13 +187,13 @@ raw-eds-blocks-guide.md ←→ complex-eds-blocks-guide.md
     ↕         ↕
 eds-native-testing-standards.md ←→ debug.md
     ↕         ↕
-server-README.md ←→ build-blocks-clarification.md
+../Server-README.md ←→ build-blocks-clarification.md
 ```
 
 ### Progressive Learning Pathways
 ```
 Beginner Pathway:
-index.md → getting-started-guide.md → eds.md → server-README.md → raw-eds-blocks-guide.md
+index.md → getting-started-guide.md → eds.md → ../Server-README.md → raw-eds-blocks-guide.md
 
 Advanced Pathway:
 index.md → getting-started-guide.md → block-architecture-standards.md → complex-eds-blocks-guide.md → build-component-template.md

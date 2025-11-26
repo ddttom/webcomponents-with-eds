@@ -16,7 +16,14 @@ This document explains the Jupyter notebook implementation for **interactive tes
 
 ## What This Is
 
-**Jupyter Notebook Testing** provides an interactive browser-based environment for testing Adobe Edge Delivery Services (EDS) blocks using:
+<a id="notebook-types-reference"></a>
+
+### Notebook Types Reference
+
+**Jupyter Notebooks in EDS** provide three specialized environments for different use cases:
+
+### 1. Testing Notebooks (test.ipynb)
+Interactive browser-based environment for **testing EDS blocks**:
 - **JavaScript** (NOT Python) executed in the browser
 - **Browser execution** via ipynb-viewer block on EDS sites
 - **Native browser APIs** (`document`, `window`, `fetch`)
@@ -27,7 +34,25 @@ This document explains the Jupyter notebook implementation for **interactive tes
 - **Cell independence** - Run any cell at any time in any order
 - **Interactive execution** - Run code cells individually with click
 
-Test EDS blocks interactively in the browser and share executable notebooks for end-user interaction. The overlay preview system provides full styling and interactivity without popup blockers.
+### 2. Educational Notebooks (blog.ipynb, tutorial.ipynb)
+Interactive learning experiences for **teaching and explaining**:
+- Executable JavaScript code cells for hands-on practice
+- Rich markdown documentation with inline examples
+- Progressive learning paths
+- Visual demonstrations with EDS blocks
+- Perfect for tutorials, guides, and interactive documentation
+- See [Educational Notebooks Guide](explaining-educational-notebooks.md)
+
+### 3. Presentation Notebooks (demo.ipynb, showcase.ipynb) (NEW)
+Professional presentations with **no executable code**:
+- Markdown cells only (no runnable code)
+- Embedded EDS blocks with inline initialization
+- Beautiful visual layouts
+- Client-ready professional appearance
+- Perfect for product demos, client presentations, showcases
+- Use `/create-presentation` command or `create-presentation` skill
+
+Test EDS blocks interactively in the browser, create engaging educational content, and build professional presentations - all using Jupyter notebooks displayed via the ipynb-viewer block.
 
 ---
 
@@ -591,16 +616,48 @@ The **ipynb-viewer** EDS block allows you to display and execute Jupyter noteboo
 - **Result display**: Shows return values from code execution
 - **Error handling**: Catches and displays errors with styling
 - **Cell independence**: Run any cell at any time in any order
+- **Autorun mode (NEW)**: Automatically execute code cells without Run buttons
+- **Notebook variation (NEW)**: Combined paged and autorun modes with optional manual documentation
+- **Link navigation (NEW)**: Navigate between overlay pages using hash targets
 
 ### Usage in EDS
 
 Add the block to your Google Doc:
 
+**Basic mode (default):**
 ```
 | IPynb Viewer |
 |--------------|
 | /notebooks/test.ipynb |
 ```
+
+**Paged mode:**
+```
+| IPynb Viewer (paged) |
+|----------------------|
+| /notebooks/test.ipynb |
+```
+
+**Autorun mode (NEW):**
+```
+| IPynb Viewer (autorun) |
+|------------------------|
+| /notebooks/test.ipynb |
+```
+- Code cells execute automatically when displayed
+- No Run buttons (cleaner interface)
+- Perfect for demonstrations and presentations
+
+**Notebook variation (NEW):**
+```
+| IPynb Viewer (notebook) |
+|--------------------------|
+| /notebooks/test.ipynb |
+```
+- Combines paged overlay + autorun functionality
+- Built-in help button (❓) opens `docs/help.md` from `help-repo` (or defaults to allaboutV2)
+- Complete educational experience with integrated help documentation
+- Perfect for tutorials and interactive demonstrations
 
 ### What Gets Executed
 
@@ -944,6 +1001,11 @@ This provides:
 
 **Best for:** Interactive block testing, tutorials, demos, documentation
 
+**Types of notebooks:**
+1. **Testing notebooks** (test.ipynb) - Developer-focused, block decoration testing
+2. **Educational notebooks** (blog.ipynb, tutorial.ipynb) - End-user focused, interactive learning
+3. **Presentation notebooks** (demo.ipynb, showcase.ipynb) - Client-facing, no executable code
+
 **Pros:**
 - Interactive code execution in browser
 - Multiple scenarios in one file
@@ -979,18 +1041,234 @@ This provides:
 
 ---
 
+## Presentation Notebooks (NEW)
+
+**Presentation notebooks** are a specialized type of notebook designed for client presentations, product demos, and showcases where you want beautiful visual layouts but **no user-executable code**.
+
+### What Are Presentation Notebooks?
+
+Unlike testing or educational notebooks, presentation notebooks:
+- ✅ **No executable code cells** - All code converted to informative text
+- ✅ **Embedded EDS blocks** - Beautiful visual layouts in markdown cells
+- ✅ **Inline JavaScript** - Blocks initialized via `<script>` tags in markdown
+- ✅ **Professional appearance** - Clean, polished, client-ready
+- ✅ **Visual engagement** - Uses accordion, cards, tabs, hero, grid, table blocks
+
+### When to Use Presentation Notebooks
+
+**Use presentation notebooks for:**
+- 📊 Product demos and showcases
+- 🎯 Client presentations
+- 🚀 Feature announcements
+- 💼 Sales presentations
+- 🎓 Non-interactive tutorials
+- 📱 Professional slide-like content
+
+**Don't use for:**
+- ❌ Interactive code execution (use educational notebooks instead)
+- ❌ Block testing (use test.ipynb instead)
+- ❌ Hands-on tutorials (use educational notebooks instead)
+
+### Creating Presentation Notebooks
+
+**Use the `/create-presentation` command:**
+
+```bash
+/create-presentation "Product Demo" with sections: Features, Benefits, Pricing
+```
+
+Or invoke the skill directly:
+
+```
+Create a presentation notebook for our new product launch
+Convert test.ipynb to presentation mode (no runnable code)
+```
+
+**The skill will:**
+1. Create notebooks with markdown cells only
+2. Convert any existing code cells to informative text
+3. Embed EDS blocks with inline initialization scripts
+4. Add beautiful visual formatting
+5. Generate professional layouts
+
+### Presentation Pattern
+
+**Original code cell (testing):**
+```javascript
+const { testBlock } = await import('/scripts/ipynb-helpers.js');
+const block = await testBlock('accordion', content);
+return block.outerHTML;
+```
+
+**Converted to markdown cell (presentation):**
+```markdown
+### Accordion Block Example
+
+**What this demonstrates:** Collapsible FAQ sections
+
+**Original approach** (for reference):
+\`\`\`javascript
+const { testBlock } = await import('/scripts/ipynb-helpers.js');
+const block = await testBlock('accordion', content);
+\`\`\`
+
+**Result:** The accordion displays collapsible Q&A sections.
+
+**Live demonstration:**
+
+<div class="accordion block">
+  <div>
+    <div>How does this work?</div>
+    <div>This presentation uses embedded EDS blocks...</div>
+  </div>
+  <div>
+    <div>Can users run code?</div>
+    <div>No, this is presentation-only...</div>
+  </div>
+</div>
+
+<script type="module">
+  const block = document.querySelector('.accordion.block');
+  const module = await import('/blocks/accordion/accordion.js');
+  await module.default(block);
+</script>
+```
+
+### Available EDS Blocks for Presentations
+
+All EDS blocks can be embedded in presentation markdown cells:
+
+**Layout blocks:**
+- `accordion` - Collapsible sections (FAQs, features)
+- `cards` - Feature showcases, team members
+- `tabs` - Multi-view content, code examples
+- `hero` - Title sections, key messages
+- `grid` - Flexible layouts
+- `table` - Pricing, comparisons
+
+**Content blocks:**
+- `quote` - Testimonials, highlights
+- `columns` - Multi-column layouts
+- `modal` - Dialog overlays
+- `video` - Embedded videos
+
+**Interactive blocks:**
+- `counter` - Animated statistics
+- `code-expander` - Expandable code snippets
+- `floating-alert` - Important announcements
+
+### Presentation Notebook Structure
+
+**Required elements:**
+1. Title cell with overview
+2. Table of contents (for 5+ sections)
+3. Content cells with embedded blocks
+4. Professional formatting with emojis
+5. Conclusion or call-to-action
+
+**Metadata example:**
+```json
+{
+  "metadata": {
+    "title": "Product Presentation 2025",
+    "description": "Revolutionary platform demo",
+    "author": "Tom Cranstoun",
+    "date": "2025-01-19",
+    "category": "presentation",
+    "repo": "https://github.com/ddttom/allaboutV2"
+  }
+}
+```
+
+### Display Modes for Presentations
+
+Presentation notebooks work with all ipynb-viewer modes:
+
+**Basic mode:**
+```
+| IPynb Viewer |
+|--------------|
+| /demo.ipynb  |
+```
+Scrollable content, all cells visible
+
+**Paged mode (recommended):**
+```
+| IPynb Viewer (paged) |
+|----------------------|
+| /demo.ipynb          |
+```
+Full-screen overlay with Previous/Next navigation
+
+**Notebook mode:**
+```
+| IPynb Viewer (notebook) |
+|--------------------------|
+| /demo.ipynb              |
+```
+Paged overlay with autorun (blocks initialize automatically)
+
+### Resources
+
+**Skill documentation:**
+- [.claude/skills/create-presentation/SKILL.md](.claude/skills/create-presentation/SKILL.md) - Complete guide
+- [.claude/skills/create-presentation/resources/blocks-reference.md](.claude/skills/create-presentation/resources/blocks-reference.md) - All blocks with examples
+- [.claude/skills/create-presentation/resources/complete-examples.md](.claude/skills/create-presentation/resources/complete-examples.md) - Full presentation templates
+
+**Slash command:**
+- [.claude/commands/create-presentation.md](.claude/commands/create-presentation.md) - Command template
+
+### Key Differences: Educational vs Presentation
+
+| Aspect | Educational | Presentation |
+|--------|-------------|--------------|
+| **Code cells** | Executable JavaScript | Converted to markdown text |
+| **User interaction** | Run code, modify, experiment | View only, read content |
+| **Block usage** | Optional demonstrations | Primary visual element |
+| **Purpose** | Teaching and learning | Showcasing and presenting |
+| **Audience** | Learners, developers | Clients, stakeholders, public |
+| **File naming** | tutorial.ipynb, guide.ipynb | demo.ipynb, presentation.ipynb |
+
+---
+
 ## Related Documentation
 
 - **[EDS Native Testing Standards](testing/eds-native-testing-standards.md)** - Traditional test.html approach
 - **[Block Architecture Standards](implementation/block-architecture-standards.md)** - Block development patterns
 - **[Debug Guide](testing/debug.md)** - Debugging workflows
-- **[Jupyter Notebook Skill](.claude/skills/jupyter-notebook-testing.md)** - Claude Code skill
+- **[Educational Notebooks Guide](explaining-educational-notebooks.md)** - Interactive learning notebooks
+- **[Jupyter Notebook Testing Skill](.claude/skills/jupyter-notebook-testing.md)** - Claude Code testing skill
+- **[Educational Notebook Skill](.claude/skills/jupyter-educational-notebook/SKILL.md)** - Claude Code educational skill
+- **[Presentation Skill](.claude/skills/create-presentation/SKILL.md)** - Claude Code presentation skill
 
 ---
 
 ## Conclusion
 
-The Jupyter notebook testing system provides **interactive browser-based testing** for EDS blocks with a simple, elegant approach.
+The Jupyter notebook system for EDS provides **three specialized environments** for different use cases, all displayed via the ipynb-viewer block.
+
+### Three Notebook Types
+
+**1. Testing Notebooks (test.ipynb)**
+- Interactive block testing for developers
+- Helper functions: `testBlock()`, `showPreview()`
+- Simple async pattern with direct imports
+- Overlay previews for visual verification
+- Perfect for rapid prototyping and debugging
+
+**2. Educational Notebooks (blog.ipynb, tutorial.ipynb)**
+- Interactive learning experiences for end users
+- Executable code cells for hands-on practice
+- Rich markdown documentation
+- Perfect for tutorials, guides, and demos
+- See [Educational Notebooks Guide](explaining-educational-notebooks.md)
+
+**3. Presentation Notebooks (demo.ipynb, showcase.ipynb)**
+- Professional presentations without executable code
+- Embedded EDS blocks with inline JavaScript
+- Beautiful visual layouts
+- Perfect for client demos and showcases
+- Use `/create-presentation` command
 
 ### Key Benefits
 
@@ -1000,7 +1278,7 @@ The Jupyter notebook testing system provides **interactive browser-based testing
 - No Node.js setup required
 - Runs on EDS pages via ipynb-viewer block
 
-**Simple Async Pattern:**
+**Simple Async Pattern (Testing & Educational):**
 - Write code naturally with `await` and `return`
 - No complex IIFE wrappers
 - Cell code runs in async context automatically
@@ -1017,20 +1295,30 @@ The Jupyter notebook testing system provides **interactive browser-based testing
 - Multiple test scenarios in one file
 - Inline markdown documentation
 - Executable by end users on EDS pages
-- Perfect for tutorials and demos
+- Professional presentations for clients
 - No initialization required
 
-**Helper Functions:**
+**Helper Functions (Testing):**
 - `testBlock()` - Test block decoration
 - `showPreview()` - Generate overlay previews
 - Direct ES6 imports - no setup needed
 
 ### Recommended Workflow
 
-1. **Develop** in browser with `testBlock()` and `showPreview()`
+**For Block Development:**
+1. **Develop** in test.ipynb with `testBlock()` and `showPreview()`
 2. **Preview** with overlays for instant visual feedback
 3. **Validate** in test.html for full EDS core context
-4. **Share** executable notebooks with end users
-5. **Automate** with Jest/Mocha for CI/CD (future)
+4. **Automate** with Jest/Mocha for CI/CD (future)
+
+**For Content Creation:**
+1. **Teach** with educational notebooks (interactive tutorials)
+2. **Present** with presentation notebooks (client demos)
+3. **Share** executable notebooks for end-user interaction
+
+**Choosing the Right Notebook:**
+- **Testing?** → test.ipynb with helper functions
+- **Teaching?** → blog.ipynb or tutorial.ipynb (use `/create-notebook`)
+- **Presenting?** → demo.ipynb or showcase.ipynb (use `/create-presentation`)
 
 This approach gives you **speed, simplicity, visual feedback, and shareability** - all with native browser APIs, direct imports, and no initialization required.

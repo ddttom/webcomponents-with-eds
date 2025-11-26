@@ -431,7 +431,7 @@ This approach allows authors to specify variations in the document (e.g., `Block
 - **[Build Component Template](implementation/build-component-template.md)** - Template for advanced build components with external dependencies
 
 ### Development Environment & Tools
-- **[Server README](../server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Server README](../../Server-README.md)** - Development server setup and configuration for EDS block development and testing
 - **[JavaScript Patterns](javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development
 - **[Error Handling Patterns](error-handling-patterns.md)** - Comprehensive error handling strategies for EDS blocks
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading

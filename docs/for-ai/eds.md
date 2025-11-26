@@ -854,6 +854,59 @@ This allows you to create styling variations through CSS without needing separat
 
 This approach provides tremendous flexibility while keeping the codebase maintainable.
 
+#### Single JavaScript File for All Variations
+
+**CRITICAL RULE: Each block must have exactly ONE JavaScript file, regardless of how many variations it supports.**
+
+EDS blocks should NEVER have multiple JavaScript files like `blockname.js`, `blockname-variation1.js`, `blockname-variation2.js`. Instead, all variation logic must be handled within the single JavaScript file using class detection:
+
+```javascript
+export default async function decorate(block) {
+  // Detect variation by checking for class
+  const isVariationA = block.classList.contains('variation-a');
+  const isVariationB = block.classList.contains('variation-b');
+
+  // Apply variation-specific logic
+  if (isVariationA) {
+    // Handle variation A logic
+    const data = await fetchAndFilterData();
+    renderVariationA(block, data);
+  } else if (isVariationB) {
+    // Handle variation B logic
+    renderVariationB(block);
+  } else {
+    // Handle default/standard variation
+    renderStandard(block);
+  }
+}
+```
+
+**Why Single File Architecture:**
+- **Maintainability**: All logic for a block is in one place
+- **EDS Convention**: The system expects one JS file per block
+- **Performance**: Avoids loading multiple files for the same block
+- **Consistency**: Follows the same pattern as CSS variations
+- **Simplicity**: Easier to understand and debug
+
+**Real-World Example:**
+A blog block with an AI filter variation should have:
+- ✅ `view-myblog.js` - Single file with both standard and AI filtering logic
+- ❌ NOT `view-myblog.js` + `view-myblog-ai.js` - Two files is incorrect
+
+The JavaScript detects the variation and applies appropriate logic:
+```javascript
+export default async function decorate(block) {
+  const isAIVariation = block.classList.contains('ai');
+  const data = await fetchData();
+
+  // Filter or transform data based on variation
+  const processedData = isAIVariation ? filterAIContent(data) : data;
+
+  // Render with variation-aware logic
+  render(block, processedData, isAIVariation);
+}
+```
+
 ### Data Integration with Blocks
 
 If your block requires external data, you should follow consistent patterns for data structure. Here's an example of the expected JSON structure for data integration:

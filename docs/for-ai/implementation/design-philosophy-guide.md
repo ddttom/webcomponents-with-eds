@@ -487,7 +487,7 @@ The goal isn't to avoid complexity - it's to **choose complexity consciously** a
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing both simple and complex EDS blocks
 
 ### Development Environment & Tools
-- **[Server README](../../server-README.md)** - Development server setup and configuration for both development patterns
+- **[Server README](../../../Server-README.md)** - Development server setup and configuration for both development patterns
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for both architectural approaches
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration for complex EDS blocks
 - **[Deployment Strategies](deployment-strategies.md)** - Best practices for deploying both types of EDS blocks to production

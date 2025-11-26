@@ -10,6 +10,8 @@ This guide covers the development server setup and configuration for EDS (Edge D
 
 ## Quick Start
 
+when debugging or developing EDS blocks, treat the server.js as read-only. All customizations should be done in separate configuration files or environment variables.
+
 ### Starting the Development Server
 
 ```bash

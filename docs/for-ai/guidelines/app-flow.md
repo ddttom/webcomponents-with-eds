@@ -6,7 +6,7 @@
 
 This document outlines the complete application flow for Edge Delivery Services (EDS) applications, detailing user journeys, conditional paths, and error handling across all system components. The application follows Adobe EDS architecture patterns with Google Docs as the primary content management interface.
 
-*See also: [EDS Overview](../eds.md) for foundational concepts | [Server README](../server-README.md) for development workflows*</search>
+*See also: [EDS Overview](../eds.md) for foundational concepts | [Server README](../../Server-README.md) for development workflows*</search>
 
 ## Core User Journeys
 
@@ -436,7 +436,7 @@ Understanding these flows helps ensure consistent user experiences and enables e
 - **[Backend Structure](backend-structure.md)** - EDS backend architecture and serverless implementation patterns
 - **[Tech Stack](tech-stack.md)** - Technology stack and development workflow considerations
 - **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture
-- **[Server README](../server-README.md)** - Development server setup and local development workflows
+- **[Server README](../../Server-README.md)** - Development server setup and local development workflows
 
 ### Development Guidelines & Standards
 - **[Frontend Guidelines](frontend-guidelines.md)** - Frontend development standards and user experience patterns

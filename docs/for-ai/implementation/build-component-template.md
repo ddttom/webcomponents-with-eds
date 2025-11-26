@@ -4,7 +4,7 @@
 
 > **⚙️ Build Component Notice**: This component uses a build process and external dependencies, which differs from the core EDS philosophy of simple JavaScript. Build components are designed for complex functionality that requires sophisticated tooling while maintaining EDS compatibility.
 
-*See also: [Design Philosophy Guide](design-philosophy-guide.md) for EDS principles | [Server README](../../server-README.md) for development setup*
+*See also: [Design Philosophy Guide](design-philosophy-guide.md) for EDS principles | [Server README](../../../Server-README.md) for development setup*
 
 ## Development Workflow
 
@@ -84,7 +84,7 @@ This separation allows for sophisticated development workflows while maintaining
 - **[Design Philosophy Guide](design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
 
 ### Development Environment & Tools
-- **[Server README](../../server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Server README](../../../Server-README.md)** - Development server setup and configuration for EDS block development and testing
 - **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
 - **[EDS Architecture Standards](eds-architecture-standards.md)** - Architectural patterns and standards for EDS-native block development
 - **[Raw EDS Blocks Guide](raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks as an alternative approach

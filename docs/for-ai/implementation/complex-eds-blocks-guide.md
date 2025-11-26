@@ -5,81 +5,11 @@
 
 This guide demonstrates how to create sophisticated EDS blocks that use **external libraries**, **modern tooling**, and **advanced features** while maintaining **EDS compatibility** and **safe DOM manipulation**.
 
-# Creating Complex EDS Blocks
-## The Build-Enhanced Approach
-
-**Related Documentation:** [Block Architecture Standards](block-architecture-standards.md) | [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) | [EDS Overview](../eds.md) | [Debug Guide](../testing/debug.md)
-
-This guide demonstrates how to create sophisticated EDS blocks that use **external libraries**, **modern tooling**, and **advanced features** while maintaining **EDS compatibility** and **safe DOM manipulation**.
-
 ## **🔒 Critical EDS Constraint: Why Build Process Is Required**
 
-**Understanding the fundamental limitation:** EDS dynamically generates file paths from HTML class names with **zero flexibility**.
+> **Critical EDS Constraint:** EDS requires exact file name matching - block names in HTML must match JavaScript file names exactly. The build process enables use of external libraries while satisfying this constraint. See [Block Architecture Standards](block-architecture-standards.md#file-naming-conventions) and [Build Blocks Clarification](build-blocks-clarification.md) for complete details.
 
-### **The EDS Dynamic Loading Reality**
-
-When you write this HTML:
-```html
-<div class="shoelace-card">Configuration data</div>
-```
-
-EDS **automatically and rigidly**:
-
-1. **Transforms the element**:
-   ```html
-   <div class="shoelace-card block" data-block-name="shoelace-card" data-block-status="initialized">
-   ```
-
-2. **Generates non-negotiable import paths** (in `scripts/aem.js`):
-   ```javascript
-   // You cannot change this - it's hardcoded in EDS
-   const mod = await import(`/blocks/shoelace-card/shoelace-card.js`);
-   ```
-
-3. **Demands exact file structure**:
-   ```
-   /blocks/shoelace-card/shoelace-card.js   ← Name MUST match class exactly
-   /blocks/shoelace-card/shoelace-card.css  ← Name MUST match class exactly
-   ```
-
-### **Why This Forces Build Architecture**
-
-You **cannot** develop complex components directly in `/blocks/` because:
-
-❌ **Cannot use external imports in deployment:**
-```javascript
-// This works in development but fails in EDS deployment
-import '@shoelace-style/shoelace/dist/components/card/card.js';
-```
-
-❌ **Cannot have flexible development file names:**
-```javascript
-// EDS requires shoelace-card.js - cannot be renamed
-import './my-sophisticated-card-component.js';
-```
-
-❌ **Cannot redirect EDS imports:**
-```javascript
-// EDS hardcodes the import path - no redirection possible
-const mod = await import(`/blocks/${blockName}/${blockName}.js`);
-```
-
-### **How Build Process Solves This**
-
-The dual-directory architecture works **within** EDS constraints:
-
-```
-Development Phase (/build/shoelace-card/):
-├── shoelace-card.js              ← Source with external imports
-├── package.json                  ← External dependencies
-├── modern-tooling.config.js      ← Development flexibility
-└── any-helper-files.js           ← Creative freedom
-
-         ↓ BUILD PROCESS ↓
-
-Deployment Phase (/blocks/shoelace-card/):
-├── shoelace-card.js              ← Bundled, self-contained
-└── shoelace-card.css             ← EDS requirement satisfied
+**Quick summary:** EDS imports `/blocks/shoelace-card/shoelace-card.js` when it sees `<div class="shoelace-card">`. You develop in `/build/` with external dependencies, then bundle to `/blocks/` with exact naming. This dual-directory architecture works within EDS constraints.
 ```
 
 **The build process acts as a bridge between development freedom and EDS constraints.**
@@ -1530,5 +1460,7 @@ This approach enables modern development workflows while respecting EDS principl
 1. **Understand the dual testing approach** (development vs. EDS integration)
 2. **Create test scenarios** that cover both simple and complex block functionality
 3. **Validate EDS compatibility** using the test.html files and EDS debug server
-4. **Test error handling** and graceful degradation scenarios
-5. **Verify accessibility** of complex blocks with external library components
+4. **Debug issues** with [Debug Guide](../testing/debug.md) for troubleshooting complex blocks
+5. **Test your blocks** using [EDS Native Testing Standards](../testing/eds-native-testing-standards.md)
+6. **Test error handling** and graceful degradation scenarios
+7. **Verify accessibility** of complex blocks with external library components

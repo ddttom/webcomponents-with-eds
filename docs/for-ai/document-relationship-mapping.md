@@ -12,7 +12,7 @@ The EDS documentation follows a **hub-and-spoke model** with [`index.md`](index.
 **Beginner Developer Journey:**
 1. Start: [`index.md`](index.md) → Overview and orientation
 2. Foundation: [`eds.md`](eds.md) → Core EDS concepts and architecture
-3. Environment: [`server-README.md`](../server-README.md) → Local development setup
+3. Environment: [`../Server-README.md`](../../Server-README.md) → Local development setup
 4. Implementation: [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md) → Simple component development
 5. Testing: [`eds-native-testing-standards.md`](implementation/eds-native-testing-standards.md) → Quality assurance
 6. Troubleshooting: [`debug.md`](debug.md) → Problem resolution
@@ -37,7 +37,7 @@ The EDS documentation follows a **hub-and-spoke model** with [`index.md`](index.
 1. **index.md** - 48+ outbound links (comprehensive navigation hub)
 2. **eds-architecture-and-testing-guide.md** - 5 outbound links
 3. **instrumentation-how-it-works.md** - 4 outbound links
-4. **server-README.md** - 5 outbound links
+4. **../Server-README.md** - 5 outbound links
 
 ### Documents with Weak/Missing Cross-References
 1. **eds-appendix.md** - No outbound links to other docs
@@ -90,9 +90,9 @@ eds-webcomponents-review.md ↔ build-blocks-clarification.md
 
 ### Development Environment Cluster
 ```
-server-README.md ↔ raw-eds-blocks-guide.md
-server-README.md ↔ complex-eds-blocks-guide.md
-server-README.md ↔ build-blocks-clarification.md
+../Server-README.md ↔ raw-eds-blocks-guide.md
+../Server-README.md ↔ complex-eds-blocks-guide.md
+../Server-README.md ↔ build-blocks-clarification.md
 ```
 
 ### Guidelines Cluster
@@ -128,7 +128,7 @@ guidelines/tech-stack.md ↔ guidelines/frontend-guidelines.md
 1. **raw-eds-blocks-guide.md** needs links TO:
    - complex-eds-blocks-guide.md (alternative approach)
    - eds-native-testing-standards.md (testing guidance)
-   - server-README.md (development setup)
+   - ../Server-README.md (development setup)
 
 2. **complex-eds-blocks-guide.md** needs links TO:
    - raw-eds-blocks-guide.md (simpler alternative)
@@ -157,7 +157,7 @@ guidelines/tech-stack.md ↔ guidelines/frontend-guidelines.md
 **raw-eds-blocks-guide.md**
 - complex-eds-blocks-guide.md (for advanced features)
 - eds-native-testing-standards.md (for testing)
-- server-README.md (for development setup)
+- ../Server-README.md (for development setup)
 - debug.md (for troubleshooting)
 
 **complex-eds-blocks-guide.md**
@@ -174,7 +174,7 @@ guidelines/tech-stack.md ↔ guidelines/frontend-guidelines.md
 ## Next Steps Recommendations by Document
 
 **For Beginners (eds.md)**
-- Next: server-README.md (setup environment)
+- Next: ../Server-README.md (setup environment)
 - Then: raw-eds-blocks-guide.md (start simple)
 - Finally: eds-native-testing-standards.md (add testing)
 
@@ -202,7 +202,7 @@ The implementation cluster creates a progression from simple to complex: [`raw-e
 The testing cluster provides comprehensive troubleshooting pathways: [`debug.md`](debug.md) connects bidirectionally to [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md) for advanced analysis and [`instrumentation-how-it-works.md`](instrumentation-how-it-works.md) for performance monitoring. [`eds-native-testing-standards.md`](implementation/eds-native-testing-standards.md) flows to both [`debug.md`](debug.md) for troubleshooting and [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md) for implementation context.
 
 **Development Environment Flow:**
-[`server-README.md`](../server-README.md) serves as the development setup hub, connecting bidirectionally to both [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md) and [`complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md) for implementation guidance, and [`build-blocks-clarification.md`](implementation/build-blocks-clarification.md) for architectural understanding.
+[`../Server-README.md`](../../Server-README.md) serves as the development setup hub, connecting bidirectionally to both [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md) and [`complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md) for implementation guidance, and [`build-blocks-clarification.md`](implementation/build-blocks-clarification.md) for architectural understanding.
 
 ### Strategic Cross-Reference Enhancement Areas
 
@@ -210,10 +210,10 @@ The testing cluster provides comprehensive troubleshooting pathways: [`debug.md`
 - [`eds.md`](eds.md) ↔ [`block-architecture-standards.md`](implementation/block-architecture-standards.md): Core concepts to comprehensive patterns
 - [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md) ↔ [`complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md): Alternative implementation approaches
 - [`debug.md`](debug.md) ↔ [`eds-native-testing-standards.md`](implementation/eds-native-testing-standards.md): Troubleshooting to testing standards
-- [`server-README.md`](../server-README.md) ↔ [`build-blocks-clarification.md`](implementation/build-blocks-clarification.md): Environment setup to architecture
+- [`../Server-README.md`](../../Server-README.md) ↔ [`build-blocks-clarification.md`](implementation/build-blocks-clarification.md): Environment setup to architecture
 
 **Progressive Learning Pathways:**
-- Beginner Path: [`index.md`](index.md) → [`eds.md`](eds.md) → [`server-README.md`](../server-README.md) → [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md)
+- Beginner Path: [`index.md`](index.md) → [`eds.md`](eds.md) → [`../Server-README.md`](../../Server-README.md) → [`raw-eds-blocks-guide.md`](implementation/raw-eds-blocks-guide.md)
 - Advanced Path: [`index.md`](index.md) → [`block-architecture-standards.md`](implementation/block-architecture-standards.md) → [`complex-eds-blocks-guide.md`](implementation/complex-eds-blocks-guide.md) → [`build-component-template.md`](implementation/build-component-template.md)
 - Troubleshooting Path: Any document → [`debug.md`](debug.md) → [`eds-architecture-and-testing-guide.md`](eds-architecture-and-testing-guide.md) → [`instrumentation-how-it-works.md`](instrumentation-how-it-works.md)
 

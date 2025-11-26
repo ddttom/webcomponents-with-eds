@@ -27,9 +27,9 @@
         },
         "eds-block-development": {
             "type": "domain",
-            "enforcement": "suggest",
-            "priority": "high",
-            "description": "EDS block development using vanilla JavaScript, Content Driven Development, and block decoration patterns",
+            "enforcement": "warn",
+            "priority": "critical",
+            "description": "EDS block development using vanilla JavaScript, Content Driven Development, and block decoration patterns. CRITICAL: Prevents CSS class conflicts with EDS reserved names. CRITICAL: Enforces single JavaScript file per block regardless of variations.",
             "promptTriggers": {
                 "keywords": [
                     "block",
@@ -41,13 +41,24 @@
                     "EDS block",
                     "block structure",
                     "block content",
-                    "block wrapper"
+                    "block wrapper",
+                    "block container",
+                    "CSS class",
+                    "block variation",
+                    "variation",
+                    "block variant",
+                    "create variation"
                 ],
                 "intentPatterns": [
                     "(create|add|build|make).*?block",
                     "(modify|update|edit).*?block",
                     "(how to|how do I).*?block",
-                    "block.*?(work|structure|pattern)"
+                    "block.*?(work|structure|pattern)",
+                    "(name|naming).*?(class|CSS)",
+                    "class.*?(name|naming)",
+                    "(create|add|build|make).*?variation.*?block",
+                    "block.*?variation",
+                    "variation.*?(block|of.*?block)"
                 ]
             },
             "fileTriggers": {
@@ -63,7 +74,22 @@
                     "export default function decorate",
                     "function decorate\\(block\\)",
                     "\\.block-"
+                ],
+                "dangerousPatterns": [
+                    "\\.\\w+-container\\s*\\{",
+                    "\\.\\w+-wrapper\\s*\\{",
+                    "className.*['\"]\\w+-container['\"]",
+                    "className.*['\"]\\w+-wrapper['\"]",
+                    "classList\\.add\\(['\"]\\w+-container['\"]\\)",
+                    "classList\\.add\\(['\"]\\w+-wrapper['\"]\\)"
                 ]
+            },
+            "warnings": {
+                "reservedClassNames": {
+                    "message": "⚠️ CRITICAL: Detected potential EDS reserved class name conflict! EDS automatically adds '-container' and '-wrapper' suffixes. Use different suffixes like '-backdrop', '-modal', '-panel', or '-inner' instead.",
+                    "severity": "critical",
+                    "autoTrigger": true
+                }
             }
         },
         "eds-block-testing": {
@@ -140,19 +166,16 @@
             "description": "Creating and managing Jupyter notebooks for testing EDS blocks with jsdom and JSLab. Use when creating notebooks, testing blocks with ipynb files, using jslab kernel, generating HTML previews, working with testBlock or saveBlockHTML functions, or setting up interactive block testing environments.",
             "promptTriggers": {
                 "keywords": [
-                    "jupyter",
-                    "notebook",
-                    "ipynb",
+                    "test notebook",
+                    "testing blocks",
                     "jslab",
                     "jsdom",
                     "testBlock",
                     "saveBlockHTML",
                     "loadBlockStyles",
-                    "interactive testing",
-                    "notebook testing",
-                    "create notebook",
-                    "test notebook",
-                    "notebook setup",
+                    "block testing",
+                    "test block",
+                    "debug block",
                     "kernel",
                     "tslab",
                     "virtual DOM",
@@ -161,10 +184,8 @@
                     "live reload"
                 ],
                 "intentPatterns": [
-                    "(create|add|make|build|setup).*?notebook",
-                    "(test|debug|run).*?notebook",
-                    "(jupyter|ipynb).*?(test|setup|create|use)",
-                    "notebook.*?(block|testing|preview)",
+                    "(test|debug|verify).*?block.*?(notebook|ipynb)",
+                    "notebook.*?(block|testing|debug)",
                     "(how to|how do I).*?test.*?block.*?notebook",
                     "(generate|create|save).*?(HTML|preview).*?block",
                     "testBlock|saveBlockHTML|loadBlockStyles",
@@ -174,10 +195,8 @@
             },
             "fileTriggers": {
                 "pathPatterns": [
-                    "**/*.ipynb",
                     "test.ipynb",
-                    "**/test-*.ipynb",
-                    "ipynb-tests/**/*"
+                    "**/test-*.ipynb"
                 ],
                 "contentPatterns": [
                     "require\\('jsdom'\\)",
@@ -189,6 +208,251 @@
                     "jslab",
                     "global\\.document",
                     "global\\.window"
+                ]
+            }
+        },
+        "jupyter-educational-notebook": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "medium",
+            "description": "Creating educational and interactive Jupyter notebooks as SPAs for explaining concepts, teaching topics, creating tutorials, or transforming text into engaging content. NOT for testing EDS blocks.",
+            "promptTriggers": {
+                "keywords": [
+                    "educational notebook",
+                    "interactive notebook",
+                    "tutorial notebook",
+                    "blog notebook",
+                    "SPA notebook",
+                    "explain topic",
+                    "illustrate concept",
+                    "teach interactively",
+                    "create tutorial",
+                    "interactive guide",
+                    "notebook from text",
+                    "transform text",
+                    "engaging content",
+                    "learning notebook",
+                    "demonstration notebook",
+                    "reference notebook",
+                    "documentation notebook",
+                    "ipynb-viewer",
+                    "educational content",
+                    "interactive demo"
+                ],
+                "intentPatterns": [
+                    "(create|make|build|write).*?(tutorial|guide|blog|explanation).*?notebook",
+                    "(transform|convert|turn).*?text.*?(notebook|interactive)",
+                    "notebook.*?(explain|teach|illustrate|demonstrate)",
+                    "(explain|illustrate|teach|demonstrate).*?(topic|concept).*?notebook",
+                    "(interactive|educational).*?(tutorial|guide|demo|blog)",
+                    "(how to|how do I).*(create|write).*?tutorial",
+                    "notebook.*?(end user|client|learner|audience)"
+                ]
+            },
+            "avoidTriggers": {
+                "keywords": [
+                    "test block",
+                    "testing",
+                    "debug",
+                    "jsdom",
+                    "testBlock",
+                    "saveBlockHTML"
+                ],
+                "intentPatterns": [
+                    "(test|debug|verify).*?block"
+                ]
+            },
+            "fileTriggers": {
+                "pathPatterns": [
+                    "**/*-tutorial.ipynb",
+                    "**/*-guide.ipynb",
+                    "**/*-blog.ipynb",
+                    "**/*-demo.ipynb",
+                    "blog.ipynb",
+                    "explain.ipynb",
+                    "tutorial.ipynb",
+                    "guide.ipynb"
+                ],
+                "pathExclusions": [
+                    "test.ipynb",
+                    "**/test-*.ipynb"
+                ]
+            }
+        },
+        "create-presentation": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "medium",
+            "description": "Creating or updating presentation-mode Jupyter notebooks with embedded HTML/JavaScript in markdown cells using EDS blocks. Converts executable code cells to informative text. For presentations, slides, demos, showcases without user-executable code.",
+            "promptTriggers": {
+                "keywords": [
+                    "presentation",
+                    "create presentation",
+                    "presentation notebook",
+                    "convert to presentation",
+                    "demo notebook",
+                    "showcase",
+                    "slides",
+                    "non-interactive notebook",
+                    "presentation mode",
+                    "embedded blocks",
+                    "inline javascript",
+                    "inline html",
+                    "inline styling",
+                    "inline css",
+                    "no executable code",
+                    "convert code cells",
+                    "markdown only",
+                    "client presentation",
+                    "product demo",
+                    "style notebook",
+                    "smarten",
+                    "make look great",
+                    "consistent styling"
+                ],
+                "intentPatterns": [
+                    "(create|make|build).*?presentation.*?notebook",
+                    "(convert|transform|update).*?notebook.*?presentation",
+                    "(convert|remove).*?(executable|runnable).*?code",
+                    "presentation.*?(embedded|inline).*?(blocks|javascript)",
+                    "notebook.*?(client|presentation|demo|showcase)",
+                    "(no|without|prevent).*?(executable|runnable).*?code",
+                    "(embed|inline).*?(blocks|html|javascript).*?markdown"
+                ]
+            },
+            "avoidTriggers": {
+                "keywords": [
+                    "test block",
+                    "jsdom",
+                    "testBlock",
+                    "saveBlockHTML",
+                    "interactive code",
+                    "run code",
+                    "execute javascript"
+                ],
+                "intentPatterns": [
+                    "(test|debug|verify).*?block",
+                    "(run|execute).*?code.*?cell"
+                ]
+            },
+            "fileTriggers": {
+                "pathPatterns": [
+                    "**/*-presentation.ipynb",
+                    "**/*-demo.ipynb",
+                    "**/*-showcase.ipynb",
+                    "**/*-slides.ipynb",
+                    "presentation.ipynb",
+                    "demo.ipynb",
+                    "showcase.ipynb"
+                ],
+                "pathExclusions": [
+                    "test.ipynb",
+                    "**/test-*.ipynb"
+                ]
+            }
+        },
+        "ipynb-validator": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Validate Jupyter notebooks for production readiness. Checks smart links consistency, layout structure, transition cells with action cards, numbered part flow, cell ordering, and overall quality. Use when validating notebooks, checking structure, testing smart links, verifying action cards, or preparing for production.",
+            "promptTriggers": {
+                "keywords": [
+                    "validate notebook",
+                    "check notebook",
+                    "verify notebook",
+                    "notebook validation",
+                    "ipynb validation",
+                    "production ready",
+                    "production readiness",
+                    "smart links",
+                    "check smart links",
+                    "verify smart links",
+                    "broken links",
+                    "action cards",
+                    "transitions",
+                    "transition cells",
+                    "part flow",
+                    "section flow",
+                    "cell ordering",
+                    "notebook structure",
+                    "layout structure",
+                    "notebook quality",
+                    "ready for prod",
+                    "deploy notebook",
+                    "notebook report",
+                    "investigate ipynb",
+                    "analyze notebook",
+                    "check ipynb"
+                ],
+                "intentPatterns": [
+                    "(validate|check|verify|test).*?notebook",
+                    "(validate|check|verify).*?ipynb",
+                    "notebook.*?(valid|production|ready|quality|structure)",
+                    "(check|verify|test).*?(smart link|action card|transition)",
+                    "(investigate|analyze|inspect).*?(notebook|ipynb)",
+                    "production.*?(ready|readiness|deployment).*?notebook",
+                    "(broken|missing|verify).*?link",
+                    "(part|section).*?flow",
+                    "notebook.*?(issue|problem|error)"
+                ]
+            },
+            "fileTriggers": {
+                "pathPatterns": [
+                    "**/*.ipynb"
+                ],
+                "pathExclusions": [
+                    "**/.ipynb_checkpoints/**"
+                ]
+            }
+        },
+        "llms-txt-manager": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Managing llms.txt and my-blog.json files for AI content discovery. Handles creation, updating, synchronization with query-index.json. Use when working with llms.txt files, my-blog.json files, blog catalogs, content indexes, or updating site content for AI systems.",
+            "promptTriggers": {
+                "keywords": [
+                    "llms.txt",
+                    "my-blog.json",
+                    "blog catalog",
+                    "content index",
+                    "query-index.json",
+                    "AI content discovery",
+                    "update llms",
+                    "update blog",
+                    "content synchronization",
+                    "llms txt",
+                    "blog json",
+                    "content catalog",
+                    "site index",
+                    "AI index",
+                    "llmstxt",
+                    "llms-txt",
+                    "blog index"
+                ],
+                "intentPatterns": [
+                    "(create|update|edit|modify).*?(llms\\.txt|llmstxt)",
+                    "(create|update|edit|modify).*?my-blog\\.json",
+                    "(update|sync|synchronize).*?(blog|content|catalog|index)",
+                    "llms.*?txt.*?(create|update|manage)",
+                    "(fetch|get|pull).*?query-index",
+                    "(organize|structure).*?(blog|content).*?(catalog|index)",
+                    "(AI|llm).*?(content|index|catalog|discovery)"
+                ]
+            },
+            "fileTriggers": {
+                "pathPatterns": [
+                    "**/llms.txt",
+                    "**/my-blog.json",
+                    "llms.txt",
+                    "my-blog.json"
+                ],
+                "contentPatterns": [
+                    "query-index\\.json",
+                    "## Access Guidelines",
+                    "\"categoryMap\"",
+                    "\"last-updated\""
                 ]
             }
         }

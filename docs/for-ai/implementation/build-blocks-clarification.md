@@ -370,7 +370,7 @@ This architecture ensures that developers have modern tools while EDS projects g
 - **[CSS Naming Convention Style Guide](../guidelines/style-guide.md)** - CSS naming conventions and standards for EDS blocks and components
 
 ### Development Environment & Tools
-- **[Server README](../../server-README.md)** - Development server setup and configuration for both build-based and direct-edit workflows
+- **[Server README](../../../Server-README.md)** - Development server setup and configuration for both build-based and direct-edit workflows
 - **[Debug Guide](../testing/debug.md)** - Comprehensive debugging strategies for both build-based and direct-edit components
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration for complex EDS blocks
 - **[Deployment Strategies](deployment-strategies.md)** - Best practices for deploying both types of EDS blocks to production
@@ -394,7 +394,7 @@ This architecture ensures that developers have modern tools while EDS projects g
 2. **Start with simple components** using the direct-edit approach in `/blocks/` following [Raw EDS Blocks Guide](raw-eds-blocks-guide.md)
 3. **Learn the standards** from [Block Architecture Standards](block-architecture-standards.md) and [EDS Architecture Standards](eds-architecture-standards.md)
 4. **Practice the decision logic** by creating a few simple components before attempting build-based development
-5. **Set up your environment** using [Server README](../../server-README.md) for proper development workflow
+5. **Set up your environment** using [Server README](../../../Server-README.md) for proper development workflow
 
 ### For Experienced Developers
 1. **Master the decision matrix** to quickly determine which approach is appropriate for each component

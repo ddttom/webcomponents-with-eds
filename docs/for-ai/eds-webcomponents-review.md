@@ -476,7 +476,7 @@ The repository successfully demonstrates that you don't have to choose between E
 - **[Raw EDS Blocks Guide](implementation/raw-eds-blocks-guide.md)** - Step-by-step guide for creating simple EDS blocks using vanilla JavaScript
 
 ### Development Environment & Tools
-- **[Server README](../server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Server README](../../Server-README.md)** - Development server setup and configuration for EDS block development and testing
 - **[EDS Native Testing Standards](testing/eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration

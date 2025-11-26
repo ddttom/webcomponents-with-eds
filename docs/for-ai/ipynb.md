@@ -1,5 +1,18 @@
 # Testing EDS Blocks with Jupyter Notebooks: A Developer's Playground
 
+> **📢 DEPRECATION NOTICE:** This document is superseded by [explaining-jupyter.md](explaining-jupyter.md) which provides more comprehensive and up-to-date information on Jupyter notebook testing for EDS blocks.
+>
+> **Please use the new documentation:** [Explaining Jupyter - Interactive Testing for EDS Blocks](explaining-jupyter.md)
+>
+> The new guide includes:
+> - Complete architecture overview and execution model
+> - Browser-only execution patterns
+> - Helper functions (`testBlock`, `showPreview`, `saveBlockHTML`)
+> - Three notebook types: Testing, Educational, and Presentation
+> - Context-aware execution and modern best practices
+
+---
+
 ## Wait... Jupyter? For JavaScript? For EDS Blocks?
 
 Yes, really! If you've ever found yourself refreshing your browser for the hundredth time just to see if your EDS block works with slightly different content, this is for you.

@@ -553,7 +553,7 @@ export function createResponsiveImage(config) {
 - **[Build Component Template](../build-component-template.md)** - Template for advanced build components with external dependencies
 
 ### Development Environment & Tools
-- **[Server README](../server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Server README](../../Server-README.md)** - Development server setup and configuration for EDS block development and testing
 - **[EDS Native Testing Standards](../eds-native-testing-standards.md)** - Testing standards specifically for EDS-native pattern components
 - **[Performance Optimization](../performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 - **[JavaScript Patterns](../javascript-patterns.md)** - Reusable JavaScript patterns for EDS block development

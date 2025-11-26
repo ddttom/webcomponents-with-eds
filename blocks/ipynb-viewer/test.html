@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPynb Viewer Test - EDS Block</title>
+    <title>IPynb Viewer Test - Notebook Variation</title>
 
     <!-- EDS Core Styles -->
     <link rel="stylesheet" href="/styles/styles.css">
@@ -49,6 +49,23 @@
             margin-top: 0;
         }
 
+        .feature-list {
+            background: #f0f7ff;
+            border-left: 4px solid #0066cc;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .feature-list h4 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+
+        .feature-list ul {
+            margin-bottom: 0;
+        }
+
         /* EDS pattern - ensure body appears */
         body.appear {
             display: block;
@@ -57,41 +74,92 @@
 </head>
 <body>
     <div class="test-content">
-        <h1>IPynb Viewer Block Test Page</h1>
+        <h1>IPynb Viewer - Notebook Variation Test</h1>
 
         <div class="test-info">
-            <h3>Testing Instructions</h3>
+            <h3>🎯 Testing Index Variation with Auto-Open</h3>
+            <p>This test demonstrates the <strong>index variation</strong> of ipynb-viewer which automatically opens without requiring a button click, perfect for landing pages and documentation indexes:</p>
+            <ul>
+                <li>✨ <strong>Auto-wrapping</strong> - Pure markdown cells styled automatically</li>
+                <li>🔖 <strong>Bookmarks</strong> - Save favorite pages to localStorage</li>
+                <li>🕘 <strong>History</strong> - Track navigation (last 25 items)</li>
+                <li>❓ <strong>Help System</strong> - Built-in user guide (opens docs/help.md)</li>
+                <li>🏠 <strong>Home Button</strong> - Jump to first page</li>
+                <li>☰ <strong>TOC (Hamburger Menu)</strong> - Quick navigation</li>
+                <li>🎨 <strong>Attractive Top Bar</strong> - Gradient purple-to-blue design</li>
+                <li>× <strong>Close Button</strong> - Always visible</li>
+            </ul>
+        </div>
+
+        <div class="feature-list">
+            <h4>✅ Features to Test:</h4>
+            <ul>
+                <li><strong>Top Bar</strong> - Beautiful gradient with notebook title</li>
+                <li><strong>Bookmarks Button (🔖)</strong> - Click to save/view bookmarks</li>
+                <li><strong>History Button (🕘)</strong> - View navigation history</li>
+                <li><strong>Help Button (❓)</strong> - Opens comprehensive help guide</li>
+                <li><strong>Home Button (🏠)</strong> - Jump to first page</li>
+                <li><strong>TOC Button (☰)</strong> - Table of contents dropdown</li>
+                <li><strong>Close Button (×)</strong> - Exit overlay</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>Documentation Navigator (Index Mode - Auto-Open)</h2>
+            <p>This test loads the <strong>docs-navigation.ipynb</strong> file from the repository root, demonstrating:</p>
+            <ul>
+                <li>External .ipynb file loading (not inline JSON)</li>
+                <li>Index variation with auto-open (no "Start Reading" button)</li>
+                <li>Repo metadata for GitHub markdown overlay support</li>
+                <li>55 cells with action cards, smart links, and transitions</li>
+                <li>Auto-wrapping pattern detection (hero, intro, content, transition)</li>
+            </ul>
+
+            <!-- IPynb Viewer Block - Index Variation (Auto-opens) -->
+            <div class="ipynb-viewer notebook index block"
+                 id="test-notebook"
+                 data-block-name="ipynb-viewer"
+                 data-block-status="initialized">
+                <div>
+                    <div>/docs-navigation.ipynb</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-info">
+            <h3>📝 Testing Instructions</h3>
             <ol>
-                <li>The block below should load and display a sample Jupyter notebook</li>
-                <li>You should see markdown cells (with formatted text) and code cells (with Run buttons)</li>
-                <li>Click the "Run" button on any code cell to execute the JavaScript</li>
-                <li>Click "Run All" to execute all code cells in sequence</li>
-                <li>Check the browser console for any errors</li>
+                <li><strong>Notebook Auto-Opens!</strong> - The index variation automatically opens in overlay mode (no button needed)</li>
+                <li><strong>Check the top bar</strong> - Should show gradient background with "Documentation Navigator" title</li>
+                <li><strong>Test all buttons:</strong>
+                    <ul>
+                        <li>🏠 Home - Jumps to first page</li>
+                        <li>🕘 History - Shows navigation history (builds as you navigate)</li>
+                        <li>🔖 Bookmarks - Save pages, view saved bookmarks</li>
+                        <li>☰ TOC - Table of contents dropdown</li>
+                        <li>❓ Help - Opens docs/help.md in GitHub overlay</li>
+                        <li>× Close - Exits overlay</li>
+                    </ul>
+                </li>
+                <li><strong>Navigate through pages</strong> - Use Previous/Next or action cards</li>
+                <li><strong>Try bookmarking</strong> - Click 🔖, then "+ Bookmark This Page"</li>
+                <li><strong>Check history</strong> - Click 🕘 after navigating a few pages</li>
+                <li><strong>Open help</strong> - Click ❓ to see comprehensive help guide</li>
+                <li><strong>Verify auto-wrapping</strong> - Cells should have attractive styling without manual HTML</li>
             </ol>
-            <p><strong>Note:</strong> This test uses an inline data URL for the notebook. In production, you would reference an actual .ipynb file path.</p>
         </div>
 
-        <div class="test-section">
-            <h2>Test Case 1: Sample Notebook with Inline Data</h2>
-
-            <!-- IPynb Viewer Block -->
-            <div class="ipynb-viewer block" id="test-notebook" data-block-name="ipynb-viewer" data-block-status="initialized">
-                <div>
-                    <div>test-notebook-inline</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="test-section">
-            <h2>Test Case 2: Paged Variation</h2>
-            <p>This test demonstrates the paged variation where cells are displayed one at a time with Previous/Next navigation.</p>
-
-            <!-- IPynb Viewer Block with Paged Variation -->
-            <div class="ipynb-viewer paged block" id="test-notebook-paged" data-block-name="ipynb-viewer" data-block-status="initialized">
-                <div>
-                    <div>test-notebook-paged</div>
-                </div>
-            </div>
+        <div class="test-info">
+            <h3>🔍 What to Look For</h3>
+            <ul>
+                <li><strong>Beautiful top bar</strong> - Purple-to-blue gradient</li>
+                <li><strong>Six control buttons</strong> - All properly styled and functional</li>
+                <li><strong>Bookmarks persist</strong> - Should survive page reload (localStorage)</li>
+                <li><strong>History tracks navigation</strong> - Shows up to 25 recent items</li>
+                <li><strong>Help opens in overlay</strong> - No external navigation</li>
+                <li><strong>Action cards work</strong> - Click to navigate between sections</li>
+                <li><strong>Hamburger TOC</strong> - Shows all headings for quick navigation</li>
+            </ul>
         </div>
     </div>
 
@@ -103,160 +171,20 @@
         sampleRUM('top');
         window.addEventListener('load', () => sampleRUM('load'));
 
-        // Create a sample notebook inline for testing
-        const sampleNotebook = {
-            cells: [
-                {
-                    cell_type: 'markdown',
-                    metadata: {},
-                    source: [
-                        '# JavaScript Testing Example\n',
-                        '\n',
-                        'This notebook demonstrates **interactive JavaScript** execution in EDS.\n',
-                        '\n',
-                        'Click the **Run** button on any code cell to execute it.'
-                    ]
-                },
-                {
-                    cell_type: 'code',
-                    metadata: {},
-                    source: [
-                        '// Simple calculation\n',
-                        'const a = 10;\n',
-                        'const b = 20;\n',
-                        'console.log(\'Sum:\', a + b);\n',
-                        'return a + b;'
-                    ]
-                },
-                {
-                    cell_type: 'markdown',
-                    metadata: {},
-                    source: [
-                        '## Working with Arrays\n',
-                        '\n',
-                        'JavaScript arrays can be manipulated and results displayed inline.'
-                    ]
-                },
-                {
-                    cell_type: 'code',
-                    metadata: {},
-                    source: [
-                        'const numbers = [1, 2, 3, 4, 5];\n',
-                        'const doubled = numbers.map(n => n * 2);\n',
-                        'console.log(\'Original:\', numbers);\n',
-                        'console.log(\'Doubled:\', doubled);\n',
-                        'return doubled;'
-                    ]
-                },
-                {
-                    cell_type: 'markdown',
-                    metadata: {},
-                    source: [
-                        '## String Manipulation'
-                    ]
-                },
-                {
-                    cell_type: 'code',
-                    metadata: {},
-                    source: [
-                        'const text = \'hello world\';\n',
-                        'const upper = text.toUpperCase();\n',
-                        'const titleCase = text.replace(/\\b\\w/g, c => c.toUpperCase());\n',
-                        'console.log(\'Original:\', text);\n',
-                        'console.log(\'Uppercase:\', upper);\n',
-                        'console.log(\'Title Case:\', titleCase);\n',
-                        'return titleCase;'
-                    ]
-                },
-                {
-                    cell_type: 'markdown',
-                    metadata: {},
-                    source: [
-                        '## Error Handling\n',
-                        '\n',
-                        'This cell demonstrates error handling:'
-                    ]
-                },
-                {
-                    cell_type: 'code',
-                    metadata: {},
-                    source: [
-                        'try {\n',
-                        '  const result = 10 / 2;\n',
-                        '  console.log(\'Result:\', result);\n',
-                        '  return result;\n',
-                        '} catch (error) {\n',
-                        '  console.error(\'Error occurred:\', error.message);\n',
-                        '  return null;\n',
-                        '}'
-                    ]
-                },
-                {
-                    cell_type: 'markdown',
-                    metadata: {},
-                    source: [
-                        '## DOM Interaction\n',
-                        '\n',
-                        'Code can interact with the page DOM:'
-                    ]
-                },
-                {
-                    cell_type: 'code',
-                    metadata: {},
-                    source: [
-                        '// Count blocks on the page\n',
-                        'const blockCount = document.querySelectorAll(\'.block\').length;\n',
-                        'console.log(\'Number of blocks on page:\', blockCount);\n',
-                        'return `Found ${blockCount} blocks`;'
-                    ]
-                }
-            ],
-            metadata: {
-                kernelspec: {
-                    display_name: 'JavaScript (Node.js)',
-                    language: 'javascript',
-                    name: 'javascript'
-                },
-                language_info: {
-                    name: 'javascript',
-                    version: '14.0.0'
-                },
-                title: 'JavaScript Testing Example'
-            },
-            nbformat: 4,
-            nbformat_minor: 4
-        };
-
-        // Mock fetch to return our inline notebook
-        const originalFetch = window.fetch;
-        window.fetch = function(url) {
-            if (url === 'test-notebook-inline' || url === 'test-notebook-paged') {
-                return Promise.resolve({
-                    ok: true,
-                    json: () => Promise.resolve(sampleNotebook)
-                });
-            }
-            return originalFetch.apply(this, arguments);
-        };
-
-        // Load both blocks
-        const block1 = document.querySelector('#test-notebook');
-        const block2 = document.querySelector('#test-notebook-paged');
+        // Load the notebook block
+        const block = document.querySelector('#test-notebook');
 
         try {
-            await loadBlock(block1);
-            console.log('✅ IPynb Viewer block (default) loaded successfully');
+            // Load block (will fetch /docs-navigation.ipynb)
+            await loadBlock(block);
+            console.log('✅ IPynb Viewer block (notebook variation) loaded successfully');
+            console.log('📄 Loading notebook from: /docs-navigation.ipynb');
+            console.log('🔖 Bookmarks feature: Active (localStorage)');
+            console.log('🕘 History tracking: Active (max 25 entries)');
+            console.log('❓ Help system: Active (opens docs/help.md)');
         } catch (error) {
-            console.error('❌ Block 1 failed to load:', error);
-            block1.innerHTML = `<p style="color: red;">Failed to load block: ${error.message}</p>`;
-        }
-
-        try {
-            await loadBlock(block2);
-            console.log('✅ IPynb Viewer block (paged) loaded successfully');
-        } catch (error) {
-            console.error('❌ Block 2 failed to load:', error);
-            block2.innerHTML = `<p style="color: red;">Failed to load block: ${error.message}</p>`;
+            console.error('❌ Block failed to load:', error);
+            block.innerHTML = `<p style="color: red; padding: 2rem;">Failed to load block: ${error.message}</p>`;
         }
 
         // Add body.appear class (EDS pattern)

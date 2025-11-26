@@ -122,44 +122,22 @@ If adding tests for a specific block:
 
    **Accordion/FAQ blocks:**
    ```javascript
-   const content = `
-     <div>
-       <div>Question 1</div>
-       <div>Answer 1 with details.</div>
-     </div>
-     <div>
-       <div>Question 2</div>
-       <div>Answer 2 with details.</div>
-     </div>
-   `;
+   const content = '<div><div>Question 1</div><div>Answer 1 with details.</div></div>' +
+     '<div><div>Question 2</div><div>Answer 2 with details.</div></div>';
    ```
 
    **Tabs blocks:**
    ```javascript
-   const content = `
-     <div>
-       <div>Tab 1 Title</div>
-       <div>Tab 1 content here</div>
-     </div>
-     <div>
-       <div>Tab 2 Title</div>
-       <div>Tab 2 content here</div>
-     </div>
-   `;
+   const content = '<div><div>Tab 1 Title</div><div>Tab 1 content here</div></div>' +
+     '<div><div>Tab 2 Title</div><div>Tab 2 content here</div></div>';
    ```
 
    **Cards/Grid blocks:**
    ```javascript
-   const content = `
-     <div>
-       <div><picture><img src="image1.jpg" alt="Card 1"></picture></div>
-       <div><h3>Title 1</h3><p>Description 1</p></div>
-     </div>
-     <div>
-       <div><picture><img src="image2.jpg" alt="Card 2"></picture></div>
-       <div><h3>Title 2</h3><p>Description 2</p></div>
-     </div>
-   `;
+   const content = '<div><div><picture><img src="image1.jpg" alt="Card 1"></picture></div>' +
+     '<div><h3>Title 1</h3><p>Description 1</p></div></div>' +
+     '<div><div><picture><img src="image2.jpg" alt="Card 2"></picture></div>' +
+     '<div><h3>Title 2</h3><p>Description 2</p></div></div>';
    ```
 
 3. **Add test cells** with:
@@ -272,7 +250,7 @@ Offer these patterns when appropriate:
 async function testVariations(blockName, contentArray) {
   return Promise.all(
     contentArray.map((content, i) =>
-      saveBlockHTML(blockName, content, `${blockName}-var-${i}.html`)
+      saveBlockHTML(blockName, content, blockName + '-var-' + i + '.html')
     )
   );
 }

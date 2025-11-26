@@ -595,7 +595,7 @@ The focus on minimal dependencies and pure JavaScript ensures components remain 
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 
 ### Development Environment & Tools
-- **[Server README](../../server-README.md)** - Development server setup and configuration for EDS block development
+- **[Server README](../../../Server-README.md)** - Development server setup and configuration for EDS block development
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Accessibility Testing](accessibility-testing.md)** - Testing EDS blocks for accessibility compliance and best practices
 - **[CSS Patterns](css-patterns.md)** - Common CSS patterns and styling approaches for EDS blocks
@@ -613,7 +613,7 @@ The focus on minimal dependencies and pure JavaScript ensures components remain 
 2. **Learn the standards** from [Block Architecture Standards](block-architecture-standards.md) for essential development guidelines
 3. **Understand the philosophy** through [Design Philosophy Guide](design-philosophy-guide.md) to grasp EDS principles
 4. **Practice with simple blocks** using the [Raw EDS Blocks Guide](raw-eds-blocks-guide.md) following these architecture standards
-5. **Set up your environment** using [Server README](../../server-README.md) for proper development workflow
+5. **Set up your environment** using [Server README](../../../Server-README.md) for proper development workflow
 
 ### For Experienced Developers
 1. **Master the EDS-native patterns** shown in this guide's implementation examples

@@ -519,7 +519,7 @@ This approach enables comprehensive performance analysis of EDS blocks while res
 - **[Project Structure](../project-structure.md)** - Understanding the overall EDS project organization and file conventions
 
 ### Development Environment & Tools
-- **[Server README](../../server-README.md)** - Development server setup and configuration for EDS block development
+- **[Server README](../../../Server-README.md)** - Development server setup and configuration for EDS block development
 - **[Performance Optimization](performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 - **[Browser Compatibility](browser-compatibility.md)** - Ensuring cross-browser compatibility for EDS implementations
 - **[Build Tools Configuration](build-tools-configuration.md)** - Advanced build tool setup and configuration

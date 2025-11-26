@@ -599,7 +599,7 @@ export const healthRoutes = {
 ### EDS Foundation & Development
 - **[Design Philosophy Guide](../design-philosophy-guide.md)** - Understanding the philosophical principles behind EDS architecture decisions
 - **[EDS Overview](../eds.md)** - Complete introduction to Edge Delivery Services architecture and core concepts
-- **[Server README](../server-README.md)** - Development server setup and configuration for EDS block development and testing
+- **[Server README](../../Server-README.md)** - Development server setup and configuration for EDS block development and testing
 - **[Performance Optimization](../performance-optimization.md)** - Techniques for optimizing EDS block performance and loading
 
 ### Development Standards & Patterns

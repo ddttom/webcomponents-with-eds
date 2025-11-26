@@ -17,7 +17,9 @@ This directory contains Claude Code configuration, custom skills, and slash comm
 │   ├── check-block.md          # Architecture review of a block
 │   ├── check-security.md       # Security validation
 │   ├── review-docs.md          # Navigate EDS documentation
-│   └── jupyter-notebook.md     # Create/edit Jupyter notebooks for testing
+│   ├── jupyter-notebook.md     # Create/edit Jupyter notebooks for testing
+│   ├── update-llms.md          # Update all llms.txt files
+│   └── update-my-blog.md       # Update all my-blog.json files
 └── skills/                      # Extended capabilities
     ├── building-blocks/         # Create/modify EDS blocks
     ├── content-driven-development/  # CDD process orchestration
@@ -26,6 +28,7 @@ This directory contains Claude Code configuration, custom skills, and slash comm
     ├── jupyter-notebook-testing.md  # Interactive testing with Jupyter
     ├── block-collection-and-party/  # Find reference implementations
     ├── docs-search/             # Search aem.live documentation
+    ├── llms-txt-manager/        # Manage llms.txt and my-blog.json files
     └── [other general skills]   # Canvas design, artifacts, etc.
 ```
 
@@ -68,6 +71,16 @@ The recommended workflow follows Content Driven Development (CDD):
 - **Review block architecture**: `/check-block my-component`
 - **Security audit**: `/check-security`
 
+### For Content Management
+
+- **Update llms.txt files**: `/update-llms` or `node scripts/sync-blog-content.js --target=llms`
+- **Update my-blog.json files**: `/update-my-blog` or `node scripts/sync-blog-content.js --target=blog`
+  - Auto-creates missing my-blog.json files paired with llms.txt
+  - Populates with content from query-index.json
+  - Filters by folder context automatically
+  - Sets initial date to 2020-01-01 to capture all historical content
+- **Update both**: `node scripts/sync-blog-content.js --target=all`
+
 ### For Learning & Navigation
 
 - **Explore documentation**: `/review-docs`
@@ -106,6 +119,7 @@ The recommended workflow follows Content Driven Development (CDD):
 - **block-collection-and-party**: Find similar blocks for reference
 - **docs-search**: Search official aem.live documentation
 - **jupyter-notebook-testing**: Interactive testing with Jupyter notebooks
+- **llms-txt-manager**: Manage llms.txt and my-blog.json files for AI content discovery
 
 ### General Skills
 
@@ -136,6 +150,8 @@ These skills are available but not EDS-specific:
 | `/check-security` | Run security checklist validation based on EDS security guidelines | `/check-security` |
 | `/review-docs` | Review and understand the EDS documentation structure in docs/for-AI | `/review-docs` |
 | `/jupyter-notebook` | Create or edit Jupyter notebooks for testing EDS blocks interactively | `/jupyter-notebook` |
+| `/update-llms` | Update all llms.txt files with latest content from query-index.json | `/update-llms` |
+| `/update-my-blog` | Update all my-blog.json files with latest content from query-index.json | `/update-my-blog` |
 
 ## Documentation
 
