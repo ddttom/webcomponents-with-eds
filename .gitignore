@@ -18,4 +18,4 @@ node_modules
 # Agent setup symlinks (created by agentsetup.sh)
 GEMINI.md
 AGENTS.md
-.agent/
+.agents/

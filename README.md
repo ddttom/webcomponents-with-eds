@@ -494,7 +494,7 @@ The [`.claude/agents/`](.claude/agents/) directory contains autonomous agents fo
 > **🔧 Multi-AI Support**: Run [agentsetup.sh](agentsetup.sh) to create symlinks for other AI assistants:
 > - `GEMINI.md` → `CLAUDE.md` (Google Gemini compatibility)
 > - `AGENTS.md` → `CLAUDE.md` (Legacy compatibility)
-> - `.agent/workflows/` → `.claude/skills/` (Alternative AI assistant integrations)
+> - `.agents/workflows/` → `.claude/skills/` (Alternative AI assistant integrations)
 >
 > These symlinks enable the same development environment across different AI platforms.
 

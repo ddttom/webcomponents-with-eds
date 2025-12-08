@@ -48,11 +48,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added agentsetup.sh script for multi-AI platform support
   - Creates GEMINI.md → CLAUDE.md symlink (Google Gemini compatibility)
   - Creates AGENTS.md → CLAUDE.md symlink (legacy compatibility)
-  - Creates .agent/workflows → .claude/skills symlink (alternative AI assistants)
-- Updated .gitignore to exclude AI setup symlinks (GEMINI.md, AGENTS.md, .agent/)
+  - Creates .agents/workflows → .claude/skills symlink (alternative AI assistants)
+- Updated .gitignore to exclude AI setup symlinks (GEMINI.md, AGENTS.md, .agents/)
 - Added Multi-AI Support documentation to README.md
   - Explains agentsetup.sh script functionality
   - Documents cross-platform AI assistant compatibility
+- Updated docs-navigation.ipynb with latest documentation structure and links
 
 ### Changed
 - **Updated all documentation for expanded Adobe skills** (6 → 14 skills)
