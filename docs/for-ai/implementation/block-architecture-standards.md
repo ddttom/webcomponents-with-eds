@@ -1251,9 +1251,26 @@ async function loadOverlayContent(overlayContent, contentPath) {
 
 ## CSS Standards {#css-standards}
 
+### Design System Reference
+
+Follow the design language documented in [design-system.md](../guidelines/design-system.md) for:
+- **Color palette and CSS variables** - Use `--link-color`, `--background-color`, etc. from `styles/styles.css`
+- **Typography scale and font weights** - Use `--body-font-family`, `--heading-font-size-*` variables
+- **Spacing values (8px base system)** - Common values: 5px, 16px, 22px (most common), 24px, 32px, 48px, 64px
+- **Component patterns** - Buttons (pill shape with 30px radius), links, borders
+- **Responsive breakpoints** - 600px (tablet), 900px (desktop)
+- **Accessibility standards** - WCAG 2.1 AA compliance
+
+**Important**: Always use global CSS variables from the design system before creating block-specific variables.
+
 ### 1. CSS Architecture {#1-css-architecture}
 
 #### CSS Custom Properties (Variables)
+
+**Global Variables** (from design system):
+Use variables defined in `styles/styles.css` for colors, typography, and layout. See [design-system.md](../guidelines/design-system.md) for complete reference.
+
+**Block-Level Variables** (component-specific):
 
 ```css
 :root {

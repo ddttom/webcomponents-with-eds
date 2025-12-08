@@ -19,20 +19,20 @@ else
     echo "Symlink AGENTS.md already exists."
 fi
 
-# 3. Setup .agent/workflows symlink
+# 3. Setup .agents/workflows symlink
 # Ensure .agent directory exists
-if [ ! -d ".agent" ]; then
-    echo "Creating directory: .agent"
-    mkdir -p .agent
+if [ ! -d ".agents" ]; then
+    echo "Creating directory: .agents"
+    mkdir -p .agents
 fi
 
 # Create symlink if it doesn't exist
-if [ ! -L ".agent/workflows" ]; then
-    echo "Creating symlink: .agent/workflows -> ../.claude/skills"
+if [ ! -L ".agents/workflows" ]; then
+    echo "Creating symlink: .agents/workflows -> ../.claude/skills"
     # Note: Using relative path for symlink within .agent directory
-    ln -s ../.claude/skills .agent/workflows
+    ln -s ../.claude/skills .agents/workflows
 else
-    echo "Symlink .agent/workflows already exists."
+    echo "Symlink .agents/workflows already exists."
 fi
 
 echo "Agent setup complete."

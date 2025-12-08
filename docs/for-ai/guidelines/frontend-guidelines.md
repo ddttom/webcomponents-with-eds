@@ -113,34 +113,44 @@ function validateInput(input) {
 
 ### Design System Integration
 
-Use CSS custom properties for consistent theming:
+> **Complete EDS Design Language:** See [design-system.md](design-system.md) for comprehensive allabout.network design tokens, component patterns, and implementation guidelines.
+
+Use CSS custom properties from `styles/styles.css` for consistent theming:
 
 ```css
 :root {
-  /* Color palette */
-  --color-primary: #1473e6;
-  --color-secondary: #2680eb;
-  --color-background: #ffffff;
-  --color-text: #2c2c2c;
-  --color-border: #e1e1e1;
-  
-  /* Typography */
-  --font-family-primary: 'Adobe Clean', sans-serif;
-  --font-size-base: 16px;
-  --line-height-base: 1.5;
-  
-  /* Spacing */
-  --spacing-xs: 4px;
-  --spacing-s: 8px;
-  --spacing-m: 16px;
-  --spacing-l: 24px;
-  --spacing-xl: 32px;
-  
+  /* Colors - Actual allabout.network palette */
+  --link-color: #035fe6;
+  --link-hover-color: #136ff6;
+  --background-color: white;
+  --light-color: #eee;
+  --dark-color: #ccc;
+  --text-color: black;
+
+  /* Typography - Roboto self-hosted */
+  --body-font-family: roboto, roboto-fallback;
+  --heading-font-family: var(--body-font-family);
+  --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
+
+  /* Body sizes */
+  --body-font-size-m: 22px;
+  --body-font-size-s: 18px;
+  --body-font-size-xs: 16px;
+
+  /* Heading sizes (responsive via media query at 900px) */
+  --heading-font-size-xxl: 48px;  /* 60px on desktop */
+  --heading-font-size-xl: 40px;   /* 48px on desktop */
+  --heading-font-size-l: 32px;    /* 36px on desktop */
+  --heading-font-size-m: 24px;    /* 30px on desktop */
+  --heading-font-size-s: 20px;    /* 24px on desktop */
+  --heading-font-size-xs: 18px;   /* 22px on desktop */
+
   /* Layout */
-  --container-max-width: 1200px;
-  --border-radius: 4px;
-  --transition-duration: 0.3s;
+  --nav-height: 64px;
 }
+
+/* Note: Spacing follows 8px base system - common values: 5px, 16px, 22px (most common), 24px, 32px, 48px, 64px */
+/* See design-system.md for complete spacing guidelines */
 ```
 
 ### Component Styling
@@ -150,16 +160,19 @@ Follow BEM-like naming conventions for component styles:
 ```css
 /* Block component */
 .my-component {
-  background: var(--color-background);
-  border-radius: var(--border-radius);
-  padding: var(--spacing-m);
+  background: var(--background-color);
+  border: 1px solid var(--dark-color);
+  border-radius: 0.25em;  /* Subtle rounding (not buttons) */
+  padding: 22px;  /* Most common EDS spacing */
 }
 
 /* Element within component */
 .my-component__header {
-  font-family: var(--font-family-primary);
-  font-size: 1.25rem;
-  margin-bottom: var(--spacing-s);
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-m);
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: 16px;  /* Base spacing unit */
 }
 
 /* Modifier for component state */
@@ -168,10 +181,16 @@ Follow BEM-like naming conventions for component styles:
   pointer-events: none;
 }
 
-/* Responsive design */
-@media (min-width: 768px) {
+/* Responsive design - EDS uses 600px/900px breakpoints */
+@media (min-width: 600px) {
   .my-component {
-    padding: var(--spacing-l);
+    padding: 24px;
+  }
+}
+
+@media (width >= 900px) {
+  .my-component {
+    padding: 48px;  /* Large spacing for desktop */
   }
 }
 ```

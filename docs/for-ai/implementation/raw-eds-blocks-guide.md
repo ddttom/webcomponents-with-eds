@@ -683,11 +683,25 @@ export default function decorate(block) {
 
 ## 🔴 CRITICAL: Use Block Parameter Not Global Selectors
 
-**NEVER use global selectors in your decorate function. ALWAYS query from the `block` parameter.**
+**Understanding when to use the `block` parameter vs. document-level selectors is essential.**
+
+### Document-Level vs Block-Scoped Operations
+
+**Block-scoped operations** (use `block` parameter):
+- Querying elements within the block
+- Checking the block's classes or attributes
+- Modifying the block's content or structure
+
+**Document-level operations** (global selectors are intentional):
+- Accessing page metadata (`meta` tags)
+- Controlling document body scroll
+- Global event listeners (keyboard, scroll)
+- Collecting page-wide elements (all headings, all code snippets)
+- Accessing document structure (header, footer)
 
 ### The Problem: Global Selectors Break Multi-Block Pages
 
-When you use `document.querySelector()` in a decorate function, it **always finds the first matching block on the page**, causing severe bugs when multiple blocks exist.
+When you use `document.querySelector()` to query for **the block itself or its children**, it **always finds the first matching block on the page**, causing severe bugs when multiple blocks exist.
 
 #### ❌ BAD: Global Selectors (Production Bug Example from bio block)
 
@@ -800,11 +814,27 @@ export default function decorate(block) {
 ### Rule of Thumb
 
 **Inside `decorate(block)` function:**
-- ✅ `block.querySelector()` - ALWAYS correct
-- ✅ `block.classList` - ALWAYS correct
-- ✅ `block.appendChild()` - ALWAYS correct
-- ❌ `document.querySelector('.your-block')` - NEVER correct
-- ⚠️ `document.querySelector('meta[name="author"]')` - OK only for page-level queries (not block-specific)
+
+**Block-scoped (use block parameter):**
+- ✅ `block.querySelector()` - ALWAYS correct for querying within the block
+- ✅ `block.classList` - ALWAYS correct for block classes
+- ✅ `block.appendChild()` - ALWAYS correct for block DOM manipulation
+- ❌ `document.querySelector('.your-block')` - NEVER correct (use `block` parameter)
+
+**Document-level (global selectors are intentional):**
+- ✅ `document.querySelector('meta[name="author"]')` - OK for page metadata
+- ✅ `document.querySelectorAll('h1, h2, h3, h4, h5, h6')` - OK for page-wide queries
+- ✅ `document.querySelector('header')` - OK for document structure
+- ✅ `document.body.style` - OK for body control
+- ✅ `window.addEventListener()` - OK for global event listeners
+- ✅ `window.matchMedia()` - OK for responsive behavior
+
+**Defensive documentation:** Always add comments for intentional document-level selectors:
+```javascript
+// Global Selector is INTENTIONAL - used for Document access
+// This block scans ALL page headings to build table of contents
+const headers = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+```
 
 ## Best Practices for Raw EDS Blocks
 
