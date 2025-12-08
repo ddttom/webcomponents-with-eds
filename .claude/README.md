@@ -102,6 +102,17 @@ The recommended workflow follows Content Driven Development (CDD):
    - Can also be invoked manually for existing blocks
    - **When**: After implementation or for validation
 
+**Page Import/Migration Skills** (Adobe workflow):
+
+- **page-import**: Import webpages to structured HTML for AEM EDS authoring
+- **scrape-webpage**: Scrape webpage content, extract metadata, download images
+- **identify-page-structure**: Identify section boundaries and content sequences
+- **page-decomposition**: Analyze content sequences within sections
+- **authoring-analysis**: Determine authoring approach (default content vs blocks)
+- **generate-import-html**: Generate structured HTML from authoring analysis
+- **block-inventory**: Survey available blocks from local project and Block Collection
+- **preview-import**: Preview and verify imported content in dev server
+
 **Support Skills**:
 
 - **block-collection-and-party**: Find similar blocks for reference

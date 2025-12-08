@@ -17,7 +17,7 @@ This document provides complete, ready-to-use presentation notebook examples for
     "category": "presentation",
     "difficulty": "beginner",
     "duration": "15 minutes",
-    "repo": "https://github.com/ddttom/webcomponents-with-eds"
+    "repo": "https://github.com/ddttom/allaboutV2"
   }
 }
 ```
@@ -383,7 +383,7 @@ Thank you for your interest! We look forward to helping you build amazing applic
     "category": "presentation",
     "difficulty": "intermediate",
     "duration": "20 minutes",
-    "repo": "https://github.com/ddttom/webcomponents-with-eds"
+    "repo": "https://github.com/ddttom/allaboutV2"
   }
 }
 ```

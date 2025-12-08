@@ -107,13 +107,21 @@ webcomponents-with-eds/
 │   │   ├── frontend-error-fixer.md
 │   │   ├── auto-error-resolver.md
 │   │   └── [5 more specialized agents]
-│   ├── commands/                 # 12 slash commands for workflows
-│   ├── skills/                   # 21+ specialized AI capabilities
+│   ├── commands/                 # 15 slash commands for workflows
+│   ├── skills/                   # 29 specialized AI capabilities
+│   │   ├── content-driven-development/  # CDD workflow orchestrator
+│   │   ├── building-blocks/      # Block implementation guide
+│   │   ├── testing-blocks/       # Comprehensive testing guidance
+│   │   ├── page-import/          # Adobe: Import webpages to EDS ⭐
+│   │   ├── scrape-webpage/       # Adobe: Webpage scraping and analysis ⭐
+│   │   ├── authoring-analysis/   # Adobe: Content modeling analysis ⭐
+│   │   ├── [6 more Adobe import skills]  # Complete page migration workflow
+│   │   ├── deployment-workflow/  # Deployment and publishing guidance
+│   │   ├── troubleshooting-guide/  # Help and support resources
 │   │   ├── jupyter-notebook-testing/  # Interactive testing framework
 │   │   ├── eds-block-development/     # Block development patterns
-│   │   ├── content-driven-development/  # CDD workflow orchestrator
 │   │   ├── document-skills/      # 40+ Python scripts (docx, pdf, pptx, xlsx)
-│   │   └── skill-rules.json      # Automatic skill activation system
+│   │   └── skill-rules.json      # Automatic skill activation system (14 skills)
 │   └── README.md                 # Claude Code guide
 └── 📚 docs/                      # Development framework
     ├── server-README.md          # Development server guide
@@ -416,7 +424,7 @@ This framework is **specifically designed for AI-assisted development**:
 
 **About AI-assisted development:**
 
-Anthropic developed **Claude Code Skills** as a framework, Adobe created **EDS-specific workflow skills**, and this repository adds **custom EDS testing and documentation skills**. **Skills are lightweight orchestrators that rely on detailed documentation for effective operation**. Without detailed implementation knowledge, they function merely as process guides, instructing the AI on *what* to do. To achieve efficacy, they must also guide the AI on *how* to do it.
+Anthropic developed **Claude Code Skills** as a framework, Adobe created **14 EDS-specific workflow skills** (6 for CDD workflow + 8 for page import/migration from helix-website), and this repository adds **7 custom EDS testing and documentation skills**. **Skills are lightweight orchestrators that rely on detailed documentation for effective operation**. Without detailed implementation knowledge, they function merely as process guides, instructing the AI on *what* to do. To achieve efficacy, they must also guide the AI on *how* to do it.
 
 #### The 2 AM Debugging Problem
 
@@ -439,7 +447,7 @@ When I created [`docs/for-ai/`](docs/for-ai/) (32 files, 24,000+ lines), I was s
 
 #### For Your Next EDS Project
 
-1. **Use the skill framework** - Adobe's EDS skills ([helix-website](https://github.com/adobe/helix-website)) + Anthropic's capabilities + custom EDS innovations
+1. **Use the skill framework** - Adobe's 14 EDS skills from [helix-website](https://github.com/adobe/helix-website) (6 CDD + 8 page import) + Anthropic's 8 general capabilities + 7 custom EDS innovations
 2. **Reference this docs/for-ai** for implementation knowledge patterns (32 files, 24,000+ lines)
 3. **Adapt the custom utilities** to your needs (testing, Jupyter integration, instrumentation)
 4. **Get latest Adobe EDS boilerplate** from [https://aem.live](https://aem.live)
@@ -757,13 +765,13 @@ This repository demonstrates **multi-source skills with implementation knowledge
 
 The AI development environment includes:
 
-**Orchestration Layer (21+ Skills from 3 Sources)**
-- **Adobe's 6 EDS skills** - Core workflow orchestration
-- **Anthropic's 8 skills** - General capabilities and tools
-- **7 custom skills** - EDS testing and documentation innovations
+**Orchestration Layer (29 Skills from 3 Sources)**
+- **Adobe's 14 EDS skills** - 6 CDD workflow skills + 8 page import/migration skills
+- **Anthropic's 8 skills** - General capabilities and tools (document-skills, skill-creator, etc.)
+- **7 custom skills** - EDS testing and documentation innovations (jupyter-notebook-testing, eds-block-development, etc.)
 - **10 Agents** - Autonomous specialists for complex multi-step operations
-- **12 Slash Commands** - Quick access to common workflows
-- **Automatic activation** - Context-aware skill triggers
+- **15 Slash Commands** - Quick access to common workflows
+- **Automatic activation** - Context-aware skill triggers via skill-rules.json
 
 **Implementation Layer**
 - **32 docs** - 24,000+ lines of implementation knowledge

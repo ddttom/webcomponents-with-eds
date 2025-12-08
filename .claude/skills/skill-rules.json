@@ -38,6 +38,7 @@
                     "block development",
                     "decorate function",
                     "block decoration",
+                    "decoration flow",
                     "EDS block",
                     "block structure",
                     "block content",
@@ -47,7 +48,26 @@
                     "block variation",
                     "variation",
                     "block variant",
-                    "create variation"
+                    "create variation",
+                    "three-phase loading",
+                    "eager loading",
+                    "lazy loading",
+                    "delayed loading",
+                    "auto-blocking",
+                    "buildAutoBlocks",
+                    "LCP",
+                    "Largest Contentful Paint",
+                    "FOUC",
+                    "mobile-first",
+                    "breakpoints",
+                    "dual-directory",
+                    "/blocks/ direct editing",
+                    "/build/ workflow",
+                    "content structure contract",
+                    "DOM manipulation",
+                    "block enhancement",
+                    "head.html",
+                    "404.html"
                 ],
                 "intentPatterns": [
                     "(create|add|build|make).*?block",
@@ -181,7 +201,12 @@
                     "virtual DOM",
                     "HTML preview",
                     "CSS linking",
-                    "live reload"
+                    "live reload",
+                    "ipynb-helpers",
+                    "showPreview",
+                    "dual environment",
+                    "browser testing",
+                    "ipynb-viewer block"
                 ],
                 "intentPatterns": [
                     "(test|debug|verify).*?block.*?(notebook|ipynb)",
@@ -403,6 +428,154 @@
                 ],
                 "pathExclusions": [
                     "**/.ipynb_checkpoints/**"
+                ]
+            }
+        },
+        "content-driven-development": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "critical",
+            "description": "Content-Driven Development workflow for EDS - ensures content model and test content exist before code implementation",
+            "promptTriggers": {
+                "keywords": [
+                    "CDD",
+                    "content first",
+                    "content model",
+                    "content modeling",
+                    "content structure",
+                    "content contract",
+                    "/new-block",
+                    "/start-cdd",
+                    "common tasks",
+                    "adding new blocks",
+                    "modifying existing blocks",
+                    "create content before code",
+                    "content-driven"
+                ],
+                "intentPatterns": [
+                    "(start|begin|use).*?CDD",
+                    "content.*?(first|before code|model|structure)",
+                    "(create|design).*?content.*?model",
+                    "(new|create|add).*?block.*?(workflow|process)",
+                    "content.*?driven.*?development"
+                ]
+            }
+        },
+        "building-blocks": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Guide for creating/modifying EDS blocks with decoration patterns, DOM manipulation, and CSS styling",
+            "promptTriggers": {
+                "keywords": [
+                    "building blocks",
+                    "block implementation",
+                    "decoration patterns",
+                    "DOM manipulation",
+                    "block styling",
+                    "CSS guidelines",
+                    "JavaScript guidelines",
+                    "responsive design",
+                    "block-specific naming"
+                ],
+                "intentPatterns": [
+                    "(how to|guide for).*?(build|create|implement).*?block",
+                    "block.*?(decoration|styling|implementation).*?patterns",
+                    "DOM.*?manipulation.*?block"
+                ]
+            }
+        },
+        "testing-blocks": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Comprehensive testing guidance for blocks and features including linting, browser testing, and PR preparation",
+            "promptTriggers": {
+                "keywords": [
+                    "PR preparation",
+                    "pull request",
+                    "linting",
+                    "validate",
+                    "npm run lint",
+                    "code quality",
+                    "browser testing",
+                    "Playwright",
+                    "Puppeteer",
+                    "before opening PR",
+                    "test before PR",
+                    "performance validation"
+                ],
+                "intentPatterns": [
+                    "(prepare|ready).*?PR",
+                    "(open|create).*?pull request",
+                    "test.*?before.*?PR",
+                    "(lint|validate).*?(code|changes)",
+                    "browser.*?test"
+                ]
+            }
+        },
+        "deployment-workflow": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "medium",
+            "description": "EDS deployment workflow, environments (local/preview/production), and publishing process",
+            "promptTriggers": {
+                "keywords": [
+                    "deployment",
+                    "deploy",
+                    "environment",
+                    "preview environment",
+                    "production environment",
+                    "aem.page",
+                    "aem.live",
+                    "publishing process",
+                    "pull request",
+                    "PR link",
+                    "preview link",
+                    "PSI checks",
+                    "code sync",
+                    "AEM Code Sync",
+                    "feature branch",
+                    "gh pr checks"
+                ],
+                "intentPatterns": [
+                    "(deploy|publish).*?(code|changes|block)",
+                    "(create|open).*?pull request",
+                    "preview.*?(url|link|environment)",
+                    "production.*?(deploy|environment)",
+                    "(how to|where is).*?(deploy|publish|preview|production)"
+                ]
+            }
+        },
+        "troubleshooting-guide": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "medium",
+            "description": "Getting help with EDS development, documentation resources, and support",
+            "promptTriggers": {
+                "keywords": [
+                    "help",
+                    "stuck",
+                    "don't know how",
+                    "where to find",
+                    "documentation",
+                    "tutorial",
+                    "getting started",
+                    "frustrated",
+                    "not working",
+                    "how do I",
+                    "where can I",
+                    "need guidance",
+                    "docs-search",
+                    "block-collection"
+                ],
+                "intentPatterns": [
+                    "(where|how).*?find.*?(documentation|help|info)",
+                    "(need|want).*?help",
+                    "(stuck|confused|frustrated)",
+                    "where.*?start",
+                    "(don't know|not sure).*?how",
+                    "can you.*?(help|show|explain)"
                 ]
             }
         }

@@ -4,6 +4,34 @@ Specialized agents for complex, multi-step tasks.
 
 ---
 
+## For This Project (Adobe Edge Delivery Services)
+
+This EDS project includes **6 universally applicable agents** optimized for vanilla JavaScript development.
+
+### Recommended Agents for EDS Development
+
+**Code Quality & Architecture:**
+- **code-architecture-reviewer** - Review block implementations and architectural consistency
+- **code-refactor-master** - Refactor blocks, scripts, and code organization
+- **documentation-architect** - Document blocks, features, and development patterns
+
+**Planning & Research:**
+- **plan-reviewer** - Review implementation plans before starting work
+- **refactor-planner** - Plan comprehensive code reorganization
+- **web-research-specialist** - Research EDS patterns and best practices
+
+### Removed Agents (Not Applicable to EDS)
+
+The following agents were removed because they're designed for backend/full-stack projects:
+- **auth-route-debugger** - JWT cookie authentication debugging (no auth in EDS)
+- **auth-route-tester** - Authenticated endpoint testing (no backend APIs)
+- **auto-error-resolver** - TypeScript compilation errors (EDS uses vanilla JS)
+- **frontend-error-fixer** - React/TypeScript build errors (EDS uses vanilla JS)
+
+**Why removed:** EDS is a static site architecture using vanilla JavaScript with no authentication system, no TypeScript, and no React/framework dependencies.
+
+---
+
 ## What Are Agents?
 
 Agents are autonomous Claude instances that handle specific complex tasks. Unlike skills (which provide inline guidance), agents:
@@ -16,7 +44,7 @@ Agents are autonomous Claude instances that handle specific complex tasks. Unlik
 
 ---
 
-## Available Agents (10)
+## Available Agents (6)
 
 ### code-architecture-reviewer
 **Purpose:** Review code for architectural consistency and best practices
@@ -109,81 +137,39 @@ Agents are autonomous Claude instances that handle specific complex tasks. Unlik
 
 ---
 
-### auth-route-tester
-**Purpose:** Test authenticated API endpoints
+## How to Use Agents
 
-**When to use:**
-- Testing routes with JWT cookie auth
-- Validating endpoint functionality
-- Debugging authentication issues
+### In This Project
 
-**Integration:** ⚠️ Requires JWT cookie-based auth
+All agents in this project are ready to use immediately. Simply ask Claude:
 
----
+```
+Use the code-architecture-reviewer agent to review the carousel block
+```
 
-### auth-route-debugger
-**Purpose:** Debug authentication issues
+Or:
 
-**When to use:**
-- Auth failures
-- Token issues
-- Cookie problems
-- Permission errors
+```
+Use the web-research-specialist agent to find examples of accordion patterns in EDS
+```
 
-**Integration:** ⚠️ Requires JWT cookie-based auth
+### Integration from Other Projects
 
----
-
-### auto-error-resolver
-**Purpose:** Automatically fix TypeScript compilation errors
-
-**When to use:**
-- Build failures with TypeScript errors
-- After refactoring that breaks types
-- Systematic error resolution needed
-
-**Integration:** ⚠️ May need path updates
-
----
-
-## How to Integrate an Agent
-
-### Standard Integration (Most Agents)
+If copying agents from other projects:
 
 **Step 1: Copy the file**
 ```bash
-cp showcase/.claude/agents/agent-name.md \\
-   your-project/.claude/agents/
+cp source/.claude/agents/agent-name.md \\
+   .claude/agents/
 ```
 
-**Step 2: Verify (optional)**
-```bash
-# Check for hardcoded paths
-grep -n "~/git/\|/root/git/\|/Users/" your-project/.claude/agents/agent-name.md
-```
+**Step 2: Verify compatibility**
+- Check if agent requires TypeScript (EDS uses vanilla JS)
+- Check if agent requires authentication (EDS has none)
+- Check if agent is React/framework-specific (EDS is vanilla)
 
 **Step 3: Use it**
 Ask Claude: "Use the [agent-name] agent to [task]"
-
-That's it! Agents work immediately.
-
----
-
-### Agents Requiring Customization
-
-**frontend-error-fixer:**
-- May reference screenshot paths
-- Ask user: "Where should screenshots be saved?"
-- Update paths in agent file
-
-**auth-route-tester / auth-route-debugger:**
-- Require JWT cookie authentication
-- Update service URLs from examples
-- Customize for user's auth setup
-
-**auto-error-resolver:**
-- May have hardcoded project paths
-- Update to use `$CLAUDE_PROJECT_DIR` or relative paths
 
 ---
 
@@ -205,35 +191,28 @@ That's it! Agents work immediately.
 
 ## Agent Quick Reference
 
-| Agent | Complexity | Customization | Auth Required |
-|-------|-----------|---------------|---------------|
-| code-architecture-reviewer | Medium | ✅ None | No |
-| code-refactor-master | High | ✅ None | No |
-| documentation-architect | Medium | ✅ None | No |
-| frontend-error-fixer | Medium | ⚠️ Screenshot paths | No |
-| plan-reviewer | Low | ✅ None | No |
-| refactor-planner | Medium | ✅ None | No |
-| web-research-specialist | Low | ✅ None | No |
-| auth-route-tester | Medium | ⚠️ Auth setup | JWT cookies |
-| auth-route-debugger | Medium | ⚠️ Auth setup | JWT cookies |
-| auto-error-resolver | Low | ⚠️ Paths | No |
+| Agent | Complexity | Use Case | Ready to Use |
+|-------|-----------|----------|--------------|
+| code-architecture-reviewer | Medium | Review block architecture | ✅ Yes |
+| code-refactor-master | High | Refactor blocks and scripts | ✅ Yes |
+| documentation-architect | Medium | Document features | ✅ Yes |
+| plan-reviewer | Low | Review implementation plans | ✅ Yes |
+| refactor-planner | Medium | Plan code reorganization | ✅ Yes |
+| web-research-specialist | Low | Research EDS patterns | ✅ Yes |
 
 ---
 
 ## For Claude Code
 
-**When integrating agents for a user:**
+**All agents in this EDS project are ready to use:**
 
-1. **Read [CLAUDE_INTEGRATION_GUIDE.md](../../CLAUDE_INTEGRATION_GUIDE.md)**
-2. **Just copy the .md file** - agents are standalone
-3. **Check for hardcoded paths:**
-   ```bash
-   grep "~/git/\|/root/" agent-name.md
-   ```
-4. **Update paths if found** to `$CLAUDE_PROJECT_DIR` or `.`
-5. **For auth agents:** Ask if they use JWT cookie auth first
+1. **No configuration needed** - agents work immediately
+2. **No TypeScript dependencies** - EDS uses vanilla JavaScript
+3. **No authentication setup** - EDS is static site architecture
+4. **Universal patterns** - all agents use project-agnostic approaches
 
-**That's it!** Agents are the easiest components to integrate.
+**To use an agent:**
+Simply respond to the user's request by invoking the appropriate agent with a clear task description.
 
 ---
 

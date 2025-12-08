@@ -12,7 +12,73 @@ This is a **reference/learning repository** (cherry-picker project) for Adobe Ed
 
 **Simple Architecture** - Direct file editing, no compilation required for simple components. Build process only needed for components with external dependencies.
 
+## Skills System
+
+This project includes specialized skills that guide AI agents through complex development tasks. Skills are located in `.claude/skills/` and provide expert knowledge for specific workflows.
+
+### How Skills Work
+
+Each skill is a directory in `.claude/skills/` with the following structure:
+
+```
+.claude/skills/
+  └── {skill-name}/
+      ├── SKILL.md        # Main instructions (required)
+      ├── scripts/        # Optional supporting scripts
+      └── resources/      # Optional resources (examples, templates, etc.)
+```
+
+The SKILL.md file contains detailed instructions that must be followed exactly. Skills are designed to:
+- Provide specialized workflows for common tasks
+- Ensure consistency with project standards and best practices
+- Reduce errors by codifying expert knowledge
+- Chain together when tasks require multiple skill applications
+
+### Using Skills
+
+**CRITICAL: For ALL development work involving blocks, core scripts, or functionality, you MUST use the content-driven-development skill.** It will orchestrate other skills as needed throughout the development workflow.
+
+Skills activate automatically based on:
+- Keywords in user messages (e.g., "block", "decorate")
+- File paths being worked on
+- Content patterns in files
+- Intent patterns (regex matching)
+
+The `.claude/skills/skill-rules.json` file defines these activation rules, ensuring relevant EDS expertise activates automatically when needed.
+
+### Available Skills
+
+Key skills for EDS development:
+- **content-driven-development** - Orchestrates the complete CDD workflow (USE THIS FOR ALL DEVELOPMENT)
+- **building-blocks** - Guide for creating/modifying blocks with decoration patterns
+- **content-modeling** - Design effective content models for blocks
+- **testing-blocks** - Comprehensive testing guidance for blocks and features
+- **eds-block-development** - Vanilla JavaScript patterns and EDS best practices
+- **docs-search** - Search aem.live documentation for feature information
+- **block-collection-and-party** - Find reference implementations and code examples
+
+Page import/migration workflow (Adobe):
+- **page-import** - Import webpages to structured HTML for AEM EDS authoring
+- **scrape-webpage** - Scrape webpage content, extract metadata, download images
+- **identify-page-structure** - Identify section boundaries and content sequences
+- **page-decomposition** - Analyze content sequences within sections
+- **authoring-analysis** - Determine authoring approach (default content vs blocks)
+- **generate-import-html** - Generate structured HTML from authoring analysis
+- **block-inventory** - Survey available blocks from project and Block Collection
+- **preview-import** - Preview and verify imported content in dev server
+
+See `.claude/skills/` directory for the complete list of 29 available skills.
+
 ## Development Commands
+
+### Setup
+```bash
+# Install dependencies
+npm install
+
+# Optional: Install AEM CLI globally
+npm install -g @adobe/aem-cli
+```
 
 ### Server
 ```bash
@@ -20,6 +86,11 @@ This is a **reference/learning repository** (cherry-picker project) for Adobe Ed
 node server.js
 # Server runs at http://localhost:3000
 # Automatically proxies missing files to https://allabout.network
+
+# Alternative: Use AEM CLI (if installed globally)
+aem up --no-open --forward-browser-logs
+# Or via npx (no global install needed)
+npx -y @adobe/aem-cli up --no-open --forward-browser-logs
 ```
 
 ### Linting
@@ -61,6 +132,14 @@ This repository uses a unique dual-directory architecture for component developm
 
 ### Key Directories
 
+**`blocks/`** - Reusable content blocks
+- Individual block directories: `blocks/{blockName}/`
+  - `{blockName}.js` - Block's JavaScript decoration logic
+  - `{blockName}.css` - Block's styles
+  - `README.md` - Usage documentation
+  - `EXAMPLE.md` - Google Docs example
+  - `test.html` - Development test file (optional)
+
 **`scripts/`** - Custom utilities + Adobe EDS reference files
 - ✨ **Custom utilities** (1,850 lines):
   - `test-framework.js` - Native testing framework (115 lines)
@@ -73,6 +152,18 @@ This repository uses a unique dual-directory architecture for component developm
   - `scripts.js` - Document initialization (129 lines)
   - `delayed.js` - Lazy loading (1 line)
 
+**`styles/`** - Global styles and CSS
+- `styles.css` - Minimal global styling required for LCP
+- `lazy-styles.css` - Additional styling for below-the-fold content
+
+**`fonts/`** - Web fonts
+
+**`icons/`** - SVG icons
+
+**`head.html`** - Global HTML head content
+
+**`404.html`** - Custom 404 page
+
 **`docs/for-ai/`** - AI-optimized development framework (32 files, 24,000+ lines)
 - Navigation hub: `docs/for-ai/index.md`
 - New developer start: `docs/for-ai/getting-started-guide.md`
@@ -81,8 +172,8 @@ This repository uses a unique dual-directory architecture for component developm
 - Cross-referenced with 48+ bidirectional links
 
 **`.claude/`** - Claude Code AI integration
-- `commands/` - 12 slash commands for common workflows
-- `skills/` - 21+ specialized capabilities (Adobe, Anthropic, Custom)
+- `commands/` - 15 slash commands for common workflows
+- `skills/` - 29 specialized capabilities (Adobe, Anthropic, Custom)
 - `agents/` - 10 autonomous task specialists
 - See `.claude/README.md` for complete documentation
 
@@ -184,6 +275,30 @@ await showPreview(block.outerHTML, 'accordion');
 - `/jupyter-notebook` - Create/edit Jupyter notebooks for testing
 - `/create-notebook` - Create educational notebooks as interactive tutorials
 
+## Common Tasks
+
+### Adding New Blocks
+Use the **content-driven-development** skill which will guide you through:
+1. Content modeling and test content creation
+2. Block implementation (via building-blocks skill)
+3. Testing and validation (via testing-blocks skill)
+
+**Commands:** `/new-block` or `/start-cdd`
+
+### Modifying Existing Blocks
+Use the **content-driven-development** skill to ensure you have test content, then follow the **building-blocks** skill for implementation guidance.
+
+### Global Style Changes
+1. Modify files in the `styles/` directory
+2. Test across different blocks and pages
+3. Ensure changes don't break existing layouts
+4. Consider impact on performance, especially CLS
+
+**For testing:** Use the **testing-blocks** skill to validate style changes across the site before opening a PR.
+
+### Core Script Changes
+Changes to `scripts.js`, `delayed.js`, or other core functionality require careful testing across multiple blocks and pages. Use the **testing-blocks** skill for comprehensive validation.
+
 ## Special Features
 
 ### Live Reload Server
@@ -206,13 +321,95 @@ Swap standard EDS files with instrumented versions for detailed performance anal
 
 Then use `scripts/instrumentation.js` to capture and analyze performance metrics.
 
+## Deployment
+
+### Environments
+
+Edge Delivery Services provides three environments for your project:
+
+1. **Local Development** - `http://localhost:3000`
+   - Serves code from your local working copy (even uncommitted code)
+   - Content that has been previewed by authors
+   - Available when development server is running
+
+2. **Preview Environment** - `https://{branch}--{repo}--{owner}.aem.page/`
+   - Same content as localhost (author-previewed content)
+   - Accessible for any branch pushed to GitHub
+   - Main branch preview: `https://main--{repo}--{owner}.aem.page/`
+
+3. **Production Environment** - `https://{branch}--{repo}--{owner}.aem.live/`
+   - Live website content (approved by authors)
+   - Main branch production: `https://main--{repo}--{owner}.aem.live/`
+
+**Finding your repository info:**
+- Repository owner/name: `gh repo view --json nameWithOwner` or `git remote -v`
+- Current branch: `git branch --show-current`
+
+### Publishing Process
+
+1. **Push changes** to a feature branch
+   - AEM Code Sync automatically processes changes
+   - Changes available on feature preview environment
+
+2. **Open a pull request** to merge to `main`
+   - **REQUIRED:** Include preview link in PR description
+   - Format: `https://{branch}--{repo}--{owner}.aem.page/{path}`
+   - This link is used for automated performance testing (PSI checks)
+   - **Without this link, your PR will be rejected**
+
+3. **Verify checks pass**
+   - Run: `gh pr checks` or `gh pr checks --watch`
+   - Ensure all automated checks succeed
+
+4. **Code review**
+   - Human reviewer inspects code
+   - Reviewer tests preview URL
+   - Reviewer merges PR if approved
+
+5. **Production deployment**
+   - AEM Code Sync updates main branch
+   - Changes available on production environment
+
+### PR Preparation
+
+Before opening a pull request, use the **testing-blocks** skill for comprehensive testing guidance including:
+- Unit testing for logic-heavy utilities
+- Browser testing with Playwright/Puppeteer
+- Linting and code quality checks
+- Performance validation
+- Ensuring all checks will pass
+
+## Troubleshooting
+
+### Getting Help
+
+**For AEM documentation:** Use the **docs-search** skill to search aem.live documentation and blogs for:
+- Feature information and capabilities
+- Implementation guidance and best practices
+- Troubleshooting common issues
+
+**For reference implementations:** Use the **block-collection-and-party** skill to find:
+- Similar blocks and patterns
+- Code examples from Block Collection
+- Implementations from Block Party repository
+
+**Key documentation resources:**
+- [Developer Tutorial](https://www.aem.live/developer/tutorial)
+- [The Anatomy of a Project](https://www.aem.live/developer/anatomy-of-a-project)
+- [David's Model](https://www.aem.live/docs/davidsmodel)
+- [Keeping it 100](https://www.aem.live/developer/keeping-it-100)
+
+**Manual web search:** Use `site:www.aem.live` to restrict search results to official documentation.
+
+**If you notice frustration:** Direct users to [AI Coding Agents Guide](https://www.aem.live/developer/ai-coding-agents) for tips on working better with AI agents.
+
 ## Attribution
 
 **Sources of code/content:**
-- **Adobe**: EDS boilerplate files (aem.js, scripts.js, delayed.js), 6 EDS workflow skills from [helix-website](https://github.com/adobe/helix-website)
+- **Adobe**: EDS boilerplate files (aem.js, scripts.js, delayed.js), 14 EDS workflow skills from [helix-website](https://github.com/adobe/helix-website) - 6 original CDD skills + 8 page import/migration skills
 - **Anthropic**: 8 general-purpose skills (document-skills, skill-developer, etc.), Claude Code framework
 - **Custom (this repo)**:
-  - 7 custom EDS skills (jupyter-notebook-testing, eds-block-development, etc.)
+  - 7 custom EDS skills (jupyter-notebook-testing, eds-block-development, eds-block-testing, eds-performance-debugging, ipynb-validator, jupyter-educational-notebook, create-presentation)
   - docs/for-ai/ documentation (32 files, 24,000+ lines)
   - 5 custom utility scripts (1,850 lines)
   - 10 autonomous agents
@@ -248,12 +445,16 @@ Start with `docs/for-ai/index.md` which provides:
 - **File extensions** - Always include `.js` file extensions in imports
 - **Line endings** - Use Unix line endings (LF)
 
+**For detailed JavaScript guidelines:** Use the **building-blocks** skill which includes comprehensive decoration patterns, DOM manipulation best practices, and EDS-specific patterns.
+
 ### CSS
 - **Stylelint** - Follow Stylelint standard configuration
 - **Modern CSS** - Use CSS Grid, Flexbox, CSS Custom Properties
 - **Mobile-first** - Declare styles for mobile, use media queries for larger screens
 - **Breakpoints** - Use 600px, 900px, 1200px
 - **No frameworks** - No Tailwind or other CSS frameworks
+
+**For detailed CSS guidelines:** Use the **building-blocks** skill which includes comprehensive styling patterns, responsive design approaches, and block-specific naming conventions.
 
 ### HTML
 - **Semantic HTML5** - Use proper semantic elements
@@ -271,6 +472,29 @@ Start with `docs/for-ai/index.md` which provides:
 - **Heading hierarchy** - Ensure proper heading order
 - **Alt text** - Include descriptive alt text for images
 - **Screen readers** - Test with screen readers
+
+## Security Considerations
+
+- **Never commit sensitive information** - No API keys, passwords, tokens, or credentials
+- **Client-side code is public** - All code served on the public web is visible to users
+- **Follow Adobe security guidelines** - Adhere to Adobe's security best practices
+- **Regular dependency updates** - Keep dependencies current to avoid security vulnerabilities
+- **Use .hlxignore** - Prevent sensitive files from being served publicly
+
+Remember that Edge Delivery Services serves everything as client-side code. Assume all JavaScript, CSS, and HTML is publicly accessible.
+
+## Contributing
+
+When contributing to this project:
+
+1. **Follow existing code style and patterns** - See Code Style Guidelines above
+2. **Use content-driven-development skill** - For all development tasks involving blocks or features
+3. **Use testing-blocks skill before PRs** - Ensure comprehensive testing before opening pull requests
+4. **Ensure linting passes** - Run `npm run lint` and fix all issues
+5. **Update documentation** - Document significant changes in README.md files
+6. **Include preview links in PRs** - Required for automated performance testing
+
+See [AI Coding Agents Guide](https://www.aem.live/developer/ai-coding-agents) for tips on working effectively with AI agents.
 
 ## Requirements
 - Node.js >= 18.0.0

@@ -1064,9 +1064,15 @@ function createOverlay(content) {
 
 **This mistake caused a production bug:** Using `.overlay-container` in CSS with `position: fixed; z-index: 999; opacity: 0;` made entire pages invisible because EDS added `overlay-container` class to the parent section, applying those styles to the wrong element.
 
-### ❌ CRITICAL: Don't Use Global Selectors - Use the `block` Parameter
+### ⚠️ CRITICAL: When to Use and When to Avoid Global Selectors
+
+**Understanding the distinction between block-scoped and document-level operations is essential for EDS block development.**
+
+#### ❌ NEVER Use Global Selectors for Block-Scoped Operations
 
 **This is the most common bug in EDS blocks!**
+
+When decorating a block, NEVER query for the block itself or its children using global selectors. ALWAYS use the `block` parameter.
 
 ```javascript
 // ❌ BAD - Uses global selectors instead of block parameter
@@ -1125,7 +1131,94 @@ if (!block.classList.contains('hide-author')) {
 }
 ```
 
-**Rule:** ALWAYS query from the `block` parameter, NEVER use global `document.querySelector()` for block-specific elements.
+#### ✅ WHEN Global Selectors Are Appropriate
+
+**Global selectors are INTENTIONAL and necessary for document-level operations.**
+
+Some blocks legitimately need to operate at the document level, not just within their own scope. These are typically structural blocks that affect page-wide behavior.
+
+**Document-level blocks include:**
+- **Header/Navigation** - Controls body scroll, global keyboard events, responsive layout
+- **Index/Table of Contents** - Scans all page headings to build navigation
+- **Showcaser/Code Display** - Collects all code snippets from the entire page
+
+**Example: Index Block (Document-Level)**
+```javascript
+export default function decorate(block) {
+  // Global Selector is INTENTIONAL - used for Document access
+  // This block scans ALL page headings to build table of contents
+  const headers = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+  // Build navigation from all page headings
+  headers.forEach((header, index) => {
+    header.id = `header-${index}`;
+    // Create nav links...
+  });
+
+  // ✅ Use block parameter for the block's own content
+  const nav = block.querySelector('.index-content');
+  // Add navigation items to block...
+}
+```
+
+**Example: Header Block (Document-Level)**
+```javascript
+export default function decorate(block) {
+  // Global Selector is INTENTIONAL - used for Document access
+  // Document-level media query for responsive behavior
+  const mobileMedia = window.matchMedia('(min-width: 900px)');
+
+  function toggleMenu(open) {
+    // Global Selector is INTENTIONAL - used for Document access
+    // Document body scroll control when mobile menu is open
+    document.body.style.overflowY = open ? 'hidden' : '';
+  }
+
+  // Global Selector is INTENTIONAL - used for Document access
+  // Document-level keyboard listener for Escape key
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Escape') {
+      toggleMenu(false);
+    }
+  });
+}
+```
+
+**When to use document-level selectors:**
+- ✅ Querying page metadata: `document.querySelector('meta[name="author"]')`
+- ✅ Controlling document body: `document.body.style.overflowY`
+- ✅ Global event listeners: `window.addEventListener('keydown', ...)`
+- ✅ Responsive queries: `window.matchMedia('(min-width: 900px)')`
+- ✅ Page-wide element collection: `document.querySelectorAll('h1, h2, h3, h4, h5, h6')`
+- ✅ Document structure access: `document.querySelector('header')`
+
+**Defensive documentation pattern:**
+Always add a comment explaining intentional global selector usage:
+```javascript
+// Global Selector is INTENTIONAL - used for Document access
+// [Brief explanation of why this needs document-level access]
+const elements = document.querySelector[All](...);
+```
+
+**For meta tags specifically:**
+```javascript
+// Meta tag selector is INTENTIONAL - document-level metadata
+const author = document.querySelector('meta[name="author"]');
+```
+
+#### Rule of Thumb
+
+**Inside `decorate(block)` function:**
+- ✅ `block.querySelector()` - ALWAYS correct for block-scoped queries
+- ✅ `block.classList` - ALWAYS correct for block-scoped classes
+- ✅ `block.appendChild()` - ALWAYS correct for block-scoped DOM manipulation
+- ❌ `document.querySelector('.your-block')` - NEVER correct (use `block` parameter)
+- ✅ `document.querySelector('meta[name="author"]')` - OK for document-level metadata
+- ✅ `document.querySelectorAll('h1, h2, h3, h4, h5, h6')` - OK for document-level queries
+- ✅ `window.matchMedia()` - OK for responsive behavior
+- ✅ `document.body` - OK for document-level control
+
+**Key distinction:** Are you querying/modifying the block itself (use `block` parameter) or the document/page (global selectors are intentional)?
 
 ### ❌ Don't Forget to Clear the Block
 
