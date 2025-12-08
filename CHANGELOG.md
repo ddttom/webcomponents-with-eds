@@ -20,6 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Code style guidelines (JavaScript, CSS, HTML)
   - Performance best practices
   - Accessibility standards
+- Added agentsetup.sh script for multi-AI platform support
+  - Creates GEMINI.md → CLAUDE.md symlink (Google Gemini compatibility)
+  - Creates AGENTS.md → CLAUDE.md symlink (legacy compatibility)
+  - Creates .agent/workflows → .claude/skills symlink (alternative AI assistants)
+- Updated .gitignore to exclude AI setup symlinks (GEMINI.md, AGENTS.md, .agent/)
+- Added Multi-AI Support documentation to README.md
+  - Explains agentsetup.sh script functionality
+  - Documents cross-platform AI assistant compatibility
 
 ### Changed
 - Updated README.md to remove exaggeration statements
@@ -32,10 +40,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed duplicate Jupyter notebook information from README.md
   - Streamlined ipynb-viewer section from ~64 lines to 12 lines
   - Kept overview with links to detailed documentation
+- Enhanced README.md with Multi-AI Support section
+  - Documents symlink strategy for Google Gemini and other AI platforms
+  - Explains legacy compatibility approach
 
 ### Removed
 - Exaggerated language from README.md (approximately 45 instances)
 - Duplicate ipynb/Jupyter content (~60 lines)
+- AGENTS.md (content preserved in CLAUDE.md before deletion)
+- test-markdown-verification.html (temporary test file)
 
 ## [1.0.0] - 2024-11-19
 

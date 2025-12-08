@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # agentsetup.sh
-# Recreates symlinks for Gemini environment setup
+# Recreates symlinks for multi-AI environment setup
 
-# 1. Symlink GEMINI.md to CLAUDE.md
+# 1. Symlink GEMINI.md to CLAUDE.md (Google Gemini compatibility)
 if [ ! -L "GEMINI.md" ]; then
     echo "Creating symlink: GEMINI.md -> CLAUDE.md"
     ln -s CLAUDE.md GEMINI.md
@@ -11,7 +11,15 @@ else
     echo "Symlink GEMINI.md already exists."
 fi
 
-# 2. Setup .agent/workflows symlink
+# 2. Symlink AGENTS.md to CLAUDE.md (legacy compatibility)
+if [ ! -L "AGENTS.md" ]; then
+    echo "Creating symlink: AGENTS.md -> CLAUDE.md"
+    ln -s CLAUDE.md AGENTS.md
+else
+    echo "Symlink AGENTS.md already exists."
+fi
+
+# 3. Setup .agent/workflows symlink
 # Ensure .agent directory exists
 if [ ! -d ".agent" ]; then
     echo "Creating directory: .agent"
