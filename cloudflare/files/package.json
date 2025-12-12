@@ -1,0 +1,32 @@
+{
+  "name": "allabout-cloudflare-worker",
+  "version": "1.0.0",
+  "description": "Custom Adobe EDS Cloudflare Worker with CORS and JSON-LD generation",
+  "main": "cloudflare-worker.js",
+  "scripts": {
+    "test": "vitest run cloudflare-worker.test.js",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint cloudflare-worker.js"
+  },
+  "keywords": [
+    "cloudflare",
+    "worker",
+    "adobe",
+    "eds",
+    "cors",
+    "json-ld",
+    "seo"
+  ],
+  "author": "Digital Domain Technologies Ltd",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

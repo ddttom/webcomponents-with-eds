@@ -98,6 +98,16 @@ webcomponents-with-eds/
 │   ├── aem.js                    # 📋 Reference: Get latest from aem.live
 │   ├── scripts.js                # 📋 Reference: Get latest from aem.live
 │   └── delayed.js                # 📋 Reference: Get latest from aem.live
+├── ☁️ cloudflare/                # Cloudflare Workers integration ⭐
+│   ├── files/                    # Worker implementation
+│   │   ├── cloudflare-worker.js  # Main worker (534 lines)
+│   │   ├── cloudflare-worker.test.js  # Tests (450+ lines)
+│   │   ├── README.md             # Complete documentation (21KB)
+│   │   ├── SETUP.md              # Quick setup guide
+│   │   └── TESTING.md            # Testing procedures
+│   ├── test.html                 # Interactive deployment validator
+│   ├── blog.md                   # Architectural case study
+│   └── README.md                 # Documentation hub
 ├── 🤖 .claude/                   # Claude Code AI integration ⭐
 │   ├── agents/                   # 10 autonomous task specialists ⭐
 │   │   ├── README.md             # Agent integration guide
@@ -661,6 +671,17 @@ The documentation includes specific guidance for:
 
 ## 🔥 Features
 
+### Cloudflare Workers Edge Enhancement
+- **Reverse proxy layer** - Transparent enhancement for EDS
+- **CORS injection** - Enable cross-origin access from any domain
+- **Automatic JSON-LD generation** - Schema.org Article structured data from EDS metadata
+- **Metadata cleanup** - Remove non-essential metadata after extraction
+- **"Two-File Simplicity" pattern** - Pure testable functions with thin shell
+- **19 unit/integration tests** - Comprehensive test coverage with Vitest
+- **Zero dependencies** - Pure vanilla JavaScript worker
+- **Smart features** - UK date format, description priority, author URL fallback
+- **Interactive validator** - Deployment verification page
+
 ### Dual-Directory Architecture
 - **`/build/`** - Development workspace for complex components
 - **`/blocks/`** - EDS-ready deployment target
@@ -685,6 +706,7 @@ The documentation includes specific guidance for:
 | **Total Documentation**   | 32 files, 24,000+ lines                  |
 | **Blocks (Components)**   | 8 production-ready blocks                |
 | **Custom Utility Scripts** | 5 scripts, 1,850 lines (+ 864 Adobe EDS) |
+| **Cloudflare Workers**    | 534-line worker + 450-line test suite    |
 | **Skills**                | 21+ specialized AI capabilities          |
 | **Claude Agents**         | 10 autonomous task specialists           |
 | **Slash Commands**        | 12 workflow commands                     |
@@ -846,6 +868,7 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 - **Zero Dependencies** - Pure vanilla JavaScript, no npm packages required
 - **8 Production Blocks** - Including the ipynb-viewer for interactive testing
 - **Custom Utility Scripts** - 1,850 lines of development tools (plus 864 lines Adobe EDS platform files)
+- **Cloudflare Workers** - Edge enhancement layer (534-line worker + 450-line test suite)
 - **21+ AI Skills** - AI-assisted development workflows
 - **10 Claude Agents** - Autonomous specialists for complex tasks
 - **12 Slash Commands** - Quick access to common development tasks
@@ -856,3 +879,4 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 - **Skill Activation System** - Automatic context-aware AI assistance
 - **Interactive Notebooks** - Jupyter notebook testing with overlay previews
 - **Performance Monitoring** - Instrumentation for optimization
+- **Edge SEO Enhancement** - Automatic JSON-LD generation from EDS metadata

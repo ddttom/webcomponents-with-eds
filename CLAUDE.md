@@ -177,6 +177,26 @@ This repository uses a unique dual-directory architecture for component developm
 - `agents/` - 10 autonomous task specialists
 - See `.claude/README.md` for complete documentation
 
+### Cloudflare Workers Architecture
+
+**`cloudflare/`** - Edge enhancement layer for EDS
+- `files/cloudflare-worker.js` - Main worker (534 lines)
+- `files/cloudflare-worker.test.js` - Unit & integration tests (450+ lines)
+- `files/package.json` - Test dependencies (vitest, eslint, wrangler)
+- `files/vitest.config.js` - Test configuration
+- `files/README.md` - Complete documentation (21KB)
+- `files/SETUP.md` - Quick setup guide
+- `files/TESTING.md` - Testing procedures
+- `test.html` - Interactive deployment validator
+- `blog.md` - Architectural case study
+
+**Worker Capabilities:**
+- CORS header injection for cross-origin access
+- Automated JSON-LD generation from EDS metadata fields
+- Smart date formatting (UK format, month names, ISO 8601)
+- Metadata cleanup and optimization
+- Version tracking via response headers
+
 ### Content-Driven Development (CDD) Workflow
 
 This repository follows Adobe's Content-Driven Development pattern. **Always create content before code:**
@@ -275,6 +295,44 @@ await showPreview(block.outerHTML, 'accordion');
 - `/jupyter-notebook` - Create/edit Jupyter notebooks for testing
 - `/create-notebook` - Create educational notebooks as interactive tutorials
 
+## Cloudflare Workers Integration
+
+This repository includes a production-ready Cloudflare Workers implementation that acts as a reverse proxy and enhancement layer for Adobe EDS, providing CORS headers, automated JSON-LD generation, and metadata cleanup.
+
+**Location:** `/cloudflare/`
+
+**Key Features:**
+1. **CORS Header Injection** - Enables cross-origin access from any domain
+2. **Automatic JSON-LD Generation** - Transforms EDS metadata into schema.org Article structured data
+3. **Metadata Cleanup** - Removes non-essential metadata after extraction
+
+**Architecture Pattern:** "Two-File Simplicity"
+- Pure testable functions (no Cloudflare runtime dependencies)
+- Thin shell for Cloudflare integration
+- 19 unit/integration tests run in milliseconds
+
+**Documentation:**
+- `/cloudflare/files/README.md` - Complete implementation documentation
+- `/cloudflare/files/SETUP.md` - Quick setup and deployment guide
+- `/cloudflare/files/TESTING.md` - Testing procedures and validation
+- `/cloudflare/blog.md` - Architectural case study and rationale
+- `/cloudflare/test.html` - Interactive deployment validation page
+
+**How it enhances EDS:**
+- **SEO Enhancement**: Authors add simple metadata → worker generates valid JSON-LD automatically
+- **Zero Dependencies**: Pure JavaScript worker, no external dependencies
+- **Transparent**: No changes required to EDS content or code
+- **Edge Performance**: Runs at Cloudflare edge, close to users
+- **Author Experience**: Simplifies SEO workflow from manual JSON-LD to one metadata line
+
+**Deployment:**
+The worker is deployed via Cloudflare Dashboard. See `/cloudflare/files/SETUP.md` for deployment instructions.
+
+**Testing the worker:**
+1. Deploy the worker to Cloudflare
+2. Open `/cloudflare/test.html` in browser pointing to your worker URL
+3. Validation tests run automatically, verifying CORS, JSON-LD generation, metadata cleanup
+
 ## Common Tasks
 
 ### Adding New Blocks
@@ -298,6 +356,30 @@ Use the **content-driven-development** skill to ensure you have test content, th
 
 ### Core Script Changes
 Changes to `scripts.js`, `delayed.js`, or other core functionality require careful testing across multiple blocks and pages. Use the **testing-blocks** skill for comprehensive validation.
+
+### Deploying Cloudflare Workers
+
+The Cloudflare Workers reverse proxy enhances EDS with CORS, JSON-LD generation, and metadata cleanup.
+
+**Setup and deployment:**
+1. Review `/cloudflare/files/SETUP.md` for deployment instructions
+2. Configure environment variables in Cloudflare Dashboard
+3. Deploy worker via Dashboard or `wrangler deploy`
+4. Validate deployment using `/cloudflare/test.html`
+
+**Testing worker changes:**
+```bash
+cd cloudflare/files
+npm install
+npm test                  # Run unit/integration tests
+npm run test:coverage     # Generate coverage report
+npm run lint              # Check code style
+```
+
+**Worker development pattern:**
+- Pure functions for testable logic (no Cloudflare dependencies)
+- Thin shell for Cloudflare integration
+- Unit tests run in milliseconds without mocking
 
 ## Special Features
 
@@ -414,6 +496,7 @@ Before opening a pull request, use the **testing-blocks** skill for comprehensiv
   - 5 custom utility scripts (1,850 lines)
   - 10 autonomous agents
   - ipynb-viewer block
+  - Cloudflare Workers reverse proxy (534-line worker + 450-line test suite)
 
 ## Important Patterns
 

@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Cloudflare Workers integration** - Production-ready reverse proxy and enhancement layer for Adobe EDS
+  - 534-line worker with CORS injection, JSON-LD generation, metadata cleanup
+  - 450+ line test suite with 19 unit/integration tests using Vitest
+  - "Two-File Simplicity" architectural pattern (pure functions + thin shell)
+  - Complete documentation suite (README.md 21KB, SETUP.md, TESTING.md)
+  - Interactive deployment validation page (test.html)
+  - Architectural case study (blog.md) explaining design patterns
+  - Smart features: UK date format handling, description priority, author URL fallback
+  - Zero production dependencies, pure vanilla JavaScript
+- **Cloudflare Workers documentation integration**
+  - Added comprehensive Cloudflare Workers Integration section to CLAUDE.md
+  - Added Cloudflare Workers Architecture subsection with directory structure
+  - Added "Deploying Cloudflare Workers" task to Common Tasks section
+  - Created /cloudflare/README.md as documentation hub with quick links
+  - Added Edge Enhancement section to docs/for-ai/index.md
+  - Updated Attribution section with Cloudflare Workers contribution
 - **8 Adobe page import/migration skills** from helix-website repository
   - page-import: Import webpages to structured HTML for AEM EDS authoring
   - scrape-webpage: Scrape webpage content, extract metadata, download images

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloudflare Worker Test Page</title>
+
+  <!-- Trigger JSON-LD generation -->
+  <meta name="jsonld" content="article">
+
+  <!-- Open Graph metadata (required for JSON-LD) -->
+  <meta property="og:title" content="Cloudflare Worker Deployment Test">
+  <meta property="og:description" content="This page validates that the custom Cloudflare worker is deployed and functioning correctly with CORS headers, JSON-LD generation, and version tracking.">
+  <meta property="og:url" content="https://allabout.network/cloudflare/test.html">
+  <meta property="og:image" content="https://allabout.network/media_11fa677a5c5d2563c03ba0f229be08509492ccb60.png">
+  <meta property="og:image:alt" content="Cloudflare Worker Test">
+  <meta property="og:type" content="article">
+
+  <!-- Twitter Card metadata -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cloudflare Worker Deployment Test">
+  <meta name="twitter:description" content="This page validates that the custom Cloudflare worker is deployed and functioning correctly.">
+  <meta name="twitter:image" content="https://allabout.network/media_11fa677a5c5d2563c03ba0f229be08509492ccb60.png">
+
+  <!-- Article metadata (author preserved, others removed by worker) -->
+  <meta name="author" content="Tom Cranstoun">
+  <meta name="author-url" content="https://allabout.network">
+  <meta name="publication-date" content="11 December 2024">
+  <meta name="modified-date" content="11/12/2024">
+  <meta name="longdescription" content="This comprehensive test page validates all features of the custom Cloudflare worker including CORS header injection, JSON-LD structured data generation from page metadata, metadata cleanup, and version header tracking. The worker should convert this page's metadata into proper schema.org Article JSON-LD format.">
+
+  <!-- LinkedIn (should be kept as fallback) -->
+  <meta name="linkedin" content="https://linkedin.com/in/tomcranstoun">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .test-section {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .test-section h2 {
+      color: #667eea;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .test-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      padding: 0.75rem;
+      background: white;
+      border-radius: 4px;
+    }
+
+    .test-item .icon {
+      font-size: 1.5rem;
+      margin-right: 1rem;
+      min-width: 30px;
+    }
+
+    .test-item .pending { color: #ffc107; }
+    .test-item .success { color: #28a745; }
+    .test-item .error { color: #dc3545; }
+
+    .test-item .content {
+      flex: 1;
+      padding: 0;
+    }
+
+    .test-item strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: #333;
+    }
+
+    .test-item code {
+      background: #f4f4f4;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.9rem;
+      color: #e83e8c;
+    }
+
+    .test-result {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    .test-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin: 1rem 0;
+      width: 100%;
+    }
+
+    .test-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .test-button:active {
+      transform: translateY(0);
+    }
+
+    .instructions {
+      background: #e7f3ff;
+      border-left: 4px solid #2196f3;
+      padding: 1.5rem;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+    }
+
+    .instructions h3 {
+      color: #2196f3;
+      margin-bottom: 0.5rem;
+    }
+
+    .instructions ol {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .instructions li {
+      margin-bottom: 0.5rem;
+    }
+
+    pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+      border-top: 1px solid #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 Cloudflare Worker Test</h1>
+      <p>Deployment Validation & Feature Testing</p>
+    </div>
+
+    <div class="content">
+      <div class="instructions">
+        <h3>📋 How to Use This Test Page</h3>
+        <ol>
+          <li>Deploy your updated <code>cloudflare-worker.js</code> to Cloudflare Dashboard</li>
+          <li>Wait 30 seconds for deployment to propagate globally</li>
+          <li>Access this page at: <code>https://allabout.network/cloudflare/test.html</code></li>
+          <li>Click "Run All Tests" below to validate deployment</li>
+          <li>Check that all tests pass (green checkmarks)</li>
+        </ol>
+      </div>
+
+      <button class="test-button" onclick="runAllTests()">▶️ Run All Tests</button>
+
+      <div class="test-section">
+        <h2>1️⃣ Version Header</h2>
+        <div class="test-item">
+          <span class="icon pending" id="version-icon">⏳</span>
+          <div class="content">
+            <strong>Worker Version (cfw header)</strong>
+            <div class="test-result" id="version-result">Waiting for test...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h2>2️⃣ CORS Headers</h2>
+        <div class="test-item">
+          <span class="icon pending" id="cors-origin-icon">⏳</span>
+          <div class="content">
+            <strong>Access-Control-Allow-Origin</strong>
+            <div class="test-result" id="cors-origin-result">Waiting for test...</div>
+          </div>
+        </div>
+        <div class="test-item">
+          <span class="icon pending" id="cors-methods-icon">⏳</span>
+          <div class="content">
+            <strong>Access-Control-Allow-Methods</strong>
+            <div class="test-result" id="cors-methods-result">Waiting for test...</div>
+          </div>
+        </div>
+        <div class="test-item">
+          <span class="icon pending" id="cors-headers-icon">⏳</span>
+          <div class="content">
+            <strong>Access-Control-Allow-Headers</strong>
+            <div class="test-result" id="cors-headers-result">Waiting for test...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h2>3️⃣ JSON-LD Generation</h2>
+        <div class="test-item">
+          <span class="icon pending" id="jsonld-presence-icon">⏳</span>
+          <div class="content">
+            <strong>JSON-LD Script Tag Presence</strong>
+            <div class="test-result" id="jsonld-presence-result">Waiting for test...</div>
+          </div>
+        </div>
+        <div class="test-item">
+          <span class="icon pending" id="jsonld-structure-icon">⏳</span>
+          <div class="content">
+            <strong>JSON-LD Structure (@context, @type)</strong>
+            <div class="test-result" id="jsonld-structure-result">Waiting for test...</div>
+          </div>
+        </div>
+        <div class="test-item">
+          <span class="icon pending" id="jsonld-fields-icon">⏳</span>
+          <div class="content">
+            <strong>JSON-LD Required Fields</strong>
+            <div class="test-result" id="jsonld-fields-result">Waiting for test...</div>
+          </div>
+        </div>
+        <div class="test-item">
+          <span class="icon pending" id="jsonld-dates-icon">⏳</span>
+          <div class="content">
+            <strong>Date Formatting (ISO 8601)</strong>
+            <div class="test-result" id="jsonld-dates-result">Waiting for test...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h2>4️⃣ Metadata Cleanup</h2>
+        <div class="test-item">
+          <span class="icon pending" id="meta-removed-icon">⏳</span>
+          <div class="content">
+            <strong>Non-Social Meta Tags Removed</strong>
+            <div class="test-result" id="meta-removed-result">Waiting for test...</div>
+          </div>
+        </div>
+        <div class="test-item">
+          <span class="icon pending" id="meta-kept-icon">⏳</span>
+          <div class="content">
+            <strong>Social Meta Tags Preserved</strong>
+            <div class="test-result" id="meta-kept-result">Waiting for test...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h2>5️⃣ JSON-LD Output</h2>
+        <div class="test-item">
+          <span class="icon pending" id="jsonld-display-icon">⏳</span>
+          <div class="content">
+            <strong>Generated JSON-LD</strong>
+            <pre id="jsonld-output" style="margin-top: 0.5rem;">Waiting for test...</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p><strong>Cloudflare Worker Deployment Test</strong></p>
+      <p>Version 1.0.0 • Digital Domain Technologies Ltd</p>
+    </div>
+  </div>
+
+  <script>
+    async function runAllTests() {
+      console.log('Starting Cloudflare Worker tests...');
+
+      // Test 1: Version Header
+      await testVersionHeader();
+
+      // Test 2: CORS Headers
+      await testCORSHeaders();
+
+      // Test 3: JSON-LD Generation
+      await testJSONLD();
+
+      // Test 4: Metadata Cleanup
+      testMetadataCleanup();
+
+      console.log('All tests completed!');
+    }
+
+    async function testVersionHeader() {
+      try {
+        const response = await fetch(window.location.href, { method: 'HEAD' });
+        const version = response.headers.get('cfw');
+
+        if (version) {
+          const semverPattern = /^\d+\.\d+\.\d+$/;
+          if (semverPattern.test(version)) {
+            setTestResult('version', 'success', `✓ Version header present: cfw: ${version}`);
+          } else {
+            setTestResult('version', 'error', `✗ Invalid version format: ${version}`);
+          }
+        } else {
+          setTestResult('version', 'error', '✗ Version header (cfw) not found');
+        }
+      } catch (error) {
+        setTestResult('version', 'error', `✗ Error: ${error.message}`);
+      }
+    }
+
+    async function testCORSHeaders() {
+      try {
+        const response = await fetch(window.location.href, { method: 'HEAD' });
+
+        // Test Access-Control-Allow-Origin
+        const origin = response.headers.get('access-control-allow-origin');
+        if (origin === '*') {
+          setTestResult('cors-origin', 'success', `✓ Present: ${origin}`);
+        } else {
+          setTestResult('cors-origin', 'error', `✗ Missing or incorrect: ${origin}`);
+        }
+
+        // Test Access-Control-Allow-Methods
+        const methods = response.headers.get('access-control-allow-methods');
+        if (methods && methods.includes('GET') && methods.includes('POST')) {
+          setTestResult('cors-methods', 'success', `✓ Present: ${methods}`);
+        } else {
+          setTestResult('cors-methods', 'error', `✗ Missing or incorrect: ${methods}`);
+        }
+
+        // Test Access-Control-Allow-Headers
+        const headers = response.headers.get('access-control-allow-headers');
+        if (headers && headers.includes('Content-Type')) {
+          setTestResult('cors-headers', 'success', `✓ Present: ${headers}`);
+        } else {
+          setTestResult('cors-headers', 'error', `✗ Missing or incorrect: ${headers}`);
+        }
+      } catch (error) {
+        setTestResult('cors-origin', 'error', `✗ Error: ${error.message}`);
+        setTestResult('cors-methods', 'error', `✗ Error: ${error.message}`);
+        setTestResult('cors-headers', 'error', `✗ Error: ${error.message}`);
+      }
+    }
+
+    async function testJSONLD() {
+      // Find JSON-LD script tag
+      const jsonLdScript = document.querySelector('script[type="application/ld+json"]');
+
+      if (!jsonLdScript) {
+        setTestResult('jsonld-presence', 'error', '✗ No JSON-LD script tag found');
+        setTestResult('jsonld-structure', 'error', '✗ Cannot test structure without JSON-LD');
+        setTestResult('jsonld-fields', 'error', '✗ Cannot test fields without JSON-LD');
+        setTestResult('jsonld-dates', 'error', '✗ Cannot test dates without JSON-LD');
+        setTestResult('jsonld-display', 'error', '✗ No JSON-LD to display');
+        return;
+      }
+
+      setTestResult('jsonld-presence', 'success', '✓ JSON-LD script tag found');
+
+      try {
+        const jsonLd = JSON.parse(jsonLdScript.textContent);
+
+        // Display the JSON-LD
+        document.getElementById('jsonld-output').textContent = JSON.stringify(jsonLd, null, 2);
+        setTestResult('jsonld-display', 'success', '✓ JSON-LD parsed and displayed above');
+
+        // Test structure
+        if (jsonLd['@context'] === 'https://schema.org' && jsonLd['@type'] === 'Article') {
+          setTestResult('jsonld-structure', 'success', '✓ Valid schema.org Article structure');
+        } else {
+          setTestResult('jsonld-structure', 'error', `✗ Invalid structure: @context=${jsonLd['@context']}, @type=${jsonLd['@type']}`);
+        }
+
+        // Test required fields
+        const requiredFields = ['headline', 'description', 'author', 'publisher'];
+        const missingFields = requiredFields.filter(field => !jsonLd[field]);
+
+        if (missingFields.length === 0) {
+          setTestResult('jsonld-fields', 'success', `✓ All required fields present: ${requiredFields.join(', ')}`);
+        } else {
+          setTestResult('jsonld-fields', 'error', `✗ Missing fields: ${missingFields.join(', ')}`);
+        }
+
+        // Test date formatting
+        const iso8601Pattern = /^\d{4}-\d{2}-\d{2}$/;
+        const dateTests = [];
+
+        if (jsonLd.datePublished) {
+          if (iso8601Pattern.test(jsonLd.datePublished)) {
+            dateTests.push(`✓ datePublished: ${jsonLd.datePublished}`);
+          } else {
+            dateTests.push(`✗ datePublished invalid: ${jsonLd.datePublished}`);
+          }
+        }
+
+        if (jsonLd.dateModified) {
+          if (iso8601Pattern.test(jsonLd.dateModified)) {
+            dateTests.push(`✓ dateModified: ${jsonLd.dateModified}`);
+          } else {
+            dateTests.push(`✗ dateModified invalid: ${jsonLd.dateModified}`);
+          }
+        }
+
+        if (dateTests.length > 0) {
+          const allValid = dateTests.every(t => t.startsWith('✓'));
+          setTestResult('jsonld-dates', allValid ? 'success' : 'error', dateTests.join(', '));
+        } else {
+          setTestResult('jsonld-dates', 'error', '✗ No date fields found');
+        }
+
+      } catch (error) {
+        setTestResult('jsonld-structure', 'error', `✗ JSON parse error: ${error.message}`);
+        setTestResult('jsonld-fields', 'error', '✗ Cannot test fields (parse error)');
+        setTestResult('jsonld-dates', 'error', '✗ Cannot test dates (parse error)');
+        document.getElementById('jsonld-output').textContent = `Error: ${error.message}`;
+      }
+    }
+
+    function testMetadataCleanup() {
+      // Test that non-social meta tags were removed
+      const removedTags = [
+        'meta[name="author-url"]',
+        'meta[name="publication-date"]',
+        'meta[name="modified-date"]',
+        'meta[name="longdescription"]',
+        'meta[name="description"]',
+        'meta[name="jsonld"]'
+      ];
+
+      const stillPresent = removedTags.filter(selector => document.querySelector(selector));
+
+      if (stillPresent.length === 0) {
+        setTestResult('meta-removed', 'success', '✓ All non-social meta tags removed');
+      } else {
+        setTestResult('meta-removed', 'error', `✗ Tags still present: ${stillPresent.join(', ')}`);
+      }
+
+      // Test that social meta tags were preserved
+      const preservedTags = [
+        'meta[property="og:title"]',
+        'meta[property="og:description"]',
+        'meta[property="og:url"]',
+        'meta[property="og:image"]',
+        'meta[name="twitter:card"]',
+        'meta[name="linkedin"]',
+        'meta[name="author"]'
+      ];
+
+      const missing = preservedTags.filter(selector => !document.querySelector(selector));
+
+      if (missing.length === 0) {
+        setTestResult('meta-kept', 'success', '✓ All social meta tags preserved');
+      } else {
+        setTestResult('meta-kept', 'error', `✗ Missing tags: ${missing.join(', ')}`);
+      }
+    }
+
+    function setTestResult(testId, status, message) {
+      const icon = document.getElementById(`${testId}-icon`);
+      const result = document.getElementById(`${testId}-result`);
+
+      if (icon) {
+        icon.className = `icon ${status}`;
+        icon.textContent = status === 'success' ? '✓' : (status === 'error' ? '✗' : '⏳');
+      }
+
+      if (result) {
+        result.textContent = message;
+      }
+    }
+
+    // Auto-run tests on page load (after 1 second delay)
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        console.log('Auto-running tests after page load...');
+        runAllTests();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

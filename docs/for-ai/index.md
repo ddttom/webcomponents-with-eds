@@ -66,6 +66,13 @@ This index provides structured access to all documentation within the `docs/for-
   - Integration with external design systems
   - Target: Developers creating complex, library-dependent components
 
+### Edge Enhancement
+- **Cloudflare Workers** - See [`/cloudflare/`](../../cloudflare/) for reverse proxy implementation
+  - CORS injection, JSON-LD generation, metadata cleanup
+  - Complete test suite and deployment validator
+  - Architectural case study: "Two-File Simplicity" pattern
+  - Documentation: [`/cloudflare/blog.md`](../../cloudflare/blog.md), [`/cloudflare/files/README.md`](../../cloudflare/files/README.md)
+
 ### Architecture and Design Philosophy
 - **[`implementation/block-architecture-standards.md`](implementation/block-architecture-standards.md)**
   - Comprehensive dual-pattern architecture (EDS-Native vs Build-Enhanced)
